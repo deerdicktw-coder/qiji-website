@@ -1937,4 +1937,207 @@ function initReveal() {
     const text = el.textContent; el.innerHTML = '';
     [...text].forEach((ch, i) => {
       const span = document.createElement('span'); span.className = 'char';
-      span
+      span.textContent = ch === ' ' ? '\u00A0' : ch;
+      span.style.transitionDelay = (i * 0.04) + 's'; el.appendChild(span);
+    }); el.classList.add('split-done');
+  });
+  const els = activePage.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-fade, .stagger-children, .char-reveal, .line-reveal');
+  els.forEach(el => el.classList.remove('visible'));
+  currentObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); currentObserver.unobserve(entry.target); } });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+  els.forEach(el => currentObserver.observe(el));
+  requestAnimationFrame(() => { els.forEach(el => { const rect = el.getBoundingClientRect(); if (rect.top < window.innerHeight * 0.85 && rect.bottom > 0) { el.classList.add('visible'); currentObserver.unobserve(el); } }); });
+}
+let activeFaqCat = 'all';
+function filterFaqCategory(cat) {
+  activeFaqCat = cat;
+  document.querySelectorAll('.faq-tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+  filterFaq();
+}
+function filterFaq() {
+  const query = (document.getElementById('faqSearch').value || '').toLowerCase().trim();
+  const items = document.querySelectorAll('.faq-item');
+  const categories = document.querySelectorAll('.faq-category');
+  let visibleCount = 0;
+  items.forEach(item => {
+    const cat = item.getAttribute('data-cat');
+    const kw = (item.getAttribute('data-kw') || '').toLowerCase();
+    const qText = item.querySelector('.faq-item-q span').textContent.toLowerCase();
+    const aText = item.querySelector('.faq-item-a p').textContent.toLowerCase();
+    const matchCat = activeFaqCat === 'all' || cat === activeFaqCat;
+    const matchSearch = !query || kw.includes(query) || qText.includes(query) || aText.includes(query);
+    if (matchCat && matchSearch) { item.style.display = ''; visibleCount++; } else { item.style.display = 'none'; }
+  });
+  categories.forEach(c => {
+    const cat = c.getAttribute('data-cat');
+    const hasVisible = c.querySelectorAll('.faq-item:not([style*="display: none"])').length > 0;
+    c.style.display = (activeFaqCat === 'all' || cat === activeFaqCat) && hasVisible ? '' : 'none';
+  });
+  document.getElementById('faqEmpty').style.display = visibleCount === 0 ? 'block' : 'none';
+}
+
+function filterProducts(cat, el) {
+  document.querySelectorAll('.products-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  const cats = document.querySelectorAll('.products-category');
+  let visible = 0;
+  cats.forEach(c => {
+    if (cat === 'all' || c.getAttribute('data-cat') === cat) {
+      c.style.display = '';
+      visible++;
+    } else {
+      c.style.display = 'none';
+    }
+  });
+  document.getElementById('productsEmpty').style.display = visible === 0 ? 'block' : 'none';
+  window.scrollTo({ top: document.querySelector('.products-filter').offsetTop - 80, behavior: 'smooth' });
+}
+
+makeClickablesKeyboardAccessible();
+initReveal();
+/* Scroll fallback */
+let scrollRevealTick = false;
+window.addEventListener('scroll', () => {
+  if (scrollRevealTick) return;
+  scrollRevealTick = true;
+  requestAnimationFrame(() => {
+    const activePage = document.querySelector('.page.active');
+    if (!activePage) { scrollRevealTick = false; return; }
+    activePage.querySelectorAll('.reveal:not(.visible), .reveal-left:not(.visible), .reveal-right:not(.visible), .reveal-scale:not(.visible), .reveal-fade:not(.visible), .stagger-children:not(.visible), .char-reveal:not(.visible), .line-reveal:not(.visible)').forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.92 && rect.bottom > 0) {
+        el.classList.add('visible');
+      }
+    });
+    scrollRevealTick = false;
+  });
+}, { passive: true });
+/* Safety net */
+setTimeout(() => {
+  const activePage = document.querySelector('.page.active');
+  if (activePage) {
+    activePage.querySelectorAll('.reveal:not(.visible), .reveal-left:not(.visible), .reveal-right:not(.visible), .reveal-scale:not(.visible), .reveal-fade:not(.visible), .stagger-children:not(.visible), .char-reveal:not(.visible), .line-reveal:not(.visible)').forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 1.5 && rect.bottom > 0) {
+        el.classList.add('visible');
+      }
+    });
+  }
+}, 4000);
+
+/* ── Site Search ── */
+let searchIndex = null;
+function buildSearchIndex() {
+  if (searchIndex) return searchIndex;
+  const entries = [];
+  /* Services */
+  document.querySelectorAll('#page-services div[id^="svc-"]').forEach(el => {
+    const title = (el.querySelector('h2') || {}).textContent || '';
+    const desc = (el.querySelector('p') || {}).textContent || '';
+    if (title.trim()) entries.push({ cat: '服務項目', title: title.trim(), text: (title + ' ' + desc).trim(), page: 'services', anchor: el.id || '' });
+  });
+  /* Products */
+  document.querySelectorAll('#page-products .product-card').forEach(el => {
+    const title = (el.querySelector('.product-card-name') || {}).textContent || '';
+    const desc = (el.querySelector('.product-card-copy') || {}).textContent || '';
+    const spec = (el.querySelector('.product-card-spec') || {}).textContent || '';
+    const cat = el.closest('.products-category');
+    const catName = cat ? (cat.querySelector('.products-cat-title') || {}).textContent || '' : '';
+    entries.push({ cat: '產品 — ' + catName.trim(), title: title.trim(), text: (title + ' ' + spec + ' ' + desc).trim(), page: 'products', anchor: '' });
+  });
+  /* Knowledge */
+  document.querySelectorAll('#page-knowledge .knowledge-section').forEach(el => {
+    const title = (el.querySelector('.knowledge-section-title, h2') || {}).textContent || '';
+    const text = el.textContent || '';
+    if (title.trim()) entries.push({ cat: '知識專欄', title: title.trim(), text: text.trim(), page: 'knowledge', anchor: el.id || '' });
+  });
+  document.querySelectorAll('#page-knowledge .knowledge-card').forEach(el => {
+    const label = (el.querySelector('.knowledge-card-label') || {}).textContent || '';
+    const text = (el.querySelector('.knowledge-card-text') || {}).textContent || '';
+    if (label.trim()) entries.push({ cat: '知識專欄', title: label.trim(), text: (label + ' ' + text).trim(), page: 'knowledge', anchor: (el.closest('.knowledge-section') || {}).id || '' });
+  });
+  /* FAQ */
+  document.querySelectorAll('#page-faq .faq-item').forEach(el => {
+    const q = (el.querySelector('.faq-item-q') || {}).textContent || '';
+    const a = (el.querySelector('.faq-item-a') || {}).textContent || '';
+    entries.push({ cat: '常見問題', title: q.trim(), text: (q + ' ' + a).trim(), page: 'faq', anchor: el.id || '' });
+  });
+  /* About */
+  const aboutPage = document.getElementById('page-about');
+  if (aboutPage) {
+    const aboutText = aboutPage.textContent || '';
+    entries.push({ cat: '品牌故事', title: '品牌故事', text: aboutText.trim(), page: 'about', anchor: '' });
+  }
+  /* Tutorial */
+  document.querySelectorAll('#page-tutorial section, #page-tutorial div[id]').forEach(el => {
+    const title = (el.querySelector('h3, h2, .section-eyebrow') || {}).textContent || '';
+    const text = el.textContent || '';
+    if (title.trim() && text.length > 20) entries.push({ cat: '預約教學', title: title.trim(), text: text.trim(), page: 'tutorial', anchor: el.id || '' });
+  });
+  searchIndex = entries;
+  return entries;
+}
+function toggleSiteSearch() {
+  const panel = document.getElementById('siteSearchPanel');
+  if (panel.classList.contains('open')) { closeSiteSearch(); return; }
+  panel.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => document.getElementById('siteSearchInput').focus(), 100);
+  buildSearchIndex();
+}
+function closeSiteSearch() {
+  const panel = document.getElementById('siteSearchPanel');
+  panel.classList.remove('open');
+  document.body.style.overflow = '';
+  document.getElementById('siteSearchInput').value = '';
+  document.getElementById('siteSearchResults').innerHTML = '';
+  document.getElementById('siteSearchResults').classList.remove('has-results');
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeSiteSearch();
+  if ((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); toggleSiteSearch(); }
+});
+document.getElementById('siteSearchInput').addEventListener('input', function() {
+  const q = this.value.trim().toLowerCase();
+  const results = document.getElementById('siteSearchResults');
+  if (q.length < 1) { results.innerHTML = ''; results.classList.remove('has-results'); return; }
+  const idx = buildSearchIndex();
+  const matched = [];
+  idx.forEach(entry => {
+    const haystack = (entry.title + ' ' + entry.text).toLowerCase();
+    if (haystack.includes(q)) {
+      let snippet = '';
+      const pos = haystack.indexOf(q);
+      const raw = (entry.title + ' ' + entry.text);
+      const start = Math.max(0, pos - 30);
+      const end = Math.min(raw.length, pos + q.length + 50);
+      snippet = (start > 0 ? '…' : '') + raw.substring(start, end) + (end < raw.length ? '…' : '');
+      snippet = snippet.replace(new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi'), '<mark>$1</mark>');
+      matched.push({ ...entry, snippet });
+    }
+  });
+  if (matched.length === 0) {
+    results.innerHTML = '<div class="ssr-empty">找不到「' + q + '」相關結果</div>';
+    results.classList.add('has-results');
+    return;
+  }
+  results.innerHTML = matched.slice(0, 12).map(m => {
+    let onclick = 'closeSiteSearch();goTo(\'' + m.page + '\')';
+    if (m.page === 'products') {
+      onclick += ';setTimeout(()=>{const t=document.querySelector(\'.products-tab.active\');if(t)filterProducts(\'all\',document.querySelector(\'.products-tab\'))},300)';
+    }
+    if (m.anchor) {
+      onclick += ';setTimeout(()=>{const el=document.getElementById(\'' + m.anchor + '\');if(el)el.scrollIntoView({behavior:\'smooth\',block:\'start\'})},400)';
+    }
+    return '<div class="ssr-item" onclick="' + onclick + '">' +
+      '<div class="ssr-cat">' + m.cat + '</div>' +
+      '<div class="ssr-title">' + m.title + '</div>' +
+      '<div class="ssr-snippet">' + m.snippet + '</div></div>';
+  }).join('');
+  results.classList.add('has-results');
+});
+</script>
+</body>
+</html>

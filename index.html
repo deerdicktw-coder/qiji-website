@@ -370,6 +370,38 @@ ul { list-style: none; }
 }
 @media (max-width: 480px) { .products-grid { grid-template-columns: 1fr 1fr; gap: 10px; } }
 
+/* ── Site Search ── */
+.nav-search-btn { cursor: pointer; display: flex; align-items: center; padding: 4px; }
+.nav-search-btn::after { display: none !important; }
+.nav-search-btn svg { stroke: var(--grey-600); transition: stroke 0.3s; }
+.nav-search-btn:hover svg { stroke: var(--gold); }
+.nav.transparent .nav-search-btn svg { stroke: var(--white); }
+.nav.transparent .nav-search-btn:hover svg { stroke: var(--gold); }
+.site-search-panel { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: 10000; display: none; flex-direction: column; align-items: center; justify-content: flex-start; }
+.site-search-panel.open { display: flex; }
+.site-search-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(8px); animation: ssOverIn 0.3s ease; }
+@keyframes ssOverIn { from { opacity: 0; } to { opacity: 1; } }
+.site-search-box { position: relative; z-index: 1; width: 90%; max-width: 600px; margin-top: 18vh; animation: ssSlideIn 0.35s cubic-bezier(.22,.61,.36,1); }
+@keyframes ssSlideIn { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+.site-search-input-wrap { display: flex; align-items: center; background: var(--white); border-radius: 8px; padding: 0 20px; box-shadow: 0 8px 40px rgba(0,0,0,0.25); }
+.site-search-input-wrap svg { stroke: var(--grey-400); flex-shrink: 0; }
+.site-search-input { flex: 1; border: none; outline: none; padding: 18px 16px; font-size: 1rem; font-family: var(--sans); color: var(--grey-800); background: transparent; letter-spacing: 0.5px; }
+.site-search-input::placeholder { color: var(--grey-400); font-weight: 300; }
+.site-search-close { background: none; border: none; cursor: pointer; padding: 8px; color: var(--grey-400); font-size: 1.2rem; transition: color 0.2s; }
+.site-search-close:hover { color: var(--grey-800); }
+.site-search-results { margin-top: 12px; max-height: 50vh; overflow-y: auto; background: var(--white); border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); display: none; }
+.site-search-results.has-results { display: block; }
+.ssr-item { padding: 16px 24px; cursor: pointer; border-bottom: 1px solid var(--grey-100); transition: background 0.2s; }
+.ssr-item:last-child { border-bottom: none; }
+.ssr-item:hover { background: var(--grey-100); }
+.ssr-cat { font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; font-weight: 500; }
+.ssr-title { font-size: 0.92rem; color: var(--grey-800); margin-bottom: 4px; font-weight: 400; }
+.ssr-snippet { font-size: 0.78rem; color: var(--grey-500); font-weight: 300; line-height: 1.6; }
+.ssr-snippet mark { background: rgba(198,163,118,0.25); color: var(--grey-800); padding: 0 2px; border-radius: 2px; }
+.ssr-empty { padding: 32px 24px; text-align: center; color: var(--grey-400); font-size: 0.88rem; font-weight: 300; }
+.side-menu-search { padding: 0 32px; margin-bottom: 12px; }
+.side-menu-search-btn { display: flex; align-items: center; gap: 8px; color: var(--grey-600); font-size: 0.82rem; letter-spacing: 1.5px; font-weight: 300; cursor: pointer; padding: 8px 0; border: none; background: none; font-family: var(--sans); }
+.side-menu-search-btn svg { stroke: var(--grey-500); }
 </style>
 <script type="application/ld+json">
 {
@@ -469,13 +501,31 @@ ul { list-style: none; }
         </div>
       </div>
       <span class="nav-link" onclick="goTo('contact')">預約諮詢</span>
+      <span class="nav-link nav-search-btn" onclick="toggleSiteSearch()" aria-label="搜尋"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
     </div></div>
   </div>
 </nav>
+<!-- Site Search Panel -->
+<div class="site-search-panel" id="siteSearchPanel">
+  <div class="site-search-backdrop" onclick="closeSiteSearch()"></div>
+  <div class="site-search-box">
+    <div class="site-search-input-wrap">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input class="site-search-input" id="siteSearchInput" type="text" placeholder="搜尋服務、產品、知識文章…" autocomplete="off">
+      <button class="site-search-close" onclick="closeSiteSearch()">&times;</button>
+    </div>
+    <div class="site-search-results" id="siteSearchResults"></div>
+  </div>
+</div>
 <div class="side-menu-overlay" id="menuOverlay"></div>
 <div class="side-menu" id="sideMenu">
   <button class="side-menu-close" id="menuClose">&times;</button>
   <div class="side-menu-logo"><div class="side-menu-logo-zh">淇肌淨膚</div><div class="side-menu-logo-en">QIJI MIRACLE AESTHETIC</div></div>
+  <div class="side-menu-search">
+    <button class="side-menu-search-btn" onclick="closeMenu();setTimeout(()=>toggleSiteSearch(),300)">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜尋全站
+    </button>
+  </div>
   <div class="side-menu-nav">
     <span class="side-menu-link" onclick="goTo('home');closeMenu()">首頁</span>
     <span class="side-menu-link has-sub" onclick="this.classList.toggle('open')">服務項目</span>
@@ -1887,95 +1937,4 @@ function initReveal() {
     const text = el.textContent; el.innerHTML = '';
     [...text].forEach((ch, i) => {
       const span = document.createElement('span'); span.className = 'char';
-      span.textContent = ch === ' ' ? '\u00A0' : ch;
-      span.style.transitionDelay = (i * 0.04) + 's'; el.appendChild(span);
-    }); el.classList.add('split-done');
-  });
-  const els = activePage.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-fade, .stagger-children, .char-reveal, .line-reveal');
-  els.forEach(el => el.classList.remove('visible'));
-  currentObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); currentObserver.unobserve(entry.target); } });
-  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-  els.forEach(el => currentObserver.observe(el));
-  requestAnimationFrame(() => { els.forEach(el => { const rect = el.getBoundingClientRect(); if (rect.top < window.innerHeight * 0.85 && rect.bottom > 0) { el.classList.add('visible'); currentObserver.unobserve(el); } }); });
-}
-let activeFaqCat = 'all';
-function filterFaqCategory(cat) {
-  activeFaqCat = cat;
-  document.querySelectorAll('.faq-tab').forEach(t => t.classList.remove('active'));
-  event.target.classList.add('active');
-  filterFaq();
-}
-function filterFaq() {
-  const query = (document.getElementById('faqSearch').value || '').toLowerCase().trim();
-  const items = document.querySelectorAll('.faq-item');
-  const categories = document.querySelectorAll('.faq-category');
-  let visibleCount = 0;
-  items.forEach(item => {
-    const cat = item.getAttribute('data-cat');
-    const kw = (item.getAttribute('data-kw') || '').toLowerCase();
-    const qText = item.querySelector('.faq-item-q span').textContent.toLowerCase();
-    const aText = item.querySelector('.faq-item-a p').textContent.toLowerCase();
-    const matchCat = activeFaqCat === 'all' || cat === activeFaqCat;
-    const matchSearch = !query || kw.includes(query) || qText.includes(query) || aText.includes(query);
-    if (matchCat && matchSearch) { item.style.display = ''; visibleCount++; } else { item.style.display = 'none'; }
-  });
-  categories.forEach(c => {
-    const cat = c.getAttribute('data-cat');
-    const hasVisible = c.querySelectorAll('.faq-item:not([style*="display: none"])').length > 0;
-    c.style.display = (activeFaqCat === 'all' || cat === activeFaqCat) && hasVisible ? '' : 'none';
-  });
-  document.getElementById('faqEmpty').style.display = visibleCount === 0 ? 'block' : 'none';
-}
-
-function filterProducts(cat, el) {
-  document.querySelectorAll('.products-tab').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-  const cats = document.querySelectorAll('.products-category');
-  let visible = 0;
-  cats.forEach(c => {
-    if (cat === 'all' || c.getAttribute('data-cat') === cat) {
-      c.style.display = '';
-      visible++;
-    } else {
-      c.style.display = 'none';
-    }
-  });
-  document.getElementById('productsEmpty').style.display = visible === 0 ? 'block' : 'none';
-  window.scrollTo({ top: document.querySelector('.products-filter').offsetTop - 80, behavior: 'smooth' });
-}
-
-makeClickablesKeyboardAccessible();
-initReveal();
-/* Scroll fallback: in case IntersectionObserver misses elements, check on scroll */
-let scrollRevealTick = false;
-window.addEventListener('scroll', () => {
-  if (scrollRevealTick) return;
-  scrollRevealTick = true;
-  requestAnimationFrame(() => {
-    const activePage = document.querySelector('.page.active');
-    if (!activePage) { scrollRevealTick = false; return; }
-    activePage.querySelectorAll('.reveal:not(.visible), .reveal-left:not(.visible), .reveal-right:not(.visible), .reveal-scale:not(.visible), .reveal-fade:not(.visible), .stagger-children:not(.visible), .char-reveal:not(.visible), .line-reveal:not(.visible)').forEach(el => {
-      const rect = el.getBoundingClientRect();
-      if (rect.top < window.innerHeight * 0.92 && rect.bottom > 0) {
-        el.classList.add('visible');
-      }
-    });
-    scrollRevealTick = false;
-  });
-}, { passive: true });
-/* Safety net: if after 4 seconds elements are still hidden, force show them */
-setTimeout(() => {
-  const activePage = document.querySelector('.page.active');
-  if (activePage) {
-    activePage.querySelectorAll('.reveal:not(.visible), .reveal-left:not(.visible), .reveal-right:not(.visible), .reveal-scale:not(.visible), .reveal-fade:not(.visible), .stagger-children:not(.visible), .char-reveal:not(.visible), .line-reveal:not(.visible)').forEach(el => {
-      const rect = el.getBoundingClientRect();
-      if (rect.top < window.innerHeight * 1.5 && rect.bottom > 0) {
-        el.classList.add('visible');
-      }
-    });
-  }
-}, 4000);
-</script>
-</body>
-</html>
+      span

@@ -482,22 +482,27 @@ ul { list-style: none; }
         </div>
       </div>
       <span class="nav-link" onclick="goTo('products')">產品專區</span>
-      <span class="nav-link" onclick="goTo('about')">品牌故事</span>
-      <span class="nav-link" onclick="goTo('tutorial')">預約教學</span>
-      <span class="nav-link" onclick="goTo('faq')">常見問題</span>
       <div class="nav-dropdown">
-        <span class="nav-link" onclick="goTo('knowledge')">知識專欄</span>
+        <span class="nav-link">探索</span>
         <div class="nav-dropdown-menu">
-          <span class="nav-dropdown-item" onclick="goToSection('knowledge','skin-types')">肌膚小知識</span>
-          <span class="nav-dropdown-item" onclick="goToSection('knowledge','cupping-benefits')">五行罐撥好處</span>
-          <span class="nav-dropdown-item" onclick="goToSection('knowledge','algae-intro')">藻針是什麼</span>
-          <span class="nav-dropdown-item" onclick="goToSection('knowledge','extraction-guide')">清粉刺指南</span>
-          <span class="nav-dropdown-item" onclick="goToSection('knowledge','seasonal-care')">換季保養</span>
-          <span class="nav-dropdown-item" onclick="goToSection('knowledge','sunscreen-myths')">防曬迷思</span>
-          <span class="nav-dropdown-item" onclick="goToSection('knowledge','closed-comedones')">閉鎖性粉刺</span>
-          <span class="nav-dropdown-item" onclick="goToSection('knowledge','pore-care')">毛孔粗大</span>
-          <span class="nav-dropdown-item" onclick="goToSection('knowledge','algae-aftercare')">藻針前後須知</span>
-          <span class="nav-dropdown-item" onclick="goToSection('knowledge','hair-removal-care')">除毛前後須知</span>
+          <span class="nav-dropdown-item" onclick="goTo('about')">品牌故事</span>
+          <div class="nav-dropdown-nested">
+            <span class="nav-dropdown-item" onclick="goTo('knowledge')">知識專欄</span>
+            <div class="nav-dropdown-submenu">
+              <span class="nav-dropdown-item" onclick="goToSection('knowledge','skin-types')">肌膚小知識</span>
+              <span class="nav-dropdown-item" onclick="goToSection('knowledge','cupping-benefits')">五行罐撥好處</span>
+              <span class="nav-dropdown-item" onclick="goToSection('knowledge','algae-intro')">藻針是什麼</span>
+              <span class="nav-dropdown-item" onclick="goToSection('knowledge','extraction-guide')">清粉刺指南</span>
+              <span class="nav-dropdown-item" onclick="goToSection('knowledge','seasonal-care')">換季保養</span>
+              <span class="nav-dropdown-item" onclick="goToSection('knowledge','sunscreen-myths')">防曬迷思</span>
+              <span class="nav-dropdown-item" onclick="goToSection('knowledge','closed-comedones')">閉鎖性粉刺</span>
+              <span class="nav-dropdown-item" onclick="goToSection('knowledge','pore-care')">毛孔粗大</span>
+              <span class="nav-dropdown-item" onclick="goToSection('knowledge','algae-aftercare')">藻針前後須知</span>
+              <span class="nav-dropdown-item" onclick="goToSection('knowledge','hair-removal-care')">除毛前後須知</span>
+            </div>
+          </div>
+          <span class="nav-dropdown-item" onclick="goTo('faq')">常見問題</span>
+          <span class="nav-dropdown-item" onclick="goTo('tutorial')">預約教學</span>
         </div>
       </div>
       <span class="nav-link" onclick="goTo('contact')">預約諮詢</span>
@@ -546,21 +551,24 @@ ul { list-style: none; }
       <span class="side-menu-sublink" onclick="goToSection('services','svc-membership');closeMenu()">儲值入會</span>
     </div>
     <span class="side-menu-link" onclick="goTo('products');closeMenu()">產品專區</span>
-    <span class="side-menu-link" onclick="goTo('about');closeMenu()">品牌故事</span>
-    <span class="side-menu-link" onclick="goTo('tutorial');closeMenu()">預約教學</span>
-    <span class="side-menu-link" onclick="goTo('faq');closeMenu()">常見問題</span>
-    <span class="side-menu-link has-sub" onclick="this.classList.toggle('open')">知識專欄</span>
+    <span class="side-menu-link has-sub" onclick="this.classList.toggle('open')">探索</span>
     <div class="side-menu-sub">
-      <span class="side-menu-sublink" onclick="goToSection('knowledge','skin-types');closeMenu()">肌膚小知識</span>
-      <span class="side-menu-sublink" onclick="goToSection('knowledge','cupping-benefits');closeMenu()">五行罐撥好處</span>
-      <span class="side-menu-sublink" onclick="goToSection('knowledge','algae-intro');closeMenu()">藻針是什麼</span>
-      <span class="side-menu-sublink" onclick="goToSection('knowledge','extraction-guide');closeMenu()">清粉刺指南</span>
-      <span class="side-menu-sublink" onclick="goToSection('knowledge','seasonal-care');closeMenu()">換季保養</span>
-      <span class="side-menu-sublink" onclick="goToSection('knowledge','sunscreen-myths');closeMenu()">防曬迷思</span>
-      <span class="side-menu-sublink" onclick="goToSection('knowledge','closed-comedones');closeMenu()">閉鎖性粉刺</span>
-      <span class="side-menu-sublink" onclick="goToSection('knowledge','pore-care');closeMenu()">毛孔粗大</span>
-      <span class="side-menu-sublink" onclick="goToSection('knowledge','algae-aftercare');closeMenu()">藻針前後須知</span>
-      <span class="side-menu-sublink" onclick="goToSection('knowledge','hair-removal-care');closeMenu()">除毛前後須知</span>
+      <span class="side-menu-sublink" onclick="goTo('about');closeMenu()">品牌故事</span>
+      <span class="side-menu-sublink has-sub2" onclick="this.classList.toggle('open')">知識專欄</span>
+      <div class="side-menu-sub2">
+        <span class="side-menu-sub2link" onclick="goToSection('knowledge','skin-types');closeMenu()">肌膚小知識</span>
+        <span class="side-menu-sub2link" onclick="goToSection('knowledge','cupping-benefits');closeMenu()">五行罐撥好處</span>
+        <span class="side-menu-sub2link" onclick="goToSection('knowledge','algae-intro');closeMenu()">藻針是什麼</span>
+        <span class="side-menu-sub2link" onclick="goToSection('knowledge','extraction-guide');closeMenu()">清粉刺指南</span>
+        <span class="side-menu-sub2link" onclick="goToSection('knowledge','seasonal-care');closeMenu()">換季保養</span>
+        <span class="side-menu-sub2link" onclick="goToSection('knowledge','sunscreen-myths');closeMenu()">防曬迷思</span>
+        <span class="side-menu-sub2link" onclick="goToSection('knowledge','closed-comedones');closeMenu()">閉鎖性粉刺</span>
+        <span class="side-menu-sub2link" onclick="goToSection('knowledge','pore-care');closeMenu()">毛孔粗大</span>
+        <span class="side-menu-sub2link" onclick="goToSection('knowledge','algae-aftercare');closeMenu()">藻針前後須知</span>
+        <span class="side-menu-sub2link" onclick="goToSection('knowledge','hair-removal-care');closeMenu()">除毛前後須知</span>
+      </div>
+      <span class="side-menu-sublink" onclick="goTo('faq');closeMenu()">常見問題</span>
+      <span class="side-menu-sublink" onclick="goTo('tutorial');closeMenu()">預約教學</span>
     </div>
     <span class="side-menu-link" onclick="goTo('contact');closeMenu()">預約諮詢</span>
   </div>
@@ -711,8 +719,18 @@ ul { list-style: none; }
 </div>
 <div class="page" id="page-services">
   <section class="services-hero"><div class="section-eyebrow">OUR SERVICES</div><h1>服 務 項 目</h1></section>
-  <div style="max-width:900px;margin:0 auto;padding:100px 40px;">
-    <div id="svc-facial" class="reveal" style="padding:60px 0;border-bottom:1px solid var(--grey-200);text-align:center;">
+  <div class="products-filter reveal-fade" id="svcFilter">
+    <div class="products-tabs">
+      <span class="products-tab active" onclick="filterServices('all',this)">全部服務</span>
+      <span class="products-tab" onclick="filterServices('skin',this)">皮膚管理</span>
+      <span class="products-tab" onclick="filterServices('cupping',this)">五行罐撥</span>
+      <span class="products-tab" onclick="filterServices('hair',this)">除毛服務</span>
+      <span class="products-tab" onclick="filterServices('nail',this)">美甲服務</span>
+      <span class="products-tab" onclick="filterServices('membership',this)">儲值方案</span>
+    </div>
+  </div>
+  <div style="max-width:900px;margin:0 auto;padding:40px 40px 100px;">
+    <div id="svc-facial" class="reveal svc-item" data-svc-cat="skin" style="padding:60px 0;border-bottom:1px solid var(--grey-200);text-align:center;">
       <h2 style="font-size:1.4rem;font-weight:300;letter-spacing:6px;margin-bottom:8px;">臉部撥筋</h2>
       <div style="font-family:var(--serif);font-size:0.7rem;letter-spacing:4px;color:var(--gold);margin-bottom:24px;">FACIAL MERIDIAN MASSAGE</div>
       <p style="font-size:0.88rem;line-height:2.2;color:var(--grey-600);font-weight:300;margin-bottom:24px;max-width:600px;margin-left:auto;margin-right:auto;">獨家撥筋手法，連細節都不放過。課程包含撥筋、保濕導入、敷臉與保養品防曬，促進臉部循環、提升輪廓線條與肌膚光澤感。（不含清粉刺）</p>
@@ -720,7 +738,7 @@ ul { list-style: none; }
       <div style="font-family:var(--serif);font-size:1.1rem;letter-spacing:2px;color:var(--grey-800);margin-bottom:24px;">NT$ <span style="color:var(--gold);">1,200</span> 元</div>
       <span class="service-detail-cta" onclick="goTo('contact')">立 即 預 約</span>
     </div>
-    <div id="svc-algae" class="reveal" style="padding:60px 0;border-bottom:1px solid var(--grey-200);text-align:center;">
+    <div id="svc-algae" class="reveal svc-item" data-svc-cat="skin" style="padding:60px 0;border-bottom:1px solid var(--grey-200);text-align:center;">
       <h2 style="font-size:1.4rem;font-weight:300;letter-spacing:6px;margin-bottom:8px;">肌泌藻針</h2>
       <div style="font-family:var(--serif);font-size:0.7rem;letter-spacing:4px;color:var(--gold);margin-bottom:24px;">MICRO ALGAE TREATMENT</div>
       <p style="font-size:0.88rem;line-height:2.2;color:var(--grey-600);font-weight:300;margin-bottom:24px;max-width:600px;margin-left:auto;margin-right:auto;">外泌體藻針療程，含全臉地毯式手工針清粉刺。使用純度 99.9% 白藻針（240～270μm），搭配外泌體蘊活安瓶導入與雙膜修護（修護凍膜打底 + 強效修護型面膜）。清粉刺以 60 分鐘為上限，量較多者需分次處理。</p>
@@ -728,7 +746,7 @@ ul { list-style: none; }
       <div style="font-family:var(--serif);font-size:1.1rem;letter-spacing:2px;color:var(--grey-800);margin-bottom:24px;">NT$ <span style="color:var(--gold);">2,680</span> 元起</div>
       <span class="service-detail-cta" onclick="goTo('contact')">立 即 預 約</span>
     </div>
-    <div id="svc-snow" class="reveal" style="padding:60px 0;border-bottom:1px solid var(--grey-200);text-align:center;">
+    <div id="svc-snow" class="reveal svc-item" data-svc-cat="skin" style="padding:60px 0;border-bottom:1px solid var(--grey-200);text-align:center;">
       <div style="font-family:var(--serif);font-size:0.65rem;letter-spacing:3px;color:var(--gold);background:rgba(201,169,110,0.1);display:inline-block;padding:4px 14px;margin-bottom:16px;">招牌課程</div>
       <h2 style="font-size:1.4rem;font-weight:300;letter-spacing:6px;margin-bottom:8px;">雪藻喚膚</h2>
       <div style="font-family:var(--serif);font-size:0.7rem;letter-spacing:4px;color:var(--gold);margin-bottom:24px;">SNOW ALGAE REVIVAL</div>
@@ -737,7 +755,7 @@ ul { list-style: none; }
       <div style="font-family:var(--serif);font-size:1.1rem;letter-spacing:2px;color:var(--grey-800);margin-bottom:24px;">NT$ <span style="color:var(--gold);">2,300</span> 元起</div>
       <span class="service-detail-cta" onclick="goTo('contact')">立 即 預 約</span>
     </div>
-    <div id="svc-painless" class="reveal" style="padding:60px 0;border-bottom:1px solid var(--grey-200);text-align:center;">
+    <div id="svc-painless" class="reveal svc-item" data-svc-cat="skin" style="padding:60px 0;border-bottom:1px solid var(--grey-200);text-align:center;">
       <h2 style="font-size:1.4rem;font-weight:300;letter-spacing:6px;margin-bottom:8px;">無痛藻針</h2>
       <div style="font-family:var(--serif);font-size:0.7rem;letter-spacing:4px;color:var(--gold);margin-bottom:24px;">PAINLESS ALGAE</div>
       <p style="font-size:0.88rem;line-height:2.2;color:var(--grey-600);font-weight:300;margin-bottom:24px;max-width:600px;margin-left:auto;margin-right:auto;">無痛藻針搭配基礎保養，含全臉地毯式清粉刺與綺肌光照修護。使用純度 30% 無痛藻針（200μm 以下），搭配精華導入（依膚況調整：保濕／舒敏／控油）與雙膜修護（含牛奶外泌體凍膜打底）。已含一支精華。按摩與刷酸可二選一。</p>
@@ -745,7 +763,7 @@ ul { list-style: none; }
       <div style="font-family:var(--serif);font-size:1.1rem;letter-spacing:2px;color:var(--grey-800);margin-bottom:24px;">NT$ <span style="color:var(--gold);">2,000</span> 元起</div>
       <span class="service-detail-cta" onclick="goTo('contact')">立 即 預 約</span>
     </div>
-    <div id="svc-micro" class="reveal" style="padding:60px 0;border-bottom:1px solid var(--grey-200);text-align:center;">
+    <div id="svc-micro" class="reveal svc-item" data-svc-cat="skin" style="padding:60px 0;border-bottom:1px solid var(--grey-200);text-align:center;">
       <div style="font-family:var(--serif);font-size:0.65rem;letter-spacing:3px;color:var(--gold);background:rgba(201,169,110,0.1);display:inline-block;padding:4px 14px;margin-bottom:16px;">類醫美</div>
       <h2 style="font-size:1.4rem;font-weight:300;letter-spacing:6px;margin-bottom:8px;">微雕蘊膚</h2>
       <div style="font-family:var(--serif);font-size:0.7rem;letter-spacing:4px;color:var(--gold);margin-bottom:24px;">MICRO SCULPTING</div>
@@ -754,7 +772,7 @@ ul { list-style: none; }
       <div style="font-family:var(--serif);font-size:1.1rem;letter-spacing:2px;color:var(--grey-800);margin-bottom:24px;">NT$ <span style="color:var(--gold);">3,500</span> 元起</div>
       <span class="service-detail-cta" onclick="goTo('contact')">立 即 預 約</span>
     </div>
-    <div id="svc-back" class="reveal" style="padding:60px 0;border-bottom:1px solid var(--grey-200);text-align:center;">
+    <div id="svc-back" class="reveal svc-item" data-svc-cat="skin" style="padding:60px 0;border-bottom:1px solid var(--grey-200);text-align:center;">
       <h2 style="font-size:1.4rem;font-weight:300;letter-spacing:6px;margin-bottom:8px;">背部護理</h2>
       <div style="font-family:var(--serif);font-size:0.7rem;letter-spacing:4px;color:var(--gold);margin-bottom:24px;">BACK CARE TREATMENT</div>
       <p style="font-size:0.88rem;line-height:2.2;color:var(--grey-600);font-weight:300;margin-bottom:24px;max-width:600px;margin-left:auto;margin-right:auto;">背部深層護理，包含清粉刺、藻針與敷膜。範圍為肩膀以下、腰部以上。</p>
@@ -762,7 +780,7 @@ ul { list-style: none; }
       <div style="font-family:var(--serif);font-size:1.1rem;letter-spacing:2px;color:var(--grey-800);margin-bottom:24px;">NT$ <span style="color:var(--gold);">4,000</span> 元</div>
       <span class="service-detail-cta" onclick="goTo('contact')">立 即 預 約</span>
     </div>
-    <div id="svc-cupping" class="reveal" style="padding:60px 0;border-bottom:1px solid var(--grey-200);text-align:center;">
+    <div id="svc-cupping" class="reveal svc-item" data-svc-cat="cupping" style="padding:60px 0;border-bottom:1px solid var(--grey-200);text-align:center;">
       <div style="font-size:1.8rem;margin-bottom:12px;">☯️</div>
       <h2 style="font-size:1.4rem;font-weight:300;letter-spacing:6px;margin-bottom:8px;">五行罐撥</h2>
       <div style="font-family:var(--serif);font-size:0.7rem;letter-spacing:4px;color:var(--gold);margin-bottom:24px;">FIVE ELEMENTS CUPPING</div>
@@ -770,7 +788,7 @@ ul { list-style: none; }
       <div style="font-family:var(--serif);font-size:1.1rem;letter-spacing:2px;color:var(--grey-800);margin-bottom:24px;">NT$ <span style="color:var(--gold);">1,500</span> 元起</div>
       <span class="service-detail-cta" onclick="goTo('contact')">立 即 預 約</span>
     </div>
-    <div id="svc-hotwax" class="reveal" style="padding:60px 0;border-bottom:1px solid var(--grey-200);text-align:center;">
+    <div id="svc-hotwax" class="reveal svc-item" data-svc-cat="hair" style="padding:60px 0;border-bottom:1px solid var(--grey-200);text-align:center;">
       <div style="font-size:1.8rem;margin-bottom:12px;">🔥</div>
       <h2 style="font-size:1.4rem;font-weight:300;letter-spacing:6px;margin-bottom:8px;">熱蠟除毛</h2>
       <div style="font-family:var(--serif);font-size:0.7rem;letter-spacing:4px;color:var(--gold);margin-bottom:24px;">HOT WAX HAIR REMOVAL</div>
@@ -778,7 +796,7 @@ ul { list-style: none; }
       <div style="font-family:var(--serif);font-size:1.1rem;letter-spacing:2px;color:var(--grey-800);margin-bottom:24px;">依部位報價</div>
       <span class="service-detail-cta" onclick="goTo('contact')">立 即 預 約</span>
     </div>
-    <div id="svc-icewax" class="reveal" style="padding:60px 0;border-bottom:1px solid var(--grey-200);text-align:center;">
+    <div id="svc-icewax" class="reveal svc-item" data-svc-cat="hair" style="padding:60px 0;border-bottom:1px solid var(--grey-200);text-align:center;">
       <div style="font-size:1.8rem;margin-bottom:12px;">❄️</div>
       <h2 style="font-size:1.4rem;font-weight:300;letter-spacing:6px;margin-bottom:8px;">冰肌除毛</h2>
       <div style="font-family:var(--serif);font-size:0.7rem;letter-spacing:4px;color:var(--gold);margin-bottom:24px;">ICE HAIR REMOVAL</div>
@@ -786,7 +804,7 @@ ul { list-style: none; }
       <div style="font-family:var(--serif);font-size:1.1rem;letter-spacing:2px;color:var(--grey-800);margin-bottom:24px;">依部位報價</div>
       <span class="service-detail-cta" onclick="goTo('contact')">立 即 預 約</span>
     </div>
-    <div id="svc-nail" class="reveal" style="padding:60px 0;border-bottom:1px solid var(--grey-200);text-align:center;">
+    <div id="svc-nail" class="reveal svc-item" data-svc-cat="nail" style="padding:60px 0;border-bottom:1px solid var(--grey-200);text-align:center;">
       <div style="font-size:1.8rem;margin-bottom:12px;">💅</div>
       <h2 style="font-size:1.4rem;font-weight:300;letter-spacing:6px;margin-bottom:8px;">美甲服務</h2>
       <div style="font-family:var(--serif);font-size:0.7rem;letter-spacing:4px;color:var(--gold);margin-bottom:24px;">NAIL ART</div>
@@ -794,7 +812,7 @@ ul { list-style: none; }
       <div style="font-family:var(--serif);font-size:1.1rem;letter-spacing:2px;color:var(--grey-800);margin-bottom:24px;">依款式報價</div>
       <span class="service-detail-cta" onclick="goTo('contact')">立 即 預 約</span>
     </div>
-    <div id="svc-membership" class="reveal" style="padding:80px 0 60px;text-align:center;">
+    <div id="svc-membership" class="reveal svc-item" data-svc-cat="membership" style="padding:80px 0 60px;text-align:center;">
       <h2 style="font-size:1.4rem;font-weight:300;letter-spacing:6px;margin-bottom:8px;">儲值方案</h2>
       <div style="font-family:var(--serif);font-size:0.7rem;letter-spacing:4px;color:var(--gold);margin-bottom:12px;">VALUE PACKAGES</div>
       <p style="font-size:0.82rem;color:var(--grey-500);margin-bottom:40px;">所有預約項目皆可抵用儲值金</p>
@@ -1978,6 +1996,21 @@ function filterFaq() {
   document.getElementById('faqEmpty').style.display = visibleCount === 0 ? 'block' : 'none';
 }
 
+function filterServices(cat, el) {
+  document.querySelectorAll('#svcFilter .products-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.svc-item').forEach(item => {
+    if (cat === 'all' || item.getAttribute('data-svc-cat') === cat) {
+      item.style.display = '';
+    } else {
+      item.style.display = 'none';
+    }
+  });
+  /* Also show/hide the cases section & divider based on 'all' */
+  const casesEl = document.getElementById('svc-cases');
+  if (casesEl) casesEl.closest('div').style.display = cat === 'all' ? '' : 'none';
+  window.scrollTo({ top: document.getElementById('svcFilter').offsetTop - 80, behavior: 'smooth' });
+}
 function filterProducts(cat, el) {
   document.querySelectorAll('.products-tab').forEach(t => t.classList.remove('active'));
   el.classList.add('active');

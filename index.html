@@ -1642,6 +1642,35 @@ function filterFaq() {
 }
 makeClickablesKeyboardAccessible();
 initReveal();
+/* Scroll fallback: in case IntersectionObserver misses elements, check on scroll */
+let scrollRevealTick = false;
+window.addEventListener('scroll', () => {
+  if (scrollRevealTick) return;
+  scrollRevealTick = true;
+  requestAnimationFrame(() => {
+    const activePage = document.querySelector('.page.active');
+    if (!activePage) { scrollRevealTick = false; return; }
+    activePage.querySelectorAll('.reveal:not(.visible), .reveal-left:not(.visible), .reveal-right:not(.visible), .reveal-scale:not(.visible), .reveal-fade:not(.visible), .stagger-children:not(.visible), .char-reveal:not(.visible), .line-reveal:not(.visible)').forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.92 && rect.bottom > 0) {
+        el.classList.add('visible');
+      }
+    });
+    scrollRevealTick = false;
+  });
+}, { passive: true });
+/* Safety net: if after 4 seconds elements are still hidden, force show them */
+setTimeout(() => {
+  const activePage = document.querySelector('.page.active');
+  if (activePage) {
+    activePage.querySelectorAll('.reveal:not(.visible), .reveal-left:not(.visible), .reveal-right:not(.visible), .reveal-scale:not(.visible), .reveal-fade:not(.visible), .stagger-children:not(.visible), .char-reveal:not(.visible), .line-reveal:not(.visible)').forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 1.5 && rect.bottom > 0) {
+        el.classList.add('visible');
+      }
+    });
+  }
+}, 4000);
 </script>
 </body>
 </html>

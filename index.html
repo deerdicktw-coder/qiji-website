@@ -2588,20 +2588,40 @@ function submitInquiry() {
 }
 
 
-/* Background Music Player */
+/* Background Music Player - 32 track playlist */
+var bgmPlaylist = ["https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/01%20Wellness%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/02%20Sleep%20Meditation%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/03%20Elevate%20Ocean%20Sounds.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/04%20Solitude%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/05%20Revelations%20Sea%20Music.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/06%20Lost%20in%20Space%20Beach%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/07%20Walking%20on%20Air%20Crashing%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/08%20Sleepy%20Relaxation%20Ocean%20Sounds.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/09%20Massage%20Piano%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/10%20Dream%20Music%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/11%20Simple%20Lullaby%20Ocean%20Sounds.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/12%20Love%20%26%20Piano%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/13%20Starlights%20Sea%20Sounds.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/14%20Clarity%20Beach%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/15%20Release%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/16%20Spa%20Piano%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/17%20Heart%20%26%20Soul%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/18%20A%20Clear%20Mind%20Ocean%20Noises.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/19%20Peacefulness%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/20%20Float%20Sea%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/21%20Twilight%20Piano%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/22%20Seaside%20Dreams.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/23%20Sleeping%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/24%20Let%20Go%20Ocean%20Sounds.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/25%20Happiness%20Sea%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/26%20Zone%20Out%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/27%20Chilled%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/28%20Healing%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/29%20Freedom%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/30%20Flow%20Beach%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/31%20Drift%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/32%20Ambient%20Ocean%20Waves.mp3"];
+var bgmCurrent = 0;
+function bgmShuffle() {
+  for (var i = bgmPlaylist.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = bgmPlaylist[i]; bgmPlaylist[i] = bgmPlaylist[j]; bgmPlaylist[j] = t;
+  }
+}
+bgmShuffle();
+function bgmLoad(idx) {
+  var audio = document.getElementById('bgmAudio');
+  audio.src = bgmPlaylist[idx];
+  audio.volume = 0.3;
+}
+function bgmNext() {
+  bgmCurrent = (bgmCurrent + 1) % bgmPlaylist.length;
+  bgmLoad(bgmCurrent);
+  document.getElementById('bgmAudio').play().catch(() => {});
+}
 function toggleBgm() {
   var audio = document.getElementById('bgmAudio');
   var fab = document.getElementById('musicFab');
   var iconOff = document.getElementById('musicIconOff');
   var iconOn = document.getElementById('musicIconOn');
   if (audio.paused) {
+    if (!audio.src) bgmLoad(bgmCurrent);
     audio.volume = 0.3;
     audio.play().then(() => {
       fab.classList.add('playing');
       iconOff.style.display = 'none';
       iconOn.style.display = 'block';
       try { localStorage.setItem('bgmOn', '1'); } catch(e) {}
-    }).catch(err => { console.log('Autoplay blocked', err); });
+    }).catch(err => { console.log('Play blocked', err); });
   } else {
     audio.pause();
     fab.classList.remove('playing');
@@ -2610,13 +2630,13 @@ function toggleBgm() {
     try { localStorage.setItem('bgmOn', '0'); } catch(e) {}
   }
 }
-/* Restore preference on page load (only if user previously enabled) */
+/* Auto-advance to next track when current ends */
 window.addEventListener('load', function() {
+  var audio = document.getElementById('bgmAudio');
+  audio.addEventListener('ended', bgmNext);
   try {
     if (localStorage.getItem('bgmOn') === '1') {
-      /* Need user gesture - cannot auto-resume on first visit but can on internal nav (single page app retains state) */
-      var audio = document.getElementById('bgmAudio');
-      audio.volume = 0.3;
+      bgmLoad(bgmCurrent);
       audio.play().then(() => {
         document.getElementById('musicFab').classList.add('playing');
         document.getElementById('musicIconOff').style.display = 'none';
@@ -2625,6 +2645,7 @@ window.addEventListener('load', function() {
     }
   } catch(e) {}
 });
+
 
 </script>
 
@@ -2638,7 +2659,7 @@ window.addEventListener('load', function() {
   <div class="inquiry-panel-footer"><button class="inquiry-panel-submit" onclick="submitInquiry()">一 鍵 送 出 諮 詢</button></div>
 </div>
 
-<audio id="bgmAudio" src="https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/16%20Spa%20Piano%20Ocean%20Waves.mp3" loop preload="none"></audio>
+<audio id="bgmAudio" preload="none"></audio>
 <div class="music-fab" id="musicFab" onclick="toggleBgm()" title="背景音樂">
   <svg id="musicIconOff" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
   <svg id="musicIconOn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>

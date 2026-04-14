@@ -325,6 +325,68 @@ ul { list-style: none; }
 .music-fab.loading::before { content: ''; position: absolute; inset: -2px; border-radius: 50%; border: 2px solid var(--gold); border-top-color: transparent; animation: musicSpin 0.8s linear infinite; }
 @keyframes musicSpin { to { transform: rotate(360deg); } }
 @media (max-width: 768px) { .music-fab { bottom: 20px; left: 20px; width: 44px; height: 44px; } .music-fab svg { width: 18px; height: 18px; } }
+
+/* ===== Magnetic Cursor (desktop only) ===== */
+@media (hover: hover) and (pointer: fine) {
+  .custom-cursor { position: fixed; left: 0; top: 0; width: 28px; height: 28px; border: 1px solid var(--gold); border-radius: 50%; pointer-events: none; z-index: 10000; transform: translate(-50%, -50%); will-change: transform; opacity: 0; transition: width 0.3s ease, height 0.3s ease, opacity 0.3s ease, background-color 0.3s ease; }
+  .custom-cursor.visible { opacity: 0.55; }
+  .custom-cursor.hover { width: 50px; height: 50px; opacity: 0.85; background: rgba(201,169,110,0.12); }
+  .custom-cursor.click { transform: translate(-50%, -50%) scale(0.7); }
+}
+@media (hover: none), (pointer: coarse) { .custom-cursor { display: none !important; } }
+/* ===== Scroll Progress Bar ===== */
+.scroll-progress { position: fixed; top: 0; left: 0; height: 2px; background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 100%); z-index: 1002; width: 0%; transition: width 0.1s linear; box-shadow: 0 0 8px rgba(201,169,110,0.5); }
+/* ===== Service Card Flip (homepage) ===== */
+.service-card { perspective: 1200px; background: transparent !important; border: none !important; }
+.service-card::before { display: none !important; }
+.service-card-flip { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.7s cubic-bezier(0.4, 0.0, 0.2, 1); }
+.service-card:hover .service-card-flip { transform: rotateY(180deg); }
+.service-card-face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; overflow: hidden; }
+.service-card-front.service-card-skin { background: radial-gradient(circle at top, rgba(212,184,122,0.16), transparent 45%), linear-gradient(160deg, #0d0d0d 0%, #171717 50%, #242424 100%); }
+.service-card-front.service-card-algae { background: radial-gradient(circle at top right, rgba(120,181,154,0.24), transparent 42%), linear-gradient(160deg, #07110f 0%, #10201b 46%, #1f302b 100%); }
+.service-card-front.service-card-cupping { background: radial-gradient(circle at top right, rgba(186,132,80,0.24), transparent 42%), linear-gradient(160deg, #120a06 0%, #24150f 46%, #372018 100%); }
+.service-card-front::before { content: ''; position: absolute; inset: 16px; border: 1px solid rgba(255,255,255,0.12); opacity: 0.8; transition: inset 0.35s var(--transition), opacity 0.35s var(--transition); pointer-events: none; z-index: 1; }
+.service-card:hover .service-card-front::before { inset: 12px; opacity: 1; }
+.service-card-back { transform: rotateY(180deg); background: linear-gradient(160deg, #0d0d0d 0%, #1a1a1a 100%); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 40px 32px; border: 1px solid rgba(201,169,110,0.3); }
+.service-card-back h3 { font-size: 1.4rem; letter-spacing: 6px; color: var(--white); font-weight: 200; margin-bottom: 14px; }
+.service-card-back .service-back-en { font-family: var(--serif); font-size: 0.72rem; letter-spacing: 3px; color: var(--gold); margin-bottom: 24px; }
+.service-card-back .service-back-desc { font-size: 0.82rem; line-height: 2; color: rgba(255,255,255,0.8); font-weight: 300; margin-bottom: 28px; max-width: 260px; }
+.service-card-back .service-back-cta { padding: 12px 32px; border: 1px solid var(--gold); color: var(--gold); font-size: 0.72rem; letter-spacing: 3px; cursor: pointer; transition: all 0.3s; background: transparent; }
+.service-card-back .service-back-cta:hover { background: var(--gold); color: var(--black); }
+@media (hover: none) { .service-card:hover .service-card-flip { transform: none; } }
+/* ===== Booking Form 3-Step Wizard ===== */
+.cf-wizard { max-width: 600px; margin: 0 auto; }
+.cf-steps { display: flex; justify-content: center; gap: 0; margin-bottom: 40px; position: relative; }
+.cf-step { flex: 1; text-align: center; position: relative; max-width: 120px; }
+.cf-step-dot { width: 32px; height: 32px; border-radius: 50%; background: var(--grey-200); color: var(--grey-400); display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; font-family: var(--serif); font-size: 0.82rem; transition: all 0.4s ease; position: relative; z-index: 2; border: 2px solid var(--grey-200); }
+.cf-step.active .cf-step-dot { background: var(--gold); color: var(--white); border-color: var(--gold); transform: scale(1.1); }
+.cf-step.done .cf-step-dot { background: var(--black); color: var(--gold); border-color: var(--black); }
+.cf-step-label { font-size: 0.72rem; letter-spacing: 2px; color: var(--grey-400); transition: color 0.3s; }
+.cf-step.active .cf-step-label { color: var(--gold); }
+.cf-step.done .cf-step-label { color: var(--grey-800); }
+.cf-step-line { position: absolute; top: 16px; left: calc(50% + 20px); right: calc(-50% + 20px); height: 2px; background: var(--grey-200); z-index: 1; transition: background 0.4s; }
+.cf-step:last-child .cf-step-line { display: none; }
+.cf-step.done .cf-step-line { background: var(--gold); }
+.cf-panel { display: none; animation: panelIn 0.4s ease; }
+.cf-panel.active { display: block; }
+@keyframes panelIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+.cf-service-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
+.cf-service-option { padding: 20px 10px; border: 1px solid var(--grey-200); background: var(--white); text-align: center; cursor: pointer; transition: all 0.3s; font-size: 0.82rem; letter-spacing: 1.5px; color: var(--grey-600); }
+.cf-service-option:hover { border-color: var(--gold); color: var(--gold); }
+.cf-service-option.selected { border-color: var(--gold); background: var(--gold); color: var(--white); }
+.cf-time-hint { background: var(--grey-100); padding: 16px; border-left: 3px solid var(--gold); margin-bottom: 16px; font-size: 0.78rem; color: var(--grey-600); line-height: 1.8; }
+.cf-nav { display: flex; justify-content: space-between; gap: 12px; margin-top: 28px; }
+.cf-btn { padding: 14px 36px; font-size: 0.78rem; letter-spacing: 3px; cursor: pointer; transition: all 0.3s; font-family: var(--sans); border: 1px solid var(--grey-200); background: var(--white); color: var(--grey-600); }
+.cf-btn:hover { border-color: var(--gold); color: var(--gold); }
+.cf-btn.primary { background: var(--black); color: var(--white); border-color: var(--black); }
+.cf-btn.primary:hover { background: var(--gold); border-color: var(--gold); color: var(--white); }
+.cf-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+@media (max-width: 600px) {
+  .cf-service-options { grid-template-columns: repeat(2, 1fr); }
+  .cf-step-label { font-size: 0.65rem; letter-spacing: 1px; }
+  .cf-btn { padding: 12px 24px; font-size: 0.72rem; }
+}
+
 .footer { background: var(--black); color: var(--white); padding: 60px 40px; text-align: center; }
 .footer-brand { font-size: 1.2rem; letter-spacing: 8px; margin-bottom: 8px; font-weight: 300; }
 .footer-en { font-family: var(--serif); font-size: 0.65rem; letter-spacing: 5px; color: var(--grey-600); margin-bottom: 30px; }
@@ -715,8 +777,10 @@ ul { list-style: none; }
     <div class="section-eyebrow line-reveal">OUR SERVICES</div>
     <h2 class="section-title-lg char-reveal">精 選 服 務</h2>
     <div class="service-grid">
-      <div class="service-card service-card-skin reveal delay-1" onclick="goTo('services')">
-        <div class="service-card-shell">
+      <div class="service-card reveal delay-1" onclick="goTo('services')">
+        <div class="service-card-flip">
+          <div class="service-card-face service-card-front service-card-skin">
+            <div class="service-card-shell">
           <svg class="service-card-icon" width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="var(--gold-light)" stroke-width="1"><ellipse cx="32" cy="26" rx="14" ry="18"/><path d="M22 38c-2 4-3 8-2 12 2 4 6 6 12 6s10-2 12-6c1-4 0-8-2-12"/><circle cx="27" cy="22" r="1.5" fill="var(--gold-light)" stroke="none" opacity="0.5"/><circle cx="37" cy="22" r="1.5" fill="var(--gold-light)" stroke="none" opacity="0.5"/><path d="M28 30c2 2 6 2 8 0" stroke-linecap="round"/><path d="M18 18c-1-4 0-8 3-11" stroke-linecap="round" opacity="0.4"/><path d="M46 18c1-4 0-8-3-11" stroke-linecap="round" opacity="0.4"/></svg>
           <div class="service-card-tag">SIGNATURE 01</div>
           <div class="service-card-name">皮膚管理</div>
@@ -726,10 +790,20 @@ ul { list-style: none; }
             <div class="service-card-price">NT$ 2,300 起</div>
             <div class="service-card-arrow">DISCOVER &rarr;</div>
           </div>
+          <div class="service-card-face service-card-back">
+            <h3>皮膚管理</h3>
+            <div class="service-back-en">SKIN CARE</div>
+            <p class="service-back-desc">量身訂製護膚療程，溫和修復、穩定膚況</p>
+            <div class="service-back-cta" onclick="event.stopPropagation(); goToSection('services','svc-facial')">了 解 更 多</div>
+          </div>
         </div>
       </div>
-      <div class="service-card service-card-algae reveal delay-2" onclick="goTo('services')">
-        <div class="service-card-shell">
+        </div>
+      </div>
+      <div class="service-card reveal delay-2" onclick="goTo('services')">
+        <div class="service-card-flip">
+          <div class="service-card-face service-card-front service-card-algae">
+            <div class="service-card-shell">
           <svg class="service-card-icon" width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="rgba(120,181,154,0.8)" stroke-width="1"><path d="M32 56V28"/><path d="M32 28c-8-6-18-4-20 4 6-2 14 0 20 8" stroke-linecap="round"/><path d="M32 20c6-8 16-10 20-4-6 0-14 4-20 12" stroke-linecap="round"/><path d="M32 36c-6-4-14-2-16 4 5-1 11 1 16 6" stroke-linecap="round" opacity="0.6"/><path d="M32 32c5-5 12-6 15-2-4 0-10 3-15 8" stroke-linecap="round" opacity="0.6"/><circle cx="32" cy="12" r="4" stroke-width="1"/><circle cx="32" cy="12" r="1.5" fill="rgba(120,181,154,0.5)" stroke="none"/></svg>
           <div class="service-card-tag">SIGNATURE 02</div>
           <div class="service-card-name">肌泌藻針</div>
@@ -739,10 +813,20 @@ ul { list-style: none; }
             <div class="service-card-price">NT$ 2,680</div>
             <div class="service-card-arrow">DISCOVER &rarr;</div>
           </div>
+          <div class="service-card-face service-card-back">
+            <h3>肌泌藻針</h3>
+            <div class="service-back-en">MICRO ALGAE</div>
+            <p class="service-back-desc">無痛藻針代謝更新，重拾細緻光澤</p>
+            <div class="service-back-cta" onclick="event.stopPropagation(); goToSection('services','svc-facial')">了 解 更 多</div>
+          </div>
         </div>
       </div>
-      <div class="service-card service-card-cupping reveal delay-3" onclick="goTo('services')">
-        <div class="service-card-shell">
+        </div>
+      </div>
+      <div class="service-card reveal delay-3" onclick="goTo('services')">
+        <div class="service-card-flip">
+          <div class="service-card-face service-card-front service-card-cupping">
+            <div class="service-card-shell">
           <svg class="service-card-icon" width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="rgba(186,132,80,0.8)" stroke-width="1"><circle cx="32" cy="32" r="22"/><path d="M32 10c0 22-12 22-12 44" stroke-linecap="round" opacity="0.5"/><path d="M32 10c0 22 12 22 12 44" stroke-linecap="round" opacity="0.5"/><circle cx="32" cy="32" r="8"/><circle cx="32" cy="32" r="3" fill="rgba(186,132,80,0.3)" stroke="none"/><circle cx="24" cy="20" r="2" opacity="0.4"/><circle cx="40" cy="20" r="2" opacity="0.4"/><circle cx="20" cy="32" r="2" opacity="0.4"/><circle cx="44" cy="32" r="2" opacity="0.4"/><circle cx="24" cy="44" r="2" opacity="0.4"/><circle cx="40" cy="44" r="2" opacity="0.4"/></svg>
           <div class="service-card-tag">SIGNATURE 03</div>
           <div class="service-card-name">五行罐撥</div>
@@ -752,6 +836,14 @@ ul { list-style: none; }
             <div class="service-card-price">NT$ 1,500 起</div>
             <div class="service-card-arrow">DISCOVER &rarr;</div>
           </div>
+          <div class="service-card-face service-card-back">
+            <h3>五行罐撥</h3>
+            <div class="service-back-en">CUPPING THERAPY</div>
+            <p class="service-back-desc">經絡罐撥疏通氣血，釋放深層緊繃</p>
+            <div class="service-back-cta" onclick="event.stopPropagation(); goToSection('services','svc-cupping')">了 解 更 多</div>
+          </div>
+        </div>
+      </div>
         </div>
       </div>
     </div>
@@ -1151,35 +1243,72 @@ ul { list-style: none; }
       <div class="section-eyebrow" style="margin-bottom:8px;">SEND US A MESSAGE</div>
       <h2 style="font-size:1.3rem;font-weight:300;letter-spacing:6px;margin-bottom:8px;">線 上 留 言</h2>
       <p style="font-size:0.82rem;color:var(--grey-500);margin-bottom:40px;font-weight:300;">填寫以下表單，我們會盡快回覆您</p>
-      <form id="contactForm" class="contact-form" onsubmit="return submitContactForm(event)">
-        <div class="cf-row">
+      <form id="contactForm" class="contact-form cf-wizard" onsubmit="return submitContactForm(event)">
+        <div class="cf-steps">
+          <div class="cf-step active" data-step="1">
+            <div class="cf-step-dot">1</div>
+            <div class="cf-step-label">選 服 務</div>
+            <div class="cf-step-line"></div>
+          </div>
+          <div class="cf-step" data-step="2">
+            <div class="cf-step-dot">2</div>
+            <div class="cf-step-label">選 時 段</div>
+            <div class="cf-step-line"></div>
+          </div>
+          <div class="cf-step" data-step="3">
+            <div class="cf-step-dot">3</div>
+            <div class="cf-step-label">填 資 料</div>
+          </div>
+        </div>
+        <div class="cf-panel active" data-panel="1">
+          <h3 style="text-align:center;font-size:1rem;font-weight:300;letter-spacing:4px;color:var(--grey-800);margin-bottom:24px;">您想諮詢哪一項服務？</h3>
+          <div class="cf-service-options">
+            <div class="cf-service-option" onclick="cfPickService(this,'皮膚管理')">皮膚管理</div>
+            <div class="cf-service-option" onclick="cfPickService(this,'五行罐撥')">五行罐撥</div>
+            <div class="cf-service-option" onclick="cfPickService(this,'除毛服務')">除毛服務</div>
+            <div class="cf-service-option" onclick="cfPickService(this,'美甲服務')">美甲服務</div>
+            <div class="cf-service-option" onclick="cfPickService(this,'產品諮詢')">產品諮詢</div>
+            <div class="cf-service-option" onclick="cfPickService(this,'其他')">其他諮詢</div>
+          </div>
+          <input type="hidden" name="service" id="cfService">
+          <div class="cf-nav">
+            <button type="button" class="cf-btn" disabled style="visibility:hidden;">上一步</button>
+            <button type="button" class="cf-btn primary" id="cfNext1" onclick="cfGoStep(2)" disabled>下一步 →</button>
+          </div>
+        </div>
+        <div class="cf-panel" data-panel="2">
+          <h3 style="text-align:center;font-size:1rem;font-weight:300;letter-spacing:4px;color:var(--grey-800);margin-bottom:24px;">方便預約的時間？</h3>
+          <div class="cf-time-hint">營業時間：週一至週五 10:00–20:00 ｜ 週六 10:00–18:00 ｜ 週日公休<br>請留下您方便的日期/時段，我們會盡快回覆確認可預約時間。</div>
           <div class="cf-field">
-            <label class="cf-label">姓名 <span style="color:var(--gold);">*</span></label>
-            <input class="cf-input" type="text" name="name" required placeholder="請輸入姓名">
+            <input class="cf-input" type="text" name="preferred_time" id="cfTime" placeholder="例如：4/20 下午 2 點、週六上午、平日晚上 7 點..." required>
+          </div>
+          <div class="cf-nav">
+            <button type="button" class="cf-btn" onclick="cfGoStep(1)">← 上一步</button>
+            <button type="button" class="cf-btn primary" onclick="cfGoStep(3)">下一步 →</button>
+          </div>
+        </div>
+        <div class="cf-panel" data-panel="3">
+          <h3 style="text-align:center;font-size:1rem;font-weight:300;letter-spacing:4px;color:var(--grey-800);margin-bottom:24px;">最後留下您的聯絡方式</h3>
+          <div class="cf-row">
+            <div class="cf-field">
+              <label class="cf-label">姓名 <span style="color:var(--gold);">*</span></label>
+              <input class="cf-input" type="text" name="name" required placeholder="請輸入姓名">
+            </div>
+            <div class="cf-field">
+              <label class="cf-label">電話 / LINE ID <span style="color:var(--gold);">*</span></label>
+              <input class="cf-input" type="text" name="contact" required placeholder="方便聯繫的方式">
+            </div>
           </div>
           <div class="cf-field">
-            <label class="cf-label">電話 / LINE ID <span style="color:var(--gold);">*</span></label>
-            <input class="cf-input" type="text" name="contact" required placeholder="方便聯繫的方式">
+            <label class="cf-label">想補充說明（可不填）</label>
+            <textarea class="cf-input cf-textarea" name="message" placeholder="例如：膚況困擾、特殊需求..." rows="4"></textarea>
           </div>
+          <div class="cf-nav">
+            <button type="button" class="cf-btn" onclick="cfGoStep(2)">← 上一步</button>
+            <button type="submit" class="cf-btn primary" id="cfSubmitBtn">送 出 諮 詢</button>
+          </div>
+          <div class="cf-status" id="cfStatus" style="margin-top:16px;text-align:center;"></div>
         </div>
-        <div class="cf-field">
-          <label class="cf-label">想諮詢的項目</label>
-          <select class="cf-input cf-select" name="service">
-            <option value="">請選擇（可不選）</option>
-            <option value="皮膚管理">皮膚管理</option>
-            <option value="五行罐撥">五行罐撥</option>
-            <option value="除毛服務">除毛服務</option>
-            <option value="美甲服務">美甲服務</option>
-            <option value="產品諮詢">產品諮詢</option>
-            <option value="其他">其他</option>
-          </select>
-        </div>
-        <div class="cf-field">
-          <label class="cf-label">留言內容 <span style="color:var(--gold);">*</span></label>
-          <textarea class="cf-input cf-textarea" name="message" required placeholder="請輸入您想諮詢的內容…" rows="5"></textarea>
-        </div>
-        <button type="submit" class="cf-submit" id="cfSubmitBtn">送 出 留 言</button>
-        <div class="cf-status" id="cfStatus"></div>
       </form>
     </div>
   </div>
@@ -2405,6 +2534,9 @@ function submitContactForm(e) {
       status.textContent = '留言已送出，我們會盡快回覆您！';
       status.className = 'cf-status success';
       form.reset();
+      document.querySelectorAll('.cf-service-option').forEach(o => o.classList.remove('selected'));
+      var nb = document.getElementById('cfNext1'); if (nb) nb.disabled = true;
+      setTimeout(() => { if (typeof cfGoStep === 'function') cfGoStep(1); }, 1500);
     } else {
       status.textContent = '送出失敗，請改用 LINE 聯繫我們';
       status.className = 'cf-status error';
@@ -2661,6 +2793,100 @@ window.addEventListener('load', function() {
 });
 
 
+
+/* ===== Magnetic Cursor ===== */
+(function() {
+  if (!window.matchMedia || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  var cursor = document.getElementById('customCursor');
+  if (!cursor) return;
+  var mx = 0, my = 0, cx = 0, cy = 0, visible = false;
+  document.addEventListener('mousemove', function(e) {
+    mx = e.clientX; my = e.clientY;
+    if (!visible) { cursor.classList.add('visible'); visible = true; }
+  });
+  document.addEventListener('mouseleave', function() { cursor.classList.remove('visible'); visible = false; });
+  document.addEventListener('mousedown', function() { cursor.classList.add('click'); });
+  document.addEventListener('mouseup', function() { cursor.classList.remove('click'); });
+  function tick() {
+    cx += (mx - cx) * 0.22;
+    cy += (my - cy) * 0.22;
+    cursor.style.transform = 'translate(' + cx + 'px, ' + cy + 'px) translate(-50%, -50%)';
+    requestAnimationFrame(tick);
+  }
+  tick();
+  function bindHovers() {
+    document.querySelectorAll('a, button, [onclick], .product-card, .service-card, .knowledge-card, input, select, textarea, .nav-link, .nav-dropdown-item, .products-tab, .faq-tab, .hero-cta, .hero-secondary-cta, .brand-strip-cta, .cf-service-option, .cf-btn').forEach(function(el) {
+      if (el.dataset.cursorBound) return;
+      el.dataset.cursorBound = '1';
+      el.addEventListener('mouseenter', function() { cursor.classList.add('hover'); });
+      el.addEventListener('mouseleave', function() { cursor.classList.remove('hover'); });
+    });
+  }
+  bindHovers();
+  setInterval(bindHovers, 2000);
+})();
+/* ===== Scroll Progress Bar ===== */
+(function() {
+  var bar = document.getElementById('scrollProgress');
+  if (!bar) return;
+  function update() {
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    var pct = max > 0 ? (window.scrollY / max) * 100 : 0;
+    bar.style.width = pct + '%';
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+})();
+/* ===== Hero Parallax ===== */
+(function() {
+  function update() {
+    var heroes = document.querySelectorAll('.services-hero, .contact-hero, .knowledge-hero, .tutorial-hero, .faq-hero, .products-hero, .quiz-hero');
+    heroes.forEach(function(hero) {
+      var rect = hero.getBoundingClientRect();
+      if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+      var inner = hero.querySelector('h1');
+      if (inner) inner.style.transform = 'translateY(' + (-rect.top * 0.18) + 'px)';
+      var eye = hero.querySelector('.section-eyebrow');
+      if (eye) eye.style.transform = 'translateY(' + (-rect.top * 0.10) + 'px)';
+    });
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  setTimeout(update, 100);
+})();
+/* ===== Booking Form Wizard ===== */
+function cfPickService(el, val) {
+  document.querySelectorAll('.cf-service-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('cfService').value = val;
+  var nb = document.getElementById('cfNext1');
+  if (nb) nb.disabled = false;
+}
+function cfGoStep(n) {
+  var current = document.querySelector('.cf-panel.active');
+  if (current) {
+    var currentStep = parseInt(current.getAttribute('data-panel'));
+    if (n > currentStep) {
+      if (currentStep === 1 && !document.getElementById('cfService').value) return;
+      if (currentStep === 2 && !document.getElementById('cfTime').value.trim()) {
+        alert('請填寫方便預約的時間'); return;
+      }
+    }
+  }
+  document.querySelectorAll('.cf-panel').forEach(p => p.classList.remove('active'));
+  var target = document.querySelector('[data-panel="' + n + '"]');
+  if (target) target.classList.add('active');
+  document.querySelectorAll('.cf-step').forEach(s => {
+    var step = parseInt(s.getAttribute('data-step'));
+    s.classList.remove('active', 'done');
+    if (step < n) s.classList.add('done');
+    else if (step === n) s.classList.add('active');
+  });
+  var fs = document.querySelector('.contact-form-section');
+  if (fs) fs.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
 </script>
 
 <div class="inquiry-fab" id="inquiryFab" onclick="toggleInquiryPanel()">
@@ -2678,5 +2904,8 @@ window.addEventListener('load', function() {
   <svg id="musicIconOff" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
   <svg id="musicIconOn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
 </div>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+<div class="custom-cursor" id="customCursor"></div>
 </body>
 </html>

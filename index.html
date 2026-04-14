@@ -347,11 +347,14 @@ ul { list-style: none; }
 .service-card-front.service-card-cupping { background: radial-gradient(circle at top right, rgba(186,132,80,0.24), transparent 42%), linear-gradient(160deg, #120a06 0%, #24150f 46%, #372018 100%); }
 .service-card-front::before { content: ''; position: absolute; inset: 16px; border: 1px solid rgba(255,255,255,0.12); opacity: 0.8; transition: inset 0.35s var(--transition), opacity 0.35s var(--transition); pointer-events: none; z-index: 1; }
 .service-card:hover .service-card-front::before { inset: 12px; opacity: 1; }
-.service-card-back { transform: rotateY(180deg); background: linear-gradient(160deg, #0d0d0d 0%, #1a1a1a 100%); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 40px 32px; border: 1px solid rgba(201,169,110,0.3); }
-.service-card-back h3 { font-size: 1.4rem; letter-spacing: 6px; color: var(--white); font-weight: 200; margin-bottom: 14px; }
-.service-card-back .service-back-en { font-family: var(--serif); font-size: 0.72rem; letter-spacing: 3px; color: var(--gold); margin-bottom: 24px; }
-.service-card-back .service-back-desc { font-size: 0.82rem; line-height: 2; color: rgba(255,255,255,0.8); font-weight: 300; margin-bottom: 28px; max-width: 260px; }
-.service-card-back .service-back-cta { padding: 12px 32px; border: 1px solid var(--gold); color: var(--gold); font-size: 0.72rem; letter-spacing: 3px; cursor: pointer; transition: all 0.3s; background: transparent; }
+.service-card-back { transform: rotateY(180deg); background: linear-gradient(160deg, #0d0d0d 0%, #1a1a1a 100%); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 36px 28px; border: 1px solid rgba(201,169,110,0.3); }
+.service-card-back h3 { font-size: 1.3rem; letter-spacing: 5px; color: var(--white); font-weight: 200; margin-bottom: 10px; }
+.service-card-back .service-back-en { font-family: var(--serif); font-size: 0.68rem; letter-spacing: 3px; color: var(--gold); margin-bottom: 22px; }
+.service-card-back .service-back-list { list-style: none; padding: 0; margin: 0 0 24px 0; text-align: left; max-width: 260px; }
+.service-card-back .service-back-list li { font-size: 0.78rem; line-height: 1.7; color: rgba(255,255,255,0.85); font-weight: 300; padding: 6px 0 6px 18px; position: relative; letter-spacing: 0.5px; }
+.service-card-back .service-back-list li::before { content: '◆'; position: absolute; left: 0; top: 6px; color: var(--gold); font-size: 0.5rem; line-height: 1.5; }
+.service-card-back .service-back-price { font-family: var(--serif); font-size: 0.92rem; color: var(--gold-light); letter-spacing: 2px; margin-bottom: 18px; }
+.service-card-back .service-back-cta { padding: 11px 28px; border: 1px solid var(--gold); color: var(--gold); font-size: 0.7rem; letter-spacing: 3px; cursor: pointer; transition: all 0.3s; background: transparent; }
 .service-card-back .service-back-cta:hover { background: var(--gold); color: var(--black); }
 @media (hover: none) { .service-card:hover .service-card-flip { transform: none; } }
 /* ===== Booking Form 3-Step Wizard ===== */
@@ -793,7 +796,13 @@ ul { list-style: none; }
           <div class="service-card-face service-card-back">
             <h3>皮膚管理</h3>
             <div class="service-back-en">SKIN CARE</div>
-            <p class="service-back-desc">量身訂製護膚療程，溫和修復、穩定膚況</p>
+            <ul class="service-back-list">
+              <li>近 10 年手工清粉刺經驗</li>
+              <li>韓國院線級產品系列</li>
+              <li>依膚況量身設計療程</li>
+              <li>含敷臉與術後護理</li>
+            </ul>
+            <div class="service-back-price">NT$ 2,300 起</div>
             <div class="service-back-cta" onclick="event.stopPropagation(); goToSection('services','svc-facial')">了 解 更 多</div>
           </div>
         </div>
@@ -816,7 +825,13 @@ ul { list-style: none; }
           <div class="service-card-face service-card-back">
             <h3>肌泌藻針</h3>
             <div class="service-back-en">MICRO ALGAE</div>
-            <p class="service-back-desc">無痛藻針代謝更新，重拾細緻光澤</p>
+            <ul class="service-back-list">
+              <li>溫和無痛海藻針療程</li>
+              <li>促進角質代謝更新</li>
+              <li>改善膚色暗沉粗糙</li>
+              <li>恢復期短，不影響日常</li>
+            </ul>
+            <div class="service-back-price">NT$ 2,680</div>
             <div class="service-back-cta" onclick="event.stopPropagation(); goToSection('services','svc-facial')">了 解 更 多</div>
           </div>
         </div>
@@ -839,7 +854,13 @@ ul { list-style: none; }
           <div class="service-card-face service-card-back">
             <h3>五行罐撥</h3>
             <div class="service-back-en">CUPPING THERAPY</div>
-            <p class="service-back-desc">經絡罐撥疏通氣血，釋放深層緊繃</p>
+            <ul class="service-back-list">
+              <li>五行經絡專業罐撥</li>
+              <li>緩解肩頸與背部緊繃</li>
+              <li>促進深層循環代謝</li>
+              <li>身心放鬆，舒暢輕盈</li>
+            </ul>
+            <div class="service-back-price">NT$ 1,500 起</div>
             <div class="service-back-cta" onclick="event.stopPropagation(); goToSection('services','svc-cupping')">了 解 更 多</div>
           </div>
         </div>

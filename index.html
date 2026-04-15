@@ -390,6 +390,64 @@ ul { list-style: none; }
   .cf-btn { padding: 12px 24px; font-size: 0.72rem; }
 }
 
+
+/* ===== Counter Animation Section ===== */
+.counter-section { padding: 100px 40px; background: var(--black); color: var(--white); text-align: center; }
+.counter-inner { max-width: 1200px; margin: 0 auto; }
+.counter-eyebrow { font-family: var(--serif); font-size: 0.68rem; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; margin-bottom: 14px; }
+.counter-title { font-size: 1.5rem; font-weight: 100; letter-spacing: 6px; margin-bottom: 60px; color: var(--white); }
+.counter-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; }
+.counter-item { padding: 30px 10px; border-left: 1px solid rgba(255,255,255,0.08); }
+.counter-item:first-child { border-left: none; }
+.counter-number { font-family: var(--serif); font-size: 3.6rem; font-weight: 200; color: var(--gold); letter-spacing: 2px; line-height: 1; margin-bottom: 14px; }
+.counter-number .counter-unit { font-size: 1.6rem; margin-left: 4px; color: var(--gold-light); }
+.counter-label { font-size: 0.82rem; letter-spacing: 3px; color: rgba(255,255,255,0.75); font-weight: 300; }
+.counter-sublabel { font-family: var(--serif); font-size: 0.62rem; letter-spacing: 3px; color: var(--gold); margin-top: 6px; text-transform: uppercase; opacity: 0.6; }
+@media (max-width: 768px) {
+  .counter-section { padding: 70px 20px; }
+  .counter-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .counter-item { border-left: none; border-bottom: 1px solid rgba(255,255,255,0.08); padding: 24px 0; }
+  .counter-item:nth-child(n+3) { border-bottom: none; }
+  .counter-number { font-size: 2.8rem; }
+  .counter-title { font-size: 1.2rem; letter-spacing: 4px; margin-bottom: 36px; }
+}
+
+/* ===== Scroll Story Section ===== */
+.story-section { background: var(--white); padding: 100px 0; }
+.story-inner { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+.story-header { text-align: center; margin-bottom: 80px; }
+.story-header h2 { font-size: 1.8rem; font-weight: 100; letter-spacing: 8px; color: var(--grey-800); margin-bottom: 12px; }
+.story-header .story-sub { font-family: var(--serif); font-size: 0.78rem; letter-spacing: 4px; color: var(--gold); }
+.story-chapter { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-bottom: 140px; min-height: 400px; }
+.story-chapter:last-child { margin-bottom: 0; }
+.story-chapter.reverse { direction: rtl; }
+.story-chapter.reverse > * { direction: ltr; }
+.story-img-wrap { position: relative; overflow: hidden; height: 500px; }
+.story-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s ease; will-change: transform; }
+.story-img-wrap.in-view img { transform: scale(1.04); }
+.story-img-wrap::after { content: ''; position: absolute; inset: 14px; border: 1px solid rgba(201,169,110,0.45); pointer-events: none; }
+.story-chapter-num { font-family: var(--serif); font-size: 0.72rem; letter-spacing: 5px; color: var(--gold); margin-bottom: 18px; }
+.story-chapter-title { font-size: 1.6rem; font-weight: 200; letter-spacing: 6px; color: var(--grey-800); margin-bottom: 8px; line-height: 1.4; }
+.story-chapter-en { font-family: var(--serif); font-size: 0.72rem; letter-spacing: 4px; color: var(--gold); margin-bottom: 28px; text-transform: uppercase; }
+.story-chapter-text { font-size: 0.92rem; line-height: 2.1; color: var(--grey-600); font-weight: 300; letter-spacing: 0.5px; }
+.story-chapter-text strong { color: var(--gold); font-weight: 400; }
+.story-quote { text-align: center; padding: 80px 40px; max-width: 760px; margin: 0 auto; }
+.story-quote::before { content: '"'; font-family: var(--serif); font-size: 5rem; color: var(--gold); line-height: 0.5; display: block; margin-bottom: 16px; opacity: 0.4; }
+.story-quote p { font-family: var(--serif); font-size: 1.15rem; line-height: 2; color: var(--grey-800); font-weight: 300; letter-spacing: 2px; font-style: italic; }
+.story-quote .story-quote-by { margin-top: 28px; font-family: var(--sans); font-size: 0.78rem; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; }
+@media (max-width: 900px) {
+  .story-section { padding: 70px 0; }
+  .story-inner { padding: 0 20px; }
+  .story-header { margin-bottom: 50px; }
+  .story-header h2 { font-size: 1.4rem; letter-spacing: 5px; }
+  .story-chapter { grid-template-columns: 1fr; gap: 30px; margin-bottom: 70px; }
+  .story-chapter.reverse { direction: ltr; }
+  .story-img-wrap { height: 340px; }
+  .story-chapter-title { font-size: 1.3rem; letter-spacing: 4px; }
+  .story-quote { padding: 50px 20px; }
+  .story-quote p { font-size: 1rem; letter-spacing: 1px; }
+}
+
 .footer { background: var(--black); color: var(--white); padding: 60px 40px; text-align: center; }
 .footer-brand { font-size: 1.2rem; letter-spacing: 8px; margin-bottom: 8px; font-weight: 300; }
 .footer-en { font-family: var(--serif); font-size: 0.65rem; letter-spacing: 5px; color: var(--grey-600); margin-bottom: 30px; }
@@ -903,7 +961,35 @@ ul { list-style: none; }
       </div>
     </div>
   </section>
-  <section class="home-testimonial">
+    <section class="counter-section reveal-fade">
+    <div class="counter-inner">
+      <div class="counter-eyebrow">BY THE NUMBERS</div>
+      <h2 class="counter-title">用 數 字 看 見 淇 肌</h2>
+      <div class="counter-grid">
+        <div class="counter-item">
+          <div class="counter-number"><span data-counter="10" data-suffix="">0</span><span class="counter-unit">年</span></div>
+          <div class="counter-label">專業手工經驗</div>
+          <div class="counter-sublabel">YEARS OF EXPERIENCE</div>
+        </div>
+        <div class="counter-item">
+          <div class="counter-number"><span data-counter="800" data-suffix="+">0</span></div>
+          <div class="counter-label">累積服務人次</div>
+          <div class="counter-sublabel">HAPPY CLIENTS</div>
+        </div>
+        <div class="counter-item">
+          <div class="counter-number"><span data-counter="4.9" data-suffix="" data-decimals="1">0</span><span class="counter-unit">/5</span></div>
+          <div class="counter-label">Google 五星評價</div>
+          <div class="counter-sublabel">GOOGLE RATING</div>
+        </div>
+        <div class="counter-item">
+          <div class="counter-number"><span data-counter="15" data-suffix="+">0</span></div>
+          <div class="counter-label">專業療程項目</div>
+          <div class="counter-sublabel">SIGNATURE TREATMENTS</div>
+        </div>
+      </div>
+    </div>
+  </section>
+<section class="home-testimonial">
     <div class="testimonial-header reveal">
       <div class="section-eyebrow">GOOGLE REVIEWS</div>
       <h2 class="section-title-lg">顧 客 真 實 評 價</h2>
@@ -1168,12 +1254,46 @@ ul { list-style: none; }
       <p>ESTABLISHED 2021 &middot; TAICHUNG</p>
     </div>
   </section>
-  <section class="about-story reveal-left">
-    <h2>關 於 淇 肌 淨 膚</h2>
-    <p>淇肌淨膚成立於 2021 年，由擁有近十年手工清粉刺經驗的 Carrie 老師一手創立。工作室嚴選韓國院線級系列產品，從第一步膚況評估、療程設計、手工針清，到課後照護與居家保養建議，每一個環節都以肌膚本身的狀態為出發點。不追求快速改變，而是透過專業判斷與溫和手法，陪伴肌膚慢慢穩定、恢復健康光澤。</p>
-    <p>療程涵蓋多元面向 —— 從基礎的臉部撥筋到招牌雪藻喚膚、外泌體肌泌藻針，再到結合 MTS 微針技術的微雕蘊膚，每一項課程都依據不同膚質量身調整。工作室同時提供五行罐撥經絡調理，從內在循環到外在放鬆，讓身體與肌膚一起找回平衡。</p>
-    <p>工作室位於台中北屯區靜謐社區內，採全預約、一對一的私密空間。沒有嘈雜排隊、不趕場不打擾，從踏進門的那一刻起，就是一段能真正放鬆、安心交付自己的時間。Carrie 老師還會貼心準備茶點招待，讓每次來訪都像是給自己的一份小禮物。</p>
+    <section class="story-section">
+    <div class="story-inner">
+      <div class="story-header reveal-fade">
+        <h2>我 們 的 故 事</h2>
+        <div class="story-sub">THE JOURNEY OF QIJI MIRACLE</div>
+      </div>
+      <div class="story-chapter reveal">
+        <div class="story-img-wrap"><img src="images/img_035_護膚日常.jpg" alt="清粉刺專業經驗" loading="lazy"></div>
+        <div>
+          <div class="story-chapter-num">CHAPTER 01</div>
+          <h3 class="story-chapter-title">從 熱 愛 開 始</h3>
+          <div class="story-chapter-en">WHERE IT ALL BEGAN</div>
+          <p class="story-chapter-text">從小就對皮膚護理著迷的 Carrie，一頭栽進美容領域。初期從臉部護理、手工清粉刺累積經驗，在一間間工作室裡磨練手感。<strong>「看到客人的肌膚改善，就是最大的成就感。」</strong>——這份對專業的執著，成為淇肌淨膚最初的起點。</p>
+        </div>
+      </div>
+      <div class="story-chapter reverse reveal">
+        <div class="story-img-wrap"><img src="images/img_036_產品介紹.jpg" alt="院線級產品" loading="lazy"></div>
+        <div>
+          <div class="story-chapter-num">CHAPTER 02</div>
+          <h3 class="story-chapter-title">專 業 的 蛻 變</h3>
+          <div class="story-chapter-en">ELEVATED EXPERTISE</div>
+          <p class="story-chapter-text">隨著經驗累積，Carrie 學會從單純「處理痘痘」升級到「看懂肌膚整體狀態」。<strong>引進韓國院線級產品系列</strong>，加入五行罐撥、肌泌藻針、微雕蘊膚等療程，讓服務更全面、更有深度。每一項技術的背後，都是對「量身訂製」的堅持。</p>
+        </div>
+      </div>
+      <div class="story-chapter reveal">
+        <div class="story-img-wrap"><img src="images/img_034_空間實拍.jpg" alt="獨立工作室" loading="lazy"></div>
+        <div>
+          <div class="story-chapter-num">CHAPTER 03</div>
+          <h3 class="story-chapter-title">屬 於 你 的 片 刻</h3>
+          <div class="story-chapter-en">YOUR PRIVATE SANCTUARY</div>
+          <p class="story-chapter-text">2021 年，淇肌淨膚在台中北屯誕生。<strong>一對一私密空間、全預約制</strong>，拒絕一成不變的標準流程。從踏進門的那刻起，就是一段能真正放鬆、安心交付自己的時間。我們相信，肌膚照護不只是技術，更是一份溫柔的陪伴。</p>
+        </div>
+      </div>
+      <div class="story-quote reveal-fade">
+        <p>不追求快速改變，而是陪伴肌膚慢慢穩定、恢復健康光澤。</p>
+        <div class="story-quote-by">— Carrie 凱莉，淇肌淨膚創辦人</div>
+      </div>
+    </div>
   </section>
+
   <section style="padding:80px 40px;max-width:900px;margin:0 auto;">
     <div class="section-eyebrow" style="text-align:center;">OUR TEAM</div>
     <h2 style="font-size:1.6rem;font-weight:100;letter-spacing:6px;text-align:center;margin-bottom:50px;">美 容 師 介 紹</h2>
@@ -2908,6 +3028,51 @@ function cfGoStep(n) {
   var fs = document.querySelector('.contact-form-section');
   if (fs) fs.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
+
+
+/* ===== Counter Animation ===== */
+(function() {
+  var animated = new WeakSet();
+  function animateCounter(el) {
+    if (animated.has(el)) return;
+    animated.add(el);
+    var target = parseFloat(el.getAttribute('data-counter'));
+    var decimals = parseInt(el.getAttribute('data-decimals') || '0');
+    var suffix = el.getAttribute('data-suffix') || '';
+    var duration = 1800;
+    var start = performance.now();
+    function tick(now) {
+      var t = Math.min((now - start) / duration, 1);
+      var eased = 1 - Math.pow(1 - t, 3);
+      var current = target * eased;
+      el.textContent = current.toFixed(decimals) + suffix;
+      if (t < 1) requestAnimationFrame(tick);
+      else el.textContent = target.toFixed(decimals) + suffix;
+    }
+    requestAnimationFrame(tick);
+  }
+  function checkCounters() {
+    document.querySelectorAll('[data-counter]').forEach(function(el) {
+      var rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight - 100 && rect.bottom > 0) animateCounter(el);
+    });
+  }
+  window.addEventListener('scroll', checkCounters, { passive: true });
+  window.addEventListener('resize', checkCounters);
+  setTimeout(checkCounters, 500);
+})();
+
+/* ===== Story Image Reveal ===== */
+(function() {
+  function checkStory() {
+    document.querySelectorAll('.story-img-wrap').forEach(function(el) {
+      var rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight - 80 && rect.bottom > 0) el.classList.add('in-view');
+    });
+  }
+  window.addEventListener('scroll', checkStory, { passive: true });
+  setTimeout(checkStory, 300);
+})();
 
 </script>
 

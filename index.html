@@ -93,10 +93,10 @@ ul { list-style: none; }
 .side-menu-social { display: flex; gap: 16px; margin-top: auto; padding-top: 30px; }
 .side-menu-social a { font-family: var(--serif); font-size: 0.75rem; letter-spacing: 2px; color: var(--grey-400); transition: color 0.3s; }
 .side-menu-social a:hover { color: var(--gold); }
-.hero { min-height: 86vh; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; background: var(--black); padding: 140px 24px 100px; text-align: center; }
+.hero { min-height: 86vh; position: relative; overflow: hidden; display: grid; place-items: center; background: var(--black); padding: 140px 24px 100px; text-align: center; width: 100%; box-sizing: border-box; }
 .hero::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.48) 0%, rgba(0,0,0,0.72) 58%, rgba(0,0,0,0.88) 100%), url('https://res.cloudinary.com/dm7dbtzzf/image/upload/w_1600,q_auto,f_auto/about') center center/cover no-repeat; opacity: 0.82; transform: scale(1.04); }
 .hero::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at top, rgba(201,169,110,0.26) 0%, rgba(201,169,110,0.08) 28%, transparent 62%); pointer-events: none; }
-.hero-content { position: relative; z-index: 2; text-align: center; color: var(--white); max-width: 920px; width: 100%; margin: 0 auto; }
+.hero-content { position: relative; z-index: 2; text-align: center; color: var(--white); max-width: 920px; width: 100%; margin-left: auto; margin-right: auto; box-sizing: border-box; }
 .hero-sub { font-family: var(--serif); font-size: 0.85rem; letter-spacing: 8px; color: var(--gold-light); margin-bottom: 20px; font-weight: 300; }
 .hero-title { font-size: 3.2rem; font-weight: 100; letter-spacing: 16px; margin-bottom: 12px; line-height: 1.4; }
 .hero-en { font-family: var(--serif); font-size: 1rem; letter-spacing: 10px; font-weight: 300; color: rgba(255,255,255,0.6); margin-bottom: 40px; }

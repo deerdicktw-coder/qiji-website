@@ -448,6 +448,109 @@ ul { list-style: none; }
   .story-quote p { font-size: 1rem; letter-spacing: 1px; }
 }
 
+
+/* ===== #1 FAQ Floating Bubble ===== */
+.faq-bubble { position: fixed; top: 50%; right: 0; transform: translateY(-50%); z-index: 998; }
+.faq-bubble-tab { width: 38px; padding: 16px 8px; background: var(--black); color: var(--gold); border: 1px solid var(--gold); border-right: none; cursor: pointer; writing-mode: vertical-rl; font-size: 0.72rem; letter-spacing: 4px; transition: all 0.3s; }
+.faq-bubble-tab:hover { background: var(--gold); color: var(--black); padding-right: 14px; }
+.faq-bubble-panel { position: fixed; top: 50%; right: -360px; transform: translateY(-50%); width: 340px; max-height: 80vh; background: var(--white); border: 1px solid var(--grey-200); box-shadow: -8px 0 32px rgba(0,0,0,0.12); z-index: 998; transition: right 0.4s var(--transition); display: flex; flex-direction: column; overflow: hidden; }
+.faq-bubble-panel.open { right: 0; }
+.faq-bubble-header { padding: 18px 24px; border-bottom: 1px solid var(--grey-200); background: var(--black); color: var(--white); display: flex; justify-content: space-between; align-items: center; }
+.faq-bubble-header h3 { font-size: 0.88rem; letter-spacing: 3px; font-weight: 300; }
+.faq-bubble-close { cursor: pointer; color: var(--gold); font-size: 1.2rem; }
+.faq-bubble-list { flex: 1; overflow-y: auto; padding: 16px 0; }
+.faq-bubble-q { padding: 14px 24px; border-bottom: 1px solid var(--grey-100); cursor: pointer; transition: background 0.2s; }
+.faq-bubble-q:hover { background: var(--grey-100); }
+.faq-bubble-q-title { font-size: 0.84rem; color: var(--grey-800); font-weight: 400; letter-spacing: 1px; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.faq-bubble-q-title::after { content: '+'; color: var(--gold); font-weight: 200; transition: transform 0.3s; }
+.faq-bubble-q.open .faq-bubble-q-title::after { transform: rotate(45deg); }
+.faq-bubble-q-ans { max-height: 0; overflow: hidden; transition: max-height 0.4s; }
+.faq-bubble-q.open .faq-bubble-q-ans { max-height: 200px; }
+.faq-bubble-q-ans p { padding: 12px 0 0; font-size: 0.78rem; line-height: 1.8; color: var(--grey-600); font-weight: 300; }
+.faq-bubble-footer { padding: 14px 24px; border-top: 1px solid var(--grey-200); text-align: center; }
+.faq-bubble-footer a { font-size: 0.76rem; color: var(--gold); letter-spacing: 2px; text-decoration: none; cursor: pointer; }
+
+/* ===== #2 Pricing Quick View ===== */
+.pricing-tab { position: fixed; top: calc(50% + 130px); right: 0; transform: translateY(-50%); width: 38px; padding: 16px 8px; background: var(--black); color: var(--gold); border: 1px solid var(--gold); border-right: none; cursor: pointer; writing-mode: vertical-rl; font-size: 0.72rem; letter-spacing: 4px; transition: all 0.3s; z-index: 998; }
+.pricing-tab:hover { background: var(--gold); color: var(--black); padding-right: 14px; }
+.pricing-panel { position: fixed; top: 50%; right: -420px; transform: translateY(-50%); width: 400px; max-height: 80vh; background: var(--white); border: 1px solid var(--grey-200); box-shadow: -8px 0 32px rgba(0,0,0,0.12); z-index: 998; transition: right 0.4s var(--transition); display: flex; flex-direction: column; overflow: hidden; }
+.pricing-panel.open { right: 0; }
+.pricing-panel-header { padding: 18px 24px; border-bottom: 1px solid var(--grey-200); background: var(--black); color: var(--white); display: flex; justify-content: space-between; align-items: center; }
+.pricing-panel-header h3 { font-size: 0.88rem; letter-spacing: 3px; font-weight: 300; }
+.pricing-panel-close { cursor: pointer; color: var(--gold); font-size: 1.2rem; }
+.pricing-panel-body { flex: 1; overflow-y: auto; padding: 0; }
+.pricing-cat { padding: 16px 24px; }
+.pricing-cat-title { font-size: 0.78rem; letter-spacing: 3px; color: var(--gold); margin-bottom: 12px; font-weight: 400; padding-bottom: 8px; border-bottom: 1px solid var(--grey-200); }
+.pricing-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; font-size: 0.82rem; }
+.pricing-row .name { color: var(--grey-800); font-weight: 300; }
+.pricing-row .price { font-family: var(--serif); color: var(--gold); letter-spacing: 1px; font-weight: 400; }
+.pricing-panel-footer { padding: 14px 24px; border-top: 1px solid var(--grey-200); background: var(--grey-100); font-size: 0.7rem; color: var(--grey-600); text-align: center; line-height: 1.6; }
+
+/* ===== #3 Hero Typewriter ===== */
+.hero-typewriter { font-family: var(--serif); font-size: 0.92rem; letter-spacing: 4px; color: var(--gold-light); margin-top: 14px; margin-bottom: 28px; min-height: 1.4em; opacity: 0.9; }
+.hero-typewriter::after { content: '|'; color: var(--gold); margin-left: 2px; animation: tw-blink 0.9s infinite; }
+@keyframes tw-blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+
+/* ===== #4 Mobile Bottom CTA Bar ===== */
+.mobile-cta-bar { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: var(--black); border-top: 1px solid var(--gold); z-index: 996; padding: 0; }
+.mobile-cta-bar a, .mobile-cta-bar span { flex: 1; padding: 14px 0; text-align: center; font-size: 0.78rem; letter-spacing: 3px; color: var(--white); border-right: 1px solid rgba(255,255,255,0.15); cursor: pointer; transition: background 0.2s; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 6px; }
+.mobile-cta-bar a:last-child, .mobile-cta-bar span:last-child { border-right: none; }
+.mobile-cta-bar a:hover, .mobile-cta-bar span:hover { background: rgba(201,169,110,0.15); }
+.mobile-cta-bar .cta-icon { font-size: 0.95rem; }
+.mobile-cta-bar .cta-line { color: #06C755; }
+.mobile-cta-bar .cta-call { color: var(--gold); }
+.mobile-cta-bar .cta-book { color: var(--gold-light); }
+@media (max-width: 768px) {
+  .mobile-cta-bar { display: flex; }
+  body { padding-bottom: 56px; }
+  .float-social { bottom: 70px !important; }
+  .inquiry-fab { bottom: 70px !important; }
+  .music-fab { bottom: 70px !important; }
+  .faq-bubble, .pricing-tab { display: none; }
+}
+
+/* ===== #5 Service Treatment Timeline ===== */
+.svc-timeline-section { padding: 50px 40px; max-width: 900px; margin: 0 auto; background: var(--grey-100); border-radius: 4px; }
+.svc-timeline-title { text-align: center; margin-bottom: 36px; }
+.svc-timeline-title h3 { font-size: 1.1rem; font-weight: 300; letter-spacing: 5px; color: var(--grey-800); margin-bottom: 8px; }
+.svc-timeline-title .timeline-en { font-family: var(--serif); font-size: 0.7rem; letter-spacing: 4px; color: var(--gold); }
+.svc-timeline { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; position: relative; }
+.svc-timeline::before { content: ''; position: absolute; top: 24px; left: 10%; right: 10%; height: 1px; background: var(--gold); opacity: 0.4; z-index: 0; }
+.svc-timeline-step { text-align: center; position: relative; z-index: 1; padding: 0 6px; }
+.svc-timeline-num { width: 48px; height: 48px; border-radius: 50%; background: var(--white); border: 1px solid var(--gold); color: var(--gold); display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; font-family: var(--serif); font-size: 0.95rem; font-weight: 300; }
+.svc-timeline-step h4 { font-size: 0.82rem; font-weight: 400; letter-spacing: 2px; color: var(--grey-800); margin-bottom: 4px; }
+.svc-timeline-step p { font-size: 0.7rem; color: var(--grey-600); font-weight: 300; line-height: 1.5; letter-spacing: 0.5px; }
+@media (max-width: 700px) {
+  .svc-timeline-section { padding: 30px 20px; }
+  .svc-timeline { grid-template-columns: 1fr; gap: 16px; }
+  .svc-timeline::before { display: none; }
+  .svc-timeline-step { display: flex; align-items: center; gap: 16px; text-align: left; }
+  .svc-timeline-num { margin: 0; flex-shrink: 0; }
+}
+
+/* ===== #6 Product Smart Filter ===== */
+.product-smart-filter { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; padding: 0 20px 24px; max-width: 1200px; margin: 0 auto; }
+.psf-tag { padding: 7px 18px; font-size: 0.74rem; letter-spacing: 2px; border: 1px solid var(--grey-200); color: var(--grey-600); background: var(--white); cursor: pointer; transition: all 0.3s; border-radius: 18px; }
+.psf-tag:hover { border-color: var(--gold); color: var(--gold); }
+.psf-tag.active { background: var(--gold); color: var(--white); border-color: var(--gold); }
+
+/* ===== #8 Mouse Glow on Dark Sections ===== */
+.glow-section { position: relative; overflow: hidden; }
+.glow-spot { position: absolute; width: 400px; height: 400px; pointer-events: none; background: radial-gradient(circle, rgba(201,169,110,0.15) 0%, rgba(201,169,110,0.05) 30%, transparent 70%); border-radius: 50%; transform: translate(-50%, -50%); transition: opacity 0.3s; opacity: 0; mix-blend-mode: screen; z-index: 1; }
+.glow-section:hover .glow-spot { opacity: 1; }
+.glow-section > * { position: relative; z-index: 2; }
+
+/* ===== #10 Story Sticky Scroll ===== */
+@media (min-width: 900px) {
+  .story-chapter { align-items: stretch; min-height: 80vh; }
+  .story-img-wrap { position: sticky; top: 100px; height: calc(100vh - 200px); max-height: 600px; }
+}
+
+/* ===== #12 Service Card Hover - Enhanced (already flip, add quick info corner) ===== */
+.service-card-front .service-card-shell { position: relative; }
+.service-quick-badge { position: absolute; top: 16px; right: 16px; padding: 4px 10px; background: rgba(201,169,110,0.9); color: var(--black); font-size: 0.62rem; letter-spacing: 1.5px; font-family: var(--serif); border-radius: 2px; opacity: 0; transition: opacity 0.4s ease 0.2s; z-index: 3; }
+.service-card:hover .service-quick-badge { opacity: 0; }
+
 .footer { background: var(--black); color: var(--white); padding: 60px 40px; text-align: center; }
 .footer-brand { font-size: 1.2rem; letter-spacing: 8px; margin-bottom: 8px; font-weight: 300; }
 .footer-en { font-family: var(--serif); font-size: 0.65rem; letter-spacing: 5px; color: var(--grey-600); margin-bottom: 30px; }
@@ -813,12 +916,13 @@ ul { list-style: none; }
 </div>
  
 <div class="page active" id="page-home">
-  <section class="hero">
+  <section class="hero glow-section">
     <div class="hero-content">
       <div class="hero-sub">SINCE 2021 &mdash; TAICHUNG</div>
       <h1 class="hero-title">淇 肌 淨 膚</h1>
       <div class="hero-en">Q I J I &nbsp; M I R A C L E &nbsp; A E S T H E T I C</div>
       <p class="hero-copy">院線級系列產品搭配一對一私密照護，從膚況評估、療程設計到課後建議，陪伴肌膚慢慢回到穩定、乾淨與透亮。</p>
+        <div class="hero-typewriter" id="heroTypewriter"></div>
       <div class="hero-actions">
         <span class="hero-cta" onclick="goTo('services')">探 索 服 務</span>
         <span class="hero-secondary-cta" onclick="goTo('contact')">預 約 諮 詢</span>
@@ -928,7 +1032,7 @@ ul { list-style: none; }
       </div>
     </div>
   </section>
-  <section class="brand-strip"><div class="reveal">
+  <section class="brand-strip glow-section"><div class="reveal">
     <h2 class="brand-strip-title">用心，帶來最安心的呵護</h2>
     <p class="brand-strip-text">細心對待每一寸肌膚，不追求快速改變，<br>而是陪伴肌膚慢慢穩定、恢復健康光澤。</p>
     <span class="brand-strip-cta" onclick="goTo('about')">了 解 更 多</span>
@@ -961,7 +1065,7 @@ ul { list-style: none; }
       </div>
     </div>
   </section>
-    <section class="counter-section reveal-fade">
+    <section class="counter-section reveal-fade glow-section">
     <div class="counter-inner">
       <div class="counter-eyebrow">BY THE NUMBERS</div>
       <h2 class="counter-title">用 數 字 看 見 淇 肌</h2>
@@ -1068,6 +1172,40 @@ ul { list-style: none; }
       <span class="products-tab" onclick="filterServices('membership',this)">儲值方案</span>
     </div>
   </div>
+  <div class="svc-timeline-section reveal-fade" style="margin-top:20px;margin-bottom:20px;">
+    <div class="svc-timeline-title">
+      <h3>標 準 療 程 流 程</h3>
+      <div class="timeline-en">YOUR TREATMENT JOURNEY</div>
+    </div>
+    <div class="svc-timeline">
+      <div class="svc-timeline-step">
+        <div class="svc-timeline-num">1</div>
+        <h4>諮詢評估</h4>
+        <p>了解膚況與需求<br>客製療程方案</p>
+      </div>
+      <div class="svc-timeline-step">
+        <div class="svc-timeline-num">2</div>
+        <h4>卸妝清潔</h4>
+        <p>專業卸妝<br>深層清潔肌膚</p>
+      </div>
+      <div class="svc-timeline-step">
+        <div class="svc-timeline-num">3</div>
+        <h4>核心療程</h4>
+        <p>依方案進行<br>專業手法施作</p>
+      </div>
+      <div class="svc-timeline-step">
+        <div class="svc-timeline-num">4</div>
+        <h4>修護敷面</h4>
+        <p>舒緩鎮定<br>養分深層導入</p>
+      </div>
+      <div class="svc-timeline-step">
+        <div class="svc-timeline-num">5</div>
+        <h4>居家建議</h4>
+        <p>提供保養建議<br>後續追蹤照護</p>
+      </div>
+    </div>
+  </div>
+
   <div style="max-width:900px;margin:0 auto;padding:40px 40px 100px;">
     <div id="svc-facial" class="reveal svc-item" data-svc-cat="skin" style="padding:60px 0;border-bottom:1px solid var(--grey-200);text-align:center;">
       <h2 style="font-size:1.4rem;font-weight:300;letter-spacing:6px;margin-bottom:8px;">臉部撥筋</h2>
@@ -2035,23 +2173,34 @@ ul { list-style: none; }
       <span class="products-tab" onclick="filterProducts('cat6',this)">旅行組系列</span>
     </div>
   </div>
+  <div class="product-smart-filter reveal-fade">
+    <div class="psf-tag active" data-psftag="all" onclick="filterProductsByTag('all', this)">全部</div>
+    <div class="psf-tag" data-psftag="cleansing" onclick="filterProductsByTag('cleansing', this)">清潔卸妝</div>
+    <div class="psf-tag" data-psftag="hydrating" onclick="filterProductsByTag('hydrating', this)">保濕</div>
+    <div class="psf-tag" data-psftag="anti-aging" onclick="filterProductsByTag('anti-aging', this)">抗老緊緻</div>
+    <div class="psf-tag" data-psftag="brightening" onclick="filterProductsByTag('brightening', this)">美白亮澤</div>
+    <div class="psf-tag" data-psftag="sensitive" onclick="filterProductsByTag('sensitive', this)">敏感修護</div>
+    <div class="psf-tag" data-psftag="acne" onclick="filterProductsByTag('acne', this)">控油痘痘</div>
+    <div class="psf-tag" data-psftag="sun" onclick="filterProductsByTag('sun', this)">防曬</div>
+  </div>
+
   <div class="products-grid-wrap">
     <div class="products-category" data-cat="cat0">
       <div class="products-cat-title reveal-fade">清潔系列<span class="cat-en">Cleansing</span></div>
       <div class="products-grid">
-        <div class="product-card reveal-fade">
+        <div class="product-card reveal-fade" data-psftag="cleansing hydrating">
           <img class="product-card-img" src="images/img_001.jpg" alt="溫和水嫩卸妝乳" loading="lazy">
           <div class="product-card-name">溫和水嫩卸妝乳</div>
           <div class="product-card-spec">200ml</div>
           <div class="product-card-copy">水感質地瞬間乳化，零負擔帶走全臉彩妝，添加植物性保濕因子，一抹即淨、沖洗清爽無殘留</div>
         </div>
-        <div class="product-card reveal-fade">
+        <div class="product-card reveal-fade" data-psftag="cleansing hydrating sensitive">
           <img class="product-card-img" src="images/img_002.jpg" alt="胺基酸水嫩潔顏乳" loading="lazy">
           <div class="product-card-name">胺基酸水嫩潔顏乳</div>
           <div class="product-card-spec">200ml</div>
           <div class="product-card-copy">天然胺基酸界面活性劑組成，pH值貼近肌膚弱酸性環境，溫和潔淨不破壞角質屏障</div>
         </div>
-        <div class="product-card reveal-fade">
+        <div class="product-card reveal-fade" data-psftag="cleansing acne">
           <img class="product-card-img" src="images/img_003.jpg" alt="茶樹洗面露" loading="lazy">
           <div class="product-card-name">茶樹洗面露</div>
           <div class="product-card-spec">200ml</div>
@@ -2062,37 +2211,37 @@ ul { list-style: none; }
     <div class="products-category" data-cat="cat1">
       <div class="products-cat-title reveal-fade">化妝水／調理系列<span class="cat-en">Toner & Conditioning</span></div>
       <div class="products-grid">
-        <div class="product-card reveal-fade">
+        <div class="product-card reveal-fade" data-psftag="hydrating acne">
           <img class="product-card-img" src="images/img_004.jpg" alt="均衡調理水" loading="lazy">
           <div class="product-card-name">均衡調理水</div>
           <div class="product-card-spec">120ml</div>
           <div class="product-card-copy">控油與保濕雙效平衡配方，收斂多餘油脂的同時注入水分，調理肌膚至健康穩定狀態</div>
         </div>
-        <div class="product-card reveal-fade">
+        <div class="product-card reveal-fade" data-psftag="anti-aging">
           <img class="product-card-img" src="images/img_005.jpg" alt="富勒烯奧秘晶露" loading="lazy">
           <div class="product-card-name">富勒烯奧秘晶露</div>
           <div class="product-card-spec">120ml / 500ml</div>
           <div class="product-card-copy">諾貝爾獎級抗氧化成分富勒烯，清除自由基能力卓越，持續抵禦光老化與環境侵害</div>
         </div>
-        <div class="product-card reveal-fade">
+        <div class="product-card reveal-fade" data-psftag="anti-aging sun">
           <img class="product-card-img" src="images/img_006.jpg" alt="富勒烯活妍晶露" loading="lazy">
           <div class="product-card-name">富勒烯活妍晶露</div>
           <div class="product-card-spec">200ml</div>
           <div class="product-card-copy">升級版富勒烯活膚精華露，更高濃度的抗氧化防護網，重拾年輕緊緻光采</div>
         </div>
-        <div class="product-card reveal-fade">
+        <div class="product-card reveal-fade" data-psftag="hydrating">
           <img class="product-card-img" src="images/img_007.jpg" alt="玫瑰柔潤化妝水" loading="lazy">
           <div class="product-card-name">玫瑰柔潤化妝水</div>
           <div class="product-card-spec">120ml</div>
           <div class="product-card-copy">大馬士革玫瑰花水為基底，天然花卉菁華柔潤角質層，提升後續保養品的滲透吸收力</div>
         </div>
-        <div class="product-card reveal-fade">
+        <div class="product-card reveal-fade" data-psftag="hydrating">
           <img class="product-card-img" src="images/img_008.jpg" alt="玫瑰醒膚水感噴霧" loading="lazy">
           <div class="product-card-name">玫瑰醒膚水感噴霧</div>
           <div class="product-card-spec">100ml</div>
           <div class="product-card-copy">隨身攜帶的玫瑰微霧保濕噴霧，細緻水霧瞬間喚醒疲倦乾燥的肌膚</div>
         </div>
-        <div class="product-card reveal-fade">
+        <div class="product-card reveal-fade" data-psftag="hydrating sensitive">
           <img class="product-card-img" src="images/img_009.jpg" alt="舒敏柔嫩化妝水" loading="lazy">
           <div class="product-card-name">舒敏柔嫩化妝水</div>
           <div class="product-card-spec">120ml</div>
@@ -2103,49 +2252,49 @@ ul { list-style: none; }
     <div class="products-category" data-cat="cat2">
       <div class="products-cat-title reveal-fade">精華液系列<span class="cat-en">Serum & Essence</span></div>
       <div class="products-grid">
-        <div class="product-card reveal-fade">
+        <div class="product-card reveal-fade" data-psftag="acne">
           <img class="product-card-img" src="images/img_010.jpg" alt="12%果酸嫩膚精華液" loading="lazy">
           <div class="product-card-name">12%果酸嫩膚精華液</div>
           <div class="product-card-spec">30ml / 100ml</div>
           <div class="product-card-copy">甘醇酸為主體的專業級果酸精華，改善毛孔堵塞、膚色不均與粗糙問題</div>
         </div>
-        <div class="product-card reveal-fade">
+        <div class="product-card reveal-fade" data-psftag="hydrating">
           <img class="product-card-img" src="images/img_011.jpg" alt="EGF精華液" loading="lazy">
           <div class="product-card-name">EGF精華液</div>
           <div class="product-card-spec">120ml</div>
           <div class="product-card-copy">表皮生長因子核心配方，促進表皮細胞增殖與傷口癒合</div>
         </div>
-        <div class="product-card reveal-fade">
+        <div class="product-card reveal-fade" data-psftag="sensitive">
           <img class="product-card-img" src="images/img_012.jpg" alt="外泌體蘊活精華安瓶" loading="lazy">
           <div class="product-card-name">外泌體蘊活精華安瓶</div>
           <div class="product-card-spec">10ml</div>
           <div class="product-card-copy">外泌體生物科技濃縮安瓶，細胞級訊號傳導精準啟動肌膚再生機制</div>
         </div>
-        <div class="product-card reveal-fade">
+        <div class="product-card reveal-fade" data-psftag="hydrating sensitive">
           <img class="product-card-img" src="images/img_013.jpg" alt="玫瑰玻尿酸精華液" loading="lazy">
           <div class="product-card-name">玫瑰玻尿酸精華液</div>
           <div class="product-card-spec">120ml</div>
           <div class="product-card-copy">玫瑰精華與玻尿酸的組合，花卉活性成分舒緩鎮靜、玻尿酸深層保濕鎖水</div>
         </div>
-        <div class="product-card reveal-fade">
+        <div class="product-card reveal-fade" data-psftag="sensitive">
           <img class="product-card-img" src="images/img_014.jpg" alt="皮脂膜修護精華液" loading="lazy">
           <div class="product-card-name">皮脂膜修護精華液</div>
           <div class="product-card-spec">50ml</div>
           <div class="product-card-copy">仿生皮脂膜修護技術，精準補充肌膚屏障流失的必需脂質</div>
         </div>
-        <div class="product-card reveal-fade">
+        <div class="product-card reveal-fade" data-psftag="anti-aging brightening sensitive">
           <img class="product-card-img" src="images/img_015.jpg" alt="維他命C菁萃液" loading="lazy">
           <div class="product-card-name">維他命C菁萃液</div>
           <div class="product-card-spec">10ml</div>
           <div class="product-card-copy">高活性左旋維他命C濃縮安瓶，強效抗氧化同時促進膠原蛋白合成</div>
         </div>
-        <div class="product-card reveal-fade">
+        <div class="product-card reveal-fade" data-psftag="hydrating anti-aging">
           <img class="product-card-img" src="images/img_016.jpg" alt="藍銅玻尿酸精華液" loading="lazy">
           <div class="product-card-name">藍銅玻尿酸精華液</div>
           <div class="product-card-spec">120ml</div>
           <div class="product-card-copy">藍銅胜肽促進膠原新生，搭配三重分子量玻尿酸由表至裡層層保濕</div>
         </div>
-        <div class="product-card reveal-fade">
+        <div class="product-card reveal-fade" data-psftag="brightening">
           <img class="product-card-img" src="images/img_017.jpg" alt="速效美白精華液" loading="lazy">
           <div class="product-card-name">速效美白精華液</div>
           <div class="product-card-spec">50ml</div>
@@ -2156,49 +2305,49 @@ ul { list-style: none; }
     <div class="products-category" data-cat="cat3">
       <div class="products-cat-title reveal-fade">乳液／乳霜系列<span class="cat-en">Lotion & Cream</span></div>
       <div class="products-grid">
-        <div class="product-card reveal-fade">
+        <div class="product-card reveal-fade" data-psftag="hydrating">
           <img class="product-card-img" src="images/img_018.jpg" alt="A酯蜂王保水精質乳" loading="lazy">
           <div class="product-card-name">A酯蜂王保水精質乳</div>
           <div class="product-card-spec">150ml</div>
           <div class="product-card-copy">維他命A酯搭配蜂王漿精華，溫和促進細胞更新同時深層滋養</div>
         </div>
-        <div class="product-card reveal-fade">
+        <div class="product-card reveal-fade" data-psftag="hydrating sensitive">
           <img class="product-card-img" src="images/img_019.jpg" alt="洋甘菊修護乳" loading="lazy">
           <div class="product-card-name">洋甘菊修護乳</div>
           <div class="product-card-spec">120ml</div>
           <div class="product-card-copy">德國洋甘菊萃取精華為核心，天然抗炎舒緩力量溫柔包覆受損肌膚</div>
         </div>
-        <div class="product-card reveal-fade">
+        <div class="product-card reveal-fade" data-psftag="hydrating acne">
           <img class="product-card-img" src="images/img_020.jpg" alt="清爽保濕乳" loading="lazy">
           <div class="product-card-name">清爽保濕乳</div>
           <div class="product-card-spec">120ml</div>
           <div class="product-card-copy">輕盈水感保濕乳液，快速吸收不泛油光，三重保濕因子由表及裡層層鎖水</div>
         </div>
-        <div class="product-card reveal-fade">
+        <div class="product-card reveal-fade" data-psftag="hydrating brightening">
           <img class="product-card-img" src="images/img_021.jpg" alt="玫瑰柔潤乳液" loading="lazy">
           <div class="product-card-name">玫瑰柔潤乳液</div>
           <div class="product-card-spec">120ml</div>
           <div class="product-card-copy">玫瑰果油與大馬士革玫瑰精華雙重滋潤，鎖住一整天的水潤與光澤</div>
         </div>
-        <div class="product-card reveal-fade">
+        <div class="product-card reveal-fade" data-psftag="sensitive">
           <img class="product-card-img" src="images/img_022.jpg" alt="皮脂膜修護精華霜" loading="lazy">
           <div class="product-card-name">皮脂膜修護精華霜</div>
           <div class="product-card-spec">50ml</div>
           <div class="product-card-copy">高濃度仿生皮脂膜修護霜，為嚴重受損的屏障提供最強效修護支援</div>
         </div>
-        <div class="product-card reveal-fade">
+        <div class="product-card reveal-fade" data-psftag="hydrating sensitive">
           <img class="product-card-img" src="images/img_023.jpg" alt="舒敏柔嫩修護乳" loading="lazy">
           <div class="product-card-name">舒敏柔嫩修護乳</div>
           <div class="product-card-spec">120ml</div>
           <div class="product-card-copy">長效舒敏修護配方，強化角質屏障同時補充流失的水分與脂質</div>
         </div>
-        <div class="product-card reveal-fade">
+        <div class="product-card reveal-fade" data-psftag="hydrating sensitive">
           <img class="product-card-img" src="images/img_024.jpg" alt="舒緩修護乳" loading="lazy">
           <div class="product-card-name">舒緩修護乳</div>
           <div class="product-card-spec">50ml</div>
           <div class="product-card-copy">專為術後與極敏感肌設計的SOS修護乳，快速鎮靜泛紅刺痛</div>
         </div>
-        <div class="product-card reveal-fade">
+        <div class="product-card reveal-fade" data-psftag="anti-aging">
           <img class="product-card-img" src="images/img_025.jpg" alt="逆齡賦活乳" loading="lazy">
           <div class="product-card-name">逆齡賦活乳</div>
           <div class="product-card-spec">120ml</div>
@@ -2209,13 +2358,13 @@ ul { list-style: none; }
     <div class="products-category" data-cat="cat4">
       <div class="products-cat-title reveal-fade">凍膜／面膜系列<span class="cat-en">Mask & Gel Pack</span></div>
       <div class="products-grid">
-        <div class="product-card reveal-fade">
+        <div class="product-card reveal-fade" data-psftag="hydrating">
           <img class="product-card-img" src="images/img_026.jpg" alt="外泌體蘊活面膜" loading="lazy">
           <div class="product-card-name">外泌體蘊活面膜</div>
           <div class="product-card-spec">片裝／多片組</div>
           <div class="product-card-copy">外泌體生物活性面膜，將細胞再生訊號精準導入肌底</div>
         </div>
-        <div class="product-card reveal-fade">
+        <div class="product-card reveal-fade" data-psftag="hydrating">
           <img class="product-card-img" src="images/img_027.jpg" alt="雪絨花晶粹保濕賦活面膜" loading="lazy">
           <div class="product-card-name">雪絨花晶粹保濕賦活面膜</div>
           <div class="product-card-spec">片裝／多片組</div>
@@ -2226,13 +2375,13 @@ ul { list-style: none; }
     <div class="products-category" data-cat="cat5">
       <div class="products-cat-title reveal-fade">防曬／隔離系列<span class="cat-en">Sun Protection</span></div>
       <div class="products-grid">
-        <div class="product-card reveal-fade">
+        <div class="product-card reveal-fade" data-psftag="hydrating sun">
           <img class="product-card-img" src="images/img_028.jpg" alt="SPF50防曬乳★★★★★" loading="lazy">
           <div class="product-card-name">SPF50防曬乳</div>
           <div class="product-card-spec">30ml / 120ml</div>
           <div class="product-card-copy">高係數全波段防曬配方，UVA與UVB雙重阻隔防護，質地水潤好推</div>
         </div>
-        <div class="product-card reveal-fade">
+        <div class="product-card reveal-fade" data-psftag="brightening sun">
           <img class="product-card-img" src="images/img_029.jpg" alt="無敵亮白素顏霜SPF50★★★★★" loading="lazy">
           <div class="product-card-name">無敵亮白素顏霜SPF50</div>
           <div class="product-card-spec">50ml</div>
@@ -2243,19 +2392,19 @@ ul { list-style: none; }
     <div class="products-category" data-cat="cat6">
       <div class="products-cat-title reveal-fade">旅行組系列<span class="cat-en">Travel Kit</span></div>
       <div class="products-grid">
-        <div class="product-card reveal-fade">
+        <div class="product-card reveal-fade" data-psftag="cleansing hydrating acne">
           <img class="product-card-img" src="images/img_030.jpg" alt="控油旅行組" loading="lazy">
           <div class="product-card-name">控油旅行組</div>
           <div class="product-card-spec">組合</div>
           <div class="product-card-copy">出差旅遊必備的控油保養隨身包，清潔、調理、保濕三步驟一次帶齊</div>
         </div>
-        <div class="product-card reveal-fade">
+        <div class="product-card reveal-fade" data-psftag="hydrating">
           <img class="product-card-img" src="images/img_031.jpg" alt="春夏保濕旅行組" loading="lazy">
           <div class="product-card-name">春夏保濕旅行組</div>
           <div class="product-card-spec">組合</div>
           <div class="product-card-copy">針對春夏季節設計的輕盈保濕組合，清爽質地適合高溫潮濕環境</div>
         </div>
-        <div class="product-card reveal-fade">
+        <div class="product-card reveal-fade" data-psftag="hydrating sensitive">
           <img class="product-card-img" src="images/img_032.jpg" alt="秋冬保濕旅行組" loading="lazy">
           <div class="product-card-name">秋冬保濕旅行組</div>
           <div class="product-card-spec">組合</div>
@@ -3074,6 +3223,78 @@ function cfGoStep(n) {
   setTimeout(checkStory, 300);
 })();
 
+
+/* ===== #1 FAQ Bubble Toggle ===== */
+function toggleFaqBubble() {
+  document.getElementById('faqBubblePanel').classList.toggle('open');
+  /* Close pricing if open */
+  var pp = document.getElementById('pricingPanel');
+  if (pp) pp.classList.remove('open');
+}
+function togglePricingPanel() {
+  document.getElementById('pricingPanel').classList.toggle('open');
+  var fp = document.getElementById('faqBubblePanel');
+  if (fp) fp.classList.remove('open');
+}
+
+/* ===== #3 Hero Typewriter ===== */
+(function() {
+  var el = document.getElementById('heroTypewriter');
+  if (!el) return;
+  var phrases = [
+    '近 10 年 手 工 清 粉 刺 經 驗',
+    '韓 國 院 線 級 系 列 產 品',
+    '一 對 一 私 密 工 作 室',
+    '量 身 訂 製 護 膚 療 程',
+    '五 行 罐 撥 經 絡 調 理'
+  ];
+  var pi = 0, ci = 0, deleting = false;
+  function tick() {
+    var phrase = phrases[pi];
+    if (!deleting) {
+      ci++;
+      if (ci > phrase.length) { deleting = true; setTimeout(tick, 1800); return; }
+    } else {
+      ci--;
+      if (ci === 0) { deleting = false; pi = (pi + 1) % phrases.length; setTimeout(tick, 200); return; }
+    }
+    el.textContent = phrase.substring(0, ci);
+    setTimeout(tick, deleting ? 40 : 90);
+  }
+  setTimeout(tick, 1500);
+})();
+
+/* ===== #6 Product Smart Filter ===== */
+function filterProductsByTag(tag, btn) {
+  document.querySelectorAll('.psf-tag').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.product-card').forEach(card => {
+    var tags = (card.getAttribute('data-psftag') || '').split(' ');
+    var match = (tag === 'all' || tags.indexOf(tag) !== -1);
+    card.style.display = match ? '' : 'none';
+  });
+  /* Also hide empty category headers */
+  document.querySelectorAll('.products-category').forEach(cat => {
+    var visible = cat.querySelectorAll('.product-card:not([style*="none"])');
+    cat.style.display = visible.length === 0 ? 'none' : '';
+  });
+}
+
+/* ===== #8 Mouse Glow on Dark Sections ===== */
+(function() {
+  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  document.querySelectorAll('.glow-section').forEach(function(section) {
+    var spot = document.createElement('div');
+    spot.className = 'glow-spot';
+    section.appendChild(spot);
+    section.addEventListener('mousemove', function(e) {
+      var rect = section.getBoundingClientRect();
+      spot.style.left = (e.clientX - rect.left) + 'px';
+      spot.style.top = (e.clientY - rect.top) + 'px';
+    });
+  });
+})();
+
 </script>
 
 <div class="inquiry-fab" id="inquiryFab" onclick="toggleInquiryPanel()">
@@ -3094,5 +3315,78 @@ function cfGoStep(n) {
 
 <div class="scroll-progress" id="scrollProgress"></div>
 <div class="custom-cursor" id="customCursor"></div>
+
+<!-- #1 FAQ Bubble -->
+<div class="faq-bubble">
+  <div class="faq-bubble-tab" onclick="toggleFaqBubble()">常見問題</div>
+</div>
+<div class="faq-bubble-panel" id="faqBubblePanel">
+  <div class="faq-bubble-header"><h3>常 見 問 題</h3><span class="faq-bubble-close" onclick="toggleFaqBubble()">✕</span></div>
+  <div class="faq-bubble-list">
+    <div class="faq-bubble-q" onclick="this.classList.toggle('open')">
+      <div class="faq-bubble-q-title">如何預約？</div>
+      <div class="faq-bubble-q-ans"><p>請使用本網站「預約諮詢」表單留訊息，或加 LINE 直接與我們聯繫，老師會在工作時間內回覆您。</p></div>
+    </div>
+    <div class="faq-bubble-q" onclick="this.classList.toggle('open')">
+      <div class="faq-bubble-q-title">第一次怎麼選療程？</div>
+      <div class="faq-bubble-q-ans"><p>建議先做「肌膚檢測」測驗或預約初次諮詢，老師會依您的膚況推薦適合的療程，不會推銷不適合的方案。</p></div>
+    </div>
+    <div class="faq-bubble-q" onclick="this.classList.toggle('open')">
+      <div class="faq-bubble-q-title">療程時間多長？</div>
+      <div class="faq-bubble-q-ans"><p>基礎護理約 60-90 分鐘，深層療程或加購項目約 90-120 分鐘。預約時老師會跟您確認時長。</p></div>
+    </div>
+    <div class="faq-bubble-q" onclick="this.classList.toggle('open')">
+      <div class="faq-bubble-q-title">可以使用哪些付款方式？</div>
+      <div class="faq-bubble-q-ans"><p>支援現金、網銀轉帳、LINE Pay、台灣 Pay。</p></div>
+    </div>
+    <div class="faq-bubble-q" onclick="this.classList.toggle('open')">
+      <div class="faq-bubble-q-title">營業時間？</div>
+      <div class="faq-bubble-q-ans"><p>週一至週五 10:00-20:00，週六 10:00-18:00，週日公休。採全預約制。</p></div>
+    </div>
+    <div class="faq-bubble-q" onclick="this.classList.toggle('open')">
+      <div class="faq-bubble-q-title">需要事先卸妝嗎？</div>
+      <div class="faq-bubble-q-ans"><p>不用，工作室會為您專業卸妝清潔。但若有戴隱形眼鏡，建議事先取下。</p></div>
+    </div>
+  </div>
+  <div class="faq-bubble-footer"><a onclick="goTo('faq');toggleFaqBubble()">查看更多 FAQ →</a></div>
+</div>
+
+<!-- #2 Pricing Quick View -->
+<div class="pricing-tab" onclick="togglePricingPanel()">價格速覽</div>
+<div class="pricing-panel" id="pricingPanel">
+  <div class="pricing-panel-header"><h3>價 格 速 覽</h3><span class="pricing-panel-close" onclick="togglePricingPanel()">✕</span></div>
+  <div class="pricing-panel-body">
+    <div class="pricing-cat">
+      <div class="pricing-cat-title">皮膚管理</div>
+      <div class="pricing-row"><span class="name">臉部撥筋</span><span class="price">NT$ 1,800</span></div>
+      <div class="pricing-row"><span class="name">基礎清潔護理</span><span class="price">NT$ 2,300 起</span></div>
+      <div class="pricing-row"><span class="name">肌茵泌碼</span><span class="price">NT$ 2,800</span></div>
+      <div class="pricing-row"><span class="name">雪藻喚膚</span><span class="price">NT$ 3,200</span></div>
+      <div class="pricing-row"><span class="name">微雕蘊膚</span><span class="price">NT$ 3,800</span></div>
+    </div>
+    <div class="pricing-cat">
+      <div class="pricing-cat-title">五行罐撥</div>
+      <div class="pricing-row"><span class="name">局部罐撥</span><span class="price">NT$ 1,500</span></div>
+      <div class="pricing-row"><span class="name">全身經絡</span><span class="price">NT$ 2,500</span></div>
+    </div>
+    <div class="pricing-cat">
+      <div class="pricing-cat-title">除毛服務</div>
+      <div class="pricing-row"><span class="name">熱蠟除毛</span><span class="price">依部位</span></div>
+      <div class="pricing-row"><span class="name">冰肌除毛</span><span class="price">依部位</span></div>
+    </div>
+    <div class="pricing-cat">
+      <div class="pricing-cat-title">美甲服務</div>
+      <div class="pricing-row"><span class="name">手部光療</span><span class="price">依設計</span></div>
+    </div>
+  </div>
+  <div class="pricing-panel-footer">完整價格與優惠請至「服務項目」查看<br>或加 LINE 詢問當月活動</div>
+</div>
+
+<!-- #4 Mobile Bottom CTA Bar -->
+<div class="mobile-cta-bar">
+  <a href="https://lin.ee/cdqhQlx" target="_blank" rel="noopener" class="cta-line"><span class="cta-icon">💬</span>LINE</a>
+  <a href="tel:0436033588" class="cta-call"><span class="cta-icon">📞</span>致電</a>
+  <span class="cta-book" onclick="goTo('contact')"><span class="cta-icon">✦</span>預約</span>
+</div>
 </body>
 </html>

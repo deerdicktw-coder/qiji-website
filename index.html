@@ -536,9 +536,9 @@ ul { list-style: none; }
 
 /* ===== #8 Mouse Glow on Dark Sections ===== */
 .glow-section { position: relative; overflow: hidden; }
-.glow-spot { position: absolute; width: 400px; height: 400px; pointer-events: none; background: radial-gradient(circle, rgba(201,169,110,0.15) 0%, rgba(201,169,110,0.05) 30%, transparent 70%); border-radius: 50%; transform: translate(-50%, -50%); transition: opacity 0.3s; opacity: 0; mix-blend-mode: screen; z-index: 1; }
+.glow-spot { position: absolute !important; width: 400px; height: 400px; pointer-events: none; background: radial-gradient(circle, rgba(201,169,110,0.15) 0%, rgba(201,169,110,0.05) 30%, transparent 70%); border-radius: 50%; transform: translate(-50%, -50%); transition: opacity 0.3s; opacity: 0; mix-blend-mode: screen; z-index: 1; }
 .glow-section:hover .glow-spot { opacity: 1; }
-.glow-section > * { position: relative; z-index: 2; }
+.glow-section > *:not(.glow-spot) { position: relative; z-index: 2; }
 
 /* ===== #10 Story Sticky Scroll ===== */
 @media (min-width: 900px) {

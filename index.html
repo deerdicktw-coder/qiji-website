@@ -3125,10 +3125,12 @@ function renderInquiryPanel() {
 }
 function submitInquiry() {
   if (inquiryList.length === 0) return;
+  var products = inquiryList.join('、');
+  toggleInquiryPanel();
   goTo('contact');
   setTimeout(() => {
     var msgField = document.querySelector('#contactForm textarea[name="message"]');
-    if (msgField) { msgField.value = '想詢問以下產品：\n' + inquiryList.join('、'); }
+    if (msgField) { msgField.value = '想詢問以下產品：\n' + products; }
     var svcField = document.querySelector('#contactForm select[name="service"]');
     if (svcField) { svcField.value = '產品諮詢'; }
     var formSection = document.querySelector('.contact-form-section');

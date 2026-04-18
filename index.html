@@ -51,7 +51,19 @@ ul { list-style: none; }
 .nav.nav-hidden { transform: translateY(-100%); }
 .nav-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: center; padding: 18px 40px; position: relative; }
 .nav-hamburger { position: absolute; left: 40px; top: 50%; transform: translateY(-50%); cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 8px; background: none; border: none; }
-.nav-hamburger span { width: 24px; height: 2px; background: var(--black); transition: all 0.3s; box-shadow: 0 0 2px rgba(0,0,0,0.1); }
+.nav-hamburger span { width: 24px; height: 2px; background: var(--black); transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), background 0.35s ease, opacity 0.35s ease; box-shadow: 0 0 2px rgba(0,0,0,0.1); transform-origin: center; position: relative; overflow: hidden; }
+.nav-hamburger span::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent 0%, var(--gold) 45%, transparent 90%); transform: translateX(-110%); animation: hamburgerShimmer 3.4s ease-in-out infinite; pointer-events: none; }
+.nav-hamburger span:nth-child(2)::before { animation-delay: 0.18s; }
+.nav-hamburger span:nth-child(3)::before { animation-delay: 0.36s; }
+@keyframes hamburgerShimmer { 0%,100% { transform: translateX(-110%); } 35% { transform: translateX(110%); } 100% { transform: translateX(110%); } }
+.nav-hamburger:hover span { background: var(--gold); }
+.nav-hamburger:hover span:nth-child(2) { transform: scaleX(0.7); }
+.nav-hamburger:hover span::before { animation-play-state: paused; opacity: 0; }
+.nav-hamburger.open span { background: var(--gold); }
+.nav-hamburger.open span::before { animation: none; opacity: 0; }
+.nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 .nav-brand { text-align: center; cursor: pointer; display: flex; align-items: center; gap: 12px; }
 .nav-logo-text { font-family: var(--serif); font-size: 2rem; font-weight: 700; letter-spacing: 8px; color: var(--black); line-height: 1; transition: color 0.4s; animation: logoBreath 4s ease-in-out infinite; }
 @keyframes logoBreath { 0%, 100% { text-shadow: 0 0 0 rgba(201,169,110,0); } 50% { text-shadow: 0 0 12px rgba(201,169,110,0.4), 0 0 24px rgba(201,169,110,0.22); } }
@@ -3277,8 +3289,8 @@ const menuToggle = document.getElementById('menuToggle');
 const sideMenu = document.getElementById('sideMenu');
 const menuOverlay = document.getElementById('menuOverlay');
 const menuClose = document.getElementById('menuClose');
-function openMenu() { sideMenu.classList.add('open'); menuOverlay.classList.add('open'); document.body.style.overflow = 'hidden'; }
-function closeMenu() { sideMenu.classList.remove('open'); menuOverlay.classList.remove('open'); document.body.style.overflow = ''; }
+function openMenu() { sideMenu.classList.add('open'); menuOverlay.classList.add('open'); menuToggle.classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeMenu() { sideMenu.classList.remove('open'); menuOverlay.classList.remove('open'); menuToggle.classList.remove('open'); document.body.style.overflow = ''; }
 menuToggle.addEventListener('click', openMenu);
 menuOverlay.addEventListener('click', closeMenu);
 menuClose.addEventListener('click', closeMenu);

@@ -33,40 +33,36 @@
 <link rel="canonical" href="https://carrie-1sj.pages.dev/" />
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700&family=Noto+Serif+TC:wght@300;400;500;600;700&family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; overflow-x: hidden; background: #000; }
-body { font-family: 'Jost', 'Noto Sans TC', sans-serif; background: #fff; color: #1a1a1a; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Noto Sans TC', sans-serif; background: #fff; color: #1a1a1a; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 a { text-decoration: none; color: inherit; }
 img { max-width: 100%; display: block; }
 ul { list-style: none; }
-:root { --black: #000; --white: #fff; --gold: #c9a96e; --gold-light: #d4b87a; --grey-100: #f7f7f7; --grey-200: #ebebeb; --grey-400: #999; --grey-600: #666; --grey-800: #333; --serif: 'Bodoni Moda', 'Noto Serif TC', serif; --sans: 'Jost', 'Noto Sans TC', sans-serif; --transition: cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+:root { --black: #000; --white: #fff; --gold: #c9a96e; --gold-light: #d4b87a; --grey-100: #f7f7f7; --grey-200: #ebebeb; --grey-400: #999; --grey-600: #666; --grey-800: #333; --serif: 'Cormorant Garamond', 'Playfair Display', serif; --sans: 'Noto Sans TC', sans-serif; --transition: cubic-bezier(0.25, 0.46, 0.45, 0.94); }
 .page { display: none; min-height: 100vh; }
 .page.active { display: block; animation: pageIn 0.45s ease; }
 .page.fade-out { animation: pageOut 0.25s ease forwards; }
 @keyframes pageIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes pageOut { from { opacity: 1; } to { opacity: 0; } }
-.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: #fff; border-bottom: 1px solid rgba(0,0,0,0.06); transition: all 0.4s var(--transition), transform 0.35s cubic-bezier(0.4,0,0.2,1); }
+.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(255,255,255,0.82); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border-bottom: 1px solid rgba(0,0,0,0.06); transition: all 0.4s var(--transition), transform 0.35s cubic-bezier(0.4,0,0.2,1); }
 .nav.nav-hidden { transform: translateY(-100%); }
+.nav.transparent { background: transparent; border-bottom-color: transparent; }
+.nav.transparent .nav-brand-zh, .nav.transparent .nav-brand-en, .nav.transparent .nav-link { color: var(--white); }
+.nav.transparent .nav-hamburger span { background: var(--white); box-shadow: 0 0 4px rgba(0,0,0,0.5); }
+.nav.transparent .nav-logo-img { filter: brightness(0) invert(1); }
 .nav-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: center; padding: 18px 40px; position: relative; }
 .nav-hamburger { position: absolute; left: 40px; top: 50%; transform: translateY(-50%); cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 8px; background: none; border: none; }
-.nav-hamburger span { width: 24px; height: 2px; background: var(--black); transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), background 0.35s ease, opacity 0.35s ease; box-shadow: 0 0 2px rgba(0,0,0,0.1); transform-origin: center; position: relative; overflow: hidden; }
-.nav-hamburger span::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent 0%, var(--gold) 45%, transparent 90%); transform: translateX(-110%); animation: hamburgerShimmer 3.4s ease-in-out infinite; pointer-events: none; }
-.nav-hamburger span:nth-child(2)::before { animation-delay: 0.18s; }
-.nav-hamburger span:nth-child(3)::before { animation-delay: 0.36s; }
-@keyframes hamburgerShimmer { 0%,100% { transform: translateX(-110%); } 35% { transform: translateX(110%); } 100% { transform: translateX(110%); } }
-.nav-hamburger:hover span { background: var(--gold); }
-.nav-hamburger:hover span:nth-child(2) { transform: scaleX(0.7); }
-.nav-hamburger:hover span::before { animation-play-state: paused; opacity: 0; }
-.nav-hamburger.open span { background: var(--gold); }
-.nav-hamburger.open span::before { animation: none; opacity: 0; }
-.nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-.nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-.nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.nav-hamburger span { width: 24px; height: 2px; background: var(--black); transition: all 0.5s cubic-bezier(0.68, -0.6, 0.32, 1.6); transform-origin: center; box-shadow: 0 0 2px rgba(0,0,0,0.1); }
+.nav-hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-hamburger.active span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nav-hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 .nav-brand { text-align: center; cursor: pointer; display: flex; align-items: center; gap: 12px; }
-.nav-logo-text { font-family: var(--serif); font-size: 2rem; font-weight: 700; letter-spacing: 8px; color: var(--black); line-height: 1; transition: color 0.4s; animation: logoBreath 4s ease-in-out infinite; }
-@keyframes logoBreath { 0%, 100% { text-shadow: 0 0 0 rgba(201,169,110,0); } 50% { text-shadow: 0 0 12px rgba(201,169,110,0.4), 0 0 24px rgba(201,169,110,0.22); } }
+.nav-logo-img { height: 42px; width: auto; border-radius: 6px; transition: filter 0.5s cubic-bezier(0.31, 0, 0.13, 1); }
+.nav-brand-zh { font-size: 1.3rem; font-weight: 400; letter-spacing: 8px; color: var(--black); transition: color 0.4s; }
+.nav-brand-en { font-family: var(--serif); font-size: 0.65rem; letter-spacing: 5px; color: var(--grey-400); font-weight: 300; text-transform: uppercase; transition: color 0.4s; }
 .nav-right { position: absolute; right: 40px; top: 50%; transform: translateY(-50%); display: flex; gap: 20px; align-items: center; }
 .nav-links-desktop { display: flex; gap: 22px; align-items: center; }
 .nav-link { font-size: 0.74rem; letter-spacing: 1.5px; color: var(--grey-600); font-weight: 300; cursor: pointer; position: relative; transition: color 0.3s; }
@@ -78,10 +74,14 @@ ul { list-style: none; }
 .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; pointer-events: auto; }
 .nav-dropdown-item { display: block; padding: 10px 24px; font-size: 0.74rem; letter-spacing: 2px; color: var(--grey-600); font-weight: 300; cursor: pointer; transition: all 0.3s; white-space: nowrap; }
 .nav-dropdown-item:hover { color: var(--gold); padding-left: 28px; }
+.nav.transparent .nav-dropdown-menu { background: rgba(0,0,0,0.85); border-color: rgba(255,255,255,0.1); }
+.nav.transparent .nav-dropdown-item { color: rgba(255,255,255,0.7); }
+.nav.transparent .nav-dropdown-item:hover { color: var(--gold); }
 .nav-dropdown-nested { position: relative; }
 .nav-dropdown-nested .nav-dropdown-submenu { position: absolute; left: 100%; top: -12px; min-width: 150px; background: rgba(255,255,255,0.97); backdrop-filter: blur(20px); border: 1px solid var(--grey-200); padding: 12px 0; opacity: 0; visibility: hidden; transition: all 0.3s var(--transition); pointer-events: none; }
 .nav-dropdown-nested:hover .nav-dropdown-submenu { opacity: 1; visibility: visible; pointer-events: auto; }
 .nav-dropdown-nested > .nav-dropdown-item::after { content: '\203A'; float: right; margin-left: 12px; }
+.nav.transparent .nav-dropdown-submenu { background: rgba(0,0,0,0.85); border-color: rgba(255,255,255,0.1); }
 .side-menu-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 2000; opacity: 0; visibility: hidden; transition: all 0.4s; }
 .side-menu-overlay.open { opacity: 1; visibility: visible; }
 .side-menu { position: fixed; top: 0; left: -400px; bottom: 0; width: 380px; background: var(--white); z-index: 2001; padding: 60px 50px; transition: left 0.5s var(--transition); display: flex; flex-direction: column; }
@@ -110,12 +110,7 @@ ul { list-style: none; }
 .side-menu-social a:hover { color: var(--gold); }
 .hero { min-height: 86vh; min-height: 86svh; position: relative; overflow: hidden; display: grid; place-items: center; background: var(--black); padding: 140px 24px 100px; text-align: center; width: 100%; box-sizing: border-box; }
 .hero::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.48) 0%, rgba(0,0,0,0.72) 58%, rgba(0,0,0,0.88) 100%), url('https://res.cloudinary.com/dm7dbtzzf/image/upload/w_1600,q_auto,f_auto/about') center center/cover no-repeat; opacity: 0.82; transform: scale(1.04); }
-.hero::after { content: ''; position: absolute; inset: -10%; background: radial-gradient(circle at 50% 20%, rgba(201,169,110,0.32) 0%, rgba(201,169,110,0.1) 30%, transparent 62%); pointer-events: none; animation: auraFlow 14s ease-in-out infinite; }
-@keyframes auraFlow {
-  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.85; }
-  33% { transform: translate(40px, -30px) scale(1.06); opacity: 1; }
-  66% { transform: translate(-30px, 20px) scale(0.96); opacity: 0.78; }
-}
+.hero::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at top, rgba(201,169,110,0.26) 0%, rgba(201,169,110,0.08) 28%, transparent 62%); pointer-events: none; }
 .hero-content { position: relative; z-index: 2; text-align: center; color: var(--white); max-width: 920px; width: 100%; margin-left: auto; margin-right: auto; box-sizing: border-box; }
 .hero-sub { font-family: var(--serif); font-size: clamp(0.7rem, 0.5rem + 0.8vw, 0.85rem); letter-spacing: clamp(4px, 2px + 1vw, 8px); color: var(--gold-light); margin-bottom: 20px; font-weight: 300; }
 .hero-title { font-size: clamp(2rem, 1rem + 4vw, 3.2rem); font-weight: 100; letter-spacing: clamp(6px, 2px + 2vw, 16px); margin-bottom: 12px; line-height: 1.4; }
@@ -136,7 +131,6 @@ ul { list-style: none; }
 .service-card::before { content: ''; position: absolute; inset: 16px; border: 1px solid rgba(255,255,255,0.12); opacity: 0.8; transition: inset 0.35s var(--transition), opacity 0.35s var(--transition); }
 .service-card:hover::before { inset: 12px; opacity: 1; }
 .service-card-shell { position: relative; z-index: 2; height: 100%; padding: 38px 34px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; gap: 4px; }
-.service-card-badge { position: absolute; top: 16px; right: 16px; z-index: 5; font-family: var(--sans); font-size: 0.66rem; letter-spacing: 3px; color: var(--black); background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 100%); padding: 6px 12px; border-radius: 2px; font-weight: 500; box-shadow: 0 2px 8px rgba(201,169,110,0.35); pointer-events: none; }
 .service-card-icon { margin-bottom: 24px; opacity: 0.35; transition: opacity 0.5s var(--transition); }
 .service-card:hover .service-card-icon { opacity: 0.55; }
 .service-card-tag { font-family: var(--serif); font-size: 0.72rem; letter-spacing: 4px; color: rgba(255,255,255,0.55); margin-bottom: auto; }
@@ -294,7 +288,7 @@ ul { list-style: none; }
 .quiz-reco-tags { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
 .quiz-reco-tag { padding: 10px 24px; border: 1px solid var(--gold); color: var(--gold); font-size: 0.78rem; letter-spacing: 2px; cursor: pointer; transition: all 0.3s; }
 .quiz-reco-tag:hover { background: var(--gold); color: var(--white); }
-.quiz-btn { display: inline-block; padding: 12px 36px; font-size: 0.78rem; letter-spacing: 3px; border: 1px solid var(--grey-200); background: var(--white); color: var(--grey-600); cursor: pointer; transition: all 0.3s; font-family: var(--sans); text-decoration: none; }
+.quiz-btn { padding: 12px 36px; font-size: 0.78rem; letter-spacing: 3px; border: 1px solid var(--grey-200); background: var(--white); color: var(--grey-600); cursor: pointer; transition: all 0.3s; font-family: var(--sans); }
 .quiz-btn:hover { border-color: var(--gold); color: var(--gold); }
 .quiz-btn.primary { background: var(--black); color: var(--white); border-color: var(--black); }
 .quiz-btn.primary:hover { background: var(--gold); border-color: var(--gold); }
@@ -334,7 +328,7 @@ ul { list-style: none; }
 .cf-success-btn.primary:hover { background: var(--gold); }
 .cf-success-btn.secondary { background: none; color: var(--grey-600); border: 1px solid var(--grey-300); }
 .cf-success-btn.secondary:hover { border-color: var(--gold); color: var(--gold); }
-.scroll-top-btn { position: fixed; bottom: 190px; right: 26px; width: 40px; height: 40px; border-radius: 50%; background: var(--white); color: var(--grey-600); border: 1px solid var(--grey-200); box-shadow: 0 2px 12px rgba(0,0,0,0.1); cursor: pointer; z-index: 995; display: flex; align-items: center; justify-content: center; font-size: 1rem; opacity: 0; visibility: hidden; transition: all 0.3s; }
+.scroll-top-btn { position: fixed; bottom: 80px; left: 16px; width: 40px; height: 40px; border-radius: 50%; background: var(--white); color: var(--grey-600); border: 1px solid var(--grey-200); box-shadow: 0 2px 12px rgba(0,0,0,0.1); cursor: pointer; z-index: 995; display: flex; align-items: center; justify-content: center; font-size: 1rem; opacity: 0; visibility: hidden; transition: all 0.3s; }
 .scroll-top-btn.show { opacity: 1; visibility: visible; }
 .scroll-top-btn:hover { background: var(--black); color: var(--white); border-color: var(--black); }
 @media (max-width: 768px) { .scroll-top-btn { bottom: calc(70px + env(safe-area-inset-bottom, 34px)); left: 16px; width: 36px; height: 36px; font-size: 0.85rem; } }
@@ -352,7 +346,7 @@ ul { list-style: none; }
 @media (max-width: 768px) { .ig-gallery-grid { grid-template-columns: repeat(2, 1fr); } .ig-gallery { padding: 50px 0 0; } }
 
 /* Music Player */
-.music-fab { position: fixed; bottom: 132px; right: 22px; width: 48px; height: 48px; border-radius: 50%; background: var(--black); color: var(--gold); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 999; box-shadow: 0 4px 16px rgba(0,0,0,0.2); transition: all 0.3s; border: 1px solid var(--gold); }
+.music-fab { position: fixed; bottom: 32px; left: 32px; width: 48px; height: 48px; border-radius: 50%; background: var(--black); color: var(--gold); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 999; box-shadow: 0 4px 16px rgba(0,0,0,0.2); transition: all 0.3s; border: 1px solid var(--gold); }
 .music-fab:hover { background: var(--gold); color: var(--black); transform: scale(1.08); }
 .music-fab svg { width: 20px; height: 20px; }
 .music-fab.playing { background: var(--gold); color: var(--black); }
@@ -396,7 +390,7 @@ ul { list-style: none; }
 @media (hover: none) { .service-card:hover .service-card-flip { transform: none; } }
 /* ===== Booking Form 3-Step Wizard ===== */
 .cf-wizard { max-width: 600px; margin: 0 auto; }
-.cf-steps { display: flex; justify-content: center; gap: 0; margin-bottom: 40px; position: relative; overflow: hidden; }
+.cf-steps { display: flex; justify-content: center; gap: 0; margin-bottom: 40px; position: relative; }
 .cf-step { flex: 1; text-align: center; position: relative; max-width: 120px; }
 .cf-step-dot { width: 32px; height: 32px; border-radius: 50%; background: var(--grey-200); color: var(--grey-400); display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; font-family: var(--serif); font-size: 0.82rem; transition: all 0.4s ease; position: relative; z-index: 2; border: 2px solid var(--grey-200); }
 .cf-step.active .cf-step-dot { background: var(--gold); color: var(--white); border-color: var(--gold); transform: scale(1.1); }
@@ -487,10 +481,7 @@ ul { list-style: none; }
 
 
 /* ===== #1 FAQ Floating Bubble ===== */
-.faq-bubble { position: fixed; top: 30%; right: 0; transform: translateY(-50%); z-index: 998; transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); }
-.faq-bubble.tab-hidden { transform: translate(120%, -50%); }
-.pricing-tab.tab-hidden { transform: translate(120%, -50%); }
-.booking-tab.tab-hidden { transform: translate(120%, -50%); }
+.faq-bubble { position: fixed; top: 50%; right: 0; transform: translateY(-50%); z-index: 998; }
 .faq-bubble-tab { width: 38px; padding: 16px 8px; background: var(--black); color: var(--gold); border: 1px solid var(--gold); border-right: none; cursor: pointer; writing-mode: vertical-rl; font-size: 0.72rem; letter-spacing: 4px; transition: all 0.3s; }
 .faq-bubble-tab:hover { background: var(--gold); color: var(--black); padding-right: 14px; }
 .faq-bubble-panel { position: fixed; top: 50%; right: -360px; transform: translateY(-50%); width: 340px; max-height: 80vh; background: var(--white); border: 1px solid var(--grey-200); box-shadow: -8px 0 32px rgba(0,0,0,0.12); z-index: 998; transition: right 0.4s var(--transition); display: flex; flex-direction: column; overflow: hidden; }
@@ -511,10 +502,8 @@ ul { list-style: none; }
 .faq-bubble-footer a { font-size: 0.76rem; color: var(--gold); letter-spacing: 2px; text-decoration: none; cursor: pointer; }
 
 /* ===== #2 Pricing Quick View ===== */
-.pricing-tab { position: fixed; top: calc(30% + 100px); right: 0; transform: translateY(-50%); width: 38px; padding: 16px 8px; background: var(--black); color: var(--gold); border: 1px solid var(--gold); border-right: none; cursor: pointer; writing-mode: vertical-rl; font-size: 0.72rem; letter-spacing: 4px; transition: all 0.3s; z-index: 998; }
+.pricing-tab { position: fixed; top: calc(50% + 130px); right: 0; transform: translateY(-50%); width: 38px; padding: 16px 8px; background: var(--black); color: var(--gold); border: 1px solid var(--gold); border-right: none; cursor: pointer; writing-mode: vertical-rl; font-size: 0.72rem; letter-spacing: 4px; transition: all 0.3s; z-index: 998; }
 .pricing-tab:hover { background: var(--gold); color: var(--black); padding-right: 14px; }
-.booking-tab { position: fixed; top: calc(30% + 200px); right: 0; transform: translateY(-50%); width: 38px; padding: 16px 8px; background: var(--black); color: var(--gold); border: 1px solid var(--gold); border-right: none; cursor: pointer; writing-mode: vertical-rl; font-size: 0.72rem; letter-spacing: 4px; transition: all 0.3s; z-index: 998; text-decoration: none; }
-.booking-tab:hover { background: var(--gold); color: var(--black); padding-right: 14px; }
 .pricing-panel { position: fixed; top: 50%; right: -420px; transform: translateY(-50%); width: 400px; max-height: 80vh; background: var(--white); border: 1px solid var(--grey-200); box-shadow: -8px 0 32px rgba(0,0,0,0.12); z-index: 998; transition: right 0.4s var(--transition); display: flex; flex-direction: column; overflow: hidden; }
 .pricing-panel.open { right: 0; }
 .pricing-panel-header { padding: 18px 24px; border-bottom: 1px solid var(--grey-200); background: var(--black); color: var(--white); display: flex; justify-content: space-between; align-items: center; }
@@ -549,7 +538,7 @@ ul { list-style: none; }
   .hero-hours { display: none; }
   .hero-copy { max-width: 280px; font-size: 0.84rem; margin-bottom: 24px; }
 }
-.mobile-cta-bar { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: var(--black); border-top: 1px solid var(--gold); z-index: 996; padding: 0 env(safe-area-inset-right, 0px) 0 env(safe-area-inset-left, 0px); padding-bottom: max(env(safe-area-inset-bottom, 0px), 12px); justify-content: center; gap: 0; }
+.mobile-cta-bar { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: var(--black); border-top: 1px solid var(--gold); z-index: 996; padding: 0 env(safe-area-inset-right, 0px) 0 env(safe-area-inset-left, 0px); padding-bottom: env(safe-area-inset-bottom, 34px); justify-content: center; gap: 0; }
 .mobile-cta-bar > a, .mobile-cta-bar > span { flex: none; padding: 14px 12px; text-align: center; font-size: 0.8rem; letter-spacing: 0; color: var(--white); cursor: pointer; transition: background 0.2s; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 2px; }
 .mobile-cta-bar > a:last-child, .mobile-cta-bar > span:last-child { }
 .mobile-cta-bar > a:hover, .mobile-cta-bar > span:hover { background: rgba(201,169,110,0.15); }
@@ -563,7 +552,7 @@ ul { list-style: none; }
   .float-social { display: none !important; }
   .inquiry-fab { bottom: calc(70px + env(safe-area-inset-bottom)) !important; right: 20px !important; }
   .music-fab { top: 72px !important; bottom: auto !important; left: 16px !important; width: 36px !important; height: 36px !important; }
-  .faq-bubble, .pricing-tab, .booking-tab { display: none; }
+  .faq-bubble, .pricing-tab { display: none; }
 }
 
 
@@ -622,9 +611,6 @@ ul { list-style: none; }
 /* ===== #8 Mouse Glow on Dark Sections ===== */
 .glow-section { position: relative; overflow: hidden; }
 .glow-spot { position: absolute !important; width: 400px; height: 400px; pointer-events: none; background: radial-gradient(circle, rgba(201,169,110,0.15) 0%, rgba(201,169,110,0.05) 30%, transparent 70%); border-radius: 50%; transform: translate(-50%, -50%); transition: opacity 0.3s; opacity: 0; mix-blend-mode: screen; z-index: 1; }
-.cursor-glow { position: fixed; top: 0; left: 0; width: 220px; height: 220px; border-radius: 50%; background: radial-gradient(circle, rgba(201,169,110,0.18) 0%, rgba(201,169,110,0.06) 35%, transparent 70%); pointer-events: none; transform: translate(-50%, -50%); opacity: 0; mix-blend-mode: screen; z-index: 9999; transition: opacity 0.3s; will-change: transform, left, top; }
-.cursor-glow.active { opacity: 1; }
-@media (hover: none) { .cursor-glow { display: none !important; } }
 .glow-section:hover .glow-spot { opacity: 1; }
 .glow-section > *:not(.glow-spot) { position: relative; z-index: 2; }
 
@@ -638,76 +624,6 @@ ul { list-style: none; }
 .service-card-front .service-card-shell { position: relative; }
 .service-quick-badge { position: absolute; top: 16px; right: 16px; padding: 4px 10px; background: rgba(201,169,110,0.9); color: var(--black); font-size: 0.62rem; letter-spacing: 1.5px; font-family: var(--serif); border-radius: 2px; opacity: 0; transition: opacity 0.4s ease 0.2s; z-index: 3; }
 .service-card:hover .service-quick-badge { opacity: 0; }
-
-/* ===== Home Quiz - Inline Banner + Expand (首頁嵌入版) ===== */
-.home-quiz { padding: 80px 40px; background: linear-gradient(180deg, #fafaf7 0%, #fff 100%); text-align: center; position: relative; }
-.home-quiz-banner { max-width: 720px; margin: 0 auto; }
-.home-quiz-banner .section-title-lg { margin-top: 14px; }
-.home-quiz-intro { font-size: 0.86rem; letter-spacing: 2px; color: var(--grey-600); line-height: 2; margin: 22px auto 32px; font-weight: 300; max-width: 580px; }
-.home-quiz-cta { display: inline-flex; align-items: center; gap: 10px; padding: 15px 42px; border: 1px solid var(--gold); color: var(--gold); font-size: 0.82rem; letter-spacing: 4px; cursor: pointer; font-family: var(--sans); font-weight: 400; transition: all 0.35s; background: none; user-select: none; }
-.home-quiz-cta:hover { background: var(--gold); color: var(--white); box-shadow: 0 10px 28px rgba(201,169,110,0.25); }
-.home-quiz-cta .arrow { font-size: 0.72rem; transition: transform 0.4s; display: inline-block; }
-.home-quiz-cta.open .arrow { transform: rotate(180deg); }
-.home-quiz-body { max-width: 640px; margin: 0 auto; max-height: 0; overflow: hidden; transition: max-height 0.8s cubic-bezier(0.4,0,0.2,1), margin-top 0.5s ease; }
-.home-quiz-body.open { max-height: 2400px; margin-top: 48px; }
-.hq-progress { display: flex; justify-content: center; gap: 8px; margin-bottom: 32px; }
-.hq-dot { width: 34px; height: 2px; background: var(--grey-200); transition: background 0.3s; }
-.hq-dot.done { background: var(--gold); }
-.hq-step { display: none; animation: pageIn 0.45s ease; }
-.hq-step.active { display: block; }
-.hq-question { font-size: 1.05rem; letter-spacing: 3px; color: var(--black); margin-bottom: 10px; font-weight: 400; text-align: center; line-height: 1.8; }
-.hq-sub { font-size: 0.74rem; letter-spacing: 2px; color: var(--grey-500); margin-bottom: 26px; text-align: center; }
-.hq-options { display: flex; flex-direction: column; gap: 12px; text-align: left; }
-.hq-option { padding: 16px 22px; border: 1px solid var(--grey-200); background: var(--white); font-size: 0.84rem; letter-spacing: 1.5px; color: var(--grey-600); cursor: pointer; transition: all 0.3s; font-family: var(--sans); }
-.hq-option:hover { border-color: var(--gold); color: var(--gold); }
-.hq-option.selected { border-color: var(--gold); background: rgba(201,169,110,0.06); color: var(--gold); }
-.hq-result { display: none; animation: pageIn 0.5s ease; text-align: center; }
-.hq-result.active { display: block; }
-.hq-result-type { font-size: 1.6rem; font-weight: 100; letter-spacing: 6px; color: var(--gold); margin-bottom: 14px; }
-.hq-result-desc { font-size: 0.82rem; line-height: 2; color: var(--grey-600); font-weight: 300; margin-bottom: 30px; max-width: 500px; margin-left: auto; margin-right: auto; }
-.hq-result-reco h3 { font-size: 0.86rem; letter-spacing: 3px; font-weight: 400; margin-bottom: 18px; color: var(--black); }
-.hq-reco-tags { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
-.hq-reco-tag { padding: 10px 22px; border: 1px solid var(--gold); color: var(--gold); font-size: 0.78rem; letter-spacing: 2px; cursor: pointer; transition: all 0.3s; background: var(--white); }
-.hq-reco-tag:hover { background: var(--gold); color: var(--white); }
-.hq-btn { display: inline-block; padding: 12px 30px; border: 1px solid var(--gold); color: var(--gold); font-size: 0.78rem; letter-spacing: 3px; cursor: pointer; transition: all 0.3s; margin: 0 6px; font-family: var(--sans); background: var(--white); text-decoration: none; }
-.hq-btn:hover { background: var(--gold); color: var(--white); }
-.hq-btn.primary { background: var(--gold); color: var(--white); }
-.hq-btn.primary:hover { background: var(--black); border-color: var(--black); color: var(--white); }
-@media (max-width: 768px) {
-  .home-quiz { padding: 56px 24px; }
-  .home-quiz-intro { font-size: 0.8rem; }
-  .home-quiz-cta { padding: 13px 32px; font-size: 0.76rem; letter-spacing: 3px; }
-  .home-quiz-body.open { max-height: 2800px; }
-  .hq-question { font-size: 0.95rem; letter-spacing: 2px; }
-  .hq-option { padding: 14px 18px; font-size: 0.82rem; }
-  .hq-result-type { font-size: 1.3rem; letter-spacing: 4px; }
-  .hq-btn { margin: 6px 4px; padding: 11px 22px; font-size: 0.74rem; }
-}
-
-/* ===== Service Addon Sections (per-course upsell) ===== */
-.svc-addons { max-width: 640px; margin: 20px auto 28px; text-align: left; padding-top: 8px; }
-.svc-addon-toggle { display: inline-flex; align-items: center; gap: 8px; font-size: 0.78rem; letter-spacing: 3px; color: var(--gold); background: none; border: 1px solid var(--gold); padding: 10px 22px; cursor: pointer; font-family: var(--sans); font-weight: 400; transition: all 0.3s; margin: 0 auto 18px; display: flex; justify-content: center; width: fit-content; }
-.svc-addon-toggle:hover { background: var(--gold); color: var(--black); }
-.svc-addon-toggle::after { content: '▾'; font-size: 0.7rem; transition: transform 0.3s; }
-.svc-addon-toggle.open::after { transform: rotate(180deg); }
-.svc-addon-body { max-height: 0; overflow: hidden; transition: max-height 0.5s ease; }
-.svc-addon-body.open { max-height: 3000px; }
-.svc-addon-group { margin-bottom: 22px; }
-.svc-addon-group:last-child { margin-bottom: 0; }
-.svc-addon-title { font-family: var(--serif); font-size: 0.86rem; letter-spacing: 4px; color: var(--grey-800); margin-bottom: 6px; font-weight: 500; }
-.svc-addon-sub { font-size: 0.72rem; color: var(--grey-500); margin-bottom: 12px; line-height: 1.7; font-weight: 300; }
-.svc-addon-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px 18px; }
-.svc-addon-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px dashed var(--grey-200); font-size: 0.78rem; color: var(--grey-700); font-weight: 300; letter-spacing: 0.5px; }
-.svc-addon-item .svc-addon-name { flex: 1; }
-.svc-addon-item .svc-addon-price { font-family: var(--serif); color: var(--gold); letter-spacing: 1px; font-size: 0.82rem; margin-left: 12px; white-space: nowrap; }
-.svc-addon-item .svc-addon-price.free { color: var(--grey-500); font-size: 0.72rem; }
-@media (max-width: 768px) {
-  .svc-addon-list { grid-template-columns: 1fr; gap: 2px; }
-  .svc-addons { padding: 20px 16px 0; }
-  .svc-addon-title { font-size: 0.82rem; letter-spacing: 3px; }
-  .svc-addon-sub { font-size: 0.68rem; }
-  .svc-addon-item { font-size: 0.74rem; }
-}
 
 
 /* Micro-interactions for all CTA buttons */
@@ -816,7 +732,7 @@ ul { list-style: none; }
 .float-social { position: fixed; right: 24px; bottom: 24px; display: flex; flex-direction: column; gap: 10px; z-index: 900; }
 .float-social a { width: 44px; height: 44px; background: var(--black); color: var(--white); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; transition: all 0.3s; }
 .float-social a:hover { background: var(--gold); }
-@media (max-width: 900px) { .nav-links-desktop { display: none; } .nav-inner { padding: 14px 20px; } .nav-hamburger { left: 20px; } .nav-right { right: 20px; } .nav-brand { gap: 8px; max-width: 220px; } .nav-logo-text { font-size: 1.4rem; letter-spacing: 10px; } .hero { min-height: 88vh; min-height: 88svh; padding: 120px 20px 88px; }  .hero-en { margin-bottom: 28px; } .hero-copy { font-size: 0.88rem; max-width: 320px; margin-bottom: 28px; } .hero-actions { flex-direction: column; align-items: center; } .hero-cta, .hero-secondary-cta { width: min(100%, 280px); } .hero-badges { gap: 10px; } .hero-badge { width: calc(50% - 5px); text-align: center; }  .service-grid { display: flex; flex-direction: column; gap: 16px; padding-bottom: 0; } .service-grid .service-card { flex: none; width: 100%; min-height: 280px; scroll-snap-align: none; } .service-card { min-height: 280px; } .service-card-shell { padding: 28px 24px; } .service-card-desc { font-size: 0.84rem; margin: 14px 0 20px; -webkit-line-clamp: 3; display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; } .services-hero h1, .contact-hero h1, .about-hero-content h1, .knowledge-hero h1 { font-size: clamp(1.6rem, 1rem + 2vw, 2.4rem); letter-spacing: clamp(4px, 2px + 1.5vw, 12px); } .knowledge-section { padding: 70px 20px; } .knowledge-card { padding: 28px 22px; } .service-detail { grid-template-columns: 1fr; } .service-detail:nth-child(even) { direction: ltr; } .service-detail-content { padding: 50px 30px; } .about-story { padding: 90px 24px; }
+@media (max-width: 900px) { .nav-links-desktop { display: none; } .nav-inner { padding: 14px 20px; } .nav-hamburger { left: 20px; } .nav-right { right: 20px; } .nav-brand { gap: 8px; max-width: 220px; } .nav-logo-img { height: 26px; } .nav-brand-zh { font-size: 1rem; letter-spacing: 4px; } .nav-brand-en { font-size: 0.45rem; letter-spacing: 3px; } .hero { min-height: 88vh; min-height: 88svh; padding: 120px 20px 88px; }  .hero-en { margin-bottom: 28px; } .hero-copy { font-size: 0.88rem; max-width: 320px; margin-bottom: 28px; } .hero-actions { flex-direction: column; align-items: center; } .hero-cta, .hero-secondary-cta { width: min(100%, 280px); } .hero-badges { gap: 10px; } .hero-badge { width: calc(50% - 5px); text-align: center; }  .service-grid { display: flex; flex-direction: column; gap: 16px; padding-bottom: 0; } .service-grid .service-card { flex: none; width: 100%; min-height: 280px; scroll-snap-align: none; } .service-card { min-height: 280px; } .service-card-shell { padding: 28px 24px; } .service-card-desc { font-size: 0.84rem; margin: 14px 0 20px; -webkit-line-clamp: 3; display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; } .services-hero h1, .contact-hero h1, .about-hero-content h1, .knowledge-hero h1 { font-size: clamp(1.6rem, 1rem + 2vw, 2.4rem); letter-spacing: clamp(4px, 2px + 1.5vw, 12px); } .knowledge-section { padding: 70px 20px; } .knowledge-card { padding: 28px 22px; } .service-detail { grid-template-columns: 1fr; } .service-detail:nth-child(even) { direction: ltr; } .service-detail-content { padding: 50px 30px; } .about-story { padding: 90px 24px; }
   .story-header { text-align: center; margin-bottom: 50px; }
   .story-header h2 { font-size: 1.3rem; letter-spacing: 5px; }
   .story-header::after { content: ''; display: block; width: 40px; height: 1px; background: var(--gold); margin: 20px auto 0; }
@@ -931,6 +847,8 @@ ul { list-style: none; }
 .nav-search-btn::after { display: none !important; }
 .nav-search-btn svg { stroke: var(--grey-600); transition: stroke 0.3s; }
 .nav-search-btn:hover svg { stroke: var(--gold); }
+.nav.transparent .nav-search-btn svg { stroke: var(--white); }
+.nav.transparent .nav-search-btn:hover svg { stroke: var(--gold); }
 .site-search-panel { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: 10000; display: none; flex-direction: column; align-items: center; justify-content: flex-start; }
 .site-search-panel.open { display: flex; }
 .site-search-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(8px); animation: ssOverIn 0.3s ease; }
@@ -961,10 +879,10 @@ ul { list-style: none; }
 .contact-form-inner { max-width: 700px; margin: 0 auto; }
 .contact-form-inner { text-align: center; }
 .contact-form { text-align: left; }
-.cf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; min-width: 0; }
+.cf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 .cf-field { margin-bottom: 24px; }
 .cf-label { display: block; font-size: 0.72rem; letter-spacing: 2px; color: var(--grey-500); margin-bottom: 8px; font-weight: 400; }
-.cf-input { width: 100%; max-width: 100%; padding: 14px 16px; font-size: 0.88rem; font-family: var(--sans); color: var(--grey-800); border: 1px solid var(--grey-200); background: var(--white); border-radius: 4px; outline: none; transition: border-color 0.3s; letter-spacing: 0.5px; font-weight: 300; box-sizing: border-box; }
+.cf-input { width: 100%; padding: 14px 16px; font-size: 0.88rem; font-family: var(--sans); color: var(--grey-800); border: 1px solid var(--grey-200); background: var(--white); border-radius: 4px; outline: none; transition: border-color 0.3s; letter-spacing: 0.5px; font-weight: 300; box-sizing: border-box; }
 .cf-input:focus { border-color: var(--gold); }
 .cf-input::placeholder { color: var(--grey-300); font-weight: 300; }
 .cf-select { cursor: pointer; -webkit-appearance: none; -moz-appearance: none; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; padding-right: 24px; }
@@ -1026,11 +944,12 @@ ul { list-style: none; }
 </script>
 </head>
 <body>
-<nav class="nav" id="mainNav">
+<nav class="nav transparent" id="mainNav">
   <div class="nav-inner">
     <button class="nav-hamburger" id="menuToggle" aria-label="Menu"><span></span><span></span><span></span></button>
     <div class="nav-brand" onclick="goTo('home')">
-      <div class="nav-logo-text">QIJI</div>
+      <img src="https://res.cloudinary.com/dm7dbtzzf/image/upload/w_84,q_auto,f_auto/logo_rzkp4q" class="nav-logo-img" alt="淇肌淨膚">
+      <div><div class="nav-brand-zh">淇肌淨膚</div><div class="nav-brand-en">QIJI MIRACLE AESTHETIC</div></div>
     </div>
     <div class="nav-right"><div class="nav-links-desktop">
       <div class="nav-dropdown">
@@ -1187,70 +1106,6 @@ ul { list-style: none; }
       </div>
     </div>
   </section>
-  <section class="home-quiz reveal-fade">
-    <div class="home-quiz-banner">
-      <div class="section-eyebrow">SKIN QUIZ</div>
-      <h2 class="section-title-lg">6 0 秒 找 出 你 的 膚 質</h2>
-      <p class="home-quiz-intro">透過 5 題簡單問題，為您量身推薦最適合的專屬療程與加購建議，不需跳頁，原地就能完成檢測。</p>
-      <span class="home-quiz-cta" id="homeQuizCta" onclick="hqStart()">立 即 檢 測 <span class="arrow">▾</span></span>
-    </div>
-    <div class="home-quiz-body" id="homeQuizBody">
-      <div class="hq-progress" id="hqProgress">
-        <div class="hq-dot done"></div><div class="hq-dot"></div><div class="hq-dot"></div><div class="hq-dot"></div><div class="hq-dot"></div>
-      </div>
-      <div class="hq-step active" data-step="0">
-        <div class="hq-question">Q1. 洗完臉後 30 分鐘，肌膚感覺如何？</div>
-        <div class="hq-sub">請選擇最符合的描述</div>
-        <div class="hq-options">
-          <div class="hq-option" onclick="hqSelect(0,this,'oily')">整臉泛油光，尤其 T 字部位明顯</div>
-          <div class="hq-option" onclick="hqSelect(0,this,'dry')">緊繃乾澀，有時會有脫皮現象</div>
-          <div class="hq-option" onclick="hqSelect(0,this,'combo')">T 字出油但兩頰偏乾</div>
-          <div class="hq-option" onclick="hqSelect(0,this,'sensitive')">容易泛紅、刺癢或有灼熱感</div>
-        </div>
-      </div>
-      <div class="hq-step" data-step="1">
-        <div class="hq-question">Q2. 您的毛孔狀況是？</div>
-        <div class="hq-sub">觀察鼻翼和臉頰</div>
-        <div class="hq-options">
-          <div class="hq-option" onclick="hqSelect(1,this,'oily')">毛孔粗大且容易有粉刺</div>
-          <div class="hq-option" onclick="hqSelect(1,this,'dry')">毛孔細小不明顯</div>
-          <div class="hq-option" onclick="hqSelect(1,this,'combo')">T 字毛孔明顯，兩頰細緻</div>
-          <div class="hq-option" onclick="hqSelect(1,this,'sensitive')">毛孔周圍偶爾泛紅</div>
-        </div>
-      </div>
-      <div class="hq-step" data-step="2">
-        <div class="hq-question">Q3. 換季時肌膚最常出現的問題？</div>
-        <div class="hq-sub">回想春秋換季時的狀態</div>
-        <div class="hq-options">
-          <div class="hq-option" onclick="hqSelect(2,this,'oily')">痘痘粉刺變多</div>
-          <div class="hq-option" onclick="hqSelect(2,this,'dry')">脫皮乾裂、上妝不服貼</div>
-          <div class="hq-option" onclick="hqSelect(2,this,'combo')">局部出油卻又局部脫皮</div>
-          <div class="hq-option" onclick="hqSelect(2,this,'sensitive')">過敏泛紅、搔癢不適</div>
-        </div>
-      </div>
-      <div class="hq-step" data-step="3">
-        <div class="hq-question">Q4. 平時使用保養品後的感受？</div>
-        <div class="hq-sub">想想日常保養的體驗</div>
-        <div class="hq-options">
-          <div class="hq-option" onclick="hqSelect(3,this,'oily')">覺得黏膩厚重，容易長痘</div>
-          <div class="hq-option" onclick="hqSelect(3,this,'dry')">吸收很快，但過一陣子又覺得乾</div>
-          <div class="hq-option" onclick="hqSelect(3,this,'combo')">有些部位剛好，有些部位太油或太乾</div>
-          <div class="hq-option" onclick="hqSelect(3,this,'sensitive')">有些產品擦了會刺痛或起紅疹</div>
-        </div>
-      </div>
-      <div class="hq-step" data-step="4">
-        <div class="hq-question">Q5. 目前最想改善的肌膚困擾？</div>
-        <div class="hq-sub">選擇最在意的問題</div>
-        <div class="hq-options">
-          <div class="hq-option" onclick="hqSelect(4,this,'oily')">控油、縮毛孔、改善痘痘</div>
-          <div class="hq-option" onclick="hqSelect(4,this,'dry')">補水保濕、改善暗沉細紋</div>
-          <div class="hq-option" onclick="hqSelect(4,this,'combo')">平衡油水、讓膚質穩定</div>
-          <div class="hq-option" onclick="hqSelect(4,this,'sensitive')">舒緩鎮定、修護肌膚屏障</div>
-        </div>
-      </div>
-      <div class="hq-result" id="hqResult"></div>
-    </div>
-  </section>
   <section class="home-services">
     <div class="section-eyebrow line-reveal">OUR SERVICES</div>
     <h2 class="section-title-lg char-reveal">精 選 服 務</h2>
@@ -1259,7 +1114,6 @@ ul { list-style: none; }
       <div class="service-card reveal delay-1" onclick="goTo('services')">
         <div class="service-card-flip">
           <div class="service-card-face service-card-front service-card-skin">
-            <div class="service-card-badge">人氣首選</div>
             <div class="service-card-shell">
               <svg class="service-card-icon" width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="var(--gold-light)" stroke-width="1"><ellipse cx="32" cy="26" rx="14" ry="18"/><path d="M22 38c-2 4-3 8-2 12 2 4 6 6 12 6s10-2 12-6c1-4 0-8-2-12"/><circle cx="27" cy="22" r="1.5" fill="var(--gold-light)" stroke="none" opacity="0.5"/><circle cx="37" cy="22" r="1.5" fill="var(--gold-light)" stroke="none" opacity="0.5"/><path d="M28 30c2 2 6 2 8 0" stroke-linecap="round"/><path d="M18 18c-1-4 0-8 3-11" stroke-linecap="round" opacity="0.4"/><path d="M46 18c1-4 0-8-3-11" stroke-linecap="round" opacity="0.4"/></svg>
               <div class="service-card-tag">SIGNATURE 01</div>
@@ -1289,7 +1143,6 @@ ul { list-style: none; }
       <div class="service-card reveal delay-2" onclick="goTo('services')">
         <div class="service-card-flip">
           <div class="service-card-face service-card-front service-card-algae">
-            <div class="service-card-badge">新客推薦</div>
             <div class="service-card-shell">
               <svg class="service-card-icon" width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="var(--gold-light)" stroke-width="1"><path d="M32 8c-12 8-18 20-14 32 2 8 8 14 14 16 6-2 12-8 14-16 4-12-2-24-14-32z"/><path d="M22 32c2-4 4-6 10-6s8 2 10 6" stroke-linecap="round" opacity="0.5"/><circle cx="32" cy="44" r="2" fill="var(--gold-light)" stroke="none" opacity="0.6"/></svg>
               <div class="service-card-tag">SIGNATURE 02</div>
@@ -1297,7 +1150,7 @@ ul { list-style: none; }
               <div class="service-card-en">MICRO ALGAE</div>
               <p class="service-card-desc">溫和有效的無痛藻針療程，幫助肌膚代謝更新，讓整體光澤與細緻度慢慢回來。</p>
               <div class="service-card-meta">
-                <div class="service-card-price">NT$ 2,880</div>
+                <div class="service-card-price">NT$ 2,680</div>
                 <div class="service-card-arrow">DISCOVER &rarr;</div>
               </div>
             </div>
@@ -1311,7 +1164,7 @@ ul { list-style: none; }
               <li>改善膚色暗沉粗糙</li>
               <li>恢復期短，不影響日常</li>
             </ul>
-            <div class="service-back-price">NT$ 2,880</div>
+            <div class="service-back-price">NT$ 2,680</div>
             <div class="service-back-cta" onclick="event.stopPropagation(); goToSection('services','svc-facial')">了 解 更 多</div>
           </div>
         </div>
@@ -1319,7 +1172,6 @@ ul { list-style: none; }
       <div class="service-card reveal delay-3" onclick="goTo('services')">
         <div class="service-card-flip">
           <div class="service-card-face service-card-front service-card-cupping">
-            <div class="service-card-badge">放鬆必選</div>
             <div class="service-card-shell">
               <svg class="service-card-icon" width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="var(--gold-light)" stroke-width="1"><circle cx="32" cy="32" r="14"/><circle cx="32" cy="32" r="8" opacity="0.6"/><path d="M32 18v-8M32 54v-8M18 32h-8M54 32h-8" stroke-linecap="round" opacity="0.5"/></svg>
               <div class="service-card-tag">SIGNATURE 03</div>
@@ -1523,315 +1375,63 @@ ul { list-style: none; }
   </div>
 
   <div style="max-width:900px;margin:0 auto;padding:40px 40px 100px;">
-    <div class="svc-category-divider reveal" style="padding:20px 0 30px;text-align:center;">
-      <div style="display:flex;align-items:center;justify-content:center;gap:20px;max-width:680px;margin:0 auto;">
-        <div style="flex:1;height:1px;background:var(--gold);opacity:0.35;"></div>
-        <div style="font-family:var(--serif);font-size:0.72rem;letter-spacing:5px;color:var(--gold);white-space:nowrap;">SKIN CARE&nbsp;&nbsp;·&nbsp;&nbsp;肌 膚 護 理</div>
-        <div style="flex:1;height:1px;background:var(--gold);opacity:0.35;"></div>
-      </div>
-    </div>
     <div id="svc-facial" class="reveal svc-item" data-svc-cat="skin" style="padding:60px 0;border-bottom:1px solid var(--grey-200);text-align:center;">
       <h2 style="font-size:1.4rem;font-weight:300;letter-spacing:6px;margin-bottom:8px;">臉部撥筋</h2>
       <div style="font-family:var(--serif);font-size:0.7rem;letter-spacing:4px;color:var(--gold);margin-bottom:24px;">FACIAL MERIDIAN MASSAGE</div>
       <p style="font-size:0.88rem;line-height:2.2;color:var(--grey-600);font-weight:300;margin-bottom:24px;max-width:600px;margin-left:auto;margin-right:auto;">獨家撥筋手法，連細節都不放過。課程包含撥筋、保濕導入、敷臉與保養品防曬，促進臉部循環、提升輪廓線條與肌膚光澤感。（不含清粉刺）</p>
+      <div style="font-size:0.78rem;color:var(--grey-500);margin-bottom:16px;">可加選：茶點招待、精華導入、院線專用安瓶</div>
       <div style="font-family:var(--serif);font-size:1.1rem;letter-spacing:2px;color:var(--grey-800);margin-bottom:24px;">NT$ <span style="color:var(--gold);">1,200</span> 元</div>
-      <a class="service-detail-cta" href="https://myfreetime.io/google-reserve/YiuTT?hl=zh-TW" target="_blank" rel="noopener noreferrer">立 即 預 約</a>
-      <div class="svc-addons">
-        <button class="svc-addon-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open');">查 看 完 整 加 購 選 項</button>
-        <div class="svc-addon-body">
-          <div class="svc-addon-group">
-            <div class="svc-addon-title">精華導入（可多選）</div>
-            <div class="svc-addon-sub">超聲波儀器搭配精華液導入，讓肌膚吸收更多營養</div>
-            <div class="svc-addon-list">
-              <div class="svc-addon-item"><span class="svc-addon-name">666 水嫩嫩保濕精華</span><span class="svc-addon-price free">含於課程</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">444 油切控油精華</span><span class="svc-addon-price free">含於課程</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">222 敏敏肌修護精華</span><span class="svc-addon-price free">含於課程</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">777 亮晶晶美白精華</span><span class="svc-addon-price free">含於課程</span></div>
-            </div>
-          </div>
-          <div class="svc-addon-group">
-            <div class="svc-addon-title">加購項目（可多選）</div>
-            <div class="svc-addon-sub">⚠️有需要修眉，請記得勾選修眉</div>
-            <div class="svc-addon-list">
-              <div class="svc-addon-item"><span class="svc-addon-name">修眉 ❤️</span><span class="svc-addon-price free">不收費</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">睫毛管理（根源矯正）</span><span class="svc-addon-price">+1,000</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">艾草頭部紓壓</span><span class="svc-addon-price">+399</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">艾草暖宮</span><span class="svc-addon-price">+399</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">泌體天絲面膜（5 片裝）</span><span class="svc-addon-price">+500</span></div>
-            </div>
-          </div>
-          <div class="svc-addon-group">
-            <div class="svc-addon-title">院線專用安瓶（可多選）</div>
-            <div class="svc-addon-sub">升級保濕、抗痘、幹細胞 +100｜抗老 +300｜外泌體 +400｜水光泌體 +900</div>
-            <div class="svc-addon-list">
-              <div class="svc-addon-item"><span class="svc-addon-name">水光保濕安瓶</span><span class="svc-addon-price">+200</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">痘痘粉刺安瓶</span><span class="svc-addon-price">+200</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">幹細胞修護安瓶</span><span class="svc-addon-price">+200</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">抗老胜肽安瓶</span><span class="svc-addon-price">+400</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">外泌體精華</span><span class="svc-addon-price">+500</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">水光泌體精華</span><span class="svc-addon-price">+1,000</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">PDRN 溫感面膜（麗珠蘭成分）</span><span class="svc-addon-price">+200</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <span class="service-detail-cta" onclick="goTo('contact')">立 即 預 約</span>
     </div>
     <div id="svc-algae" class="reveal svc-item" data-svc-cat="skin" style="padding:60px 0;border-bottom:1px solid var(--grey-200);text-align:center;">
-      <div style="font-family:var(--serif);font-size:0.65rem;letter-spacing:3px;color:var(--gold);background:rgba(201,169,110,0.1);display:inline-block;padding:4px 14px;margin-bottom:16px;">高點播率</div>
       <h2 style="font-size:1.4rem;font-weight:300;letter-spacing:6px;margin-bottom:8px;">肌泌藻針</h2>
       <div style="font-family:var(--serif);font-size:0.7rem;letter-spacing:4px;color:var(--gold);margin-bottom:24px;">MICRO ALGAE TREATMENT</div>
       <p style="font-size:0.88rem;line-height:2.2;color:var(--grey-600);font-weight:300;margin-bottom:24px;max-width:600px;margin-left:auto;margin-right:auto;">外泌體藻針療程，含全臉地毯式手工針清粉刺。使用純度 99.9% 白藻針（240～270μm），搭配外泌體蘊活安瓶導入與雙膜修護（修護凍膜打底 + 強效修護型面膜）。清粉刺以 60 分鐘為上限，量較多者需分次處理。</p>
-      <div style="font-family:var(--serif);font-size:1.1rem;letter-spacing:2px;color:var(--grey-800);margin-bottom:24px;">NT$ <span style="color:var(--gold);">2,880</span> 元起</div>
-      <a class="service-detail-cta" href="https://myfreetime.io/google-reserve/YiuTT?hl=zh-TW" target="_blank" rel="noopener noreferrer">立 即 預 約</a>
-      <div class="svc-addons">
-        <button class="svc-addon-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open');">查 看 完 整 加 購 選 項</button>
-        <div class="svc-addon-body">
-          <div class="svc-addon-group">
-            <div class="svc-addon-title">加購項目（可多選）</div>
-            <div class="svc-addon-sub">泌體修護面膜課程後連續使用一週，可延長維持膚況</div>
-            <div class="svc-addon-list">
-              <div class="svc-addon-item"><span class="svc-addon-name">修眉 ❤️</span><span class="svc-addon-price free">不收費</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">脖子（含藻針、敷膜）</span><span class="svc-addon-price">+500</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">睫毛管理（根源矯正）</span><span class="svc-addon-price">+1,000</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">艾草溫罐 頭、肩、頸</span><span class="svc-addon-price">+699</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">臉部撥筋</span><span class="svc-addon-price">+599</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">臉部溫罐</span><span class="svc-addon-price">+599</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">艾草頭部紓壓</span><span class="svc-addon-price">+399</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">艾草暖宮</span><span class="svc-addon-price">+399</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">雙耳清粉刺</span><span class="svc-addon-price">+500</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">泌體天絲面膜（5 片裝）</span><span class="svc-addon-price">+500</span></div>
-            </div>
-          </div>
-          <div class="svc-addon-group">
-            <div class="svc-addon-title">院線專用安瓶（最多選 2 項）</div>
-            <div class="svc-addon-sub">安瓶最多選 2 項，太多皮膚吃不下</div>
-            <div class="svc-addon-list">
-              <div class="svc-addon-item"><span class="svc-addon-name">水光保濕安瓶</span><span class="svc-addon-price">+200</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">痘痘粉刺安瓶</span><span class="svc-addon-price">+200</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">幹細胞修護安瓶</span><span class="svc-addon-price">+200</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">抗老胜肽安瓶</span><span class="svc-addon-price">+400</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">水光泌體精華</span><span class="svc-addon-price">+1,000</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">PDRN 溫感面膜（麗珠蘭成分）</span><span class="svc-addon-price">+200</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div style="font-size:0.78rem;color:var(--grey-500);margin-bottom:16px;">可加選：茶點招待、院線專用安瓶</div>
+      <div style="font-family:var(--serif);font-size:1.1rem;letter-spacing:2px;color:var(--grey-800);margin-bottom:24px;">NT$ <span style="color:var(--gold);">2,680</span> 元起</div>
+      <span class="service-detail-cta" onclick="goTo('contact')">立 即 預 約</span>
     </div>
     <div id="svc-snow" class="reveal svc-item" data-svc-cat="skin" style="padding:60px 0;border-bottom:1px solid var(--grey-200);text-align:center;">
-      <div style="font-family:var(--serif);font-size:0.65rem;letter-spacing:3px;color:var(--gold);background:rgba(201,169,110,0.1);display:inline-block;padding:4px 14px;margin-bottom:16px;">招牌課程・已含 1 支安瓶</div>
+      <div style="font-family:var(--serif);font-size:0.65rem;letter-spacing:3px;color:var(--gold);background:rgba(201,169,110,0.1);display:inline-block;padding:4px 14px;margin-bottom:16px;">招牌課程</div>
       <h2 style="font-size:1.4rem;font-weight:300;letter-spacing:6px;margin-bottom:8px;">雪藻喚膚</h2>
       <div style="font-family:var(--serif);font-size:0.7rem;letter-spacing:4px;color:var(--gold);margin-bottom:24px;">SNOW ALGAE REVIVAL</div>
       <p style="font-size:0.88rem;line-height:2.2;color:var(--grey-600);font-weight:300;margin-bottom:24px;max-width:600px;margin-left:auto;margin-right:auto;">招牌課程，含全臉地毯式清粉刺。使用純度 99.9% 白藻針（240～270μm），搭配韓國院線安瓶導入（淨痘／水光／亮白／幹細胞，抗老 +200）與雙膜修護。已含一支安瓶。清粉刺以 60 分鐘為上限，量較多者需分次處理。</p>
+      <div style="font-size:0.78rem;color:var(--grey-500);margin-bottom:16px;">可加選：茶點招待、院線專用安瓶</div>
       <div style="font-family:var(--serif);font-size:1.1rem;letter-spacing:2px;color:var(--grey-800);margin-bottom:24px;">NT$ <span style="color:var(--gold);">2,300</span> 元起</div>
-      <a class="service-detail-cta" href="https://myfreetime.io/google-reserve/YiuTT?hl=zh-TW" target="_blank" rel="noopener noreferrer">立 即 預 約</a>
-      <div class="svc-addons">
-        <button class="svc-addon-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open');">查 看 完 整 加 購 選 項</button>
-        <div class="svc-addon-body">
-          <div class="svc-addon-group">
-            <div class="svc-addon-title">加購項目（可多選）</div>
-            <div class="svc-addon-sub">專利成分面膜課程後連續使用一週，可延長維持膚況</div>
-            <div class="svc-addon-list">
-              <div class="svc-addon-item"><span class="svc-addon-name">修眉 ❤️</span><span class="svc-addon-price free">不收費</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">脖子（含藻針、敷膜）</span><span class="svc-addon-price">+500</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">睫毛管理（根源矯正）</span><span class="svc-addon-price">+1,000</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">臉部撥筋</span><span class="svc-addon-price">+599</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">臉部溫罐</span><span class="svc-addon-price">+599</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">艾草頭部紓壓</span><span class="svc-addon-price">+399</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">艾草溫罐 頭肩頸放鬆</span><span class="svc-addon-price">+699</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">艾草暖宮</span><span class="svc-addon-price">+399</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">雙耳清粉刺</span><span class="svc-addon-price">+500</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">泌體天絲面膜（5 片裝）</span><span class="svc-addon-price">+500</span></div>
-            </div>
-          </div>
-          <div class="svc-addon-group">
-            <div class="svc-addon-title">院線專用安瓶（最多選 2 項）</div>
-            <div class="svc-addon-sub">安瓶最多選 2 項，太多皮膚吃不下</div>
-            <div class="svc-addon-list">
-              <div class="svc-addon-item"><span class="svc-addon-name">水光保濕安瓶</span><span class="svc-addon-price">+200</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">痘痘粉刺安瓶</span><span class="svc-addon-price">+200</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">亮白安瓶</span><span class="svc-addon-price">+200</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">幹細胞修護安瓶</span><span class="svc-addon-price">+200</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">抗老胜肽安瓶</span><span class="svc-addon-price">+400</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">外泌體精華</span><span class="svc-addon-price">+500</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">水光泌體精華</span><span class="svc-addon-price">+1,000</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">PDRN 溫感面膜（麗珠蘭成分）</span><span class="svc-addon-price">+200</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <span class="service-detail-cta" onclick="goTo('contact')">立 即 預 約</span>
     </div>
     <div id="svc-painless" class="reveal svc-item" data-svc-cat="skin" style="padding:60px 0;border-bottom:1px solid var(--grey-200);text-align:center;">
-      <div style="font-family:var(--serif);font-size:0.65rem;letter-spacing:3px;color:var(--gold);background:rgba(201,169,110,0.1);display:inline-block;padding:4px 14px;margin-bottom:16px;">已含 1 支精華</div>
       <h2 style="font-size:1.4rem;font-weight:300;letter-spacing:6px;margin-bottom:8px;">無痛藻針</h2>
       <div style="font-family:var(--serif);font-size:0.7rem;letter-spacing:4px;color:var(--gold);margin-bottom:24px;">PAINLESS ALGAE</div>
       <p style="font-size:0.88rem;line-height:2.2;color:var(--grey-600);font-weight:300;margin-bottom:24px;max-width:600px;margin-left:auto;margin-right:auto;">無痛藻針搭配基礎保養，含全臉地毯式清粉刺與綺肌光照修護。使用純度 30% 無痛藻針（200μm 以下），搭配精華導入（依膚況調整：保濕／舒敏／控油）與雙膜修護（含牛奶外泌體凍膜打底）。已含一支精華。按摩與刷酸可二選一。</p>
+      <div style="font-size:0.78rem;color:var(--grey-500);margin-bottom:16px;">可加選：茶點招待、加購精華導入、院線專用安瓶</div>
       <div style="font-family:var(--serif);font-size:1.1rem;letter-spacing:2px;color:var(--grey-800);margin-bottom:24px;">NT$ <span style="color:var(--gold);">2,000</span> 元起</div>
-      <a class="service-detail-cta" href="https://myfreetime.io/google-reserve/YiuTT?hl=zh-TW" target="_blank" rel="noopener noreferrer">立 即 預 約</a>
-      <div class="svc-addons">
-        <button class="svc-addon-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open');">查 看 完 整 加 購 選 項</button>
-        <div class="svc-addon-body">
-          <div class="svc-addon-group">
-            <div class="svc-addon-title">加購項目（可多選）</div>
-            <div class="svc-addon-sub">專利成分面膜課程後連續使用一週，可延長維持膚況</div>
-            <div class="svc-addon-list">
-              <div class="svc-addon-item"><span class="svc-addon-name">修眉 ❤️</span><span class="svc-addon-price free">不收費</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">脖子（含藻針、敷膜）</span><span class="svc-addon-price">+500</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">睫毛管理（根源矯正）</span><span class="svc-addon-price">+1,000</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">臉部撥筋</span><span class="svc-addon-price">+599</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">臉部溫罐</span><span class="svc-addon-price">+599</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">艾草頭部紓壓</span><span class="svc-addon-price">+399</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">艾草溫罐 頭肩頸放鬆</span><span class="svc-addon-price">+699</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">艾草暖宮</span><span class="svc-addon-price">+399</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">雙耳清粉刺</span><span class="svc-addon-price">+500</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">泌體天絲面膜（5 片裝）</span><span class="svc-addon-price">+500</span></div>
-            </div>
-          </div>
-          <div class="svc-addon-group">
-            <div class="svc-addon-title">加購精華導入（可多選）</div>
-            <div class="svc-addon-sub">超聲波儀器搭配精華液導入，讓肌膚吸收更多營養</div>
-            <div class="svc-addon-list">
-              <div class="svc-addon-item"><span class="svc-addon-name">666 水嫩嫩保濕精華</span><span class="svc-addon-price">+100</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">444 油切控油精華</span><span class="svc-addon-price">+100</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">222 敏敏肌修護精華</span><span class="svc-addon-price">+100</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">777 亮晶晶美白精華</span><span class="svc-addon-price">+100</span></div>
-            </div>
-          </div>
-          <div class="svc-addon-group">
-            <div class="svc-addon-title">院線專用安瓶（可多選）</div>
-            <div class="svc-addon-sub">升級保濕、抗痘、幹細胞 +100｜抗老 +300｜外泌體 +400｜水光泌體 +900</div>
-            <div class="svc-addon-list">
-              <div class="svc-addon-item"><span class="svc-addon-name">水光保濕安瓶</span><span class="svc-addon-price">+200</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">痘痘粉刺安瓶</span><span class="svc-addon-price">+200</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">亮白安瓶</span><span class="svc-addon-price">+200</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">幹細胞修護安瓶</span><span class="svc-addon-price">+200</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">抗老胜肽安瓶</span><span class="svc-addon-price">+400</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">外泌體精華</span><span class="svc-addon-price">+500</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">水光泌體精華</span><span class="svc-addon-price">+1,000</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">PDRN 溫感面膜（麗珠蘭成分）</span><span class="svc-addon-price">+200</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <span class="service-detail-cta" onclick="goTo('contact')">立 即 預 約</span>
     </div>
     <div id="svc-micro" class="reveal svc-item" data-svc-cat="skin" style="padding:60px 0;border-bottom:1px solid var(--grey-200);text-align:center;">
       <div style="font-family:var(--serif);font-size:0.65rem;letter-spacing:3px;color:var(--gold);background:rgba(201,169,110,0.1);display:inline-block;padding:4px 14px;margin-bottom:16px;">類醫美</div>
       <h2 style="font-size:1.4rem;font-weight:300;letter-spacing:6px;margin-bottom:8px;">微雕蘊膚</h2>
       <div style="font-family:var(--serif);font-size:0.7rem;letter-spacing:4px;color:var(--gold);margin-bottom:24px;">MICRO SCULPTING</div>
       <p style="font-size:0.88rem;line-height:2.2;color:var(--grey-600);font-weight:300;margin-bottom:24px;max-width:600px;margin-left:auto;margin-right:auto;">在藻針課程基礎上搭配 MTS 微針操作，含全臉地毯式清粉刺與綺肌光照修護。使用純度 99.9% 白藻針（240～270μm），搭配韓國院線安瓶導入與雙膜修護（含牛奶外泌體凍膜打底）。按摩與刷酸可二選一，再送外泌體天絲修護面膜 5 片。</p>
+      <div style="font-size:0.78rem;color:var(--grey-500);margin-bottom:16px;">可加選：茶點招待、院線專用安瓶</div>
       <div style="font-family:var(--serif);font-size:1.1rem;letter-spacing:2px;color:var(--grey-800);margin-bottom:24px;">NT$ <span style="color:var(--gold);">3,500</span> 元起</div>
-      <a class="service-detail-cta" href="https://myfreetime.io/google-reserve/YiuTT?hl=zh-TW" target="_blank" rel="noopener noreferrer">立 即 預 約</a>
-      <div class="svc-addons">
-        <button class="svc-addon-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open');">查 看 完 整 加 購 選 項</button>
-        <div class="svc-addon-body">
-          <div class="svc-addon-group">
-            <div class="svc-addon-title">加購項目（可多選）</div>
-            <div class="svc-addon-sub">專利成分面膜課程後連續使用一週，可延長維持膚況</div>
-            <div class="svc-addon-list">
-              <div class="svc-addon-item"><span class="svc-addon-name">修眉 ❤️</span><span class="svc-addon-price free">不收費</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">脖子（含藻針、敷膜）</span><span class="svc-addon-price">+500</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">睫毛管理（根源矯正）</span><span class="svc-addon-price">+1,000</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">臉部撥筋</span><span class="svc-addon-price">+599</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">臉部溫罐</span><span class="svc-addon-price">+599</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">艾草頭部紓壓</span><span class="svc-addon-price">+399</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">艾草溫罐 頭肩頸放鬆</span><span class="svc-addon-price">+699</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">艾草暖宮</span><span class="svc-addon-price">+399</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">雙耳清粉刺</span><span class="svc-addon-price">+500</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">泌體天絲面膜（5 片裝）</span><span class="svc-addon-price">+500</span></div>
-            </div>
-          </div>
-          <div class="svc-addon-group">
-            <div class="svc-addon-title">院線專用安瓶（可多選）</div>
-            <div class="svc-addon-sub">升級保濕、抗痘、幹細胞 +100｜抗老 +300｜外泌體 +400｜水光泌體 +900</div>
-            <div class="svc-addon-list">
-              <div class="svc-addon-item"><span class="svc-addon-name">水光保濕安瓶</span><span class="svc-addon-price">+200</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">痘痘粉刺安瓶</span><span class="svc-addon-price">+200</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">幹細胞修護安瓶</span><span class="svc-addon-price">+200</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">抗老胜肽安瓶</span><span class="svc-addon-price">+400</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">外泌體精華</span><span class="svc-addon-price">+500</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">水光泌體精華</span><span class="svc-addon-price">+1,000</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">PDRN 溫感面膜（麗珠蘭成分）</span><span class="svc-addon-price">+200</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <span class="service-detail-cta" onclick="goTo('contact')">立 即 預 約</span>
     </div>
-    <div id="svc-back" class="reveal svc-item" data-svc-cat="skin" style="padding:60px 0;text-align:center;">
+    <div id="svc-back" class="reveal svc-item" data-svc-cat="skin" style="padding:60px 0;border-bottom:1px solid var(--grey-200);text-align:center;">
       <h2 style="font-size:1.4rem;font-weight:300;letter-spacing:6px;margin-bottom:8px;">背部護理</h2>
       <div style="font-family:var(--serif);font-size:0.7rem;letter-spacing:4px;color:var(--gold);margin-bottom:24px;">BACK CARE TREATMENT</div>
       <p style="font-size:0.88rem;line-height:2.2;color:var(--grey-600);font-weight:300;margin-bottom:24px;max-width:600px;margin-left:auto;margin-right:auto;">背部深層護理，包含清粉刺、藻針與敷膜。範圍為肩膀以下、腰部以上。</p>
-      <div style="font-family:var(--serif);font-size:1.1rem;letter-spacing:2px;color:var(--grey-800);margin-bottom:24px;">依 加 購 選 項 報 價</div>
-      <a class="service-detail-cta" href="https://myfreetime.io/google-reserve/YiuTT?hl=zh-TW" target="_blank" rel="noopener noreferrer">立 即 預 約</a>
-      <div class="svc-addons">
-        <button class="svc-addon-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open');">查 看 完 整 加 購 選 項</button>
-        <div class="svc-addon-body">
-          <div class="svc-addon-group">
-            <div class="svc-addon-title">加購項目（可多選）</div>
-            <div class="svc-addon-sub">專利成分面膜課程後連續使用一週，可延長維持膚況</div>
-            <div class="svc-addon-list">
-              <div class="svc-addon-item"><span class="svc-addon-name">睫毛管理（根源矯正）</span><span class="svc-addon-price">+1,000</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">艾草頭部紓壓</span><span class="svc-addon-price">+399</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">泌體天絲面膜（5 片裝）</span><span class="svc-addon-price">+500</span></div>
-            </div>
-          </div>
-          <div class="svc-addon-group">
-            <div class="svc-addon-title">院線專用安瓶（最多選 2 項）</div>
-            <div class="svc-addon-sub">安瓶最多選 2 項，太多皮膚吃不下</div>
-            <div class="svc-addon-list">
-              <div class="svc-addon-item"><span class="svc-addon-name">水光保濕安瓶</span><span class="svc-addon-price">+200</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">痘痘粉刺安瓶</span><span class="svc-addon-price">+200</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">幹細胞修護安瓶</span><span class="svc-addon-price">+200</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">抗老胜肽安瓶</span><span class="svc-addon-price">+400</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">外泌體精華</span><span class="svc-addon-price">+500</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">水光泌體精華</span><span class="svc-addon-price">+1,000</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div style="font-size:0.78rem;color:var(--grey-500);margin-bottom:16px;">可加選：茶點招待、院線專用安瓶</div>
+      <div style="font-family:var(--serif);font-size:1.1rem;letter-spacing:2px;color:var(--grey-800);margin-bottom:24px;">NT$ <span style="color:var(--gold);">4,000</span> 元</div>
+      <span class="service-detail-cta" onclick="goTo('contact')">立 即 預 約</span>
     </div>
-    <div class="svc-category-divider reveal" style="padding:40px 0 30px;text-align:center;">
-      <div style="display:flex;align-items:center;justify-content:center;gap:20px;max-width:680px;margin:0 auto;">
-        <div style="flex:1;height:1px;background:var(--gold);opacity:0.35;"></div>
-        <div style="font-family:var(--serif);font-size:0.72rem;letter-spacing:5px;color:var(--gold);white-space:nowrap;">BODY THERAPY&nbsp;&nbsp;·&nbsp;&nbsp;身 體 療 程</div>
-        <div style="flex:1;height:1px;background:var(--gold);opacity:0.35;"></div>
-      </div>
-    </div>
-    <div id="svc-cupping" class="reveal svc-item" data-svc-cat="cupping" style="padding:60px 0;text-align:center;">
+    <div id="svc-cupping" class="reveal svc-item" data-svc-cat="cupping" style="padding:60px 0;border-bottom:1px solid var(--grey-200);text-align:center;">
       <div style="font-size:1.8rem;margin-bottom:12px;">☯️</div>
       <h2 style="font-size:1.4rem;font-weight:300;letter-spacing:6px;margin-bottom:8px;">五行罐撥</h2>
       <div style="font-family:var(--serif);font-size:0.7rem;letter-spacing:4px;color:var(--gold);margin-bottom:24px;">FIVE ELEMENTS CUPPING</div>
       <p style="font-size:0.88rem;line-height:2.2;color:var(--grey-600);font-weight:300;margin-bottom:24px;max-width:600px;margin-left:auto;margin-right:auto;">與身體對話 — 結合五行理論與罐撥手法，疏通經絡、促進循環、放鬆身心。從內而外調理體質。</p>
-      <div style="font-family:var(--serif);font-size:1.1rem;letter-spacing:2px;color:var(--grey-800);margin-bottom:24px;">NT$ <span style="color:var(--gold);">1,500</span> 元起（每小時）</div>
-      <a class="service-detail-cta" href="https://myfreetime.io/google-reserve/YiuTT?hl=zh-TW" target="_blank" rel="noopener noreferrer">立 即 預 約</a>
-      <div class="svc-addons">
-        <button class="svc-addon-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open');">查 看 完 整 加 購 選 項</button>
-        <div class="svc-addon-body">
-          <div class="svc-addon-group">
-            <div class="svc-addon-title">請選時間（必選）</div>
-            <div class="svc-addon-sub">⚠️ 懷孕中、半年內手術、身體發炎、生理期量多請勿預約。請依當下身體狀況選擇操作部位。</div>
-            <div class="svc-addon-list">
-              <div class="svc-addon-item"><span class="svc-addon-name">身體 1 小時</span><span class="svc-addon-price">+1,500</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">身體 2 小時</span><span class="svc-addon-price">+3,000</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">身體 3 小時</span><span class="svc-addon-price">+4,500</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">身體 4 小時</span><span class="svc-addon-price">+6,000</span></div>
-            </div>
-          </div>
-          <div class="svc-addon-group">
-            <div class="svc-addon-title">加購項目（可多選）</div>
-            <div class="svc-addon-list">
-              <div class="svc-addon-item"><span class="svc-addon-name">艾草暖宮</span><span class="svc-addon-price">+399</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">頭 + 肩頸</span><span class="svc-addon-price">+699</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">頭皮放鬆</span><span class="svc-addon-price">+399</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="svc-category-divider reveal" style="padding:40px 0 30px;text-align:center;">
-      <div style="display:flex;align-items:center;justify-content:center;gap:20px;max-width:680px;margin:0 auto;">
-        <div style="flex:1;height:1px;background:var(--gold);opacity:0.35;"></div>
-        <div style="font-family:var(--serif);font-size:0.72rem;letter-spacing:5px;color:var(--gold);white-space:nowrap;">HAIR REMOVAL&nbsp;&nbsp;·&nbsp;&nbsp;除 毛</div>
-        <div style="flex:1;height:1px;background:var(--gold);opacity:0.35;"></div>
-      </div>
+      <div style="font-family:var(--serif);font-size:1.1rem;letter-spacing:2px;color:var(--grey-800);margin-bottom:24px;">NT$ <span style="color:var(--gold);">1,500</span> 元起</div>
+      <span class="service-detail-cta" onclick="goTo('contact')">立 即 預 約</span>
     </div>
     <div id="svc-hotwax" class="reveal svc-item" data-svc-cat="hair" style="padding:60px 0;border-bottom:1px solid var(--grey-200);text-align:center;">
       <div style="font-size:1.8rem;margin-bottom:12px;">🔥</div>
@@ -1839,179 +1439,25 @@ ul { list-style: none; }
       <div style="font-family:var(--serif);font-size:0.7rem;letter-spacing:4px;color:var(--gold);margin-bottom:24px;">HOT WAX HAIR REMOVAL</div>
       <p style="font-size:0.88rem;line-height:2.2;color:var(--grey-600);font-weight:300;margin-bottom:24px;max-width:600px;margin-left:auto;margin-right:auto;">使用專業熱蠟，快速去除多餘毛髮，同時帶走老廢角質，讓肌膚更加光滑細緻。適合想要乾淨俐落效果的你。</p>
       <div style="font-family:var(--serif);font-size:1.1rem;letter-spacing:2px;color:var(--grey-800);margin-bottom:24px;">依部位報價</div>
-      <a class="service-detail-cta" href="https://myfreetime.io/google-reserve/YiuTT?hl=zh-TW" target="_blank" rel="noopener noreferrer">立 即 預 約</a>
-      <div class="svc-addons">
-        <button class="svc-addon-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open');">📌 除 毛 前 後 注 意 事 項</button>
-        <div class="svc-addon-body">
-          <div class="svc-addon-group">
-            <div class="svc-addon-title">📌 除毛前注意事項</div>
-            <div class="svc-addon-sub" style="text-align:left;line-height:2;">🌀 毛髮至少需留 0.5～1 公分的長度。<br>🌀 除毛前一週請勿使用含酸保養品（如杏仁酸、水楊酸、果酸），避免除毛後產生過敏反應。<br>🌀 除毛部位若有明顯傷口、剛復原傷口、皮膚病變、正在過敏紅腫或曬傷脫皮，需等待皮膚恢復後才可除毛。<br>🌀 若有計劃出遊（水上活動、游泳、泡溫泉）建議一週前安排除毛，請勿出遊前一天除毛。<br>🌀 <strong>女客</strong>私密處除毛，請避開生理期間及前三後三天，疼痛感會較明顯；除毛前建議暫停性行為。<br>🌀 <strong>男客「無」私密處除毛服務</strong>。</div>
-          </div>
-          <div class="svc-addon-group">
-            <div class="svc-addon-title">📌 除毛後注意事項</div>
-            <div class="svc-addon-sub" style="text-align:left;line-height:2;">🌀 剛除完毛的皮膚較脆弱，有紅腫現象屬正常反應。<br>⚠️ 除毛後 24 小時內：<br>‼️ 不碰生水（含泡澡、泡溫泉、游泳、玩海水），避免感染發炎。<br>‼️ 避免性行為，以免造成色素沉澱或內包毛。<br>‼️ 避免激烈運動，汗水鹽分與酸性物質會刺激除毛肌膚，出現細菌感染。<br>‼️ 避免除毛處接觸高溫，以免延長發炎時間。<br>🌀 除毛後第三天可使用去角質產品，避免新長毛髮變成內包毛；日常搭配保濕乳液，一週可去一次角質。<br>🌀 避免穿太緊身或不透氣衣物，建議寬鬆透氣棉質衣物。</div>
-          </div>
-        </div>
-      </div>
-      <div class="svc-addons">
-        <button class="svc-addon-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open');">查 看 完 整 部 位 價 格</button>
-        <div class="svc-addon-body">
-          <div class="svc-addon-group">
-            <div class="svc-addon-title">💃🏻 女孩專區（可多選）</div>
-            <div class="svc-addon-sub">手部、腿部全除請點選「全手／全腿」</div>
-            <div class="svc-addon-list">
-              <div class="svc-addon-item"><span class="svc-addon-name">人中小鬍子</span><span class="svc-addon-price">+300</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">腋下</span><span class="svc-addon-price">+600</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">前手臂</span><span class="svc-addon-price">+800</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">整隻手全除</span><span class="svc-addon-price">+1,500</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">小腿</span><span class="svc-addon-price">+1,000</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">整隻腿全除</span><span class="svc-addon-price">+1,800</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">私密處全除（VIO）</span><span class="svc-addon-price">+2,200</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">手指手背</span><span class="svc-addon-price">+300</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">腳趾腳背</span><span class="svc-addon-price">+300</span></div>
-            </div>
-          </div>
-          <div class="svc-addon-group">
-            <div class="svc-addon-title">🕺🏻 男孩專區（可多選）</div>
-            <div class="svc-addon-sub">⚠️ 男客無私密處除毛服務</div>
-            <div class="svc-addon-list">
-              <div class="svc-addon-item"><span class="svc-addon-name">腋下</span><span class="svc-addon-price">+800</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">八字鬍</span><span class="svc-addon-price">+800</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">下巴</span><span class="svc-addon-price">+800</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">八字鬍 + 下巴</span><span class="svc-addon-price">+1,500</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">落腮鬍</span><span class="svc-addon-price">+1,500</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">鬍子全除</span><span class="svc-addon-price">+2,800</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">前手臂</span><span class="svc-addon-price">+900</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">整隻手全除</span><span class="svc-addon-price">+1,600</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">小腿</span><span class="svc-addon-price">+1,200</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">整隻腿全除</span><span class="svc-addon-price">+2,000</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">腹部</span><span class="svc-addon-price">+1,600</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">胸部</span><span class="svc-addon-price">+1,600</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">手指手背</span><span class="svc-addon-price">+300</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">腳趾腳背</span><span class="svc-addon-price">+300</span></div>
-            </div>
-          </div>
-          <div class="svc-addon-group">
-            <div class="svc-addon-title">加購產品</div>
-            <div class="svc-addon-sub">建議除毛後第三天開始去角質，避免產生內包毛</div>
-            <div class="svc-addon-list">
-              <div class="svc-addon-item"><span class="svc-addon-name">美體去角質淨白霜</span><span class="svc-addon-price">+800</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <span class="service-detail-cta" onclick="goTo('contact')">立 即 預 約</span>
     </div>
-    <div id="svc-icewax" class="reveal svc-item" data-svc-cat="hair" style="padding:60px 0;text-align:center;">
+    <div id="svc-icewax" class="reveal svc-item" data-svc-cat="hair" style="padding:60px 0;border-bottom:1px solid var(--grey-200);text-align:center;">
       <div style="font-size:1.8rem;margin-bottom:12px;">❄️</div>
       <h2 style="font-size:1.4rem;font-weight:300;letter-spacing:6px;margin-bottom:8px;">冰肌除毛</h2>
       <div style="font-family:var(--serif);font-size:0.7rem;letter-spacing:4px;color:var(--gold);margin-bottom:24px;">ICE HAIR REMOVAL</div>
       <p style="font-size:0.88rem;line-height:2.2;color:var(--grey-600);font-weight:300;margin-bottom:24px;max-width:600px;margin-left:auto;margin-right:auto;">冰感低溫技術，大幅降低除毛過程的不適感，特別適合怕痛或敏感肌膚的顧客，溫和有效地達到除毛效果。</p>
       <div style="font-family:var(--serif);font-size:1.1rem;letter-spacing:2px;color:var(--grey-800);margin-bottom:24px;">依部位報價</div>
-      <a class="service-detail-cta" href="https://myfreetime.io/google-reserve/YiuTT?hl=zh-TW" target="_blank" rel="noopener noreferrer">立 即 預 約</a>
-      <div class="svc-addons">
-        <button class="svc-addon-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open');">📌 除 毛 前 後 注 意 事 項</button>
-        <div class="svc-addon-body">
-          <div class="svc-addon-group">
-            <div class="svc-addon-title">📌 除毛前注意事項</div>
-            <div class="svc-addon-sub" style="text-align:left;line-height:2;">🌀 毛髮至少需留 0.5～1 公分的長度。<br>🌀 除毛前一週請勿使用含酸保養品（如杏仁酸、水楊酸、果酸），避免除毛後產生過敏反應。<br>🌀 除毛部位若有明顯傷口、剛復原傷口、皮膚病變、正在過敏紅腫或曬傷脫皮，需等待皮膚恢復後才可除毛。<br>🌀 若有計劃出遊（水上活動、游泳、泡溫泉）建議一週前安排除毛，請勿出遊前一天除毛。<br>🌀 <strong>女客</strong>私密處除毛，請避開生理期間及前三後三天，疼痛感會較明顯；除毛前建議暫停性行為。<br>🌀 <strong>男客「無」私密處除毛服務</strong>。</div>
-          </div>
-          <div class="svc-addon-group">
-            <div class="svc-addon-title">📌 除毛後注意事項</div>
-            <div class="svc-addon-sub" style="text-align:left;line-height:2;">🌀 剛除完毛的皮膚較脆弱，有紅腫現象屬正常反應。<br>⚠️ 除毛後 24 小時內：<br>‼️ 不碰生水（含泡澡、泡溫泉、游泳、玩海水），避免感染發炎。<br>‼️ 避免性行為，以免造成色素沉澱或內包毛。<br>‼️ 避免激烈運動，汗水鹽分與酸性物質會刺激除毛肌膚，出現細菌感染。<br>‼️ 避免除毛處接觸高溫，以免延長發炎時間。<br>🌀 除毛後第三天可使用去角質產品，避免新長毛髮變成內包毛；日常搭配保濕乳液，一週可去一次角質。<br>🌀 避免穿太緊身或不透氣衣物，建議寬鬆透氣棉質衣物。</div>
-          </div>
-        </div>
-      </div>
-      <div class="svc-addons">
-        <button class="svc-addon-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open');">查 看 完 整 部 位 價 格</button>
-        <div class="svc-addon-body">
-          <div class="svc-addon-group">
-            <div class="svc-addon-title">💃🏻 女孩專區（可多選）</div>
-            <div class="svc-addon-sub">手部、腿部全除請點選「全手／全腿」</div>
-            <div class="svc-addon-list">
-              <div class="svc-addon-item"><span class="svc-addon-name">人中小鬍子</span><span class="svc-addon-price">+300</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">腋下</span><span class="svc-addon-price">+600</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">前手臂</span><span class="svc-addon-price">+800</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">整隻手全除</span><span class="svc-addon-price">+1,500</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">小腿</span><span class="svc-addon-price">+1,000</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">整隻腿全除</span><span class="svc-addon-price">+1,800</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">私密處全除（VIO）</span><span class="svc-addon-price">+2,200</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">手指手背</span><span class="svc-addon-price">+300</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">腳趾腳背</span><span class="svc-addon-price">+300</span></div>
-            </div>
-          </div>
-          <div class="svc-addon-group">
-            <div class="svc-addon-title">🕺🏻 男孩專區（可多選）</div>
-            <div class="svc-addon-sub">⚠️ 男客無私密處除毛服務</div>
-            <div class="svc-addon-list">
-              <div class="svc-addon-item"><span class="svc-addon-name">腋下</span><span class="svc-addon-price">+800</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">八字鬍</span><span class="svc-addon-price">+800</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">下巴</span><span class="svc-addon-price">+800</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">落腮鬍</span><span class="svc-addon-price">+1,500</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">鬍子全除</span><span class="svc-addon-price">+2,800</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">前手臂</span><span class="svc-addon-price">+900</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">整隻手全除</span><span class="svc-addon-price">+1,600</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">小腿</span><span class="svc-addon-price">+1,200</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">整隻腿全除</span><span class="svc-addon-price">+2,000</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">腹部</span><span class="svc-addon-price">+1,600</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">胸部</span><span class="svc-addon-price">+1,600</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">手指手背</span><span class="svc-addon-price">+300</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">腳趾腳背</span><span class="svc-addon-price">+300</span></div>
-            </div>
-          </div>
-          <div class="svc-addon-group">
-            <div class="svc-addon-title">加購產品</div>
-            <div class="svc-addon-sub">建議除毛後第三天開始去角質，避免產生內包毛</div>
-            <div class="svc-addon-list">
-              <div class="svc-addon-item"><span class="svc-addon-name">美體去角質淨白霜</span><span class="svc-addon-price">+800</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <span class="service-detail-cta" onclick="goTo('contact')">立 即 預 約</span>
     </div>
-    <div class="svc-category-divider reveal" style="padding:40px 0 30px;text-align:center;">
-      <div style="display:flex;align-items:center;justify-content:center;gap:20px;max-width:680px;margin:0 auto;">
-        <div style="flex:1;height:1px;background:var(--gold);opacity:0.35;"></div>
-        <div style="font-family:var(--serif);font-size:0.72rem;letter-spacing:5px;color:var(--gold);white-space:nowrap;">NAIL&nbsp;&nbsp;·&nbsp;&nbsp;美 甲</div>
-        <div style="flex:1;height:1px;background:var(--gold);opacity:0.35;"></div>
-      </div>
-    </div>
-    <div id="svc-nail" class="reveal svc-item" data-svc-cat="nail" style="padding:60px 0;text-align:center;">
+    <div id="svc-nail" class="reveal svc-item" data-svc-cat="nail" style="padding:60px 0;border-bottom:1px solid var(--grey-200);text-align:center;">
       <div style="font-size:1.8rem;margin-bottom:12px;">💅</div>
       <h2 style="font-size:1.4rem;font-weight:300;letter-spacing:6px;margin-bottom:8px;">美甲服務</h2>
       <div style="font-family:var(--serif);font-size:0.7rem;letter-spacing:4px;color:var(--gold);margin-bottom:24px;">NAIL ART</div>
-      <p style="font-size:0.88rem;line-height:2.2;color:var(--grey-600);font-weight:300;margin-bottom:24px;max-width:600px;margin-left:auto;margin-right:auto;">精緻美甲設計，讓指尖也綻放美麗光彩。僅提供單色服務，無造型款。上色皆內含基礎保養、建構加厚。一週內可補甲。</p>
-      <div style="font-family:var(--serif);font-size:1.1rem;letter-spacing:2px;color:var(--grey-800);margin-bottom:24px;">NT$ <span style="color:var(--gold);">800</span> 元起</div>
-      <a class="service-detail-cta" href="https://myfreetime.io/google-reserve/YiuTT?hl=zh-TW" target="_blank" rel="noopener noreferrer">立 即 預 約</a>
-      <div class="svc-addons">
-        <button class="svc-addon-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open');">查 看 完 整 美 甲 選 項</button>
-        <div class="svc-addon-body">
-          <div class="svc-addon-group">
-            <div class="svc-addon-title">美甲（必選一項）</div>
-            <div class="svc-addon-sub">上色皆為單色，無造型款</div>
-            <div class="svc-addon-list">
-              <div class="svc-addon-item"><span class="svc-addon-name">單 1 色（含保養、加厚）</span><span class="svc-addon-price">+800</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">單色跳色（選 2 色）</span><span class="svc-addon-price">+850</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">單色跳色（選 3 色）</span><span class="svc-addon-price">+900</span></div>
-            </div>
-          </div>
-          <div class="svc-addon-group">
-            <div class="svc-addon-title">需要卸甲請點選</div>
-            <div class="svc-addon-list">
-              <div class="svc-addon-item"><span class="svc-addon-name">卸甲續作</span><span class="svc-addon-price">+200</span></div>
-              <div class="svc-addon-item"><span class="svc-addon-name">卸甲不續作</span><span class="svc-addon-price">+350</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <p style="font-size:0.88rem;line-height:2.2;color:var(--grey-600);font-weight:300;margin-bottom:24px;max-width:600px;margin-left:auto;margin-right:auto;">精緻美甲設計，讓指尖也綻放美麗光彩。多種風格任選，打造專屬你的指尖藝術。</p>
+      <div style="font-family:var(--serif);font-size:1.1rem;letter-spacing:2px;color:var(--grey-800);margin-bottom:24px;">依款式報價</div>
+      <span class="service-detail-cta" onclick="goTo('contact')">立 即 預 約</span>
     </div>
-    <div class="svc-category-divider reveal" style="padding:40px 0 30px;text-align:center;">
-      <div style="display:flex;align-items:center;justify-content:center;gap:20px;max-width:680px;margin:0 auto;">
-        <div style="flex:1;height:1px;background:var(--gold);opacity:0.35;"></div>
-        <div style="font-family:var(--serif);font-size:0.72rem;letter-spacing:5px;color:var(--gold);white-space:nowrap;">MEMBERSHIP&nbsp;&nbsp;·&nbsp;&nbsp;會 員 方 案</div>
-        <div style="flex:1;height:1px;background:var(--gold);opacity:0.35;"></div>
-      </div>
-    </div>
-    <div id="svc-membership" class="reveal svc-item" data-svc-cat="membership" style="padding:40px 0 60px;text-align:center;">
+    <div id="svc-membership" class="reveal svc-item" data-svc-cat="membership" style="padding:80px 0 60px;text-align:center;">
       <h2 style="font-size:1.4rem;font-weight:300;letter-spacing:6px;margin-bottom:8px;">儲值方案</h2>
       <div style="font-family:var(--serif);font-size:0.7rem;letter-spacing:4px;color:var(--gold);margin-bottom:12px;">VALUE PACKAGES</div>
       <p style="font-size:0.82rem;color:var(--grey-500);margin-bottom:40px;">所有預約項目皆可抵用儲值金</p>
@@ -2044,13 +1490,7 @@ ul { list-style: none; }
           <div style="font-size:0.78rem;color:var(--grey-500);">儲值金</div>
         </div>
       </div>
-      <div style="padding:10px 0 30px;">
-        <div style="display:flex;align-items:center;justify-content:center;gap:16px;max-width:520px;margin:0 auto;">
-          <div style="flex:1;height:1px;background:var(--grey-200);"></div>
-          <div style="font-family:var(--serif);font-size:0.65rem;letter-spacing:4px;color:var(--grey-400);white-space:nowrap;">MEMBERSHIP PLANS</div>
-          <div style="flex:1;height:1px;background:var(--grey-200);"></div>
-        </div>
-      </div>
+      <div style="width:100%;height:1px;background:var(--grey-200);margin-bottom:60px;"></div>
       <h2 style="font-size:1.4rem;font-weight:300;letter-spacing:6px;margin-bottom:8px;">會員方案</h2>
       <div style="font-family:var(--serif);font-size:0.7rem;letter-spacing:4px;color:var(--gold);margin-bottom:12px;">MEMBERSHIP PLANS</div>
       <p style="font-size:0.82rem;color:var(--grey-500);margin-bottom:40px;max-width:500px;margin-left:auto;margin-right:auto;">自購買日起有效期限 1 年，年消費滿 $25,000 自動續約，生日當月全品項享 75 折</p>
@@ -2082,14 +1522,8 @@ ul { list-style: none; }
       </div>
       <span class="service-detail-cta" onclick="goTo('contact')">了 解 更 多</span>
     </div>
-    <div class="svc-category-divider reveal" style="padding:40px 0 30px;text-align:center;">
-      <div style="display:flex;align-items:center;justify-content:center;gap:20px;max-width:680px;margin:0 auto;">
-        <div style="flex:1;height:1px;background:var(--gold);opacity:0.35;"></div>
-        <div style="font-family:var(--serif);font-size:0.72rem;letter-spacing:5px;color:var(--gold);white-space:nowrap;">CLIENT STORIES&nbsp;&nbsp;·&nbsp;&nbsp;顧 客 心 得</div>
-        <div style="flex:1;height:1px;background:var(--gold);opacity:0.35;"></div>
-      </div>
-    </div>
-    <div id="svc-cases" class="reveal" style="padding:30px 0 60px;text-align:center;">
+    <div style="width:100%;height:1px;background:var(--grey-200);margin-bottom:60px;"></div>
+    <div id="svc-cases" class="reveal" style="padding:60px 0;text-align:center;">
       <div style="font-family:var(--serif);font-size:0.68rem;letter-spacing:4px;color:var(--gold);margin-bottom:12px;text-transform:uppercase;">CLIENT STORIES</div>
       <h2 style="font-size:1.4rem;font-weight:300;letter-spacing:6px;margin-bottom:16px;">顧 客 心 得</h2>
       <p style="font-size:0.84rem;color:var(--grey-500);margin-bottom:40px;max-width:500px;margin-left:auto;margin-right:auto;">來自顧客們的真實回饋，每一段分享都是我們持續進步的動力</p>
@@ -3202,4 +2636,982 @@ ul { list-style: none; }
       <div class="quiz-question">Q4. 平時使用保養品後的感受？</div>
       <div class="quiz-sub">想想日常保養的體驗</div>
       <div class="quiz-options">
-        <div class
+        <div class="quiz-option" onclick="quizSelect(3,this,'oily')">覺得黏膩厚重，容易長痘</div>
+        <div class="quiz-option" onclick="quizSelect(3,this,'dry')">吸收很快，但過一陣子又覺得乾</div>
+        <div class="quiz-option" onclick="quizSelect(3,this,'combo')">有些部位剛好，有些部位太油或太乾</div>
+        <div class="quiz-option" onclick="quizSelect(3,this,'sensitive')">有些產品擦了會刺痛或起紅疹</div>
+      </div>
+    </div>
+    <div class="quiz-step" data-step="4">
+      <div class="quiz-question">Q5. 目前最想改善的肌膚困擾？</div>
+      <div class="quiz-sub">選擇最在意的問題</div>
+      <div class="quiz-options">
+        <div class="quiz-option" onclick="quizSelect(4,this,'oily')">控油、縮毛孔、改善痘痘</div>
+        <div class="quiz-option" onclick="quizSelect(4,this,'dry')">補水保濕、改善暗沉細紋</div>
+        <div class="quiz-option" onclick="quizSelect(4,this,'combo')">平衡油水、讓膚質穩定</div>
+        <div class="quiz-option" onclick="quizSelect(4,this,'sensitive')">舒緩鎮定、修護肌膚屏障</div>
+      </div>
+    </div>
+    <div class="quiz-result" id="quizResult"></div>
+  </div>
+</div>
+<div class="page" id="page-privacy">
+  <section class="contact-hero" style="height:40vh;"><div class="section-eyebrow">PRIVACY POLICY</div><h1>隱 私 權 政 策</h1></section>
+  <div style="max-width:800px;margin:0 auto;padding:80px 40px 100px;">
+    <div class="reveal" style="font-size:0.88rem;line-height:2.2;color:var(--grey-600);font-weight:300;">
+      <h2 style="font-size:1.2rem;font-weight:300;letter-spacing:4px;margin-bottom:24px;color:var(--black);">一、資料收集範圍</h2>
+      <p style="margin-bottom:30px;">當您透過本網站預約系統或 LINE 官方帳號進行預約時，我們可能會收集以下個人資料：姓名、電話號碼、LINE 帳號、預約時間與療程項目等。這些資料僅用於預約安排及療程服務之必要聯繫。</p>
+      <h2 style="font-size:1.2rem;font-weight:300;letter-spacing:4px;margin-bottom:24px;color:var(--black);">二、資料使用目的</h2>
+      <p style="margin-bottom:30px;">您提供的個人資料將用於以下用途：預約確認與時段安排、療程紀錄與膚況追蹤建議、服務相關通知與提醒、顧客權益保障（如儲值記錄）。我們不會將您的個人資料用於上述目的以外的用途，亦不會將資料提供給第三方。</p>
+      <h2 style="font-size:1.2rem;font-weight:300;letter-spacing:4px;margin-bottom:24px;color:var(--black);">三、資料保護方式</h2>
+      <p style="margin-bottom:30px;">我們採取合理的安全措施保護您的個人資料，包括限制資料存取權限、使用安全的通訊管道等，以防止未經授權的存取、使用或洩露。</p>
+      <h2 style="font-size:1.2rem;font-weight:300;letter-spacing:4px;margin-bottom:24px;color:var(--black);">四、您的權利</h2>
+      <p style="margin-bottom:30px;">依據台灣個人資料保護法，您有權查閱、更正或刪除您的個人資料。如需行使上述權利或有任何隱私相關疑問，請透過以下方式聯繫我們。</p>
+      <h2 style="font-size:1.2rem;font-weight:300;letter-spacing:4px;margin-bottom:24px;color:var(--black);">五、聯絡窗口</h2>
+      <p style="margin-bottom:10px;">淇肌淨膚 QIJI MIRACLE AESTHETIC</p>
+      <p style="margin-bottom:6px;">電話：<a href="tel:0436033588" style="color:var(--gold);">04-3603-3588</a></p>
+      <p style="margin-bottom:6px;">Email：<a href="mailto:shiaochihao@gmail.com" style="color:var(--gold);">shiaochihao@gmail.com</a></p>
+      <p>LINE：<a href="https://page.line.me/026xbaov?openQrModal=true" target="_blank" rel="noopener noreferrer" style="color:var(--gold);">@qiji</a></p>
+      <div style="margin-top:40px;padding-top:30px;border-top:1px solid var(--grey-200);font-size:0.78rem;color:var(--grey-400);">
+        最後更新日期：2026 年 4 月
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="ig-gallery">
+  <div class="section-eyebrow reveal-fade">FOLLOW US ON INSTAGRAM</div>
+  <h2 class="reveal-fade">日 常 紀 錄</h2>
+  <div class="ig-gallery-grid">
+    <a class="ig-gallery-item" href="https://www.instagram.com/1988_carrie_skincare/" target="_blank" rel="noopener noreferrer"><img src="images/img_033.jpg" alt="空間實拍" loading="lazy"></a>
+    <a class="ig-gallery-item" href="https://www.instagram.com/1988_carrie_skincare/" target="_blank" rel="noopener noreferrer"><img src="images/img_034_空間實拍.jpg" alt="護膚日常" loading="lazy"></a>
+    <a class="ig-gallery-item" href="https://www.instagram.com/1988_carrie_skincare/" target="_blank" rel="noopener noreferrer"><img src="images/img_035_護膚日常.jpg" alt="產品介紹" loading="lazy"></a>
+    <a class="ig-gallery-item" href="https://www.instagram.com/1988_carrie_skincare/" target="_blank" rel="noopener noreferrer"><img src="images/img_036_產品介紹.jpg" alt="療程分享" loading="lazy"></a>
+    <a class="ig-gallery-item" href="https://www.instagram.com/1988_carrie_skincare/" target="_blank" rel="noopener noreferrer"><img src="images/img_037_療程分享.jpg" alt="客戶好評" loading="lazy"></a>
+    <a class="ig-gallery-item" href="https://page.line.me/026xbaov?openQrModal=true" target="_blank" rel="noopener noreferrer"><img src="images/img_038_客戶好評.png" alt="LINE QR Code" loading="lazy"></a>
+  </div>
+  <a class="ig-gallery-link" href="https://www.instagram.com/1988_carrie_skincare/" target="_blank" rel="noopener noreferrer">追蹤我們的 Instagram &rarr;</a>
+</section>
+<footer class="footer">
+  <div class="footer-brand">淇肌淨膚</div>
+  <div class="footer-en">QIJI MIRACLE AESTHETIC</div>
+  <div style="margin-bottom:24px;font-size:0.78rem;color:var(--grey-400);line-height:2;letter-spacing:1px;">
+    <div style="font-family:var(--serif);font-size:0.68rem;letter-spacing:4px;color:var(--gold);margin-bottom:8px;text-transform:uppercase;">BUSINESS HOURS</div>
+    週一至週五 10:00 – 20:00 ｜ 週六 10:00 – 18:00 ｜ 週日公休<br>
+    <span style="font-size:0.72rem;color:var(--grey-500);">（採預約制，請提前預約）</span>
+  </div>
+  <div style="margin-bottom:24px;font-size:0.78rem;color:var(--grey-400);line-height:1.8;letter-spacing:1px;">
+    <span style="display:block;">406 台中市北屯區瀋陽路三段 351-1 號</span>
+    <a href="tel:0436033588" style="color:var(--grey-400);transition:color 0.3s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--grey-400)'">04-3603-3588</a>
+    &nbsp;｜&nbsp;
+    <a href="mailto:shiaochihao@gmail.com" style="color:var(--grey-400);transition:color 0.3s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--grey-400)'">shiaochihao@gmail.com</a>
+  </div>
+  <div class="footer-links">
+    <span class="footer-link" onclick="goTo('home')">首頁</span>
+    <span class="footer-link" onclick="goTo('services')">服務項目</span>
+    <span class="footer-link" onclick="goTo('about')">品牌故事</span>
+    <span class="footer-link" onclick="goTo('tutorial')">預約教學</span>
+    <span class="footer-link" onclick="goTo('faq')">常見問題</span>
+    <span class="footer-link" onclick="goTo('knowledge')">知識專欄</span>
+    <span class="footer-link" onclick="goTo('contact')">預約諮詢</span>
+    <span class="footer-link" onclick="goTo('privacy')">隱私權政策</span>
+  </div>
+  <div class="footer-copy">&copy; 2026 淇肌淨膚 QIJI MIRACLE AESTHETIC &mdash; All Rights Reserved</div>
+</footer>
+ 
+<div class="float-social">
+  <a href="https://www.instagram.com/1988_carrie_skincare/" target="_blank" rel="noopener noreferrer" title="Instagram">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+  </a>
+  <a href="https://page.line.me/026xbaov?openQrModal=true" target="_blank" rel="noopener noreferrer" title="LINE">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+  </a>
+</div>
+ 
+<button class="scroll-top-btn" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="回到頂部">↑</button>
+<script>
+function goTo(page) {
+  const current = document.querySelector('.page.active');
+  const target = document.getElementById('page-' + page);
+  if (!target || current === target) return;
+  if (current) {
+    current.classList.add('fade-out');
+    setTimeout(() => {
+      current.classList.remove('active', 'fade-out');
+      target.classList.add('active');
+      window.scrollTo(0, 0);
+      const nav = document.getElementById('mainNav');
+      if (page === 'home') { nav.classList.add('transparent'); } else { nav.classList.remove('transparent'); }
+      setTimeout(initReveal, 100);
+    }, 250);
+  } else {
+    target.classList.add('active');
+    window.scrollTo(0, 0);
+    const nav = document.getElementById('mainNav');
+    if (page === 'home') { nav.classList.add('transparent'); } else { nav.classList.remove('transparent'); }
+    setTimeout(initReveal, 100);
+  }
+}
+function goToSection(page, sectionId) {
+  const currentPage = document.querySelector('.page.active');
+  const targetPage = document.getElementById('page-' + page);
+  const isSamePage = currentPage === targetPage;
+  if (!isSamePage) {
+    if (currentPage) {
+      currentPage.classList.add('fade-out');
+      setTimeout(() => {
+        currentPage.classList.remove('active', 'fade-out');
+        if (targetPage) {
+          targetPage.classList.add('active');
+          const nav = document.getElementById('mainNav');
+          if (page === 'home') { nav.classList.add('transparent'); } else { nav.classList.remove('transparent'); }
+          const el = document.getElementById(sectionId);
+          if (el) { window.scrollTo(0, el.offsetTop - 80); } else { window.scrollTo(0, 0); }
+          setTimeout(initReveal, 100);
+        }
+      }, 250);
+    } else if (targetPage) {
+      targetPage.classList.add('active');
+      const nav = document.getElementById('mainNav');
+      if (page === 'home') { nav.classList.add('transparent'); } else { nav.classList.remove('transparent'); }
+      const el = document.getElementById(sectionId);
+      if (el) { window.scrollTo(0, el.offsetTop - 80); } else { window.scrollTo(0, 0); }
+      setTimeout(initReveal, 100);
+    }
+  } else {
+    const el = document.getElementById(sectionId);
+    if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  }
+}
+function makeClickablesKeyboardAccessible() {
+  document.querySelectorAll('[onclick]').forEach((el) => {
+    const tag = el.tagName.toLowerCase();
+    const isNativeControl = ['a', 'button', 'input', 'select', 'textarea'].includes(tag);
+    if (isNativeControl) return;
+    if (!el.hasAttribute('role')) el.setAttribute('role', 'button');
+    if (!el.hasAttribute('tabindex')) el.tabIndex = 0;
+    if (el.dataset.keyboardReady === 'true') return;
+    el.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        el.click();
+      }
+    });
+    el.dataset.keyboardReady = 'true';
+  });
+}
+const menuToggle = document.getElementById('menuToggle');
+const sideMenu = document.getElementById('sideMenu');
+const menuOverlay = document.getElementById('menuOverlay');
+const menuClose = document.getElementById('menuClose');
+function openMenu() { sideMenu.classList.add('open'); menuOverlay.classList.add('open'); document.body.style.overflow = 'hidden'; menuToggle.classList.add('active'); }
+function closeMenu() { sideMenu.classList.remove('open'); menuOverlay.classList.remove('open'); document.body.style.overflow = ''; menuToggle.classList.remove('active'); }
+menuToggle.addEventListener('click', openMenu);
+menuOverlay.addEventListener('click', closeMenu);
+menuClose.addEventListener('click', closeMenu);
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => {
+  const isHome = document.getElementById('page-home').classList.contains('active');
+  if (isHome) { if (window.scrollY > 80) { nav.classList.remove('transparent'); } else { nav.classList.add('transparent'); } }
+});
+let currentObserver = null;
+function initReveal() {
+  if (currentObserver) currentObserver.disconnect();
+  const activePage = document.querySelector('.page.active');
+  if (!activePage) return;
+  activePage.querySelectorAll('.char-reveal:not(.split-done)').forEach(el => {
+    const text = el.textContent; el.innerHTML = '';
+    [...text].forEach((ch, i) => {
+      const span = document.createElement('span'); span.className = 'char';
+      span.textContent = ch === ' ' ? '\u00A0' : ch;
+      span.style.transitionDelay = (i * 0.04) + 's'; el.appendChild(span);
+    }); el.classList.add('split-done');
+  });
+  const els = activePage.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-fade, .stagger-children, .char-reveal, .line-reveal');
+  els.forEach(el => el.classList.remove('visible'));
+  currentObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); currentObserver.unobserve(entry.target); } });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+  els.forEach(el => currentObserver.observe(el));
+  requestAnimationFrame(() => { els.forEach(el => { const rect = el.getBoundingClientRect(); if (rect.top < window.innerHeight * 0.85 && rect.bottom > 0) { el.classList.add('visible'); currentObserver.unobserve(el); } }); });
+}
+let activeFaqCat = 'all';
+function filterFaqCategory(cat) {
+  activeFaqCat = cat;
+  document.querySelectorAll('.faq-tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+  filterFaq();
+}
+function filterFaq() {
+  const query = (document.getElementById('faqSearch').value || '').toLowerCase().trim();
+  const items = document.querySelectorAll('.faq-item');
+  const categories = document.querySelectorAll('.faq-category');
+  let visibleCount = 0;
+  items.forEach(item => {
+    const cat = item.getAttribute('data-cat');
+    const kw = (item.getAttribute('data-kw') || '').toLowerCase();
+    const qText = item.querySelector('.faq-item-q span').textContent.toLowerCase();
+    const aText = item.querySelector('.faq-item-a p').textContent.toLowerCase();
+    const matchCat = activeFaqCat === 'all' || cat === activeFaqCat;
+    const matchSearch = !query || kw.includes(query) || qText.includes(query) || aText.includes(query);
+    if (matchCat && matchSearch) { item.style.display = ''; visibleCount++; } else { item.style.display = 'none'; }
+  });
+  categories.forEach(c => {
+    const cat = c.getAttribute('data-cat');
+    const hasVisible = c.querySelectorAll('.faq-item:not([style*="display: none"])').length > 0;
+    c.style.display = (activeFaqCat === 'all' || cat === activeFaqCat) && hasVisible ? '' : 'none';
+  });
+  document.getElementById('faqEmpty').style.display = visibleCount === 0 ? 'block' : 'none';
+}
+
+function filterServices(cat, el) {
+  document.querySelectorAll('#svcFilter .products-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.svc-item').forEach(item => {
+    if (cat === 'all' || item.getAttribute('data-svc-cat') === cat) {
+      item.style.display = '';
+    } else {
+      item.style.display = 'none';
+    }
+  });
+  /* Also show/hide the cases section & divider based on 'all' */
+  const casesEl = document.getElementById('svc-cases');
+  if (casesEl) casesEl.closest('div').style.display = cat === 'all' ? '' : 'none';
+  window.scrollTo({ top: document.getElementById('svcFilter').offsetTop - 80, behavior: 'smooth' });
+}
+function filterProducts(cat, el) {
+  document.querySelectorAll('.products-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  const cats = document.querySelectorAll('.products-category');
+  let visible = 0;
+  cats.forEach(c => {
+    if (cat === 'all' || c.getAttribute('data-cat') === cat) {
+      c.style.display = '';
+      visible++;
+    } else {
+      c.style.display = 'none';
+    }
+  });
+  document.getElementById('productsEmpty').style.display = visible === 0 ? 'block' : 'none';
+  window.scrollTo({ top: document.querySelector('.products-filter').offsetTop - 80, behavior: 'smooth' });
+}
+
+makeClickablesKeyboardAccessible();
+initReveal();
+/* Scroll fallback */
+let scrollRevealTick = false;
+window.addEventListener('scroll', () => {
+  if (scrollRevealTick) return;
+  scrollRevealTick = true;
+  requestAnimationFrame(() => {
+    const activePage = document.querySelector('.page.active');
+    if (!activePage) { scrollRevealTick = false; return; }
+    activePage.querySelectorAll('.reveal:not(.visible), .reveal-left:not(.visible), .reveal-right:not(.visible), .reveal-scale:not(.visible), .reveal-fade:not(.visible), .stagger-children:not(.visible), .char-reveal:not(.visible), .line-reveal:not(.visible)').forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.92 && rect.bottom > 0) {
+        el.classList.add('visible');
+      }
+    });
+    scrollRevealTick = false;
+  });
+}, { passive: true });
+/* Safety net */
+setTimeout(() => {
+  const activePage = document.querySelector('.page.active');
+  if (activePage) {
+    activePage.querySelectorAll('.reveal:not(.visible), .reveal-left:not(.visible), .reveal-right:not(.visible), .reveal-scale:not(.visible), .reveal-fade:not(.visible), .stagger-children:not(.visible), .char-reveal:not(.visible), .line-reveal:not(.visible)').forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 1.5 && rect.bottom > 0) {
+        el.classList.add('visible');
+      }
+    });
+  }
+}, 4000);
+
+/* ── Site Search ── */
+let searchIndex = null;
+function buildSearchIndex() {
+  if (searchIndex) return searchIndex;
+  const entries = [];
+  /* Services */
+  document.querySelectorAll('#page-services div[id^="svc-"]').forEach(el => {
+    const title = (el.querySelector('h2') || {}).textContent || '';
+    const desc = (el.querySelector('p') || {}).textContent || '';
+    if (title.trim()) entries.push({ cat: '服務項目', title: title.trim(), text: (title + ' ' + desc).trim(), page: 'services', anchor: el.id || '' });
+  });
+  /* Products */
+  document.querySelectorAll('#page-products .product-card').forEach(el => {
+    const title = (el.querySelector('.product-card-name') || {}).textContent || '';
+    const desc = (el.querySelector('.product-card-copy') || {}).textContent || '';
+    const spec = (el.querySelector('.product-card-spec') || {}).textContent || '';
+    const cat = el.closest('.products-category');
+    const catName = cat ? (cat.querySelector('.products-cat-title') || {}).textContent || '' : '';
+    entries.push({ cat: '產品 — ' + catName.trim(), title: title.trim(), text: (title + ' ' + spec + ' ' + desc).trim(), page: 'products', anchor: '' });
+  });
+  /* Knowledge */
+  document.querySelectorAll('#page-knowledge .knowledge-section').forEach(el => {
+    const title = (el.querySelector('.knowledge-section-title, h2') || {}).textContent || '';
+    const text = el.textContent || '';
+    if (title.trim()) entries.push({ cat: '知識專欄', title: title.trim(), text: text.trim(), page: 'knowledge', anchor: el.id || '' });
+  });
+  document.querySelectorAll('#page-knowledge .knowledge-card').forEach(el => {
+    const label = (el.querySelector('.knowledge-card-label') || {}).textContent || '';
+    const text = (el.querySelector('.knowledge-card-text') || {}).textContent || '';
+    if (label.trim()) entries.push({ cat: '知識專欄', title: label.trim(), text: (label + ' ' + text).trim(), page: 'knowledge', anchor: (el.closest('.knowledge-section') || {}).id || '' });
+  });
+  /* FAQ */
+  document.querySelectorAll('#page-faq .faq-item').forEach(el => {
+    const q = (el.querySelector('.faq-item-q') || {}).textContent || '';
+    const a = (el.querySelector('.faq-item-a') || {}).textContent || '';
+    entries.push({ cat: '常見問題', title: q.trim(), text: (q + ' ' + a).trim(), page: 'faq', anchor: el.id || '' });
+  });
+  /* About */
+  const aboutPage = document.getElementById('page-about');
+  if (aboutPage) {
+    const aboutText = aboutPage.textContent || '';
+    entries.push({ cat: '品牌故事', title: '品牌故事', text: aboutText.trim(), page: 'about', anchor: '' });
+  }
+  /* Tutorial */
+  document.querySelectorAll('#page-tutorial section, #page-tutorial div[id]').forEach(el => {
+    const title = (el.querySelector('h3, h2, .section-eyebrow') || {}).textContent || '';
+    const text = el.textContent || '';
+    if (title.trim() && text.length > 20) entries.push({ cat: '預約教學', title: title.trim(), text: text.trim(), page: 'tutorial', anchor: el.id || '' });
+  });
+  searchIndex = entries;
+  return entries;
+}
+/* ── Contact Form Submit (Web3Forms) ── */
+function submitContactForm(e) {
+  e.preventDefault();
+  const form = document.getElementById('contactForm');
+  const btn = document.getElementById('cfSubmitBtn');
+  const status = document.getElementById('cfStatus');
+  const formData = new FormData(form);
+  formData.append('access_key', '50be289b-eb30-4c1c-a174-eab623da3522');
+  formData.append('subject', '【淇肌淨膚】網站留言 — ' + formData.get('name'));
+  formData.append('from_name', '淇肌淨膚官網');
+  btn.disabled = true;
+  btn.textContent = '送 出 中 …';
+  status.textContent = '';
+  status.className = 'cf-status';
+  fetch('https://api.web3forms.com/submit', {
+    method: 'POST',
+    body: formData
+  })
+  .then(r => r.json())
+  .then(res => {
+    if (res.success) {
+      form.reset();
+      document.querySelectorAll('.cf-service-option').forEach(o => o.classList.remove('selected'));
+      var nb = document.getElementById('cfNext1'); if (nb) nb.disabled = true;
+      if (typeof cfGoStep === 'function') cfGoStep(1);
+      document.getElementById('cfSuccessOverlay').classList.add('show');
+    } else {
+      status.textContent = '送出失敗，請改用 LINE 聯繫我們';
+      status.className = 'cf-status error';
+    }
+  })
+  .catch(() => {
+    status.textContent = '網路錯誤，請稍後再試或改用 LINE 聯繫';
+    status.className = 'cf-status error';
+  })
+  .finally(() => {
+    btn.disabled = false;
+    btn.textContent = '送 出 留 言';
+  });
+  return false;
+}
+function closeCfSuccess(e) {
+  if (e && e.target !== e.currentTarget) return;
+  document.getElementById('cfSuccessOverlay').classList.remove('show');
+}
+function toggleSiteSearch() {
+  const panel = document.getElementById('siteSearchPanel');
+  if (panel.classList.contains('open')) { closeSiteSearch(); return; }
+  panel.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => document.getElementById('siteSearchInput').focus(), 100);
+  buildSearchIndex();
+}
+function closeSiteSearch() {
+  const panel = document.getElementById('siteSearchPanel');
+  panel.classList.remove('open');
+  document.body.style.overflow = '';
+  document.getElementById('siteSearchInput').value = '';
+  document.getElementById('siteSearchResults').innerHTML = '';
+  document.getElementById('siteSearchResults').classList.remove('has-results');
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeSiteSearch();
+  if ((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); toggleSiteSearch(); }
+});
+document.getElementById('siteSearchInput').addEventListener('input', function() {
+  const q = this.value.trim().toLowerCase();
+  const results = document.getElementById('siteSearchResults');
+  if (q.length < 1) { results.innerHTML = ''; results.classList.remove('has-results'); return; }
+  const idx = buildSearchIndex();
+  const matched = [];
+  idx.forEach(entry => {
+    const haystack = (entry.title + ' ' + entry.text).toLowerCase();
+    if (haystack.includes(q)) {
+      let snippet = '';
+      const pos = haystack.indexOf(q);
+      const raw = (entry.title + ' ' + entry.text);
+      const start = Math.max(0, pos - 30);
+      const end = Math.min(raw.length, pos + q.length + 50);
+      snippet = (start > 0 ? '…' : '') + raw.substring(start, end) + (end < raw.length ? '…' : '');
+      snippet = snippet.replace(new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi'), '<mark>$1</mark>');
+      matched.push({ ...entry, snippet });
+    }
+  });
+  if (matched.length === 0) {
+    results.innerHTML = '<div class="ssr-empty">找不到「' + q + '」相關結果</div>';
+    results.classList.add('has-results');
+    return;
+  }
+  results.innerHTML = matched.slice(0, 12).map(m => {
+    let onclick = 'closeSiteSearch();goTo(\'' + m.page + '\')';
+    if (m.page === 'products') {
+      onclick += ';setTimeout(()=>{const t=document.querySelector(\'.products-tab.active\');if(t)filterProducts(\'all\',document.querySelector(\'.products-tab\'))},300)';
+    }
+    if (m.anchor) {
+      onclick += ';setTimeout(()=>{const el=document.getElementById(\'' + m.anchor + '\');if(el)el.scrollIntoView({behavior:\'smooth\',block:\'start\'})},400)';
+    }
+    return '<div class="ssr-item" onclick="' + onclick + '">' +
+      '<div class="ssr-cat">' + m.cat + '</div>' +
+      '<div class="ssr-title">' + m.title + '</div>' +
+      '<div class="ssr-snippet">' + m.snippet + '</div></div>';
+  }).join('');
+  results.classList.add('has-results');
+});
+
+/* Skin Quiz Logic */
+var quizAnswers = [null,null,null,null,null];
+var quizStep = 0;
+function quizSelect(step, el, val) {
+  quizAnswers[step] = val;
+  el.parentElement.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  setTimeout(() => { if (step < 4) quizGoStep(step + 1); else quizShowResult(); }, 350);
+}
+function quizGoStep(n) {
+  quizStep = n;
+  document.querySelectorAll('.quiz-step').forEach(s => s.classList.remove('active'));
+  var steps = document.querySelectorAll('.quiz-step');
+  if (steps[n]) steps[n].classList.add('active');
+  document.querySelectorAll('.quiz-dot').forEach((d, i) => { d.classList.toggle('done', i <= n); });
+}
+function quizShowResult() {
+  document.querySelectorAll('.quiz-step').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.quiz-dot').forEach(d => d.classList.add('done'));
+  var counts = { oily: 0, dry: 0, combo: 0, sensitive: 0 };
+  quizAnswers.forEach(a => { if (a) counts[a]++; });
+  var type = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
+  var data = {
+    oily: { name: '油性肌膚', desc: '您的肌膚皮脂分泌較旺盛，容易出油、毛孔粗大，偶有粉刺痘痘困擾。建議著重清潔與控油，搭配適度保濕維持油水平衡。', services: ['深層清潔管理', '毛孔緊緻管理', '痘痘肌管理'] },
+    dry: { name: '乾性肌膚', desc: '您的肌膚較為乾燥缺水，容易感到緊繃、出現細紋或脫皮。建議加強補水保濕，選用滋潤型產品，定期做保濕護理。', services: ['保濕修護管理', '煥膚亮澤管理', '逆齡抗皺管理'] },
+    combo: { name: '混合性肌膚', desc: '您的 T 字部位偏油，兩頰偏乾，需要分區護理。建議 T 字加強控油，兩頰加強保濕，讓膚質達到平衡穩定的狀態。', services: ['皮膚管理基礎護理', '毛孔緊緻管理', '保濕修護管理'] },
+    sensitive: { name: '敏感性肌膚', desc: '您的肌膚較為敏感脆弱，容易泛紅、刺癢、對產品成分較挑剔。建議使用溫和低敏產品，著重修護肌膚屏障，避免過度清潔。', services: ['敏弱肌舒緩管理', '保濕修護管理'] }
+  };
+  var r = data[type];
+  var h = '<div class="quiz-result-type">' + r.name + '</div>';
+  h += '<div class="quiz-result-desc">' + r.desc + '</div>';
+  h += '<div class="quiz-result-reco"><h3>推 薦 療 程</h3><div class="quiz-reco-tags">';
+  r.services.forEach(s => { h += '<div class="quiz-reco-tag" onclick="goTo(\'services\')">' + s + '</div>'; });
+  h += '</div></div>';
+  h += '<div class="quiz-btn primary" onclick="goTo(\'contact\')" style="display:inline-block;margin-top:20px;">立 即 預 約 諮 詢</div>';
+  h += '<div style="margin-top:16px;"><span class="quiz-btn" onclick="quizReset()">重 新 檢 測</span></div>';
+  var result = document.getElementById('quizResult');
+  result.innerHTML = h;
+  result.classList.add('active');
+}
+function quizReset() {
+  quizAnswers = [null,null,null,null,null];
+  quizStep = 0;
+  document.getElementById('quizResult').classList.remove('active');
+  document.getElementById('quizResult').innerHTML = '';
+  document.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
+  document.querySelectorAll('.quiz-dot').forEach((d, i) => { d.classList.toggle('done', i === 0); });
+  quizGoStep(0);
+}
+
+/* Product Inquiry List - inject buttons */
+document.querySelectorAll('.product-card').forEach(card => {
+  var nameEl = card.querySelector('.product-card-name');
+  if (!nameEl) return;
+  var pName = nameEl.textContent.trim();
+  var btn = document.createElement('div');
+  btn.className = 'product-card-inquiry';
+  btn.setAttribute('data-product', pName);
+  btn.textContent = '＋ 諮詢';
+  btn.onclick = function() { addToInquiry(pName, btn); };
+  card.appendChild(btn);
+});
+var inquiryList = [];
+function addToInquiry(name, btn) {
+  if (inquiryList.indexOf(name) !== -1) return;
+  inquiryList.push(name);
+  btn.textContent = '已加入';
+  btn.classList.add('added');
+  updateInquiryUI();
+}
+function removeFromInquiry(name) {
+  inquiryList = inquiryList.filter(n => n !== name);
+  document.querySelectorAll('.product-card-inquiry').forEach(b => {
+    if (b.getAttribute('data-product') === name) { b.textContent = '＋ 諮詢'; b.classList.remove('added'); }
+  });
+  updateInquiryUI();
+}
+function updateInquiryUI() {
+  var fab = document.getElementById('inquiryFab');
+  var badge = document.getElementById('inquiryBadge');
+  var panel = document.getElementById('inquiryPanel');
+  if (inquiryList.length > 0) { fab.classList.add('show'); badge.textContent = inquiryList.length; }
+  else { fab.classList.remove('show'); panel.classList.remove('open'); }
+  renderInquiryPanel();
+}
+function toggleInquiryPanel() {
+  document.getElementById('inquiryPanel').classList.toggle('open');
+}
+function renderInquiryPanel() {
+  var list = document.getElementById('inquiryPanelList');
+  if (inquiryList.length === 0) { list.innerHTML = '<div class="inquiry-panel-empty">尚未加入任何產品</div>'; return; }
+  var h = '';
+  inquiryList.forEach(name => {
+    h += '<div class="inquiry-panel-item"><span>' + name + '</span><span class="inquiry-panel-remove" onclick="removeFromInquiry(\'' + name.replace(/'/g, "\\'") + '\')">✕</span></div>';
+  });
+  list.innerHTML = h;
+}
+function submitInquiry() {
+  if (inquiryList.length === 0) return;
+  var products = inquiryList.join('、');
+  toggleInquiryPanel();
+  goTo('contact');
+  setTimeout(() => {
+    var msgField = document.querySelector('#contactForm textarea[name="message"]');
+    if (msgField) { msgField.value = '想詢問以下產品：\n' + products; }
+    var svcField = document.querySelector('#contactForm select[name="service"]');
+    if (svcField) { svcField.value = '產品諮詢'; }
+    var formSection = document.querySelector('.contact-form-section');
+    if (formSection) { formSection.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  }, 400);
+}
+
+
+/* Scroll Top Button + Nav Auto-Hide */
+var scrollTopBtn = document.getElementById('scrollTopBtn');
+var navEl = document.querySelector('.nav');
+var lastScrollY = 0;
+var navHideThreshold = 80;
+window.addEventListener('scroll', function() {
+  var currentY = window.scrollY;
+  /* scroll top btn */
+  if (currentY > 600) { scrollTopBtn.classList.add('show'); }
+  else { scrollTopBtn.classList.remove('show'); }
+  /* nav hide/show - only on mobile */
+  if (window.innerWidth <= 768) {
+    if (currentY > navHideThreshold && currentY > lastScrollY + 5) {
+      navEl.classList.add('nav-hidden');
+    } else if (currentY < lastScrollY - 5) {
+      navEl.classList.remove('nav-hidden');
+    }
+    if (currentY <= 10) { navEl.classList.remove('nav-hidden'); }
+  }
+  lastScrollY = currentY;
+}, { passive: true });
+
+/* Background Music Player - 32 track playlist */
+var bgmPlaylist = ["https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/01%20Wellness%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/02%20Sleep%20Meditation%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/03%20Elevate%20Ocean%20Sounds.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/04%20Solitude%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/05%20Revelations%20Sea%20Music.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/06%20Lost%20in%20Space%20Beach%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/07%20Walking%20on%20Air%20Crashing%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/08%20Sleepy%20Relaxation%20Ocean%20Sounds.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/09%20Massage%20Piano%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/10%20Dream%20Music%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/11%20Simple%20Lullaby%20Ocean%20Sounds.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/12%20Love%20%26%20Piano%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/13%20Starlights%20Sea%20Sounds.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/14%20Clarity%20Beach%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/15%20Release%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/16%20Spa%20Piano%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/17%20Heart%20%26%20Soul%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/18%20A%20Clear%20Mind%20Ocean%20Noises.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/19%20Peacefulness%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/20%20Float%20Sea%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/21%20Twilight%20Piano%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/22%20Seaside%20Dreams.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/23%20Sleeping%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/24%20Let%20Go%20Ocean%20Sounds.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/25%20Happiness%20Sea%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/26%20Zone%20Out%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/27%20Chilled%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/28%20Healing%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/29%20Freedom%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/30%20Flow%20Beach%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/31%20Drift%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/32%20Ambient%20Ocean%20Waves.mp3"];
+var bgmCurrent = 0;
+function bgmShuffle() {
+  for (var i = bgmPlaylist.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = bgmPlaylist[i]; bgmPlaylist[i] = bgmPlaylist[j]; bgmPlaylist[j] = t;
+  }
+}
+bgmShuffle();
+function bgmLoad(idx) {
+  var audio = document.getElementById('bgmAudio');
+  audio.src = bgmPlaylist[idx];
+  audio.volume = 0.3;
+}
+function bgmNext() {
+  bgmCurrent = (bgmCurrent + 1) % bgmPlaylist.length;
+  bgmLoad(bgmCurrent);
+  document.getElementById('bgmAudio').play().catch(() => {});
+}
+function toggleBgm() {
+  var audio = document.getElementById('bgmAudio');
+  var fab = document.getElementById('musicFab');
+  var iconOff = document.getElementById('musicIconOff');
+  var iconOn = document.getElementById('musicIconOn');
+  if (audio.paused) {
+    if (!audio.src) bgmLoad(bgmCurrent);
+    audio.volume = 0.3;
+    /* Show loading spinner if buffering */
+    if (audio.readyState < 3) { fab.classList.add('loading'); }
+    var p = audio.play();
+    if (p !== undefined) {
+      p.then(() => {
+        fab.classList.remove('loading');
+        fab.classList.add('playing');
+        iconOff.style.display = 'none';
+        iconOn.style.display = 'block';
+        try { localStorage.setItem('bgmOn', '1'); } catch(e) {}
+      }).catch(err => {
+        fab.classList.remove('loading');
+        console.log('Play blocked', err);
+      });
+    }
+  } else {
+    audio.pause();
+    fab.classList.remove('playing');
+    fab.classList.remove('loading');
+    iconOff.style.display = 'block';
+    iconOn.style.display = 'none';
+    try { localStorage.setItem('bgmOn', '0'); } catch(e) {}
+  }
+}
+/* Auto-advance to next track when current ends; preload first track */
+window.addEventListener('load', function() {
+  var audio = document.getElementById('bgmAudio');
+  audio.addEventListener('ended', bgmNext);
+  /* Preload first track so click is instant */
+  bgmLoad(bgmCurrent);
+  try {
+    if (localStorage.getItem('bgmOn') === '1') {
+      audio.play().then(() => {
+        document.getElementById('musicFab').classList.add('playing');
+        document.getElementById('musicIconOff').style.display = 'none';
+        document.getElementById('musicIconOn').style.display = 'block';
+      }).catch(() => {});
+    }
+  } catch(e) {}
+});
+
+
+
+/* ===== Magnetic Cursor ===== */
+(function() {
+  if (!window.matchMedia || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  var cursor = document.getElementById('customCursor');
+  if (!cursor) return;
+  var mx = 0, my = 0, cx = 0, cy = 0, visible = false;
+  document.addEventListener('mousemove', function(e) {
+    mx = e.clientX; my = e.clientY;
+    if (!visible) { cursor.classList.add('visible'); visible = true; }
+  });
+  document.addEventListener('mouseleave', function() { cursor.classList.remove('visible'); visible = false; });
+  document.addEventListener('mousedown', function() { cursor.classList.add('click'); });
+  document.addEventListener('mouseup', function() { cursor.classList.remove('click'); });
+  function tick() {
+    cx += (mx - cx) * 0.22;
+    cy += (my - cy) * 0.22;
+    cursor.style.transform = 'translate(' + cx + 'px, ' + cy + 'px) translate(-50%, -50%)';
+    requestAnimationFrame(tick);
+  }
+  tick();
+  function bindHovers() {
+    document.querySelectorAll('a, button, [onclick], .product-card, .service-card, .knowledge-card, input, select, textarea, .nav-link, .nav-dropdown-item, .products-tab, .faq-tab, .hero-cta, .hero-secondary-cta, .brand-strip-cta, .cf-service-option, .cf-btn').forEach(function(el) {
+      if (el.dataset.cursorBound) return;
+      el.dataset.cursorBound = '1';
+      el.addEventListener('mouseenter', function() { cursor.classList.add('hover'); });
+      el.addEventListener('mouseleave', function() { cursor.classList.remove('hover'); });
+    });
+  }
+  bindHovers();
+  setInterval(bindHovers, 2000);
+})();
+/* ===== Scroll Progress Bar ===== */
+(function() {
+  var bar = document.getElementById('scrollProgress');
+  if (!bar) return;
+  function update() {
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    var pct = max > 0 ? (window.scrollY / max) * 100 : 0;
+    bar.style.width = pct + '%';
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+})();
+/* ===== Hero Parallax ===== */
+(function() {
+  function update() {
+    var heroes = document.querySelectorAll('.services-hero, .contact-hero, .knowledge-hero, .tutorial-hero, .faq-hero, .products-hero, .quiz-hero');
+    heroes.forEach(function(hero) {
+      var rect = hero.getBoundingClientRect();
+      if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+      var inner = hero.querySelector('h1');
+      if (inner) inner.style.transform = 'translateY(' + (-rect.top * 0.18) + 'px)';
+      var eye = hero.querySelector('.section-eyebrow');
+      if (eye) eye.style.transform = 'translateY(' + (-rect.top * 0.10) + 'px)';
+    });
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  setTimeout(update, 100);
+})();
+/* ===== Booking Form Wizard ===== */
+function cfPickService(el, val) {
+  document.querySelectorAll('.cf-service-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('cfService').value = val;
+  var nb = document.getElementById('cfNext1');
+  if (nb) nb.disabled = false;
+}
+function cfGoStep(n) {
+  var current = document.querySelector('.cf-panel.active');
+  if (current) {
+    var currentStep = parseInt(current.getAttribute('data-panel'));
+    if (n > currentStep) {
+      if (currentStep === 1 && !document.getElementById('cfService').value) return;
+      if (currentStep === 2 && !document.getElementById('cfTime').value.trim()) {
+        alert('請填寫方便預約的時間'); return;
+      }
+    }
+  }
+  document.querySelectorAll('.cf-panel').forEach(p => p.classList.remove('active'));
+  var target = document.querySelector('[data-panel="' + n + '"]');
+  if (target) target.classList.add('active');
+  document.querySelectorAll('.cf-step').forEach(s => {
+    var step = parseInt(s.getAttribute('data-step'));
+    s.classList.remove('active', 'done');
+    if (step < n) s.classList.add('done');
+    else if (step === n) s.classList.add('active');
+  });
+  var fs = document.querySelector('.contact-form-section');
+  if (fs) fs.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+
+/* ===== Counter Animation ===== */
+(function() {
+  var animated = new WeakSet();
+  function animateCounter(el) {
+    if (animated.has(el)) return;
+    animated.add(el);
+    var target = parseFloat(el.getAttribute('data-counter'));
+    var decimals = parseInt(el.getAttribute('data-decimals') || '0');
+    var suffix = el.getAttribute('data-suffix') || '';
+    var duration = 1800;
+    var start = performance.now();
+    function tick(now) {
+      var t = Math.min((now - start) / duration, 1);
+      var eased = 1 - Math.pow(1 - t, 3);
+      var current = target * eased;
+      el.textContent = current.toFixed(decimals) + suffix;
+      if (t < 1) requestAnimationFrame(tick);
+      else el.textContent = target.toFixed(decimals) + suffix;
+    }
+    requestAnimationFrame(tick);
+  }
+  function checkCounters() {
+    document.querySelectorAll('[data-counter]').forEach(function(el) {
+      var rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight - 100 && rect.bottom > 0) animateCounter(el);
+    });
+  }
+  window.addEventListener('scroll', checkCounters, { passive: true });
+  window.addEventListener('resize', checkCounters);
+  setTimeout(checkCounters, 500);
+})();
+
+/* ===== Story Image Reveal ===== */
+(function() {
+  function checkStory() {
+    document.querySelectorAll('.story-img-wrap').forEach(function(el) {
+      var rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight - 80 && rect.bottom > 0) el.classList.add('in-view');
+    });
+  }
+  window.addEventListener('scroll', checkStory, { passive: true });
+  setTimeout(checkStory, 300);
+})();
+
+
+/* ===== #1 FAQ Bubble Toggle ===== */
+function toggleFaqBubble() {
+  document.getElementById('faqBubblePanel').classList.toggle('open');
+  /* Close pricing if open */
+  var pp = document.getElementById('pricingPanel');
+  if (pp) pp.classList.remove('open');
+}
+function togglePricingPanel() {
+  document.getElementById('pricingPanel').classList.toggle('open');
+  var fp = document.getElementById('faqBubblePanel');
+  if (fp) fp.classList.remove('open');
+}
+
+/* ===== #3 Hero Typewriter ===== */
+(function() {
+  var el = document.getElementById('heroTypewriter');
+  if (!el) return;
+  var phrases = [
+    '近 10 年 手 工 清 粉 刺 經 驗',
+    '韓 國 院 線 級 系 列 產 品',
+    '一 對 一 私 密 工 作 室',
+    '量 身 訂 製 護 膚 療 程',
+    '五 行 罐 撥 經 絡 調 理'
+  ];
+  var pi = 0, ci = 0, deleting = false;
+  function tick() {
+    var phrase = phrases[pi];
+    if (!deleting) {
+      ci++;
+      if (ci > phrase.length) { deleting = true; setTimeout(tick, 1800); return; }
+    } else {
+      ci--;
+      if (ci === 0) { deleting = false; pi = (pi + 1) % phrases.length; setTimeout(tick, 200); return; }
+    }
+    el.textContent = phrase.substring(0, ci);
+    setTimeout(tick, deleting ? 40 : 90);
+  }
+  setTimeout(tick, 1500);
+})();
+
+/* ===== #6 Product Smart Filter ===== */
+function filterKnowledge(cat, el) {
+  var tabs = el.parentElement.querySelectorAll('.products-tab');
+  tabs.forEach(function(t) { t.classList.remove('active'); });
+  el.classList.add('active');
+  var sections = document.querySelectorAll('.knowledge-section[data-kcat]');
+  var first = true;
+  sections.forEach(function(s) {
+    var div = s.querySelector('.knowledge-divider');
+    if (cat === 'all' || s.getAttribute('data-kcat') === cat) {
+      s.style.display = '';
+      if (div) { div.style.display = first ? 'none' : ''; }
+      first = false;
+    } else {
+      s.style.display = 'none';
+    }
+  });
+  var filter = document.querySelector('.knowledge-filter');
+  if (filter) { window.scrollTo({ top: filter.offsetTop - 80, behavior: 'smooth' }); }
+}
+function filterProductsByTag(tag, btn) {
+  document.querySelectorAll('.psf-tag').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.product-card').forEach(card => {
+    var tags = (card.getAttribute('data-psftag') || '').split(' ');
+    var match = (tag === 'all' || tags.indexOf(tag) !== -1);
+    card.style.display = match ? '' : 'none';
+  });
+  /* Also hide empty category headers */
+  document.querySelectorAll('.products-category').forEach(cat => {
+    var visible = cat.querySelectorAll('.product-card:not([style*="none"])');
+    cat.style.display = visible.length === 0 ? 'none' : '';
+  });
+}
+
+/* ===== #8 Mouse Glow on Dark Sections ===== */
+(function() {
+  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  document.querySelectorAll('.glow-section').forEach(function(section) {
+    var spot = document.createElement('div');
+    spot.className = 'glow-spot';
+    section.appendChild(spot);
+    section.addEventListener('mousemove', function(e) {
+      var rect = section.getBoundingClientRect();
+      spot.style.left = (e.clientX - rect.left) + 'px';
+      spot.style.top = (e.clientY - rect.top) + 'px';
+    });
+  });
+})();
+
+</script>
+
+<div class="inquiry-fab" id="inquiryFab" onclick="toggleInquiryPanel()">
+  <span style="font-size:1.1rem;">📋</span>
+  <div class="inquiry-badge" id="inquiryBadge">0</div>
+</div>
+<div class="inquiry-panel" id="inquiryPanel">
+  <div class="inquiry-panel-header"><h3>諮詢清單</h3><span class="inquiry-panel-close" onclick="toggleInquiryPanel()">✕</span></div>
+  <div class="inquiry-panel-list" id="inquiryPanelList"><div class="inquiry-panel-empty">尚未加入任何產品</div></div>
+  <div class="inquiry-panel-footer"><button class="inquiry-panel-submit" onclick="submitInquiry()">一 鍵 送 出 諮 詢</button></div>
+</div>
+
+<audio id="bgmAudio" preload="auto"></audio>
+<div class="music-fab" id="musicFab" onclick="toggleBgm()" title="背景音樂">
+  <svg id="musicIconOff" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+  <svg id="musicIconOn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+</div>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+<div class="custom-cursor" id="customCursor"></div>
+
+<!-- #1 FAQ Bubble -->
+<div class="faq-bubble">
+  <div class="faq-bubble-tab" onclick="toggleFaqBubble()">常見問題</div>
+</div>
+<div class="faq-bubble-panel" id="faqBubblePanel">
+  <div class="faq-bubble-header"><h3>常 見 問 題</h3><span class="faq-bubble-close" onclick="toggleFaqBubble()">✕</span></div>
+  <div class="faq-bubble-list">
+    <div class="faq-bubble-q" onclick="this.classList.toggle('open')">
+      <div class="faq-bubble-q-title">如何預約？</div>
+      <div class="faq-bubble-q-ans"><p>請使用本網站「預約諮詢」表單留訊息，或加 LINE 直接與我們聯繫，老師會在工作時間內回覆您。</p></div>
+    </div>
+    <div class="faq-bubble-q" onclick="this.classList.toggle('open')">
+      <div class="faq-bubble-q-title">第一次怎麼選療程？</div>
+      <div class="faq-bubble-q-ans"><p>建議先做「肌膚檢測」測驗或預約初次諮詢，老師會依您的膚況推薦適合的療程，不會推銷不適合的方案。</p></div>
+    </div>
+    <div class="faq-bubble-q" onclick="this.classList.toggle('open')">
+      <div class="faq-bubble-q-title">療程時間多長？</div>
+      <div class="faq-bubble-q-ans"><p>基礎護理約 60-90 分鐘，深層療程或加購項目約 90-120 分鐘。預約時老師會跟您確認時長。</p></div>
+    </div>
+    <div class="faq-bubble-q" onclick="this.classList.toggle('open')">
+      <div class="faq-bubble-q-title">可以使用哪些付款方式？</div>
+      <div class="faq-bubble-q-ans"><p>支援現金、網銀轉帳、LINE Pay、台灣 Pay。</p></div>
+    </div>
+    <div class="faq-bubble-q" onclick="this.classList.toggle('open')">
+      <div class="faq-bubble-q-title">營業時間？</div>
+      <div class="faq-bubble-q-ans"><p>週一至週五 10:00-20:00，週六 10:00-18:00，週日公休。採全預約制。</p></div>
+    </div>
+    <div class="faq-bubble-q" onclick="this.classList.toggle('open')">
+      <div class="faq-bubble-q-title">需要事先卸妝嗎？</div>
+      <div class="faq-bubble-q-ans"><p>不用，工作室會為您專業卸妝清潔。但若有戴隱形眼鏡，建議事先取下。</p></div>
+    </div>
+  </div>
+  <div class="faq-bubble-footer"><a onclick="goTo('faq');toggleFaqBubble()">查看更多 FAQ →</a></div>
+</div>
+
+<!-- #2 Pricing Quick View -->
+<div class="pricing-tab" onclick="togglePricingPanel()">價格速覽</div>
+<div class="pricing-panel" id="pricingPanel">
+  <div class="pricing-panel-header"><h3>價 格 速 覽</h3><span class="pricing-panel-close" onclick="togglePricingPanel()">✕</span></div>
+  <div class="pricing-panel-body">
+    <div class="pricing-cat">
+      <div class="pricing-cat-title">皮膚管理</div>
+      <div class="pricing-row"><span class="name">臉部撥筋</span><span class="price">NT$ 1,800</span></div>
+      <div class="pricing-row"><span class="name">基礎清潔護理</span><span class="price">NT$ 2,300 起</span></div>
+      <div class="pricing-row"><span class="name">肌茵泌碼</span><span class="price">NT$ 2,800</span></div>
+      <div class="pricing-row"><span class="name">雪藻喚膚</span><span class="price">NT$ 3,200</span></div>
+      <div class="pricing-row"><span class="name">微雕蘊膚</span><span class="price">NT$ 3,800</span></div>
+    </div>
+    <div class="pricing-cat">
+      <div class="pricing-cat-title">五行罐撥</div>
+      <div class="pricing-row"><span class="name">局部罐撥</span><span class="price">NT$ 1,500</span></div>
+      <div class="pricing-row"><span class="name">全身經絡</span><span class="price">NT$ 2,500</span></div>
+    </div>
+    <div class="pricing-cat">
+      <div class="pricing-cat-title">除毛服務</div>
+      <div class="pricing-row"><span class="name">熱蠟除毛</span><span class="price">依部位</span></div>
+      <div class="pricing-row"><span class="name">冰肌除毛</span><span class="price">依部位</span></div>
+    </div>
+    <div class="pricing-cat">
+      <div class="pricing-cat-title">美甲服務</div>
+      <div class="pricing-row"><span class="name">手部光療</span><span class="price">依設計</span></div>
+    </div>
+  </div>
+  <div class="pricing-panel-footer">完整價格與優惠請至「服務項目」查看<br>或加 LINE 詢問當月活動</div>
+</div>
+
+<!-- #4 Mobile Bottom CTA Bar -->
+<div class="mobile-cta-bar">
+  <a href="https://page.line.me/026xbaov?openQrModal=true" target="_blank" rel="noopener" class="cta-line"><span class="cta-icon">💬</span>LINE</a>
+  <a href="tel:0436033588" class="cta-call"><span class="cta-icon">📞</span>致電</a>
+  <span class="cta-book" onclick="goTo('contact')"><span class="cta-icon">✦</span>預約</span>
+</div>
+</body>
+</html>

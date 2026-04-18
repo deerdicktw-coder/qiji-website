@@ -91,18 +91,18 @@ ul { list-style: none; }
 .side-menu-link:hover { color: var(--gold); padding-left: 8px; }
 .side-menu-sub { overflow: hidden; max-height: 0; transition: max-height 0.4s ease; }
 .side-menu-link.open + .side-menu-sub { max-height: 400px; }
-.side-menu-sublink { display: block; padding: 10px 0 10px 20px; font-size: 0.78rem; letter-spacing: 2px; font-weight: 300; color: var(--grey-500); cursor: pointer; transition: all 0.3s; }
+.side-menu-sublink { display: block; padding: 14px 0 14px 20px; font-size: 0.8rem; letter-spacing: 2px; font-weight: 300; color: var(--grey-500); cursor: pointer; transition: all 0.3s; }
 .side-menu-sublink:hover { color: var(--gold); padding-left: 28px; }
-.side-menu-link.has-sub::after { content: '+'; float: right; font-size: 0.85rem; color: var(--grey-400); transition: transform 0.3s; }
+.side-menu-link.has-sub::after { content: '+'; float: right; font-size: 1.1rem; color: var(--grey-400); transition: transform 0.3s; padding: 0 4px; }
 .side-menu-link.has-sub.open::after { transform: rotate(45deg); }
-.side-menu-sublink.has-sub2::after { content: '+'; float: right; font-size: 0.75rem; color: var(--grey-400); transition: transform 0.3s; }
+.side-menu-sublink.has-sub2::after { content: '+'; float: right; font-size: 0.95rem; color: var(--grey-400); transition: transform 0.3s; padding: 0 4px; }
 .side-menu-sublink.has-sub2.open::after { transform: rotate(45deg); }
 .side-menu-sub2 { overflow: hidden; max-height: 0; transition: max-height 0.4s ease; }
 .side-menu-sublink.has-sub2.open + .side-menu-sub2 { max-height: 400px; }
-.side-menu-sub2link { display: block; padding: 8px 0 8px 40px; font-size: 0.72rem; letter-spacing: 2px; font-weight: 300; color: var(--grey-400); cursor: pointer; transition: all 0.3s; }
+.side-menu-sub2link { display: block; padding: 14px 0 14px 40px; font-size: 0.75rem; letter-spacing: 2px; font-weight: 300; color: var(--grey-400); cursor: pointer; transition: all 0.3s; }
 .side-menu-sub2link:hover { color: var(--gold); padding-left: 48px; }
-.side-menu-social { display: flex; gap: 16px; margin-top: auto; padding-top: 30px; }
-.side-menu-social a { font-family: var(--serif); font-size: 0.75rem; letter-spacing: 2px; color: var(--grey-400); transition: color 0.3s; }
+.side-menu-social { display: flex; gap: 12px; margin-top: auto; padding-top: 30px; }
+.side-menu-social a { font-family: var(--serif); font-size: 0.82rem; letter-spacing: 2px; color: var(--grey-400); transition: color 0.3s; padding: 10px 14px; border: 1px solid var(--grey-200); border-radius: 6px; }
 .side-menu-social a:hover { color: var(--gold); }
 .hero { min-height: 86vh; min-height: 86svh; position: relative; overflow: hidden; display: grid; place-items: center; background: var(--black); padding: 140px 24px 100px; text-align: center; width: 100%; box-sizing: border-box; }
 .hero::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.48) 0%, rgba(0,0,0,0.72) 58%, rgba(0,0,0,0.88) 100%), url('https://res.cloudinary.com/dm7dbtzzf/image/upload/w_1600,q_auto,f_auto/about') center center/cover no-repeat; opacity: 0.82; transform: scale(1.04); }
@@ -528,7 +528,8 @@ ul { list-style: none; }
 .mobile-cta-bar .cta-book { color: var(--gold-light); }
 @media (max-width: 768px) {
   .mobile-cta-bar { display: flex; }
-  body { padding-bottom: 56px; }
+  .mobile-cta-bar::after { content: ''; position: fixed; bottom: 0; left: 0; right: 0; height: env(safe-area-inset-bottom); background: var(--black); z-index: 996; }
+  body { padding-bottom: calc(56px + env(safe-area-inset-bottom)); }
   .float-social { display: none !important; }
   .inquiry-fab { bottom: 70px !important; }
   .music-fab { top: 72px !important; bottom: auto !important; left: 16px !important; width: 36px !important; height: 36px !important; }
@@ -548,6 +549,7 @@ ul { list-style: none; }
     box-shadow: 0 -8px 40px rgba(0,0,0,0.2);
     overscroll-behavior: contain;
     overflow-y: auto;
+    overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
   }
   .side-menu.open { transform: translateY(0) !important; }
@@ -558,6 +560,8 @@ ul { list-style: none; }
   }
   .side-menu-close { top: 12px; right: 16px; }
   .side-menu-logo { margin-bottom: 16px; }
+  .side-menu-sub { border-left: 2px solid rgba(201,169,110,0.3); margin-left: 8px; padding-left: 0; }
+  .side-menu-sub2 { background: rgba(0,0,0,0.02); border-radius: 4px; margin: 4px 0 4px 8px; }
 }
 
 /* ===== #5 Service Treatment Timeline ===== */

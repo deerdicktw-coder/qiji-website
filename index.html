@@ -1091,7 +1091,19 @@ body.menu-open .float-social { opacity: 0 !important; pointer-events: none !impo
           <span class="nav-dropdown-item" onclick="goToSection('services','svc-membership')">儲值入會</span>
         </div>
       </div>
-      <span class="nav-link" onclick="goTo('products')">產品專區</span>
+      <div class="nav-dropdown">
+        <span class="nav-link" onclick="goTo('products')">產品專區</span>
+        <div class="nav-dropdown-menu">
+          <span class="nav-dropdown-item" onclick="goTo('products')">全部商品</span>
+          <span class="nav-dropdown-item" onclick="goToProductCategory('cat0')">清潔系列</span>
+          <span class="nav-dropdown-item" onclick="goToProductCategory('cat1')">化妝水／調理系列</span>
+          <span class="nav-dropdown-item" onclick="goToProductCategory('cat2')">精華液系列</span>
+          <span class="nav-dropdown-item" onclick="goToProductCategory('cat3')">乳液／乳霜系列</span>
+          <span class="nav-dropdown-item" onclick="goToProductCategory('cat4')">凍膜／面膜系列</span>
+          <span class="nav-dropdown-item" onclick="goToProductCategory('cat5')">防曬／隔離系列</span>
+          <span class="nav-dropdown-item" onclick="goToProductCategory('cat6')">旅行組系列</span>
+        </div>
+      </div>
       <div class="nav-dropdown">
         <span class="nav-link">探索</span>
         <div class="nav-dropdown-menu">
@@ -3468,6 +3480,19 @@ function filterServices(cat, el) {
   if (casesEl) casesEl.closest('div').style.display = cat === 'all' ? '' : 'none';
   window.scrollTo({ top: document.getElementById('svcFilter').offsetTop - 80, behavior: 'smooth' });
 }
+function goToProductCategory(cat) {
+  goTo('products');
+  setTimeout(function() {
+    var scope = document.getElementById('page-products');
+    if (!scope) return;
+    var tabs = scope.querySelectorAll('.products-tab');
+    for (var i = 0; i < tabs.length; i++) {
+      var oc = tabs[i].getAttribute('onclick') || '';
+      if (oc.indexOf("filterProducts('" + cat + "'") >= 0) { tabs[i].click(); break; }
+    }
+  }, 120);
+}
+
 function filterProducts(cat, el) {
   document.querySelectorAll('.products-tab').forEach(t => t.classList.remove('active'));
   el.classList.add('active');

@@ -1742,7 +1742,16 @@ ul { list-style: none; }
 </div>
 <div class="page" id="page-knowledge">
   <section class="knowledge-hero"><div class="section-eyebrow">BEAUTY KNOWLEDGE</div><h1>知 識 專 欄</h1></section>
-  <section class="knowledge-section reveal" id="skin-types">
+  <div class="knowledge-filter" style="text-align:center;padding:30px 20px 10px;">
+    <div class="products-tabs">
+      <span class="products-tab active" onclick="filterKnowledge('all',this)">全部文章</span>
+      <span class="products-tab" onclick="filterKnowledge('basics',this)">肌膚基礎</span>
+      <span class="products-tab" onclick="filterKnowledge('acne',this)">粉刺毛孔</span>
+      <span class="products-tab" onclick="filterKnowledge('algae',this)">藻針專區</span>
+      <span class="products-tab" onclick="filterKnowledge('body',this)">身體護理</span>
+    </div>
+  </div>
+  <section class="knowledge-section reveal" id="skin-types" data-kcat="basics">
     <h2 class="knowledge-section-title">你的肌膚，屬於哪一種？</h2>
     <div class="knowledge-section-sub">SKIN TYPES</div>
     <div class="knowledge-card reveal delay-1">
@@ -1771,7 +1780,7 @@ ul { list-style: none; }
     </div>
   </section>
   <div class="knowledge-divider"></div>
-  <section class="knowledge-section reveal" id="cupping-benefits">
+  <section class="knowledge-section reveal" id="cupping-benefits" data-kcat="body">
     <h2 class="knowledge-section-title">五行罐撥，不只是放鬆</h2>
     <div class="knowledge-section-sub">CUPPING BENEFITS</div>
     <div class="knowledge-card reveal delay-1">
@@ -1803,7 +1812,7 @@ ul { list-style: none; }
   <div class="knowledge-divider"></div>
 
   <!-- 療程科普：藻針是什麼 -->
-  <section class="knowledge-section reveal" id="algae-intro">
+  <section class="knowledge-section reveal" id="algae-intro" data-kcat="algae">
     <h2 class="knowledge-section-title">藻針是什麼？一次搞懂</h2>
     <div class="knowledge-section-sub">ABOUT MICRO ALGAE</div>
     <div class="knowledge-card reveal delay-1">
@@ -1827,7 +1836,7 @@ ul { list-style: none; }
   <div class="knowledge-divider"></div>
 
   <!-- 療程科普：清粉刺指南 -->
-  <section class="knowledge-section reveal" id="extraction-guide">
+  <section class="knowledge-section reveal" id="extraction-guide" data-kcat="acne">
     <h2 class="knowledge-section-title">清粉刺多久做一次？</h2>
     <div class="knowledge-section-sub">EXTRACTION GUIDE</div>
     <div class="knowledge-card reveal delay-1">
@@ -1851,7 +1860,7 @@ ul { list-style: none; }
   <div class="knowledge-divider"></div>
 
   <!-- 日常保養教學：換季保養 -->
-  <section class="knowledge-section reveal" id="seasonal-care">
+  <section class="knowledge-section reveal" id="seasonal-care" data-kcat="basics">
     <h2 class="knowledge-section-title">換季保養，你做對了嗎？</h2>
     <div class="knowledge-section-sub">SEASONAL SKINCARE</div>
     <div class="knowledge-card reveal delay-1">
@@ -1875,7 +1884,7 @@ ul { list-style: none; }
   <div class="knowledge-divider"></div>
 
   <!-- 日常保養教學：防曬迷思 -->
-  <section class="knowledge-section reveal" id="sunscreen-myths">
+  <section class="knowledge-section reveal" id="sunscreen-myths" data-kcat="basics">
     <h2 class="knowledge-section-title">防曬迷思破解</h2>
     <div class="knowledge-section-sub">SUNSCREEN MYTHS</div>
     <div class="knowledge-card reveal delay-1">
@@ -1899,7 +1908,7 @@ ul { list-style: none; }
   <div class="knowledge-divider"></div>
 
   <!-- 常見肌膚問題：閉鎖性粉刺 -->
-  <section class="knowledge-section reveal" id="closed-comedones">
+  <section class="knowledge-section reveal" id="closed-comedones" data-kcat="acne">
     <h2 class="knowledge-section-title">閉鎖性粉刺怎麼辦？</h2>
     <div class="knowledge-section-sub">CLOSED COMEDONES</div>
     <div class="knowledge-card reveal delay-1">
@@ -1923,7 +1932,7 @@ ul { list-style: none; }
   <div class="knowledge-divider"></div>
 
   <!-- 常見肌膚問題：毛孔粗大 -->
-  <section class="knowledge-section reveal" id="pore-care">
+  <section class="knowledge-section reveal" id="pore-care" data-kcat="acne">
     <h2 class="knowledge-section-title">毛孔粗大的真正原因</h2>
     <div class="knowledge-section-sub">PORE CARE</div>
     <div class="knowledge-card reveal delay-1">
@@ -1947,7 +1956,7 @@ ul { list-style: none; }
   <div class="knowledge-divider"></div>
 
   <!-- 療程前後須知：藻針 -->
-  <section class="knowledge-section reveal" id="algae-aftercare">
+  <section class="knowledge-section reveal" id="algae-aftercare" data-kcat="algae">
     <h2 class="knowledge-section-title">藻針療程前後注意事項</h2>
     <div class="knowledge-section-sub">ALGAE TREATMENT CARE</div>
     <div class="knowledge-card reveal delay-1">
@@ -1971,7 +1980,7 @@ ul { list-style: none; }
   <div class="knowledge-divider"></div>
 
   <!-- 療程前後須知：除毛 -->
-  <section class="knowledge-section reveal" id="hair-removal-care">
+  <section class="knowledge-section reveal" id="hair-removal-care" data-kcat="body">
     <h2 class="knowledge-section-title">除毛前後須知</h2>
     <div class="knowledge-section-sub">HAIR REMOVAL CARE</div>
     <div class="knowledge-card reveal delay-1">
@@ -3417,6 +3426,21 @@ function togglePricingPanel() {
 })();
 
 /* ===== #6 Product Smart Filter ===== */
+function filterKnowledge(cat, el) {
+  var tabs = el.parentElement.querySelectorAll('.products-tab');
+  tabs.forEach(function(t) { t.classList.remove('active'); });
+  el.classList.add('active');
+  var sections = document.querySelectorAll('.knowledge-section[data-kcat]');
+  sections.forEach(function(s) {
+    if (cat === 'all' || s.getAttribute('data-kcat') === cat) {
+      s.style.display = '';
+    } else {
+      s.style.display = 'none';
+    }
+  });
+  var filter = document.querySelector('.knowledge-filter');
+  if (filter) { window.scrollTo({ top: filter.offsetTop - 80, behavior: 'smooth' }); }
+}
 function filterProductsByTag(tag, btn) {
   document.querySelectorAll('.psf-tag').forEach(t => t.classList.remove('active'));
   btn.classList.add('active');

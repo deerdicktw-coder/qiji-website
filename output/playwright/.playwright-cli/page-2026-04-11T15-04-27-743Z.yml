@@ -1,0 +1,71 @@
+- generic [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - button "Menu" [ref=e4] [cursor=pointer]
+      - button "淇肌淨膚 淇肌淨膚 QIJI MIRACLE AESTHETIC" [ref=e8] [cursor=pointer]:
+        - img "淇肌淨膚" [ref=e9]
+        - generic [ref=e10]:
+          - generic [ref=e11]: 淇肌淨膚
+          - generic [ref=e12]: QIJI MIRACLE AESTHETIC
+      - generic [ref=e14]:
+        - button "服務項目" [ref=e15] [cursor=pointer]
+        - button "品牌故事" [active] [ref=e16] [cursor=pointer]
+        - button "預約諮詢" [ref=e17] [cursor=pointer]
+  - generic [ref=e18]:
+    - button "×" [ref=e19] [cursor=pointer]
+    - generic [ref=e20]:
+      - generic [ref=e21]: 淇肌淨膚
+      - generic [ref=e22]: QIJI MIRACLE AESTHETIC
+    - generic [ref=e23]:
+      - button "首頁" [ref=e24] [cursor=pointer]
+      - button "服務項目" [ref=e25] [cursor=pointer]
+      - button "品牌故事" [ref=e26] [cursor=pointer]
+      - button "預約諮詢" [ref=e27] [cursor=pointer]
+    - generic [ref=e28]:
+      - link "INSTAGRAM" [ref=e29] [cursor=pointer]:
+        - /url: https://www.instagram.com/1988_carrie_skincare/
+      - link "LINE" [ref=e30] [cursor=pointer]:
+        - /url: https://page.line.me/026xbaov?openQrModal=true
+  - generic [ref=e95]:
+    - generic [ref=e98]:
+      - generic [ref=e99]: OUR STORY
+      - heading "品 牌 故 事" [level=1] [ref=e100]
+      - paragraph [ref=e101]: ESTABLISHED 2021 · TAICHUNG
+    - generic [ref=e102]:
+      - heading "關 於 淇 肌 淨 膚" [level=2] [ref=e103]
+      - paragraph [ref=e104]: 淇肌淨膚使用院線級系列產品，從膚況評估、療程設計到課後照護，每一步都以肌膚本身的狀態為出發點。不追求快速改變，而是陪伴肌膚慢慢穩定、恢復健康光澤。
+      - paragraph [ref=e105]: 工作室位於台中北屯區社區內，溫馨私密的一人作業空間，讓每次療程都是一段能真正放鬆、安心交付自己的時間。
+    - generic [ref=e106]:
+      - generic [ref=e107]:
+        - generic [ref=e108]: ✨
+        - generic [ref=e109]: 全手工清粉刺
+        - generic [ref=e110]: 近10年實戰經驗，專業手工清粉刺技術，溫和不傷膚。
+      - generic [ref=e111]:
+        - generic [ref=e112]: 🌱
+        - generic [ref=e113]: 院線級產品
+        - generic [ref=e114]: 嚴選專業院線級產品線，為肌膚提供最安全有效的照護。
+      - generic [ref=e115]:
+        - generic [ref=e116]: 🤍
+        - generic [ref=e117]: 一對一私密空間
+        - generic [ref=e118]: 專屬一人服務，不趕場不打擾，給你完整的放鬆時光。
+    - generic [ref=e119]:
+      - generic [ref=e120]: ATMOSPHERE
+      - heading "療 程 體 驗" [level=2] [ref=e121]
+      - generic [ref=e122]:
+        - generic [ref=e123]:
+          - generic [ref=e124]: Private Care
+          - heading "安心放鬆的專屬節奏" [level=3] [ref=e125]
+          - paragraph [ref=e126]: 從進門、諮詢、療程到收尾建議，每個步驟都保留充足時間，不趕場、不匆忙，讓照護回到真正舒服的狀態。
+        - generic [ref=e127]:
+          - generic [ref=e128]: By Appointment
+          - paragraph [ref=e129]: 採預約制，初次到訪建議預留 15 分鐘作為膚況評估與療程方向確認。
+        - generic [ref=e130]:
+          - generic [ref=e131]: Location
+          - paragraph [ref=e132]: 工作室位於台中北屯，社區內一對一私密空間，適合想安靜放鬆、慢慢照顧自己的你。
+    - generic [ref=e133]:
+      - generic [ref=e134]: EXPERIENCE
+      - heading "親自感受，是最好的開始" [level=2] [ref=e135]
+      - paragraph [ref=e136]:
+        - text: 每一次療程，都是為你量身打造的專屬體驗。
+        - text: 歡迎預約，讓我們用細心與專業，陪伴你的肌膚之旅。
+      - button "預 約 諮 詢" [ref=e137] [cursor=pointer]

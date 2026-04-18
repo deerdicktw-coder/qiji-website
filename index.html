@@ -624,17 +624,35 @@ ul { list-style: none; }
   .side-menu-sub2 { background: rgba(0,0,0,0.02); border-radius: 4px; margin: 4px 0; padding-left: 8px; }
 }
 
-/* Phase 2: body.menu-open 隱藏右側浮標避免側選單視覺衝突 */
+/* Phase 2 (fixed): body.menu-open 隱藏右側浮標 — 右側 tabs 滑出畫面外、其他淡出 */
 body.menu-open .faq-bubble,
 body.menu-open .pricing-tab,
-body.menu-open .booking-tab,
-body.menu-open .back-to-top,
-body.menu-open .float-social { opacity: 0 !important; pointer-events: none !important; transition: opacity 0.25s ease !important; }
-/* Phase 4: body.right-panel-open 隱藏側邊浮標避免與 panel 重疊 */
+body.menu-open .booking-tab {
+  transform: translate(120%, -50%) !important;
+  pointer-events: none !important;
+  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1) !important;
+}
+body.menu-open .scroll-top-btn,
+body.menu-open .float-social {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transition: opacity 0.25s ease, visibility 0.25s ease !important;
+}
+/* Phase 4 (fixed): body.right-panel-open 隱藏側邊浮標避免與 panel 重疊 */
 body.right-panel-open .faq-bubble,
 body.right-panel-open .pricing-tab,
-body.right-panel-open .booking-tab,
-body.right-panel-open .back-to-top { opacity: 0 !important; pointer-events: none !important; transition: opacity 0.25s ease !important; }
+body.right-panel-open .booking-tab {
+  transform: translate(120%, -50%) !important;
+  pointer-events: none !important;
+  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1) !important;
+}
+body.right-panel-open .scroll-top-btn {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transition: opacity 0.25s ease, visibility 0.25s ease !important;
+}
 
 /* ===== #5 Service Treatment Timeline ===== */
 .svc-timeline-section { padding: 50px 40px; max-width: 900px; margin: 0 auto; background: var(--grey-100); border-radius: 4px; }

@@ -50,7 +50,7 @@ ul { list-style: none; }
 .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: #fff; border-bottom: 1px solid rgba(0,0,0,0.06); transition: all 0.4s var(--transition), transform 0.35s cubic-bezier(0.4,0,0.2,1); }
 .nav.nav-hidden { transform: translateY(-100%); }
 .nav-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: center; padding: 18px 40px; position: relative; }
-.nav-hamburger { position: absolute; left: 40px; top: 50%; transform: translateY(-50%); cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 8px; background: none; border: none; }
+.nav-hamburger { position: absolute; left: 40px; top: 50%; transform: translateY(-50%); cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 8px; background: none; border: none; z-index: 2002; }
 .nav-hamburger span { width: 24px; height: 2px; background: var(--black); transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), background 0.35s ease, opacity 0.35s ease; box-shadow: 0 0 2px rgba(0,0,0,0.1); transform-origin: center; position: relative; overflow: hidden; }
 .nav-hamburger span::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent 0%, var(--gold) 45%, transparent 90%); transform: translateX(-110%); animation: hamburgerShimmer 3.4s ease-in-out infinite; pointer-events: none; }
 .nav-hamburger span:nth-child(2)::before { animation-delay: 0.18s; }
@@ -1098,7 +1098,6 @@ ul { list-style: none; }
 </div>
 <div class="side-menu-overlay" id="menuOverlay"></div>
 <div class="side-menu" id="sideMenu">
-  <button class="side-menu-close" id="menuClose">&times;</button>
   <div class="side-menu-logo"><div class="side-menu-logo-zh">淇肌淨膚</div><div class="side-menu-logo-en">QIJI MIRACLE AESTHETIC</div></div>
   <div class="side-menu-search">
     <button class="side-menu-search-btn" onclick="closeMenu();setTimeout(()=>toggleSiteSearch(),300)">
@@ -3361,12 +3360,12 @@ function makeClickablesKeyboardAccessible() {
 const menuToggle = document.getElementById('menuToggle');
 const sideMenu = document.getElementById('sideMenu');
 const menuOverlay = document.getElementById('menuOverlay');
-const menuClose = document.getElementById('menuClose');
 function openMenu() { sideMenu.classList.add('open'); menuOverlay.classList.add('open'); menuToggle.classList.add('open'); document.body.style.overflow = 'hidden'; }
 function closeMenu() { sideMenu.classList.remove('open'); menuOverlay.classList.remove('open'); menuToggle.classList.remove('open'); document.body.style.overflow = ''; }
-menuToggle.addEventListener('click', openMenu);
+menuToggle.addEventListener('click', function() {
+  if (sideMenu.classList.contains('open')) closeMenu(); else openMenu();
+});
 menuOverlay.addEventListener('click', closeMenu);
-menuClose.addEventListener('click', closeMenu);
 let currentObserver = null;
 function initReveal() {
   if (currentObserver) currentObserver.disconnect();
@@ -4366,3 +4365,4 @@ function filterProductsByTag(tag, btn) {
 </div>
 </body>
 </html>
+                                                                             

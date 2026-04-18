@@ -518,7 +518,7 @@ ul { list-style: none; }
   .hero-hours { display: none; }
   .hero-copy { max-width: 280px; font-size: 0.84rem; margin-bottom: 24px; }
 }
-.mobile-cta-bar { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: var(--black); border-top: 1px solid var(--gold); z-index: 996; padding: 0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); justify-content: center; gap: 0; }
+.mobile-cta-bar { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: var(--black); border-top: 1px solid var(--gold); z-index: 996; padding: 0 env(safe-area-inset-right, 0px) 0 env(safe-area-inset-left, 0px); padding-bottom: env(safe-area-inset-bottom, 34px); justify-content: center; gap: 0; }
 .mobile-cta-bar > a, .mobile-cta-bar > span { flex: none; padding: 14px 12px; text-align: center; font-size: 0.8rem; letter-spacing: 0; color: var(--white); cursor: pointer; transition: background 0.2s; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 2px; }
 .mobile-cta-bar > a:last-child, .mobile-cta-bar > span:last-child { }
 .mobile-cta-bar > a:hover, .mobile-cta-bar > span:hover { background: rgba(201,169,110,0.15); }
@@ -527,8 +527,7 @@ ul { list-style: none; }
 .mobile-cta-bar .cta-call { color: var(--gold); }
 .mobile-cta-bar .cta-book { color: var(--gold-light); }
 @media (max-width: 768px) {
-  .mobile-cta-bar { display: flex; }
-  .mobile-cta-bar::after { content: ''; position: fixed; bottom: 0; left: 0; right: 0; height: env(safe-area-inset-bottom); background: var(--black); z-index: 996; }
+  .mobile-cta-bar { display: flex; box-shadow: 0 50px 0 0 var(--black); }
   body { padding-bottom: calc(56px + env(safe-area-inset-bottom)); }
   .float-social { display: none !important; }
   .inquiry-fab { bottom: calc(70px + env(safe-area-inset-bottom)) !important; right: 20px !important; }

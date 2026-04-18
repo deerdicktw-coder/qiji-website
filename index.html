@@ -50,7 +50,7 @@ ul { list-style: none; }
 .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: #fff; border-bottom: 1px solid rgba(0,0,0,0.06); transition: all 0.4s var(--transition), transform 0.35s cubic-bezier(0.4,0,0.2,1); }
 .nav.nav-hidden { transform: translateY(-100%); }
 .nav-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: center; padding: 18px 40px; position: relative; }
-.nav-hamburger { position: absolute; left: 40px; top: 50%; transform: translateY(-50%); cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 8px; background: none; border: none; z-index: 2002; }
+.nav-hamburger { position: fixed; left: 40px; top: 19px; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 8px; background: none; border: none; z-index: 2100; }
 .nav-hamburger span { width: 24px; height: 2px; background: var(--black); transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), background 0.35s ease, opacity 0.35s ease; box-shadow: 0 0 2px rgba(0,0,0,0.1); transform-origin: center; position: relative; overflow: hidden; }
 .nav-hamburger span::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent 0%, var(--gold) 45%, transparent 90%); transform: translateX(-110%); animation: hamburgerShimmer 3.4s ease-in-out infinite; pointer-events: none; }
 .nav-hamburger span:nth-child(2)::before { animation-delay: 0.18s; }
@@ -1026,9 +1026,9 @@ ul { list-style: none; }
 </script>
 </head>
 <body>
+<button class="nav-hamburger" id="menuToggle" aria-label="Menu"><span></span><span></span><span></span></button>
 <nav class="nav" id="mainNav">
   <div class="nav-inner">
-    <button class="nav-hamburger" id="menuToggle" aria-label="Menu"><span></span><span></span><span></span></button>
     <div class="nav-brand" onclick="goTo('home')">
       <div class="nav-logo-text">QIJI</div>
     </div>
@@ -4365,4 +4365,4 @@ function filterProductsByTag(tag, btn) {
 </div>
 </body>
 </html>
-                                                                             
+                                                                                                                

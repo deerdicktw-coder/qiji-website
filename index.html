@@ -3568,6 +3568,24 @@ function filterProducts(cat, el) {
   window.scrollTo({ top: document.querySelector('.products-filter').offsetTop - 80, behavior: 'smooth' });
 }
 
+// 由 nav 下拉選單跳到產品頁並觸發對應類別 tab
+function goToProductCategory(cat) {
+  goTo('products');
+  setTimeout(function() {
+    // 只在 #page-products 裡找 tab，避免誤觸 services 頁的 tab
+    var tabs = document.querySelectorAll('#page-products .products-tab');
+    var matched = null;
+    tabs.forEach(function(t) {
+      var onclickAttr = t.getAttribute('onclick') || '';
+      // filterProducts('cat0', this) 這種字串
+      if (onclickAttr.indexOf("filterProducts('" + cat + "'") !== -1) {
+        matched = t;
+      }
+    });
+    if (matched) { matched.click(); }
+  }, 120);
+}
+
 makeClickablesKeyboardAccessible();
 initReveal();
 
@@ -4297,22 +4315,4 @@ window.TimeWheel = (function() {
 
   function renderDateList() {
     dateList.innerHTML = dateOptions.map(function(o, i) {
-      return '<li data-idx="' + i + '" data-day="' + o.day + '" class="' + (o.closed ? 'closed' : '') + '">' + o.label + '</li>';
-    }).join('');
-  }
-
-  function renderTimeList(dayOfWeek) {
-    var slots = buildTimeSlots(dayOfWeek);
-    if (slots.length === 0) {
-      timeList.innerHTML = '<li data-value="" class="closed">當日公休</li>';
-    } else {
-      timeList.innerHTML = slots.map(function(s) {
-        return '<li data-value="' + s + '">' + s + '</li>';
-      }).join('');
-    }
-  }
-
-  function getCenterItem(listEl) {
-    var items = listEl.querySelectorAll('li');
-    if (!items.length) return null;
-    var scrollTop = listEl.s
+      return '<li data-idx

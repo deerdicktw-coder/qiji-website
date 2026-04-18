@@ -1018,6 +1018,18 @@ body.right-panel-open .back-to-top { opacity: 0 !important; pointer-events: none
 .cf-status.success { color: #4a9; }
 .cf-status.error { color: #c66; }
 @media (max-width: 600px) { .cf-row { grid-template-columns: 1fr; gap: 0; } .contact-form-section { padding: 60px 24px 80px; } }
+/* Phase 5: iOS 風格滾輪 time picker */
+.tw { position: relative; display: grid; grid-template-columns: 1.5fr 1fr 1.2fr; gap: 8px; height: 150px; margin-bottom: 16px; background: var(--white); border: 1px solid var(--grey-200); border-radius: 8px; overflow: hidden; font-family: var(--sans); }
+.tw-wheel { overflow-y: scroll; scroll-snap-type: y mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; position: relative; }
+.tw-wheel::-webkit-scrollbar { display: none; }
+.tw-item { height: 40px; display: flex; align-items: center; justify-content: center; font-size: 0.88rem; color: var(--grey-400); scroll-snap-align: center; letter-spacing: 1.5px; transition: color 0.2s, font-weight 0.2s, transform 0.2s; }
+.tw-item.active { color: var(--black); font-weight: 500; transform: scale(1.05); }
+.tw-spacer { height: 55px; scroll-snap-align: none; pointer-events: none; }
+.tw-mask { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0) 35%, rgba(255,255,255,0) 65%, rgba(255,255,255,0.85) 100%); z-index: 1; }
+.tw::before, .tw::after { content: ''; position: absolute; left: 8px; right: 8px; height: 1px; background: var(--gold); opacity: 0.4; z-index: 2; pointer-events: none; }
+.tw::before { top: calc(50% - 20px); }
+.tw::after { top: calc(50% + 20px); }
+.tw-hint { text-align: center; font-size: 0.7rem; color: var(--grey-400); letter-spacing: 2px; margin-bottom: 8px; font-weight: 300; }
 </style>
 <script type="application/ld+json">
 {
@@ -2345,6 +2357,19 @@ body.right-panel-open .back-to-top { opacity: 0 !important; pointer-events: none
         </div>
         <div class="cf-panel" data-panel="2">
           <h3 style="text-align:center;font-size:1rem;font-weight:300;letter-spacing:4px;color:var(--grey-800);margin-bottom:24px;">方便預約的時間？</h3>
+          <div class="tw-hint">滑動選擇您方便的日期與時段（也可於下方直接輸入）</div>
+          <div class="tw" id="cfTimeWheel">
+            <div class="tw-mask"></div>
+            <div class="tw-wheel" data-col="date"><div class="tw-spacer"></div><div class="tw-spacer"></div></div>
+            <div class="tw-wheel" data-col="period">
+              <div class="tw-spacer"></div>
+              <div class="tw-item" data-value="上午">上午</div>
+              <div class="tw-item" data-value="下午">下午</div>
+              <div class="tw-item" data-value="晚上">晚上</div>
+              <div class="tw-spacer"></div>
+            </div>
+            <div class="tw-wheel" data-col="hour"><div class="tw-spacer"></div><div class="tw-spacer"></div></div>
+          </div>
           <div class="cf-time-hint">營業時間：週一至週五 10:00–20:00 ｜ 週六 10:00–18:00 ｜ 週日公休<br>請留下您方便的日期/時段，我們會盡快回覆確認可預約時間。</div>
           <div class="cf-field">
             <input class="cf-input" type="text" name="preferred_time" id="cfTime" placeholder="例如：4/20 下午 2 點、週六上午、平日晚上 7 點..." required>
@@ -4339,6 +4364,80 @@ function filterProductsByTag(tag, btn) {
       spot.style.top = (e.clientY - rect.top) + 'px';
     });
   });
+})();
+
+/* Phase 5: iOS 風格滾輪 time picker */
+(function initTimeWheel() {
+  var root = document.getElementById('cfTimeWheel');
+  if (!root) return;
+  var input = document.getElementById('cfTime');
+  if (!input) return;
+  var dateWheel = root.querySelector('[data-col="date"]');
+  var hourWheel = root.querySelector('[data-col="hour"]');
+  var periodWheel = root.querySelector('[data-col="period"]');
+  if (!dateWheel || !hourWheel || !periodWheel) return;
+  var weekdays = ['日', '一', '二', '三', '四', '五', '六'];
+  var today = new Date();
+  var dateHTML = '<div class="tw-spacer"></div>';
+  for (var i = 0; i < 14; i++) {
+    var d = new Date(today.getFullYear(), today.getMonth(), today.getDate() + i);
+    var lbl;
+    if (i === 0) lbl = '今天';
+    else if (i === 1) lbl = '明天';
+    else if (i === 2) lbl = '後天';
+    else lbl = (d.getMonth() + 1) + '/' + d.getDate() + ' 週' + weekdays[d.getDay()];
+    var mmdd = (d.getMonth() + 1) + '/' + d.getDate();
+    dateHTML += '<div class="tw-item" data-value="' + mmdd + '" data-display="' + lbl + '">' + lbl + '</div>';
+  }
+  dateHTML += '<div class="tw-spacer"></div>';
+  dateWheel.innerHTML = dateHTML;
+  var hourHTML = '<div class="tw-spacer"></div>';
+  for (var h = 10; h <= 19; h++) {
+    hourHTML += '<div class="tw-item" data-value="' + h + ':00">' + h + ':00</div>';
+    hourHTML += '<div class="tw-item" data-value="' + h + ':30">' + h + ':30</div>';
+  }
+  hourHTML += '<div class="tw-spacer"></div>';
+  hourWheel.innerHTML = hourHTML;
+  var wheels = [dateWheel, periodWheel, hourWheel];
+  function updateActive(wheel) {
+    var items = wheel.querySelectorAll('.tw-item');
+    var rect = wheel.getBoundingClientRect();
+    var centerY = rect.top + rect.height / 2;
+    var closest = null, minDist = Infinity;
+    for (var k = 0; k < items.length; k++) {
+      items[k].classList.remove('active');
+      var r = items[k].getBoundingClientRect();
+      var c = r.top + r.height / 2;
+      var dist = Math.abs(c - centerY);
+      if (dist < minDist) { minDist = dist; closest = items[k]; }
+    }
+    if (closest) closest.classList.add('active');
+  }
+  function updateInput() {
+    var da = dateWheel.querySelector('.tw-item.active');
+    var pa = periodWheel.querySelector('.tw-item.active');
+    var ha = hourWheel.querySelector('.tw-item.active');
+    if (!da || !ha) return;
+    var parts = [da.getAttribute('data-display') || da.textContent];
+    if (pa) parts.push(pa.getAttribute('data-value'));
+    parts.push(ha.getAttribute('data-value'));
+    input.value = parts.join(' ');
+  }
+  var scrollTimer = null;
+  function onScroll() {
+    if (scrollTimer) clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(function() {
+      for (var w = 0; w < wheels.length; w++) updateActive(wheels[w]);
+      updateInput();
+    }, 120);
+  }
+  for (var w = 0; w < wheels.length; w++) {
+    wheels[w].addEventListener('scroll', onScroll, { passive: true });
+  }
+  setTimeout(function() {
+    for (var w = 0; w < wheels.length; w++) updateActive(wheels[w]);
+    updateInput();
+  }, 80);
 })();
 
 </script>

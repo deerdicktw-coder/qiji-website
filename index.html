@@ -41,7 +41,37 @@ body { font-family: 'Jost', 'Noto Sans TC', sans-serif; background: #fff; color:
 a { text-decoration: none; color: inherit; }
 img { max-width: 100%; display: block; }
 ul { list-style: none; }
-:root { --black: #000; --white: #fff; --gold: #c9a96e; --gold-light: #d4b87a; --grey-100: #f7f7f7; --grey-200: #ebebeb; --grey-400: #999; --grey-600: #666; --grey-800: #333; --serif: 'Bodoni Moda', 'Noto Serif TC', serif; --sans: 'Jost', 'Noto Sans TC', sans-serif; --transition: cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+:root {
+  --black: #000; --white: #fff; --gold: #c9a96e; --gold-light: #d4b87a;
+  --grey-100: #f7f7f7; --grey-200: #ebebeb; --grey-300: #d4d4d4; --grey-400: #999; --grey-600: #666; --grey-800: #333;
+  --serif: 'Bodoni Moda', 'Noto Serif TC', serif;
+  --sans: 'Jost', 'Noto Sans TC', sans-serif;
+  --transition: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  /* Fluid type scale (Chanel-style clamp) */
+  --fs-xs: clamp(0.68rem, 0.6rem + 0.3vw, 0.78rem);
+  --fs-sm: clamp(0.78rem, 0.7rem + 0.4vw, 0.9rem);
+  --fs-base: clamp(0.88rem, 0.8rem + 0.4vw, 1rem);
+  --fs-md: clamp(1rem, 0.9rem + 0.5vw, 1.15rem);
+  --fs-lg: clamp(1.15rem, 1rem + 0.8vw, 1.5rem);
+  --fs-xl: clamp(1.3rem, 1.1rem + 1.2vw, 1.9rem);
+  --fs-2xl: clamp(1.6rem, 1.2rem + 1.8vw, 2.4rem);
+  --fs-3xl: clamp(2rem, 1.4rem + 2.6vw, 3.4rem);
+  --fs-4xl: clamp(2.4rem, 1.6rem + 3.5vw, 4.5rem);
+  /* Fluid spacing */
+  --sp-2xs: clamp(4px, 0.3vw, 8px);
+  --sp-xs: clamp(8px, 0.8vw, 14px);
+  --sp-sm: clamp(12px, 1.2vw, 20px);
+  --sp-md: clamp(20px, 2vw, 32px);
+  --sp-lg: clamp(32px, 3vw, 56px);
+  --sp-xl: clamp(48px, 4.5vw, 88px);
+  --sp-2xl: clamp(64px, 6vw, 120px);
+  --sp-3xl: clamp(88px, 8vw, 160px);
+  /* Letter spacing scale */
+  --ls-sm: 1.5px; --ls-md: 3px; --ls-lg: 5px; --ls-xl: 8px;
+  /* Layout */
+  --gutter: clamp(16px, 4vw, 48px);
+  --max-content: 1440px;
+}
 .page { display: none; min-height: 100vh; }
 .page.active { display: block; animation: pageIn 0.45s ease; }
 .page.fade-out { animation: pageOut 0.25s ease forwards; }

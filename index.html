@@ -47,7 +47,8 @@ ul { list-style: none; }
 .page.fade-out { animation: pageOut 0.25s ease forwards; }
 @keyframes pageIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes pageOut { from { opacity: 1; } to { opacity: 0; } }
-.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(255,255,255,0.82); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border-bottom: 1px solid rgba(0,0,0,0.06); transition: all 0.4s var(--transition); }
+.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(255,255,255,0.82); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border-bottom: 1px solid rgba(0,0,0,0.06); transition: all 0.4s var(--transition), transform 0.35s cubic-bezier(0.4,0,0.2,1); }
+.nav.nav-hidden { transform: translateY(-100%); }
 .nav.transparent { background: transparent; border-bottom-color: transparent; }
 .nav.transparent .nav-brand-zh, .nav.transparent .nav-brand-en, .nav.transparent .nav-link { color: var(--white); }
 .nav.transparent .nav-hamburger span { background: var(--white); box-shadow: 0 0 4px rgba(0,0,0,0.5); }
@@ -324,6 +325,10 @@ ul { list-style: none; }
 .cf-success-btn.primary:hover { background: var(--gold); }
 .cf-success-btn.secondary { background: none; color: var(--grey-600); border: 1px solid var(--grey-300); }
 .cf-success-btn.secondary:hover { border-color: var(--gold); color: var(--gold); }
+.scroll-top-btn { position: fixed; bottom: 80px; left: 16px; width: 40px; height: 40px; border-radius: 50%; background: var(--white); color: var(--grey-600); border: 1px solid var(--grey-200); box-shadow: 0 2px 12px rgba(0,0,0,0.1); cursor: pointer; z-index: 995; display: flex; align-items: center; justify-content: center; font-size: 1rem; opacity: 0; visibility: hidden; transition: all 0.3s; }
+.scroll-top-btn.show { opacity: 1; visibility: visible; }
+.scroll-top-btn:hover { background: var(--black); color: var(--white); border-color: var(--black); }
+@media (max-width: 768px) { .scroll-top-btn { bottom: calc(70px + env(safe-area-inset-bottom, 34px)); left: 16px; width: 36px; height: 36px; font-size: 0.85rem; } }
 @media (max-width: 768px) { .inquiry-panel { right: 12px; left: 12px; width: auto; bottom: calc(90px + env(safe-area-inset-bottom)); } .inquiry-fab { bottom: 20px; right: 20px; } }
 /* IG Gallery */
 .ig-gallery { background: var(--grey-100); padding: 60px 0 0; text-align: center; }
@@ -3175,6 +3180,28 @@ function submitInquiry() {
 }
 
 
+/* Scroll Top Button + Nav Auto-Hide */
+var scrollTopBtn = document.getElementById('scrollTopBtn');
+var navEl = document.querySelector('.nav');
+var lastScrollY = 0;
+var navHideThreshold = 80;
+window.addEventListener('scroll', function() {
+  var currentY = window.scrollY;
+  /* scroll top btn */
+  if (currentY > 600) { scrollTopBtn.classList.add('show'); }
+  else { scrollTopBtn.classList.remove('show'); }
+  /* nav hide/show - only on mobile */
+  if (window.innerWidth <= 768) {
+    if (currentY > navHideThreshold && currentY > lastScrollY + 5) {
+      navEl.classList.add('nav-hidden');
+    } else if (currentY < lastScrollY - 5) {
+      navEl.classList.remove('nav-hidden');
+    }
+    if (currentY <= 10) { navEl.classList.remove('nav-hidden'); }
+  }
+  lastScrollY = currentY;
+}, { passive: true });
+
 /* Background Music Player - 32 track playlist */
 var bgmPlaylist = ["https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/01%20Wellness%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/02%20Sleep%20Meditation%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/03%20Elevate%20Ocean%20Sounds.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/04%20Solitude%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/05%20Revelations%20Sea%20Music.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/06%20Lost%20in%20Space%20Beach%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/07%20Walking%20on%20Air%20Crashing%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/08%20Sleepy%20Relaxation%20Ocean%20Sounds.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/09%20Massage%20Piano%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/10%20Dream%20Music%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/11%20Simple%20Lullaby%20Ocean%20Sounds.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/12%20Love%20%26%20Piano%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/13%20Starlights%20Sea%20Sounds.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/14%20Clarity%20Beach%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/15%20Release%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/16%20Spa%20Piano%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/17%20Heart%20%26%20Soul%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/18%20A%20Clear%20Mind%20Ocean%20Noises.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/19%20Peacefulness%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/20%20Float%20Sea%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/21%20Twilight%20Piano%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/22%20Seaside%20Dreams.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/23%20Sleeping%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/24%20Let%20Go%20Ocean%20Sounds.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/25%20Happiness%20Sea%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/26%20Zone%20Out%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/27%20Chilled%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/28%20Healing%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/29%20Freedom%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/30%20Flow%20Beach%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/31%20Drift%20Ocean%20Waves.mp3","https://archive.org/download/piano-peace-spa-piano-ocean-waves-2018/Piano%20Peace%20-%20Spa%20Piano%20%26%20Ocean%20Waves%20%282018%29/32%20Ambient%20Ocean%20Waves.mp3"];
 var bgmCurrent = 0;
@@ -3559,6 +3586,7 @@ function filterProductsByTag(tag, btn) {
 </div>
 
 <!-- #4 Mobile Bottom CTA Bar -->
+<button class="scroll-top-btn" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="回到頂部">↑</button>
 <div class="mobile-cta-bar">
   <a href="https://page.line.me/026xbaov?openQrModal=true" target="_blank" rel="noopener" class="cta-line"><span class="cta-icon">💬</span>LINE</a>
   <a href="tel:0436033588" class="cta-call"><span class="cta-icon">📞</span>致電</a>

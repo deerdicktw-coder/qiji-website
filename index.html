@@ -36,7 +36,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700&family=Noto+Serif+TC:wght@300;400;500;600;700&family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
 body { font-family: 'Jost', 'Noto Sans TC', sans-serif; background: #fff; color: #1a1a1a; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 a { text-decoration: none; color: inherit; }
 img { max-width: 100%; display: block; }
@@ -384,7 +384,7 @@ ul { list-style: none; }
 @media (hover: none) { .service-card:hover .service-card-flip { transform: none; } }
 /* ===== Booking Form 3-Step Wizard ===== */
 .cf-wizard { max-width: 600px; margin: 0 auto; }
-.cf-steps { display: flex; justify-content: center; gap: 0; margin-bottom: 40px; position: relative; }
+.cf-steps { display: flex; justify-content: center; gap: 0; margin-bottom: 40px; position: relative; overflow: hidden; }
 .cf-step { flex: 1; text-align: center; position: relative; max-width: 120px; }
 .cf-step-dot { width: 32px; height: 32px; border-radius: 50%; background: var(--grey-200); color: var(--grey-400); display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; font-family: var(--serif); font-size: 0.82rem; transition: all 0.4s ease; position: relative; z-index: 2; border: 2px solid var(--grey-200); }
 .cf-step.active .cf-step-dot { background: var(--gold); color: var(--white); border-color: var(--gold); transform: scale(1.1); }
@@ -949,10 +949,10 @@ ul { list-style: none; }
 .contact-form-inner { max-width: 700px; margin: 0 auto; }
 .contact-form-inner { text-align: center; }
 .contact-form { text-align: left; }
-.cf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.cf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; min-width: 0; }
 .cf-field { margin-bottom: 24px; }
 .cf-label { display: block; font-size: 0.72rem; letter-spacing: 2px; color: var(--grey-500); margin-bottom: 8px; font-weight: 400; }
-.cf-input { width: 100%; padding: 14px 16px; font-size: 0.88rem; font-family: var(--sans); color: var(--grey-800); border: 1px solid var(--grey-200); background: var(--white); border-radius: 4px; outline: none; transition: border-color 0.3s; letter-spacing: 0.5px; font-weight: 300; box-sizing: border-box; }
+.cf-input { width: 100%; max-width: 100%; padding: 14px 16px; font-size: 0.88rem; font-family: var(--sans); color: var(--grey-800); border: 1px solid var(--grey-200); background: var(--white); border-radius: 4px; outline: none; transition: border-color 0.3s; letter-spacing: 0.5px; font-weight: 300; box-sizing: border-box; }
 .cf-input:focus { border-color: var(--gold); }
 .cf-input::placeholder { color: var(--grey-300); font-weight: 300; }
 .cf-select { cursor: pointer; -webkit-appearance: none; -moz-appearance: none; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; padding-right: 24px; }
@@ -3774,6 +3774,13 @@ function submitInquiry() {
     if (svcField) { svcField.value = '產品諮詢'; }
     var formSection = document.querySelector('.contact-form-section');
     if (formSection) { formSection.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    /* 清空諮詢清單 + 還原所有 ＋諮詢 按鈕 + 收起 FAB/Badge/面板 */
+    inquiryList = [];
+    document.querySelectorAll('.product-card-inquiry').forEach(function(b) {
+      b.textContent = '＋ 諮詢';
+      b.classList.remove('added');
+    });
+    updateInquiryUI();
   }, 400);
 }
 

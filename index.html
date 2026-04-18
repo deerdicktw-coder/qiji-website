@@ -312,6 +312,18 @@ ul { list-style: none; }
 .inquiry-panel-submit { width: 100%; padding: 14px; background: var(--black); color: var(--white); font-size: 0.78rem; letter-spacing: 3px; border: none; cursor: pointer; transition: all 0.3s; font-family: var(--sans); }
 .inquiry-panel-submit:hover { background: var(--gold); }
 .inquiry-panel-empty { text-align: center; padding: 30px 0; color: var(--grey-400); font-size: 0.82rem; letter-spacing: 1px; }
+.cf-success-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 3000; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: all 0.3s; }
+.cf-success-overlay.show { opacity: 1; visibility: visible; }
+.cf-success-modal { background: var(--white); border-radius: 12px; padding: 48px 36px; text-align: center; max-width: 340px; width: 90%; box-shadow: 0 20px 60px rgba(0,0,0,0.15); }
+.cf-success-icon { font-size: 3rem; margin-bottom: 20px; }
+.cf-success-title { font-size: 1.1rem; font-weight: 400; letter-spacing: 3px; color: var(--grey-800); margin-bottom: 8px; }
+.cf-success-msg { font-size: 0.82rem; color: var(--grey-500); letter-spacing: 1px; margin-bottom: 32px; line-height: 1.6; }
+.cf-success-actions { display: flex; flex-direction: column; gap: 12px; }
+.cf-success-btn { padding: 14px 24px; font-size: 0.8rem; letter-spacing: 3px; border: none; cursor: pointer; transition: all 0.3s; font-family: var(--sans); border-radius: 4px; }
+.cf-success-btn.primary { background: var(--black); color: var(--white); }
+.cf-success-btn.primary:hover { background: var(--gold); }
+.cf-success-btn.secondary { background: none; color: var(--grey-600); border: 1px solid var(--grey-300); }
+.cf-success-btn.secondary:hover { border-color: var(--gold); color: var(--gold); }
 @media (max-width: 768px) { .inquiry-panel { right: 12px; left: 12px; width: auto; bottom: calc(90px + env(safe-area-inset-bottom)); } .inquiry-fab { bottom: 20px; right: 20px; } }
 /* IG Gallery */
 .ig-gallery { background: var(--grey-100); padding: 60px 0 0; text-align: center; }
@@ -1035,6 +1047,18 @@ ul { list-style: none; }
   <div class="side-menu-social">
     <a href="https://www.instagram.com/1988_carrie_skincare/" target="_blank" rel="noopener noreferrer">INSTAGRAM</a>
     <a href="https://page.line.me/026xbaov?openQrModal=true" target="_blank" rel="noopener noreferrer">LINE</a>
+  </div>
+</div>
+
+<div class="cf-success-overlay" id="cfSuccessOverlay" onclick="closeCfSuccess(event)">
+  <div class="cf-success-modal" onclick="event.stopPropagation()">
+    <div class="cf-success-icon">✓</div>
+    <div class="cf-success-title">留言已送出</div>
+    <div class="cf-success-msg">我們會盡快回覆您，<br>也可透過 LINE 即時聯繫。</div>
+    <div class="cf-success-actions">
+      <button class="cf-success-btn primary" onclick="closeCfSuccess();goTo('home')">回 首 頁</button>
+      <button class="cf-success-btn secondary" onclick="closeCfSuccess();goTo('contact')">繼 續 留 言</button>
+    </div>
   </div>
 </div>
  
@@ -2945,12 +2969,11 @@ function submitContactForm(e) {
   .then(r => r.json())
   .then(res => {
     if (res.success) {
-      status.textContent = '留言已送出，我們會盡快回覆您！';
-      status.className = 'cf-status success';
       form.reset();
       document.querySelectorAll('.cf-service-option').forEach(o => o.classList.remove('selected'));
       var nb = document.getElementById('cfNext1'); if (nb) nb.disabled = true;
-      setTimeout(() => { if (typeof cfGoStep === 'function') cfGoStep(1); }, 1500);
+      if (typeof cfGoStep === 'function') cfGoStep(1);
+      document.getElementById('cfSuccessOverlay').classList.add('show');
     } else {
       status.textContent = '送出失敗，請改用 LINE 聯繫我們';
       status.className = 'cf-status error';
@@ -2965,6 +2988,10 @@ function submitContactForm(e) {
     btn.textContent = '送 出 留 言';
   });
   return false;
+}
+function closeCfSuccess(e) {
+  if (e && e.target !== e.currentTarget) return;
+  document.getElementById('cfSuccessOverlay').classList.remove('show');
 }
 function toggleSiteSearch() {
   const panel = document.getElementById('siteSearchPanel');

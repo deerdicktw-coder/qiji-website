@@ -630,6 +630,11 @@ body.menu-open .pricing-tab,
 body.menu-open .booking-tab,
 body.menu-open .back-to-top,
 body.menu-open .float-social { opacity: 0 !important; pointer-events: none !important; transition: opacity 0.25s ease !important; }
+/* Phase 4: body.right-panel-open 隱藏側邊浮標避免與 panel 重疊 */
+body.right-panel-open .faq-bubble,
+body.right-panel-open .pricing-tab,
+body.right-panel-open .booking-tab,
+body.right-panel-open .back-to-top { opacity: 0 !important; pointer-events: none !important; transition: opacity 0.25s ease !important; }
 
 /* ===== #5 Service Treatment Timeline ===== */
 .svc-timeline-section { padding: 50px 40px; max-width: 900px; margin: 0 auto; background: var(--grey-100); border-radius: 4px; }
@@ -4239,16 +4244,24 @@ function cfGoStep(n) {
 
 
 /* ===== #1 FAQ Bubble Toggle ===== */
+function syncRightPanelBodyClass() {
+  var fp = document.getElementById('faqBubblePanel');
+  var pp = document.getElementById('pricingPanel');
+  var open = (fp && fp.classList.contains('open')) || (pp && pp.classList.contains('open'));
+  document.body.classList.toggle('right-panel-open', open);
+}
 function toggleFaqBubble() {
   document.getElementById('faqBubblePanel').classList.toggle('open');
   /* Close pricing if open */
   var pp = document.getElementById('pricingPanel');
   if (pp) pp.classList.remove('open');
+  syncRightPanelBodyClass();
 }
 function togglePricingPanel() {
   document.getElementById('pricingPanel').classList.toggle('open');
   var fp = document.getElementById('faqBubblePanel');
   if (fp) fp.classList.remove('open');
+  syncRightPanelBodyClass();
 }
 
 /* ===== #3 Hero Typewriter ===== */

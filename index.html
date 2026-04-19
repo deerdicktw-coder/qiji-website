@@ -33,7 +33,7 @@
 <link rel="canonical" href="https://carrie-1sj.pages.dev/" />
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700&family=Noto+Serif+TC:wght@300;400;500;600;700&family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700&family=Noto+Serif+TC:wght@300;400;500;600;700&family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Jost:wght@200;300;400;500;600&family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; overflow-x: hidden; background: #000; }
@@ -100,7 +100,7 @@ body.nav-hidden .nav-search-mobile { transform: translateY(-100%); opacity: 0; p
 .nav-search-mobile:hover { color: var(--gold); }
 .nav-search-mobile svg { width: 22px; height: 22px; stroke-width: 1.5; }
 .nav-brand { text-align: center; cursor: pointer; display: flex; align-items: center; gap: 12px; }
-.nav-logo-text { font-family: var(--serif); font-size: 2rem; font-weight: 700; letter-spacing: 8px; color: var(--black); line-height: 1; transition: color 0.4s; animation: logoBreath 4s ease-in-out infinite; }
+.nav-logo-text { font-family: 'Inter', sans-serif; font-size: 2rem; font-weight: 700; letter-spacing: 0.28em; color: var(--black); line-height: 1; transition: color 0.4s; animation: logoBreath 4s ease-in-out infinite; }
 @keyframes logoBreath { 0%, 100% { text-shadow: 0 0 0 rgba(201,169,110,0); } 50% { text-shadow: 0 0 12px rgba(201,169,110,0.4), 0 0 24px rgba(201,169,110,0.22); } }
 .nav-right { position: absolute; right: 40px; top: 50%; transform: translateY(-50%); display: flex; gap: 20px; align-items: center; }
 .nav-links-desktop { display: flex; gap: 22px; align-items: center; }
@@ -137,7 +137,7 @@ body.nav-hidden .nav-search-mobile { transform: translateY(-100%); opacity: 0; p
 .side-menu-link.has-sub.open::after { transform: rotate(45deg); }
 .side-menu-sublink.has-sub2::after { content: '+'; float: right; font-size: 1.05rem; color: var(--grey-600); transition: transform 0.3s; padding: 0 4px; font-weight: 400; }
 .side-menu-sublink.has-sub2.open::after { transform: rotate(45deg); }
-.side-menu-sub2 { overflow: hidden; max-height: 0; transition: max-height 0.4s ease; }
+.side-menu-sub2 { overflow: hidden; max-height: 0; transition: max-height 0.4s ease, margin 0.4s ease; }
 .side-menu-sublink.has-sub2.open + .side-menu-sub2 { max-height: 400px; }
 .side-menu-sub2link { display: block; padding: 14px 0 14px 40px; font-size: 0.88rem; letter-spacing: 2px; font-weight: 400; color: var(--grey-600); cursor: pointer; transition: all 0.3s; }
 .side-menu-sub2link:hover { color: var(--gold); padding-left: 48px; }
@@ -156,7 +156,7 @@ body.nav-hidden .nav-search-mobile { transform: translateY(-100%); opacity: 0; p
 .hero-content { position: relative; z-index: 2; text-align: center; color: var(--white); max-width: 920px; width: 100%; margin-left: auto; margin-right: auto; box-sizing: border-box; }
 .hero-sub { font-family: var(--serif); font-size: clamp(0.88rem, 0.88rem + 0.8vw, 0.88rem); letter-spacing: clamp(4px, 2px + 1vw, 8px); color: var(--gold-light); margin-bottom: 20px; font-weight: 400; }
 .hero-title { font-size: clamp(2rem, 1rem + 4vw, 3.2rem); font-weight: 100; letter-spacing: clamp(6px, 2px + 2vw, 16px); margin-bottom: 12px; line-height: 1.4; }
-.hero-en { font-family: var(--serif); font-size: clamp(0.88rem, 0.88rem + 1vw, 1rem); letter-spacing: clamp(4px, 2px + 1.5vw, 10px); font-weight: 400; color: rgba(255,255,255,0.82); margin-bottom: 40px; }
+.hero-en { font-family: 'Inter', sans-serif; font-size: clamp(0.88rem, 0.88rem + 1vw, 1rem); letter-spacing: clamp(4px, 2px + 1.5vw, 10px); font-weight: 600; color: rgba(255,255,255,0.65); margin-bottom: 40px; }
 .hero-copy { max-width: 620px; margin: 0 auto 36px; font-size: clamp(0.88rem, 0.88rem + 0.5vw, 0.96rem); line-height: 2; color: rgba(255,255,255,0.88); font-weight: 400; }
 .hero-actions { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-bottom: 28px; }
 .hero-cta { display: inline-block; padding: 14px 40px; border: 1px solid rgba(255,255,255,0.22); background: rgba(255,255,255,0.08); color: var(--white); font-size: 0.88rem; letter-spacing: 4px; font-weight: 400; transition: all 0.4s; cursor: pointer; backdrop-filter: blur(14px); }
@@ -497,7 +497,7 @@ body.nav-hidden .nav-search-mobile { transform: translateY(-100%); opacity: 0; p
 .story-inner { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
 .story-header { text-align: center; margin-bottom: 80px; }
 .story-header h2 { font-size: 1.8rem; font-weight: 100; letter-spacing: 8px; color: var(--grey-800); margin-bottom: 12px; }
-.story-header .story-sub { font-family: var(--serif); font-size: 0.88rem; letter-spacing: 4px; color: var(--gold); }
+.story-header .story-sub { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.88rem; letter-spacing: 4px; color: var(--gold); }
 .story-chapter { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-bottom: 140px; min-height: 400px; }
 .story-chapter:last-child { margin-bottom: 0; }
 .story-chapter.reverse { direction: rtl; }
@@ -645,7 +645,8 @@ body.nav-hidden .nav-search-mobile { transform: translateY(-100%); opacity: 0; p
   .side-menu-close { top: 12px; right: 16px; }
   .side-menu-logo { margin-bottom: 16px; }
   .side-menu-sub { border-left: 2px solid rgba(201,169,110,0.3); margin-left: 0; padding-left: 8px; }
-  .side-menu-sub2 { background: rgba(0,0,0,0.02); border-radius: 4px; margin: 4px 0; padding-left: 8px; }
+  .side-menu-sub2 { background: rgba(0,0,0,0.02); border-radius: 4px; margin: 0; padding-left: 8px; }
+  .side-menu-sublink.has-sub2.open + .side-menu-sub2 { margin: 4px 0; }
 }
 
 /* CHANEL-style full-screen side menu (mobile only) */
@@ -913,7 +914,7 @@ body.right-panel-open .scroll-top-btn {
 
 .footer { background: var(--black); color: var(--white); padding: 60px 40px; text-align: center; }
 .footer-brand { font-size: 1.2rem; letter-spacing: 8px; margin-bottom: 8px; font-weight: 400; }
-.footer-en { font-family: var(--serif); font-size: 0.88rem; letter-spacing: 5px; color: var(--grey-600); margin-bottom: 30px; }
+.footer-en { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.88rem; letter-spacing: 5px; color: var(--grey-600); margin-bottom: 30px; }
 .footer-links { display: flex; justify-content: center; gap: 30px; margin-bottom: 30px; flex-wrap: wrap; }
 .footer-link { font-size: 0.88rem; letter-spacing: 2px; color: var(--grey-700); font-weight: 400; cursor: pointer; transition: color 0.3s; }
 .footer-link:hover { color: var(--gold); }
@@ -921,8 +922,7 @@ body.right-panel-open .scroll-top-btn {
 .footer-version { margin-top: 14px; font-size: 0.88rem; color: rgba(201,169,110,0.5); letter-spacing: 3px; font-family: var(--serif); font-weight: 400; }
 .footer-version .v-date { font-variant-numeric: tabular-nums; }
 .footer-version .v-sep { margin: 0 10px; opacity: 0.6; }
-.footer-version a.v-sha { color: inherit; text-decoration: none; border-bottom: 1px dashed rgba(201,169,110,0.3); padding-bottom: 1px; transition: color 0.3s, border-color 0.3s; }
-.footer-version a.v-sha:hover { color: var(--gold); border-bottom-color: var(--gold); }
+.footer-version .v-sha { font-variant-numeric: tabular-nums; }
 /* Dior-style reveal animations */
 .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.9s cubic-bezier(0.31, 0, 0.13, 1), transform 0.9s cubic-bezier(0.31, 0, 0.13, 1); }
 .reveal.visible { opacity: 1; transform: translateY(0); }
@@ -954,7 +954,7 @@ body.right-panel-open .scroll-top-btn {
 .float-social { position: fixed; right: 24px; bottom: 24px; display: flex; flex-direction: column; gap: 10px; z-index: 900; }
 .float-social a { width: 44px; height: 44px; background: var(--black); color: var(--white); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; transition: all 0.3s; }
 .float-social a:hover { background: var(--gold); }
-@media (max-width: 900px) { .nav-links-desktop { display: none; } .nav-inner { padding: 14px 20px; } .nav-hamburger { left: 20px; } .nav-right { right: 20px; } .nav-brand { gap: 8px; max-width: 220px; } .nav-logo-text { font-size: 1.4rem; letter-spacing: 10px; } .hero { min-height: 88vh; min-height: 88svh; padding: 120px 20px 88px; }  .hero-en { margin-bottom: 28px; } .hero-copy { font-size: 0.88rem; max-width: 320px; margin-bottom: 28px; } .hero-actions { flex-direction: column; align-items: center; } .hero-cta, .hero-secondary-cta { width: min(100%, 280px); } .hero-badges { gap: 10px; } .hero-badge { width: calc(50% - 5px); text-align: center; }  .service-grid { display: flex; flex-direction: column; gap: 16px; padding-bottom: 0; } .service-grid .service-card { flex: none; width: 100%; min-height: 280px; scroll-snap-align: none; } .service-card { min-height: 280px; } .service-card-shell { padding: 28px 24px; } .service-card-desc { font-size: 0.88rem; margin: 14px 0 20px; -webkit-line-clamp: 3; display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; } .services-hero h1, .contact-hero h1, .about-hero-content h1, .knowledge-hero h1 { font-size: clamp(1.6rem, 1rem + 2vw, 2.4rem); letter-spacing: clamp(4px, 2px + 1.5vw, 12px); } .knowledge-section { padding: 70px 20px; } .knowledge-card { padding: 28px 22px; } .service-detail { grid-template-columns: 1fr; } .service-detail:nth-child(even) { direction: ltr; } .service-detail-content { padding: 50px 30px; } .about-story { padding: 90px 24px; }
+@media (max-width: 900px) { .nav-links-desktop { display: none; } .nav-inner { padding: 14px 20px; } .nav-hamburger { left: 20px; } .nav-right { right: 20px; } .nav-brand { gap: 8px; max-width: 220px; } .nav-logo-text { font-size: 1.4rem; letter-spacing: 0.28em; } .hero { min-height: 88vh; min-height: 88svh; padding: 120px 20px 88px; }  .hero-en { margin-bottom: 28px; } .hero-copy { font-size: 0.88rem; max-width: 320px; margin-bottom: 28px; } .hero-actions { flex-direction: column; align-items: center; } .hero-cta, .hero-secondary-cta { width: min(100%, 280px); } .hero-badges { gap: 10px; } .hero-badge { width: calc(50% - 5px); text-align: center; }  .service-grid { display: flex; flex-direction: column; gap: 16px; padding-bottom: 0; } .service-grid .service-card { flex: none; width: 100%; min-height: 280px; scroll-snap-align: none; } .service-card { min-height: 280px; } .service-card-shell { padding: 28px 24px; } .service-card-desc { font-size: 0.88rem; margin: 14px 0 20px; -webkit-line-clamp: 3; display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; } .services-hero h1, .contact-hero h1, .about-hero-content h1, .knowledge-hero h1 { font-size: clamp(1.6rem, 1rem + 2vw, 2.4rem); letter-spacing: clamp(4px, 2px + 1.5vw, 12px); } .knowledge-section { padding: 70px 20px; } .knowledge-card { padding: 28px 22px; } .service-detail { grid-template-columns: 1fr; } .service-detail:nth-child(even) { direction: ltr; } .service-detail-content { padding: 50px 30px; } .about-story { padding: 90px 24px; }
   .story-header { text-align: center; margin-bottom: 50px; }
   .story-header h2 { font-size: 1.3rem; letter-spacing: 5px; }
   .story-header::after { content: ''; display: block; width: 40px; height: 1px; background: var(--gold); margin: 20px auto 0; }
@@ -1458,7 +1458,7 @@ body.right-panel-open .scroll-top-btn {
               <div class="service-card-en">SKIN CARE</div>
               <p class="service-card-desc">近十年手工清粉刺經驗，搭配院線級產品與膚況評估，從肌茵泌碼、雪藻喚膚到微雕蘊膚，依膚質量身設計療程，溫和帶回穩定與透亮。</p>
               <div class="service-card-meta">
-                <div class="service-card-price">NT$ 2,300 起</div>
+                <div class="service-card-price">NT$ 1,200 起</div>
                 <div class="service-card-arrow">DISCOVER &rarr;</div>
               </div>
             </div>
@@ -1472,7 +1472,7 @@ body.right-panel-open .scroll-top-btn {
               <li>依膚況量身設計療程</li>
               <li>含敷臉與術後護理</li>
             </ul>
-            <div class="service-back-price">NT$ 2,300 起</div>
+            <div class="service-back-price">NT$ 1,200 起</div>
             <div class="service-back-cta" onclick="event.stopPropagation(); goToSection('services','svc-facial')">了 解 更 多</div>
           </div>
         </div>
@@ -2362,7 +2362,7 @@ body.right-panel-open .scroll-top-btn {
     <h2 style="font-size:1.6rem;font-weight:100;letter-spacing:6px;text-align:center;margin-bottom:50px;">美 容 師 介 紹</h2>
     <div class="reveal" style="display:flex;gap:50px;align-items:center;flex-wrap:wrap;justify-content:center;">
       <div style="width:200px;height:200px;border-radius:50%;overflow:hidden;border:1px solid var(--grey-200);flex-shrink:0;">
-        <img src="boss.png" alt="Carrie 凱莉 — 淇肌淨膚創辦人" style="width:100%;height:100%;object-fit:cover;object-position:center top;">
+        <img src="boss.png" alt="Carrie 凱莉 — 淇肌淨膚創辦人" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;" loading="lazy">
       </div>
       <div style="flex:1;min-width:280px;">
         <div style="font-family:var(--serif);font-size:0.88rem;letter-spacing:4px;color:var(--gold);margin-bottom:8px;text-transform:uppercase;">FOUNDER &amp; AESTHETICIAN</div>
@@ -2817,7 +2817,7 @@ body.right-panel-open .scroll-top-btn {
           </div>
           <div style="padding:20px;display:flex;gap:16px;align-items:center;">
             <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#d4b87a,#c9a96e);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-              <span style="font-size:0.88rem;color:#fff;font-weight:500;">QIJI</span>
+              <span style="font-family:'Inter',sans-serif;font-size:0.88rem;color:#fff;font-weight:700;letter-spacing:0.15em;">QIJI</span>
             </div>
             <div>
               <div style="font-size:0.95rem;font-weight:500;">台中 · 凱莉美學</div>
@@ -2825,8 +2825,8 @@ body.right-panel-open .scroll-top-btn {
               <div style="font-size:0.88rem;color:var(--grey-400);">&#128222; 0436033588</div>
             </div>
           </div>
-          <div style="height:100px;background:linear-gradient(135deg,#f0ece4,#e8e2d8);display:flex;align-items:center;justify-content:center;">
-            <span style="font-size:0.88rem;color:var(--grey-400);letter-spacing:2px;">&#128247; 店家環境照片</span>
+          <div style="height:160px;overflow:hidden;background:#f0ece4;">
+            <img src="images/salon.jpg" alt="淇肌淨膚 店家環境" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy">
           </div>
           <div style="padding:0 16px 16px;">
             <div style="margin-top:12px;padding:12px 0;background:#5c5a72;border-radius:6px;text-align:center;color:#fff;font-size:0.88rem;letter-spacing:3px;font-weight:400;">START BOOKING <span style="font-size:0.88rem;opacity:0.6;display:block;margin-top:2px;">點擊開始預約</span></div>
@@ -3481,7 +3481,7 @@ body.right-panel-open .scroll-top-btn {
     <span class="footer-link" onclick="goTo('privacy')">隱私權政策</span>
   </div>
   <div class="footer-copy">&copy; 2026 淇肌淨膚 QIJI MIRACLE AESTHETIC &mdash; All Rights Reserved</div>
-  <div class="footer-version">v<span class="v-date">2026.04.19</span><span class="v-sep">&middot;</span><a class="v-sha" href="https://github.com/deerdicktw-coder/qiji-website/commit/ae32a2df8abd6792bc10a676660100e7cf4f3574" target="_blank" rel="noopener noreferrer">ae32a2d</a></div>
+  <div class="footer-version">v<span class="v-date">2026.04.19</span><span class="v-sep">&middot;</span><span class="v-sha">7407d0c</span></div>
 </footer>
  
 <div class="float-social">
@@ -4667,16 +4667,18 @@ function filterProductsByTag(tag, btn) {
   <div class="pricing-panel-body">
     <div class="pricing-cat">
       <div class="pricing-cat-title">皮膚管理</div>
-      <div class="pricing-row"><span class="name">臉部撥筋</span><span class="price">NT$ 1,800</span></div>
-      <div class="pricing-row"><span class="name">基礎清潔護理</span><span class="price">NT$ 2,300 起</span></div>
-      <div class="pricing-row"><span class="name">肌茵泌碼</span><span class="price">NT$ 2,800</span></div>
-      <div class="pricing-row"><span class="name">雪藻喚膚</span><span class="price">NT$ 3,200</span></div>
-      <div class="pricing-row"><span class="name">微雕蘊膚</span><span class="price">NT$ 3,800</span></div>
+      <div class="pricing-row"><span class="name">臉部撥筋</span><span class="price">NT$ 1,200</span></div>
+      <div class="pricing-row"><span class="name">無痛藻針</span><span class="price">NT$ 2,000 起</span></div>
+      <div class="pricing-row"><span class="name">雪藻喚膚</span><span class="price">NT$ 2,300 起</span></div>
+      <div class="pricing-row"><span class="name">肌泌藻針</span><span class="price">NT$ 2,880</span></div>
+      <div class="pricing-row"><span class="name">微雕蘊膚</span><span class="price">NT$ 3,500 起</span></div>
+      <div class="pricing-row"><span class="name">背部護理</span><span class="price">依加購</span></div>
     </div>
     <div class="pricing-cat">
       <div class="pricing-cat-title">五行罐撥</div>
-      <div class="pricing-row"><span class="name">局部罐撥</span><span class="price">NT$ 1,500</span></div>
-      <div class="pricing-row"><span class="name">全身經絡</span><span class="price">NT$ 2,500</span></div>
+      <div class="pricing-row"><span class="name">身體 1 小時</span><span class="price">NT$ 1,500</span></div>
+      <div class="pricing-row"><span class="name">身體 2 小時</span><span class="price">NT$ 3,000</span></div>
+      <div class="pricing-row"><span class="name">身體 3 小時</span><span class="price">NT$ 4,500</span></div>
     </div>
     <div class="pricing-cat">
       <div class="pricing-cat-title">除毛服務</div>
@@ -4685,7 +4687,13 @@ function filterProductsByTag(tag, btn) {
     </div>
     <div class="pricing-cat">
       <div class="pricing-cat-title">美甲服務</div>
-      <div class="pricing-row"><span class="name">手部光療</span><span class="price">依設計</span></div>
+      <div class="pricing-row"><span class="name">單色光療</span><span class="price">NT$ 800 起</span></div>
+    </div>
+    <div class="pricing-cat">
+      <div class="pricing-cat-title">會員入會（課程享折扣）</div>
+      <div class="pricing-row"><span class="name">基礎 95 折</span><span class="price">NT$ 1,000</span></div>
+      <div class="pricing-row"><span class="name">進階 9 折</span><span class="price">NT$ 1,500</span></div>
+      <div class="pricing-row"><span class="name">尊榮 85 折</span><span class="price">NT$ 2,000</span></div>
     </div>
   </div>
   <div class="pricing-panel-footer">完整價格與優惠請至「服務項目」查看<br>或加 LINE 詢問當月活動</div>

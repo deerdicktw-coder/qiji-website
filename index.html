@@ -1038,6 +1038,7 @@ body.right-panel-open .scroll-top-btn {
 @media (max-width: 600px) { .cf-row { grid-template-columns: 1fr; gap: 0; } .contact-form-section { padding: 60px 24px 80px; } }
 /* Phase 5: iOS 風格滾輪 time picker */
 .tw { position: relative; display: grid; grid-template-columns: 1.5fr 1fr 1.2fr; gap: 8px; height: 150px; margin-bottom: 16px; background: var(--white); border: 1px solid var(--grey-200); border-radius: 8px; overflow: hidden; font-family: var(--sans); }
+.tw.tw-v2 { grid-template-columns: 2fr 1fr 1fr; }
 .tw-wheel { overflow-y: scroll; scroll-snap-type: y mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; position: relative; }
 .tw-wheel::-webkit-scrollbar { display: none; }
 .tw-item { height: 40px; display: flex; align-items: center; justify-content: center; font-size: 0.88rem; color: var(--grey-400); scroll-snap-align: center; letter-spacing: 1.5px; transition: color 0.2s, font-weight 0.2s, transform 0.2s; }
@@ -2376,17 +2377,11 @@ body.right-panel-open .scroll-top-btn {
         <div class="cf-panel" data-panel="2">
           <h3 style="text-align:center;font-size:1rem;font-weight:300;letter-spacing:4px;color:var(--grey-800);margin-bottom:24px;">方便預約的時間？</h3>
           <div class="tw-hint">滑動選擇您方便的日期與時段（也可於下方直接輸入）</div>
-          <div class="tw" id="cfTimeWheel">
+          <div class="tw tw-v2" id="cfTimeWheel">
             <div class="tw-mask"></div>
             <div class="tw-wheel" data-col="date"><div class="tw-spacer"></div><div class="tw-spacer"></div></div>
-            <div class="tw-wheel" data-col="period">
-              <div class="tw-spacer"></div>
-              <div class="tw-item" data-value="上午">上午</div>
-              <div class="tw-item" data-value="下午">下午</div>
-              <div class="tw-item" data-value="晚上">晚上</div>
-              <div class="tw-spacer"></div>
-            </div>
             <div class="tw-wheel" data-col="hour"><div class="tw-spacer"></div><div class="tw-spacer"></div></div>
+            <div class="tw-wheel" data-col="minute"><div class="tw-spacer"></div><div class="tw-spacer"></div></div>
           </div>
           <div class="cf-time-hint">營業時間：週一至週五 10:00–20:00 ｜ 週六 10:00–18:00 ｜ 週日公休<br>請留下您方便的日期/時段，我們會盡快回覆確認可預約時間。</div>
           <div class="cf-field">
@@ -4384,7 +4379,7 @@ function filterProductsByTag(tag, btn) {
   });
 })();
 
-/* Phase 5: iOS 風格滾輪 time picker */
+/* Phase 5 v2: iOS 風格滾輪 time picker — 移除 period + 小時分鐘分離 + 無限循環 + 10 分單位 */
 (function initTimeWheel() {
   var root = document.getElementById('cfTimeWheel');
   if (!root) return;
@@ -4392,8 +4387,12 @@ function filterProductsByTag(tag, btn) {
   if (!input) return;
   var dateWheel = root.querySelector('[data-col="date"]');
   var hourWheel = root.querySelector('[data-col="hour"]');
-  var periodWheel = root.querySelector('[data-col="period"]');
-  if (!dateWheel || !hourWheel || !periodWheel) return;
+  var minuteWheel = root.querySelector('[data-col="minute"]');
+  if (!dateWheel || !hourWheel || !minuteWheel) return;
+  var ITEM_H = 40;
+  var COPIES = 7;
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+  /* --- Date: finite 14 days --- */
   var weekdays = ['日', '一', '二', '三', '四', '五', '六'];
   var today = new Date();
   var dateHTML = '<div class="tw-spacer"></div>';
@@ -4409,14 +4408,42 @@ function filterProductsByTag(tag, btn) {
   }
   dateHTML += '<div class="tw-spacer"></div>';
   dateWheel.innerHTML = dateHTML;
-  var hourHTML = '<div class="tw-spacer"></div>';
-  for (var h = 10; h <= 19; h++) {
-    hourHTML += '<div class="tw-item" data-value="' + h + ':00">' + h + ':00</div>';
-    hourHTML += '<div class="tw-item" data-value="' + h + ':30">' + h + ':30</div>';
+  /* --- Loop helper --- */
+  function buildLoopHTML(values) {
+    var h = '<div class="tw-spacer"></div>';
+    for (var c = 0; c < COPIES; c++) {
+      for (var v = 0; v < values.length; v++) {
+        h += '<div class="tw-item" data-value="' + values[v] + '">' + values[v] + '</div>';
+      }
+    }
+    h += '<div class="tw-spacer"></div>';
+    return h;
   }
-  hourHTML += '<div class="tw-spacer"></div>';
-  hourWheel.innerHTML = hourHTML;
-  var wheels = [dateWheel, periodWheel, hourWheel];
+  /* Hours 10-19（營業時間，24h 顯示） */
+  var hours = [];
+  for (var hh = 10; hh <= 19; hh++) hours.push(pad(hh));
+  hourWheel.innerHTML = buildLoopHTML(hours);
+  /* Minutes: 每 10 分鐘 */
+  var minutes = ['00', '10', '20', '30', '40', '50'];
+  minuteWheel.innerHTML = buildLoopHTML(minutes);
+  /* 定位到中間 copy，才能雙向無限滑 */
+  var midCopy = Math.floor(COPIES / 2);
+  hourWheel.scrollTop = midCopy * hours.length * ITEM_H;
+  minuteWheel.scrollTop = midCopy * minutes.length * ITEM_H;
+  /* 邊界跳轉 — 進入首尾 copy 就跳到中間同位置，視覺上無縫 */
+  function wrapScroll(wheel, listLen) {
+    var listH = listLen * ITEM_H;
+    var st = wheel.scrollTop;
+    if (st < listH * 1.5) {
+      wheel.scrollTop = st + listH * (COPIES - 3);
+    } else if (st > listH * (COPIES - 1.5)) {
+      wheel.scrollTop = st - listH * (COPIES - 3);
+    }
+  }
+  hourWheel.addEventListener('scroll', function() { wrapScroll(hourWheel, hours.length); }, { passive: true });
+  minuteWheel.addEventListener('scroll', function() { wrapScroll(minuteWheel, minutes.length); }, { passive: true });
+  /* 共用：捲動停下時計算 active + 寫入 input */
+  var wheels = [dateWheel, hourWheel, minuteWheel];
   function updateActive(wheel) {
     var items = wheel.querySelectorAll('.tw-item');
     var rect = wheel.getBoundingClientRect();
@@ -4433,16 +4460,14 @@ function filterProductsByTag(tag, btn) {
   }
   function updateInput() {
     var da = dateWheel.querySelector('.tw-item.active');
-    var pa = periodWheel.querySelector('.tw-item.active');
     var ha = hourWheel.querySelector('.tw-item.active');
-    if (!da || !ha) return;
-    var parts = [da.getAttribute('data-display') || da.textContent];
-    if (pa) parts.push(pa.getAttribute('data-value'));
-    parts.push(ha.getAttribute('data-value'));
-    input.value = parts.join(' ');
+    var ma = minuteWheel.querySelector('.tw-item.active');
+    if (!da || !ha || !ma) return;
+    var dateStr = da.getAttribute('data-display') || da.textContent;
+    input.value = dateStr + ' ' + ha.getAttribute('data-value') + ':' + ma.getAttribute('data-value');
   }
   var scrollTimer = null;
-  function onScroll() {
+  function onAnyScroll() {
     if (scrollTimer) clearTimeout(scrollTimer);
     scrollTimer = setTimeout(function() {
       for (var w = 0; w < wheels.length; w++) updateActive(wheels[w]);
@@ -4450,12 +4475,12 @@ function filterProductsByTag(tag, btn) {
     }, 120);
   }
   for (var w = 0; w < wheels.length; w++) {
-    wheels[w].addEventListener('scroll', onScroll, { passive: true });
+    wheels[w].addEventListener('scroll', onAnyScroll, { passive: true });
   }
   setTimeout(function() {
     for (var w = 0; w < wheels.length; w++) updateActive(wheels[w]);
     updateInput();
-  }, 80);
+  }, 100);
 })();
 
 </script>

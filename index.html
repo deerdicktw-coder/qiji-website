@@ -918,6 +918,11 @@ body.right-panel-open .scroll-top-btn {
 .footer-link { font-size: 0.88rem; letter-spacing: 2px; color: var(--grey-700); font-weight: 400; cursor: pointer; transition: color 0.3s; }
 .footer-link:hover { color: var(--gold); }
 .footer-copy { font-size: 0.88rem; color: var(--grey-600); letter-spacing: 2px; }
+.footer-version { margin-top: 14px; font-size: 0.88rem; color: rgba(201,169,110,0.5); letter-spacing: 3px; font-family: var(--serif); font-weight: 400; }
+.footer-version .v-date { font-variant-numeric: tabular-nums; }
+.footer-version .v-sep { margin: 0 10px; opacity: 0.6; }
+.footer-version a.v-sha { color: inherit; text-decoration: none; border-bottom: 1px dashed rgba(201,169,110,0.3); padding-bottom: 1px; transition: color 0.3s, border-color 0.3s; }
+.footer-version a.v-sha:hover { color: var(--gold); border-bottom-color: var(--gold); }
 /* Dior-style reveal animations */
 .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.9s cubic-bezier(0.31, 0, 0.13, 1), transform 0.9s cubic-bezier(0.31, 0, 0.13, 1); }
 .reveal.visible { opacity: 1; transform: translateY(0); }
@@ -960,7 +965,7 @@ body.right-panel-open .scroll-top-btn {
   .story-quote { text-align: center; padding: 30px 20px; margin: 30px 0; border-left: none; border-top: 1px solid var(--gold); border-bottom: 1px solid var(--gold); }
   .story-quote p { font-size: 0.92rem; line-height: 2; } .about-values { grid-template-columns: 1fr; } .about-value { border-right: none; border-bottom: 1px solid var(--grey-200); } .about-value:last-child { border-bottom: none; } .about-environment { padding: 90px 20px; } .about-env-grid { grid-template-columns: 1fr; } .about-env-panel, .about-env-panel-primary { min-height: 240px; } .contact-content { grid-template-columns: 1fr; gap: 40px; padding: 70px 20px; } .contact-note-grid { grid-template-columns: 1fr; } .side-menu { width: 85vw; padding: 40px 30px; } .side-menu-logo { margin-bottom: 30px; } .home-services { padding: 80px 20px; } .float-social { right: 16px; bottom: 16px; } .membership-grid { grid-template-columns: 1fr !important; } .footer { padding: 50px 20px 80px; } .footer-links { gap: 14px 20px; } .footer-link { font-size: 0.88rem; padding: 8px 4px; min-height: 44px; display: inline-flex; align-items: center; } .tutorial-cta-bar { padding: 48px 20px; } .home-testimonial { padding: 80px 20px; } .testimonial-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 14px; padding-bottom: 8px; scrollbar-width: none; -webkit-overflow-scrolling: touch; } .testimonial-grid::-webkit-scrollbar { display: none; } .testimonial-grid .testimonial-card { flex: 0 0 85%; scroll-snap-align: start; } .testimonial-card-text { min-height: auto; } .cases-grid { grid-template-columns: 1fr !important; } }
 @keyframes heroEntrance { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-.hero-content > * { opacity: 0; animation: heroEntrance 1s cubic-bezier(0.31, 0, 0.13, 1) forwards; }
+.hero-content > * { animation: heroEntrance 1s cubic-bezier(0.31, 0, 0.13, 1) both; }
 .hero-content > *:nth-child(1) { animation-delay: 0.3s; }
 .hero-content > *:nth-child(2) { animation-delay: 0.6s; }
 .hero-content > *:nth-child(3) { animation-delay: 0.9s; }
@@ -3476,6 +3481,7 @@ body.right-panel-open .scroll-top-btn {
     <span class="footer-link" onclick="goTo('privacy')">隱私權政策</span>
   </div>
   <div class="footer-copy">&copy; 2026 淇肌淨膚 QIJI MIRACLE AESTHETIC &mdash; All Rights Reserved</div>
+  <div class="footer-version">v<span class="v-date">2026.04.19</span><span class="v-sep">&middot;</span><a class="v-sha" href="https://github.com/deerdicktw-coder/qiji-website/commit/ae32a2df8abd6792bc10a676660100e7cf4f3574" target="_blank" rel="noopener noreferrer">ae32a2d</a></div>
 </footer>
  
 <div class="float-social">
@@ -3499,6 +3505,7 @@ function goTo(page) {
       current.classList.remove('active', 'fade-out');
       target.classList.add('active');
       window.scrollTo(0, 0);
+      if (page === 'home') { restartHeroAnim(target); }
       setTimeout(initReveal, 100);
     }, 250);
   } else {
@@ -3506,6 +3513,14 @@ function goTo(page) {
     window.scrollTo(0, 0);
     setTimeout(initReveal, 100);
   }
+}
+function restartHeroAnim(pageEl) {
+  const els = pageEl.querySelectorAll('.hero-content > *');
+  els.forEach(function(el) {
+    el.style.animation = 'none';
+    void el.offsetWidth; /* force reflow */
+    el.style.animation = '';
+  });
 }
 function goToSection(page, sectionId) {
   const currentPage = document.querySelector('.page.active');

@@ -818,6 +818,26 @@ body.right-panel-open .inquiry-fab {
   .promo-page-hero { max-width: 100%; margin-bottom: 28px; }
   .promo-page-cta { padding: 14px 36px; font-size: 0.85rem; letter-spacing: 3px; }
 }
+/* ===== Price List Gallery (synced from freetime.shop.images type=PRICE_LIST) ===== */
+.promo-price-list { max-width: 860px; margin: 80px auto 0; padding: 0 16px; }
+.promo-price-list[hidden] { display: none; }
+.promo-price-list-eyebrow { text-align: center; font-size: 0.78rem; letter-spacing: 6px; color: var(--gold); margin-bottom: 14px; font-weight: 500; }
+.promo-price-list-title { text-align: center; font-size: 1.5rem; letter-spacing: 6px; color: #1a1a1a; font-weight: 300; margin-bottom: 36px; }
+.promo-price-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+.promo-price-item { display: block; cursor: zoom-in; border: 1px solid rgba(201,169,110,0.22); background: #fff; overflow: hidden; transition: transform 0.35s, box-shadow 0.35s, border-color 0.35s; }
+.promo-price-item:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.12); border-color: var(--gold); }
+.promo-price-item img { display: block; width: 100%; height: auto; }
+.promo-lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.92); display: flex; align-items: center; justify-content: center; z-index: 3000; padding: 40px 20px; cursor: zoom-out; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+.promo-lightbox.active { opacity: 1; pointer-events: auto; }
+.promo-lightbox img { max-width: 100%; max-height: 100%; object-fit: contain; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+.promo-lightbox-close { position: absolute; top: 18px; right: 24px; width: 44px; height: 44px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.22); color: #fff; font-size: 1.4rem; cursor: pointer; font-weight: 300; border-radius: 2px; display: flex; align-items: center; justify-content: center; transition: background 0.3s; }
+.promo-lightbox-close:hover { background: rgba(255,255,255,0.18); }
+@media (max-width: 768px) {
+  .promo-price-list { margin-top: 48px; }
+  .promo-price-list-title { font-size: 1.2rem; letter-spacing: 4px; margin-bottom: 24px; }
+  .promo-price-gallery { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+}
+
 
 /* ===== Home Quiz - Inline Banner + Expand (首頁嵌入版) ===== */
 .home-quiz { padding: 80px 40px; background: linear-gradient(180deg, #fafaf7 0%, #fff 100%); text-align: center; position: relative; }
@@ -3478,6 +3498,16 @@ body.right-panel-open .inquiry-fab {
     <div class="promo-page-inner" id="promoPageContent">
       <div class="promo-page-empty">目前沒有進行中的活動，敬請期待下一檔優惠。</div>
     </div>
+    <div class="promo-price-list" id="promoPriceList" hidden>
+      <div class="promo-price-list-eyebrow">PRICE LIST</div>
+      <h2 class="promo-price-list-title">課 程 價 目</h2>
+      <div class="promo-price-gallery" id="promoPriceGallery"></div>
+    </div>
+    <div class="promo-lightbox" id="promoLightbox" onclick="closePromoLightbox(event)">
+      <button class="promo-lightbox-close" type="button" onclick="closePromoLightbox(event)" aria-label="關閉">&times;</button>
+      <img id="promoLightboxImg" src="" alt="">
+    </div>
+
   </section>
 </div>
 <div class="page" id="page-privacy">
@@ -3542,7 +3572,7 @@ body.right-panel-open .inquiry-fab {
     <span class="footer-link" onclick="goTo('privacy')">隱私權政策</span>
   </div>
   <div class="footer-copy">&copy; 2026 淇肌淨膚 QIJI MIRACLE AESTHETIC &mdash; All Rights Reserved</div>
-  <div class="footer-version">v<span class="v-date">2026.04.20</span><span class="v-sep">&middot;</span><span class="v-sha">a5a453e</span></div>
+  <div class="footer-version">v<span class="v-date">2026.04.20</span><span class="v-sep">&middot;</span><span class="v-sha">b80c37b</span></div>
 </footer>
  
 <div class="float-social">
@@ -4379,11 +4409,30 @@ window.addEventListener('load', function() {
     html += '<div class="promo-page-cta-wrap"><a class="promo-page-cta" href="https://myfreetime.io/google-reserve/YiuTT?hl=zh-TW" target="_blank" rel="noopener noreferrer">立 即 預 約 ›</a></div>';
     host.innerHTML = html;
   }
+  function renderPriceList(promo) {
+    var host = document.getElementById('promoPriceList');
+    var gal  = document.getElementById('promoPriceGallery');
+    if (!host || !gal) return;
+    var items = (promo && Array.isArray(promo.priceList)) ? promo.priceList : [];
+    if (!items.length) { host.hidden = true; gal.innerHTML = ''; return; }
+    var html = '';
+    for (var i = 0; i < items.length; i++) {
+      var it = items[i] || {};
+      var full = it.url || '';
+      var thumb = it.previewUrl || it.url || '';
+      if (!full) continue;
+      html += '<a class="promo-price-item" href="' + escapeHtml(full) + '" data-full="' + escapeHtml(full) + '" onclick="openPromoLightbox(event,this)">';
+      html += '<img loading="lazy" src="' + escapeHtml(thumb) + '" alt="Price List ' + (i + 1) + '">';
+      html += '</a>';
+    }
+    gal.innerHTML = html;
+    host.hidden = false;
+  }
   function load() {
     var url = 'promotion.json?t=' + Math.floor(Date.now() / 60000);
     fetch(url, { cache: 'no-cache' })
       .then(function(r) { if (!r.ok) throw new Error('http ' + r.status); return r.json(); })
-      .then(function(data) { renderBanner(data); renderPage(data); })
+      .then(function(data) { renderBanner(data); renderPage(data); renderPriceList(data); })
       .catch(function(err) {
         console.warn('[promotion] sync failed, banner hidden:', err);
         var el = document.getElementById('promoBanner');
@@ -4396,6 +4445,34 @@ window.addEventListener('load', function() {
     load();
   }
 })();
+
+
+/* ===== Promo Lightbox (global, for price-list gallery) ===== */
+function openPromoLightbox(e, a) {
+  if (e) { e.preventDefault(); e.stopPropagation(); }
+  var lb = document.getElementById('promoLightbox');
+  var img = document.getElementById('promoLightboxImg');
+  if (!lb || !img || !a) return false;
+  img.src = a.getAttribute('data-full') || a.href || '';
+  lb.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  return false;
+}
+function closePromoLightbox(e) {
+  if (e) { e.stopPropagation(); }
+  var lb = document.getElementById('promoLightbox');
+  var img = document.getElementById('promoLightboxImg');
+  if (!lb) return;
+  lb.classList.remove('active');
+  if (img) img.src = '';
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    var lb = document.getElementById('promoLightbox');
+    if (lb && lb.classList.contains('active')) closePromoLightbox();
+  }
+});
 
 /* ===== Magnetic Cursor ===== */
 (function() {

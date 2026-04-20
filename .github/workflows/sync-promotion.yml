@@ -1,0 +1,55 @@
+name: Sync Promotion from freetime
+
+# Runs sync_promotion.py on a schedule (and on demand),
+# commits promotion.json only when the banner content changes.
+on:
+  schedule:
+    # Hourly on the hour (UTC). GitHub Actions cron is always UTC.
+    - cron: '0 * * * *'
+  workflow_dispatch:       # 讓你可以在 GitHub 後台手動按「Run workflow」
+  push:
+    paths:
+      - 'sync_promotion.py'
+      - '.github/workflows/sync-promotion.yml'
+
+permissions:
+  contents: write           # 允許 Action 自己 commit + push 回 repo
+
+concurrency:
+  group: sync-promotion
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run sync_promotion.py
+        run: |
+          python sync_promotion.py
+          echo "--- promotion.json preview ---"
+          head -c 500 promotion.json || true
+          echo
+
+      - name: Commit & push if changed
+        run: |
+          git config user.name  "qiji-promotion-bot"
+          git config user.email "promotion-bot@users.noreply.github.com"
+
+          # Only commit if promotion.json actually changed
+          if [[ -n "$(git status --porcelain promotion.json)" ]]; then
+            git add promotion.json
+            git commit -m "chore(promo): hourly sync $(date -u +%Y-%m-%dT%H:%MZ) [skip ci]"
+            git push
+            echo "promotion.json updated and pushed."
+          else
+            echo "promotion.json unchanged; nothing to push."
+          fi

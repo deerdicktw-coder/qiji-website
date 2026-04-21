@@ -9,6 +9,24 @@
   gtag('js', new Date());
   gtag('config', 'G-55KYP8YGDX');
   gtag('config', 'AW-17769790863');
+
+  // === Google Ads 轉換追蹤（事件委派，涵蓋靜態與動態按鈕）===
+  // 立即預約點擊 / LINE 按鈕點擊 / 電話點擊
+  document.addEventListener('click', function(e) {
+    var link = e.target && e.target.closest ? e.target.closest('a') : null;
+    if (!link) return;
+    var href = link.getAttribute('href') || '';
+    if (href.indexOf('myfreetime.io/google-reserve') !== -1) {
+      // 立即預約點擊（價值 NT$500）
+      gtag('event', 'conversion', {'send_to': 'AW-17769790863/YnsUCJKb_J8cEI_7pZlC'});
+    } else if (href.indexOf('page.line.me/026xbaov') !== -1) {
+      // LINE 按鈕點擊（價值 NT$100）
+      gtag('event', 'conversion', {'send_to': 'AW-17769790863/M79cCMzT6Z8cEI_7pZlC'});
+    } else if (href.indexOf('tel:0436033588') !== -1) {
+      // 電話點擊（價值 NT$50）
+      gtag('event', 'conversion', {'send_to': 'AW-17769790863/44bACMaz6p8cEI_7pZlC'});
+    }
+  }, true);
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">

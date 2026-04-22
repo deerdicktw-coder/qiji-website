@@ -634,6 +634,10 @@ a.side-menu-link { text-decoration: none; }
   .mobile-cta-bar { display: none !important; }
   .float-social { display: none !important; }
   .inquiry-fab { bottom: calc(20px + env(safe-area-inset-bottom, 0px)) !important; right: 20px !important; }
+  /* 手機版預約 FAB：右下角常駐金色圓鈕 */
+  .booking-fab-mobile { display: flex !important; }
+  /* 諮詢清單出現時往上堆疊，避免蓋住預約 FAB */
+  .inquiry-fab.show { bottom: calc(100px + env(safe-area-inset-bottom, 0px)) !important; }
   .scroll-top-btn { bottom: calc(20px + env(safe-area-inset-bottom, 0px)) !important; }
   /* Music FAB hidden on mobile (replaced by search icon) */
   .music-fab { display: none !important; }
@@ -641,6 +645,37 @@ a.side-menu-link { text-decoration: none; }
   .nav-search-mobile { display: flex !important; }
   .faq-bubble, .pricing-tab, .booking-tab { display: none; }
   .nav-mobile-actions { display: flex !important; }
+}
+
+
+/* ===== Mobile Booking FAB (right-bottom, always visible, safe-area aware) ===== */
+.booking-fab-mobile {
+  position: fixed;
+  right: 20px;
+  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: var(--black);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-decoration: none;
+  font-family: var(--sans);
+  cursor: pointer;
+  z-index: 997;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.28), 0 0 0 4px rgba(201,169,110,0.18);
+  animation: bookingFabBreath 2.4s ease-in-out infinite;
+  transition: opacity 0.25s ease, visibility 0.25s ease, transform 0.2s ease;
+}
+.booking-fab-mobile:active { transform: scale(0.94); }
+.booking-fab-mobile .bfm-star { font-size: 0.88rem; line-height: 1; margin-bottom: 2px; }
+.booking-fab-mobile .bfm-txt  { font-size: 0.72rem; letter-spacing: 1px; font-weight: 600; line-height: 1.1; text-align: center; }
+@keyframes bookingFabBreath {
+  0%,100% { box-shadow: 0 8px 24px rgba(0,0,0,0.28), 0 0 0 4px  rgba(201,169,110,0.18); }
+  50%     { box-shadow: 0 8px 24px rgba(0,0,0,0.28), 0 0 0 10px rgba(201,169,110,0.08); }
 }
 
 
@@ -730,7 +765,8 @@ body.menu-open .booking-tab {
   transition: transform 0.35s cubic-bezier(0.4,0,0.2,1) !important;
 }
 body.menu-open .scroll-top-btn,
-body.menu-open .float-social {
+body.menu-open .float-social,
+body.menu-open .booking-fab-mobile {
   opacity: 0 !important;
   visibility: hidden !important;
   pointer-events: none !important;
@@ -746,7 +782,8 @@ body.right-panel-open .booking-tab {
 }
 body.right-panel-open .scroll-top-btn,
 body.right-panel-open .music-fab,
-body.right-panel-open .inquiry-fab {
+body.right-panel-open .inquiry-fab,
+body.right-panel-open .booking-fab-mobile {
   opacity: 0 !important;
   visibility: hidden !important;
   pointer-events: none !important;
@@ -3590,7 +3627,7 @@ body.right-panel-open .inquiry-fab {
     <span class="footer-link" onclick="goTo('privacy')">隱私權政策</span>
   </div>
   <div class="footer-copy">&copy; 2026 淇肌淨膚 QIJI MIRACLE AESTHETIC &mdash; All Rights Reserved</div>
-  <div class="footer-version">v<span class="v-date">2026.04.20</span><span class="v-sep">&middot;</span><span class="v-sha">b80c37b</span></div>
+  <div class="footer-version">v<span class="v-date">2026.04.22</span><span class="v-sep">&middot;</span><span class="v-sha">510fc98</span></div>
 </footer>
  
 <div class="float-social">
@@ -4835,6 +4872,10 @@ function filterProductsByTag(tag, btn) {
 
 </script>
 
+<a class="booking-fab-mobile" href="https://myfreetime.io/google-reserve/YiuTT?hl=zh-TW" target="_blank" rel="noopener noreferrer" aria-label="立即預約" onclick="try{window.gtag&&gtag('event','booking_click',{source:'mobile_fab'})}catch(e){}">
+  <span class="bfm-star">&#10038;</span>
+  <span class="bfm-txt">立即<br>預約</span>
+</a>
 <div class="inquiry-fab" id="inquiryFab" onclick="toggleInquiryPanel()">
   <span style="font-size:1.1rem;">📋</span>
   <div class="inquiry-badge" id="inquiryBadge">0</div>

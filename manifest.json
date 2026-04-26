@@ -1,0 +1,57 @@
+{
+  "name": "淇肌淨膚 QIJI MIRACLE AESTHETIC",
+  "short_name": "QIJI",
+  "description": "台中北屯皮膚管理 SPA — 皮膚管理、肌泌藻針、五行罐撥、專業除毛與美甲，採全預約制一對一私密照護。",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "lang": "zh-TW",
+  "dir": "ltr",
+  "categories": ["beauty", "lifestyle", "health"],
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "og-image.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "og-image.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "立即預約",
+      "short_name": "預約",
+      "description": "FreeTime 線上預約",
+      "url": "https://myfreetime.io/google-reserve/YiuTT?hl=zh-TW",
+      "icons": [{ "src": "favicon.svg", "sizes": "any" }]
+    },
+    {
+      "name": "肌膚檢測",
+      "short_name": "檢測",
+      "description": "60 秒膚質檢測",
+      "url": "/#quiz",
+      "icons": [{ "src": "favicon.svg", "sizes": "any" }]
+    },
+    {
+      "name": "聯絡詢問",
+      "short_name": "聯絡",
+      "description": "LINE 私訊或表單詢問",
+      "url": "/#contact",
+      "icons": [{ "src": "favicon.svg", "sizes": "any" }]
+    }
+  ]
+}

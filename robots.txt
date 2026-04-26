@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Disallow: /backup/
+Disallow: /_temp_untracked/
+Disallow: /data/
+Disallow: /output/
+Disallow: /ai-roundtable/
+Disallow: /preview_mobile_cta.html
+Disallow: /qiji_font_preview.html
+
+Sitemap: https://qiji-skin.com/sitemap.xml

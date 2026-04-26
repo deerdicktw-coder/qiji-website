@@ -19,37 +19,89 @@
     if (href.indexOf('myfreetime.io/google-reserve') !== -1) {
       // 立即預約點擊（價值 NT$500）
       gtag('event', 'conversion', {'send_to': 'AW-17769790863/YnsUCJKb_J8cEI_7pZlC'});
+      // M2: GA4 自訂事件，方便建漏斗報表
+      gtag('event', 'booking_click', { source: link.closest('[data-cta-source]') ? link.closest('[data-cta-source]').getAttribute('data-cta-source') : (link.className || 'unknown'), location: window.location.hash || '/' });
     } else if (href.indexOf('page.line.me/026xbaov') !== -1) {
       // LINE 按鈕點擊（價值 NT$100）
       gtag('event', 'conversion', {'send_to': 'AW-17769790863/M79cCMzT6Z8cEI_7pZlC'});
+      gtag('event', 'line_click', { source: link.className || 'unknown', location: window.location.hash || '/' });
     } else if (href.indexOf('tel:0436033588') !== -1) {
       // 電話點擊（價值 NT$50）
       gtag('event', 'conversion', {'send_to': 'AW-17769790863/44bACMaz6p8cEI_7pZlC'});
+      gtag('event', 'phone_click', { source: link.className || 'unknown', location: window.location.hash || '/' });
     }
   }, true);
+
+  // M2: 服務頁停留追蹤（看 30 秒視為「真有興趣」事件）
+  window._svcViewTimers = {};
+  window._reportSvcView = function(svcId) {
+    if (!svcId) return;
+    if (window._svcViewTimers[svcId]) return; // dedupe per session
+    window._svcViewTimers[svcId] = setTimeout(function() {
+      try { gtag('event', 'service_view_30s', { service_id: svcId }); } catch(e) {}
+    }, 30000);
+  };
+  window._cancelSvcView = function(svcId) {
+    if (window._svcViewTimers[svcId]) { clearTimeout(window._svcViewTimers[svcId]); window._svcViewTimers[svcId] = null; }
+  };
+  // 用 IntersectionObserver 偵測哪個服務 anchor 進入視野
+  window.addEventListener('DOMContentLoaded', function() {
+    if (!('IntersectionObserver' in window)) return;
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        var id = e.target.id;
+        if (e.isIntersecting) window._reportSvcView(id); else window._cancelSvcView(id);
+      });
+    }, { threshold: 0.5 });
+    setTimeout(function() {
+      ['svc-facial','svc-algae','svc-snow','svc-painless','svc-micro','svc-back','svc-cupping','svc-hotwax','svc-icewax','svc-nail','svc-membership'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) io.observe(el);
+      });
+    }, 1000);
+  });
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <link rel="preload" as="image" href="https://res.cloudinary.com/dm7dbtzzf/image/upload/w_800,q_auto,f_auto/about" media="(max-width: 768px)">
 <link rel="preload" as="image" href="https://res.cloudinary.com/dm7dbtzzf/image/upload/w_1600,q_auto,f_auto/about" media="(min-width: 769px)">
-<title>淇肌淨膚 | QIJI MIRACLE AESTHETIC</title>
-<meta name="description" content="淇肌淨膚位於台中北屯，提供皮膚管理、肌泌藻針、五行罐撥、專業除毛與美甲服務，採預約制，一對一私密空間照護。">
+<title>淇肌淨膚 | QIJI MIRACLE AESTHETIC｜台中北屯皮膚管理</title>
+<meta name="description" content="【台中北屯】淇肌淨膚 QIJI 提供皮膚管理、肌泌藻針、五行罐撥、雪藻喚膚、專業除毛與美甲，採全預約制一對一私密照護。瀋陽路三段，廣天宮對面。">
+<meta name="keywords" content="台中北屯 皮膚管理, 北屯 醫美, 肌泌藻針 台中, 五行罐撥 推薦, 雪藻喚膚, 無痛藻針, 微雕蘊膚, 台中清粉刺, 台中除毛, 台中美甲, 淇肌淨膚, QIJI">
+<meta name="author" content="淇肌淨膚 QIJI MIRACLE AESTHETIC">
+<meta name="geo.region" content="TW-TXG">
+<meta name="geo.placename" content="台中市北屯區">
+<meta name="geo.position" content="24.1723527;120.6956854">
+<meta name="ICBM" content="24.1723527, 120.6956854">
 <meta name="theme-color" content="#000000">
 <!-- Open Graph -->
 <meta property="og:type" content="website" />
 <meta property="og:title" content="淇肌淨膚 QIJI MIRACLE AESTHETIC｜台中北屯皮膚管理" />
-<meta property="og:description" content="淇肌淨膚位於台中北屯，提供皮膚管理、肌泌藻針、五行罐撥、專業除毛與美甲服務，採預約制，一對一私密空間照護。" />
+<meta property="og:description" content="【台中北屯】淇肌淨膚 QIJI 提供皮膚管理、肌泌藻針、五行罐撥、專業除毛與美甲，採全預約制一對一私密照護。瀋陽路三段，廣天宮對面。" />
 <meta property="og:image" content="https://qiji-skin.com/og-image.jpg" />
 <meta property="og:url" content="https://qiji-skin.com/" />
 <meta property="og:locale" content="zh_TW" />
+<meta property="og:site_name" content="淇肌淨膚 QIJI MIRACLE AESTHETIC" />
+<meta property="business:contact_data:locality" content="北屯區" />
+<meta property="business:contact_data:region" content="台中市" />
+<meta property="business:contact_data:country_name" content="台灣" />
+<meta property="business:contact_data:street_address" content="瀋陽路三段351-1號" />
+<meta property="place:location:latitude" content="24.1723527" />
+<meta property="place:location:longitude" content="120.6956854" />
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="淇肌淨膚 QIJI MIRACLE AESTHETIC｜台中北屯皮膚管理" />
-<meta name="twitter:description" content="淇肌淨膚位於台中北屯，提供皮膚管理、肌泌藻針、五行罐撥、專業除毛與美甲服務。" />
+<meta name="twitter:description" content="【台中北屯】淇肌淨膚 QIJI 提供皮膚管理、肌泌藻針、五行罐撥、專業除毛與美甲，採全預約制一對一私密照護。" />
 <meta name="twitter:image" content="https://qiji-skin.com/og-image.jpg" />
 <!-- Canonical URL -->
 <link rel="canonical" href="https://qiji-skin.com/" />
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
+<!-- M5: PWA manifest -->
+<link rel="manifest" href="/manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="QIJI">
+<link rel="apple-touch-icon" href="og-image.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700&family=Noto+Serif+TC:wght@300;400;500;600;700&family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Jost:wght@200;300;400;500;600&family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -345,6 +397,12 @@ a.side-menu-link { text-decoration: none; }
 .quiz-progress { display: flex; gap: 6px; margin-bottom: 30px; }
 .quiz-dot { width: 32px; height: 3px; background: var(--grey-200); transition: background 0.3s; }
 .quiz-dot.done { background: var(--gold); }
+/* Q5 防禦：結果頁顯示時，強制隱藏 progress 殘留橫線（modern :has()） */
+.home-quiz-body:has(.hq-result.active) .hq-progress,
+.home-quiz-body:has(.hq-result.active) .hq-step,
+*:has(> .quiz-result.active) > .quiz-progress { display: none !important; }
+/* 強化：result.active 時，自身上方的 1px 邊線/分隔線也順帶清掉 */
+.hq-result.active, .quiz-result.active { border-top: 0 !important; padding-top: 0 !important; }
 .quiz-result { display: none; text-align: center; animation: pageIn 0.5s ease; }
 .quiz-result.active { display: block; }
 .quiz-result-type { font-size: 1.6rem; font-weight: 100; letter-spacing: 6px; color: var(--gold); margin-bottom: 12px; }
@@ -638,7 +696,12 @@ a.side-menu-link { text-decoration: none; }
   .booking-fab-mobile { display: flex !important; }
   /* 諮詢清單出現時往上堆疊，避免蓋住預約 FAB */
   .inquiry-fab.show { bottom: calc(100px + env(safe-area-inset-bottom, 0px)) !important; }
-  .scroll-top-btn { bottom: calc(20px + env(safe-area-inset-bottom, 0px)) !important; }
+  /* 回頂按鈕：手機版一律放左下，避免跟右下的預約／諮詢 FAB 衝突 */
+  .scroll-top-btn { left: 16px !important; right: auto !important; bottom: calc(20px + env(safe-area-inset-bottom, 0px)) !important; }
+  /* 預約面板 / 價格面板 / FAQ 面板開啟時，所有 FAB 自動隱藏 */
+  body.right-panel-open .scroll-top-btn,
+  body.right-panel-open .booking-fab-mobile,
+  body.right-panel-open .inquiry-fab { opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
   /* Music FAB hidden on mobile (replaced by search icon) */
   .music-fab { display: none !important; }
   /* Mobile search icon - sits right next to hamburger */
@@ -1296,6 +1359,136 @@ body.right-panel-open .booking-fab-mobile {
   ]
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "淇肌淨膚 QIJI MIRACLE AESTHETIC",
+  "url": "https://qiji-skin.com/",
+  "inLanguage": "zh-TW",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://qiji-skin.com/?q={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "淇肌淨膚 QIJI MIRACLE AESTHETIC",
+  "alternateName": "QIJI",
+  "url": "https://qiji-skin.com/",
+  "logo": "https://qiji-skin.com/og-image.jpg",
+  "image": "https://qiji-skin.com/og-image.jpg",
+  "description": "淇肌淨膚位於台中北屯，提供皮膚管理、肌泌藻針、五行罐撥、專業除毛與美甲服務，採預約制，一對一私密空間照護。",
+  "areaServed": { "@type": "City", "name": "台中市" },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+886-4-3603-3588",
+    "contactType": "customer service",
+    "areaServed": "TW",
+    "availableLanguage": ["zh-Hant"]
+  },
+  "sameAs": ["https://www.instagram.com/1988_carrie_skincare/"]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "服務項目",
+  "itemListElement": [
+    { "@type": "Service", "position": 1, "name": "臉部撥筋（皮膚管理）", "description": "近 10 年手工清粉刺經驗，搭配韓國院線級產品與膚況評估，量身設計療程。", "provider": { "@type": "BeautySalon", "name": "淇肌淨膚 QIJI" }, "areaServed": "台中市北屯區", "offers": { "@type": "Offer", "price": "1200", "priceCurrency": "TWD", "url": "https://qiji-skin.com/#svc-facial" } },
+    { "@type": "Service", "position": 2, "name": "肌泌藻針", "description": "搭配外泌體蘊活安瓶的藻針療程，新客推薦課程，幫助肌膚代謝更新。", "provider": { "@type": "BeautySalon", "name": "淇肌淨膚 QIJI" }, "areaServed": "台中市北屯區", "offers": { "@type": "Offer", "price": "2880", "priceCurrency": "TWD", "url": "https://qiji-skin.com/#svc-algae" } },
+    { "@type": "Service", "position": 3, "name": "雪藻喚膚", "description": "招牌課程，使用白藻針搭配韓國院線安瓶導入，深層淨化與光澤回復。", "provider": { "@type": "BeautySalon", "name": "淇肌淨膚 QIJI" }, "areaServed": "台中市北屯區", "offers": { "@type": "Offer", "price": "2300", "priceCurrency": "TWD", "url": "https://qiji-skin.com/#svc-snow" } },
+    { "@type": "Service", "position": 4, "name": "無痛藻針", "description": "純度 30%、200μm 以下，刺激度較低，適合敏感肌或初次嘗試。", "provider": { "@type": "BeautySalon", "name": "淇肌淨膚 QIJI" }, "areaServed": "台中市北屯區", "offers": { "@type": "Offer", "price": "2000", "priceCurrency": "TWD", "url": "https://qiji-skin.com/#svc-painless" } },
+    { "@type": "Service", "position": 5, "name": "微雕蘊膚", "description": "MTS 微針操作，類醫美級護理，進階膚況改善。", "provider": { "@type": "BeautySalon", "name": "淇肌淨膚 QIJI" }, "areaServed": "台中市北屯區", "offers": { "@type": "Offer", "price": "3500", "priceCurrency": "TWD", "url": "https://qiji-skin.com/#svc-micro" } },
+    { "@type": "Service", "position": 6, "name": "五行罐撥", "description": "結合中醫經絡概念的罐撥療程，幫助身體循環與放鬆。", "provider": { "@type": "BeautySalon", "name": "淇肌淨膚 QIJI" }, "areaServed": "台中市北屯區", "offers": { "@type": "Offer", "price": "1500", "priceCurrency": "TWD", "url": "https://qiji-skin.com/#svc-cupping" } }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "做完藻針後會有恢復期嗎？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "藻針後 1–3 天內可能會有輕微脫皮、泛紅或代謝反應，屬於正常現象。期間請加強保濕、避免去角質與曝曬。依個人膚況不同，恢復期長短會有差異，Carrie 老師會在課後詳細說明照護方式。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "敏感肌可以做藻針嗎？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "可以的。工作室有提供無痛藻針（純度 30%、200μm 以下），刺激度較低，適合敏感肌或初次嘗試的顧客。療程前會先評估膚況，確認適合再進行。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "雪藻喚膚、肌泌藻針、無痛藻針有什麼差別？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "三者皆使用白藻針，但純度與搭配不同：雪藻喚膚是招牌課程，搭配韓國院線安瓶導入；肌泌藻針搭配外泌體蘊活安瓶；無痛藻針使用較低純度（30%），適合怕痛或敏感肌。微雕蘊膚則加入 MTS 微針操作，屬於進階類醫美級護理。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "要怎麼預約？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "可透過 LINE 官方帳號或線上預約系統預約。每月 10 號會開放下月可預約時段。首次預約建議先加 LINE 私訊膚況照片，Carrie 老師會協助推薦適合的療程。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "營業時間是什麼時候？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "採全預約制。週一至週五 10:00–20:00，週六 10:00–18:00，週日公休。每月 10 號開放下月可預約時段。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "五行罐撥後的罐印多久會消？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "罐印通常 3–7 天會自然消退，依個人體質與循環狀況有所不同。顏色越深代表該經絡較阻塞，建議療程後多補充溫水、避免吹冷風與吃冰冷食物，幫助加速代謝。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "可以用什麼方式付款？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "接受現金、網銀轉帳、台灣 Pay、LINE Pay 及零卡分期。若有儲值金餘額，所有預約項目皆可直接抵用。"
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "首頁", "item": "https://qiji-skin.com/" },
+    { "@type": "ListItem", "position": 2, "name": "服務項目", "item": "https://qiji-skin.com/#services" },
+    { "@type": "ListItem", "position": 3, "name": "產品專區", "item": "https://qiji-skin.com/#products" },
+    { "@type": "ListItem", "position": 4, "name": "知識專欄", "item": "https://qiji-skin.com/#knowledge" },
+    { "@type": "ListItem", "position": 5, "name": "聯絡詢問", "item": "https://qiji-skin.com/#contact" }
+  ]
+}
+</script>
 </head>
 <body>
 <button class="nav-hamburger" id="menuToggle" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -1368,7 +1561,7 @@ body.right-panel-open .booking-fab-mobile {
           <span class="nav-dropdown-item" onclick="goTo('quiz')">肌膚檢測</span>
         </div>
       </div>
-      <span class="nav-link" onclick="goTo('contact')">預約諮詢</span>
+      <span class="nav-link" onclick="goTo('contact')">聯 絡 詢 問</span>
       <span class="nav-link nav-search-btn" onclick="toggleSiteSearch()" aria-label="搜尋"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
     </div>
     <div class="nav-mobile-actions">
@@ -1437,7 +1630,7 @@ body.right-panel-open .booking-fab-mobile {
       <span class="side-menu-sublink" onclick="goTo('faq');closeMenu()">常見問題</span>
       <span class="side-menu-sublink" onclick="goTo('tutorial');closeMenu()">預約教學</span>
     </div>
-    <span class="side-menu-link" onclick="goTo('contact');closeMenu()">預約諮詢</span>
+    <span class="side-menu-link" onclick="goTo('contact');closeMenu()">聯 絡 詢 問</span>
   </div>
   <div class="side-menu-social">
     <a href="https://www.instagram.com/1988_carrie_skincare/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
@@ -1484,7 +1677,7 @@ body.right-panel-open .booking-fab-mobile {
         <div class="hero-typewriter" id="heroTypewriter"></div>
       <div class="hero-actions">
         <span class="hero-cta" onclick="goTo('services')">探 索 服 務</span>
-        <span class="hero-secondary-cta" onclick="goTo('contact')">預 約 諮 詢</span>
+        <span class="hero-secondary-cta" onclick="goTo('contact')">聯 絡 詢 問</span>
       </div>
       <div class="hero-badges">
         <span class="hero-badge">一對一私密空間</span>
@@ -2538,11 +2731,11 @@ body.right-panel-open .booking-fab-mobile {
     <div style="font-family:var(--serif);font-size:0.88rem;letter-spacing:6px;color:var(--gold);text-transform:uppercase;margin-bottom:16px;">EXPERIENCE</div>
     <h2 style="font-size:1.6rem;font-weight:100;letter-spacing:6px;margin-bottom:30px;">親自感受，是最好的開始</h2>
     <p style="font-size:0.88rem;line-height:2.2;color:var(--grey-600);font-weight:400;max-width:500px;margin:0 auto 40px;">每一次療程，都是為你量身打造的專屬體驗。<br>歡迎預約，讓我們用細心與專業，陪伴你的肌膚之旅。</p>
-    <span class="service-detail-cta" onclick="goTo('contact')">預 約 諮 詢</span>
+    <span class="service-detail-cta" onclick="goTo('contact')">聯 絡 詢 問</span>
   </section>
 </div>
 <div class="page" id="page-contact">
-  <section class="contact-hero"><div class="section-eyebrow">RESERVATION</div><h1>預 約 諮 詢</h1></section>
+  <section class="contact-hero"><div class="section-eyebrow">RESERVATION</div><h1>聯 絡 詢 問</h1></section>
   <div class="contact-content" style="max-width:1100px;">
     <div class="contact-info reveal-left">
       <h2>店 家 資 訊</h2>
@@ -2565,7 +2758,7 @@ body.right-panel-open .booking-fab-mobile {
         <div class="contact-note"><div class="contact-note-title">Studio</div><div class="contact-note-text">一對一私密空間，不趕場不打擾，保留足夠時間讓你放鬆完成照護。</div></div>
       </div>
       <div style="display:flex;flex-direction:column;gap:14px;">
-        <a class="contact-line-btn" href="https://page.line.me/026xbaov?openQrModal=true" target="_blank" rel="noopener noreferrer" style="justify-content:center;text-decoration:none;"><svg viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px;flex-shrink:0;"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>LINE 預 約 諮 詢</a>
+        <a class="contact-line-btn" href="https://page.line.me/026xbaov?openQrModal=true" target="_blank" rel="noopener noreferrer" style="justify-content:center;text-decoration:none;"><svg viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px;flex-shrink:0;"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>LINE 聯 絡 詢 問</a>
         <a href="https://myfreetime.io/google-reserve/YiuTT?hl=zh-TW" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:16px 48px;background:var(--black);color:var(--white);font-size:0.88rem;letter-spacing:3px;cursor:pointer;transition:all 0.4s;text-decoration:none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>線 上 預 約 時 段</a>
       </div>
     </div>
@@ -2918,8 +3111,8 @@ body.right-panel-open .booking-fab-mobile {
   <section class="knowledge-cta-section reveal-fade">
     <div class="section-eyebrow" style="margin-bottom:20px;">RESERVATION</div>
     <h2 style="font-size:1.4rem;font-weight:100;letter-spacing:6px;margin-bottom:20px;">想進一步了解？</h2>
-    <p class="knowledge-cta-text">每個人的膚況與身體狀態都不同，歡迎預約諮詢，<br>讓我們為你量身規劃最合適的照護方式。</p>
-    <span class="service-detail-cta" onclick="goTo('contact')">預 約 諮 詢</span>
+    <p class="knowledge-cta-text">每個人的膚況與身體狀態都不同，歡迎來訊聯絡，<br>讓我們為你量身規劃最合適的照護方式。</p>
+    <span class="service-detail-cta" onclick="goTo('contact')">聯 絡 詢 問</span>
   </section>
 </div>
 
@@ -3623,11 +3816,11 @@ body.right-panel-open .booking-fab-mobile {
     <span class="footer-link" onclick="goTo('tutorial')">預約教學</span>
     <span class="footer-link" onclick="goTo('faq')">常見問題</span>
     <span class="footer-link" onclick="goTo('knowledge')">知識專欄</span>
-    <span class="footer-link" onclick="goTo('contact')">預約諮詢</span>
+    <span class="footer-link" onclick="goTo('contact')">聯 絡 詢 問</span>
     <span class="footer-link" onclick="goTo('privacy')">隱私權政策</span>
   </div>
   <div class="footer-copy">&copy; 2026 淇肌淨膚 QIJI MIRACLE AESTHETIC &mdash; All Rights Reserved</div>
-  <div class="footer-version">v<span class="v-date">2026.04.22</span><span class="v-sep">&middot;</span><span class="v-sha">510fc98</span></div>
+  <div class="footer-version">v<span class="v-date">2026.04.20</span><span class="v-sep">&middot;</span><span class="v-sha">b80c37b</span></div>
 </footer>
  
 <div class="float-social">
@@ -3641,10 +3834,41 @@ body.right-panel-open .booking-fab-mobile {
  
 <button class="scroll-top-btn" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="回到頂部"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3,9 7,5 11,9"/></svg></button>
 <script>
+/* === Dynamic title + URL hash for SPA pages (Q3 SEO) === */
+var PAGE_TITLES = {
+  home:        { title: '淇肌淨膚 | QIJI MIRACLE AESTHETIC｜台中北屯皮膚管理', desc: '淇肌淨膚位於台中北屯，提供皮膚管理、肌泌藻針、五行罐撥、專業除毛與美甲服務，採預約制，一對一私密空間照護。' },
+  services:    { title: '服務項目｜淇肌淨膚 QIJI｜台中北屯皮膚管理 / 肌泌藻針 / 五行罐撥', desc: '臉部撥筋、肌泌藻針、雪藻喚膚、無痛藻針、微雕蘊膚、五行罐撥、熱蠟除毛、美甲，台中北屯一對一預約制。' },
+  products:    { title: '產品專區｜淇肌淨膚 QIJI｜韓國院線級保養品', desc: '清潔、化妝水、精華液、乳液、防曬、面膜、旅行組，依膚況推薦的居家保養品。' },
+  about:       { title: '品牌故事｜淇肌淨膚 QIJI｜近 10 年皮膚管理經驗', desc: 'Carrie 老師近 10 年手工清粉刺與韓國院線療程經驗，台中北屯一對一私密照護。' },
+  knowledge:   { title: '知識專欄｜淇肌淨膚 QIJI｜肌膚管理衛教', desc: '藻針、五行罐撥、清粉刺、防曬、換季保養、毛孔粗大、閉鎖性粉刺等肌膚管理衛教文章。' },
+  faq:         { title: '常見問題 FAQ｜淇肌淨膚 QIJI｜療程預約付款', desc: '療程恢復期、敏感肌、預約方式、付款、營業時間、會員儲值方案等常見問題解答。' },
+  contact:     { title: '聯絡詢問｜淇肌淨膚 QIJI｜台中北屯預約諮詢', desc: '台中北屯瀋陽路三段，採全預約制。LINE @026xbaov 或填寫聯絡表單，Carrie 老師親自回覆。' },
+  promotions:  { title: '本月活動｜淇肌淨膚 QIJI｜台中北屯醫美優惠', desc: '當期優惠活動、首購優惠、季節限定方案，依推廣同步即時更新。' },
+  tutorial:    { title: '預約教學｜淇肌淨膚 QIJI｜FreeTime 線上預約', desc: 'FreeTime 線上預約系統使用教學，加 LINE、選時段、確認預約一目了然。' },
+  quiz:        { title: '肌膚檢測｜淇肌淨膚 QIJI｜60 秒找出你的膚質', desc: '透過 5 題簡單問題，量身推薦最適合的專屬療程與加購建議。' }
+};
+function _updatePageMeta(page) {
+  var meta = PAGE_TITLES[page] || PAGE_TITLES.home;
+  if (document.title !== meta.title) document.title = meta.title;
+  var descEl = document.querySelector('meta[name="description"]');
+  if (descEl && meta.desc) descEl.setAttribute('content', meta.desc);
+  var ogTitle = document.querySelector('meta[property="og:title"]');
+  if (ogTitle) ogTitle.setAttribute('content', meta.title);
+  var ogDesc = document.querySelector('meta[property="og:description"]');
+  if (ogDesc && meta.desc) ogDesc.setAttribute('content', meta.desc);
+  if (window.history && window.history.replaceState) {
+    var newHash = page === 'home' ? ' ' : ('#' + page);
+    if (location.hash !== newHash) {
+      try { window.history.replaceState(null, meta.title, location.pathname + location.search + (page === 'home' ? '' : newHash)); } catch(e) {}
+    }
+  }
+  try { window.gtag && gtag('event', 'page_view', { page_path: '/' + (page === 'home' ? '' : page), page_title: meta.title }); } catch(e) {}
+}
 function goTo(page) {
   const current = document.querySelector('.page.active');
   const target = document.getElementById('page-' + page);
   if (!target || current === target) return;
+  _updatePageMeta(page);
   if (current) {
     current.classList.add('fade-out');
     setTimeout(() => {
@@ -4028,6 +4252,7 @@ function quizShowResult() {
   var counts = { oily: 0, dry: 0, combo: 0, sensitive: 0 };
   quizAnswers.forEach(a => { if (a) counts[a]++; });
   var type = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
+  try { window.gtag && gtag('event', 'quiz_complete', { quiz_type: 'fullpage', skin_type: type }); } catch(e) {}
   var data = {
     oily: { name: '油性肌膚', desc: '您的肌膚皮脂分泌較旺盛，容易出油、毛孔粗大，偶有粉刺痘痘困擾。建議著重清潔與控油，搭配適度保濕維持油水平衡。', services: [
       { name: '肌泌藻針', id: 'svc-algae' },
@@ -4056,7 +4281,7 @@ function quizShowResult() {
   h += '<div class="quiz-result-reco"><h3>推 薦 療 程</h3><div class="quiz-reco-tags">';
   r.services.forEach(function(s) { h += '<div class="quiz-reco-tag" onclick="goToSection(\'services\',\'' + s.id + '\')">' + s.name + '</div>'; });
   h += '</div></div>';
-  h += '<a class="quiz-btn primary" href="https://myfreetime.io/google-reserve/YiuTT?hl=zh-TW" target="_blank" rel="noopener noreferrer" style="margin-top:20px;">立 即 預 約 諮 詢</a>';
+  h += '<a class="quiz-btn primary" href="https://myfreetime.io/google-reserve/YiuTT?hl=zh-TW" target="_blank" rel="noopener noreferrer" style="margin-top:20px;">立 即 預 約</a>';
   h += '<div style="margin-top:16px;"><span class="quiz-btn" onclick="quizReset()">重 新 檢 測</span></div>';
   var result = document.getElementById('quizResult');
   result.innerHTML = h;
@@ -4082,6 +4307,7 @@ function hqStart() {
   var body = document.getElementById('homeQuizBody');
   var cta = document.getElementById('homeQuizCta');
   if (!body || !cta) return;
+  try { window.gtag && gtag('event', 'quiz_start', { quiz_type: 'home_inline' }); } catch(e) {}
   if (body.classList.contains('open')) {
     body.classList.remove('open');
     cta.classList.remove('open');
@@ -4116,6 +4342,14 @@ function hqShowResult() {
   container.querySelectorAll('.hq-step').forEach(function(s) { s.classList.remove('active'); });
   container.querySelectorAll('.hq-dot').forEach(function(d) { d.classList.add('done'); });
   var counts = { oily: 0, dry: 0, combo: 0, sensitive: 0 };
+  // M2: GA4 quiz_complete 事件（home inline 版本）
+  var _hqCounts = counts;
+  setTimeout(function() {
+    try {
+      var _t = Object.keys(_hqCounts).reduce(function(a, b) { return _hqCounts[a] > _hqCounts[b] ? a : b; });
+      window.gtag && gtag('event', 'quiz_complete', { quiz_type: 'home_inline', skin_type: _t });
+    } catch(e) {}
+  }, 50);
   hqAnswers.forEach(function(a) { if (a) counts[a]++; });
   var type = Object.keys(counts).reduce(function(a, b) { return counts[a] > counts[b] ? a : b; });
   var data = {
@@ -4146,7 +4380,7 @@ function hqShowResult() {
   h += '<div class="hq-result-reco"><h3>推 薦 療 程</h3><div class="hq-reco-tags">';
   r.services.forEach(function(s) { h += '<div class="hq-reco-tag" onclick="goToSection(\'services\',\'' + s.id + '\')">' + s.name + '</div>'; });
   h += '</div></div>';
-  h += '<div style="margin-top:32px;"><a class="hq-btn primary" href="https://myfreetime.io/google-reserve/YiuTT?hl=zh-TW" target="_blank" rel="noopener noreferrer">立 即 預 約 諮 詢</a><span class="hq-btn" onclick="hqReset()">重 新 檢 測</span></div>';
+  h += '<div style="margin-top:32px;"><a class="hq-btn primary" href="https://myfreetime.io/google-reserve/YiuTT?hl=zh-TW" target="_blank" rel="noopener noreferrer">立 即 預 約</a><span class="hq-btn" onclick="hqReset()">重 新 檢 測</span></div>';
   var result = document.getElementById('hqResult');
   result.innerHTML = h;
   result.classList.add('active');
@@ -4388,6 +4622,28 @@ function toggleBgm() {
     iconOn.style.display = 'none';
     try { localStorage.setItem('bgmOn', '0'); } catch(e) {}
   }
+}
+/* A-fix: hash-on-load deep link routing — 直接帶 #services 進來會自動跳對應頁 */
+window.addEventListener('DOMContentLoaded', function() {
+  try {
+    var hash = (location.hash || '').replace(/^#/, '').split('?')[0].split('/')[0];
+    var validPages = ['home','services','products','about','knowledge','faq','contact','promotions','tutorial','quiz'];
+    if (hash && validPages.indexOf(hash) !== -1 && typeof goTo === 'function') {
+      setTimeout(function() { goTo(hash); }, 50);
+    } else if (typeof _updatePageMeta === 'function') {
+      _updatePageMeta('home');
+    }
+  } catch(e) {}
+});
+/* M5: 註冊 Service Worker（只在 https / localhost 下生效） */
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/sw.js').then(function(reg) {
+      // console.log('[SW] registered', reg.scope);
+    }).catch(function(e) {
+      // console.warn('[SW] register failed', e);
+    });
+  });
 }
 /* Auto-advance to next track when current ends; preload first track */
 window.addEventListener('load', function() {
@@ -4904,7 +5160,7 @@ function filterProductsByTag(tag, btn) {
   <div class="faq-bubble-list">
     <div class="faq-bubble-q" onclick="this.classList.toggle('open')">
       <div class="faq-bubble-q-title">如何預約？</div>
-      <div class="faq-bubble-q-ans"><p>請使用本網站「預約諮詢」表單留訊息，或加 LINE 直接與我們聯繫，老師會在工作時間內回覆您。</p></div>
+      <div class="faq-bubble-q-ans"><p>請使用本網站「聯 絡 詢 問」表單留訊息，或加 LINE 直接與我們聯繫，老師會在工作時間內回覆您。</p></div>
     </div>
     <div class="faq-bubble-q" onclick="this.classList.toggle('open')">
       <div class="faq-bubble-q-title">第一次怎麼選療程？</div>

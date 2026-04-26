@@ -1,0 +1,108 @@
+/* QIJI Landing Pages 共用樣式 — CHANEL editorial 簡化版 */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --black: #000; --white: #fff; --gold: #c9a96e; --gold-light: #d4b87a;
+  --grey-100: #f7f7f7; --grey-300: #d4d4d4; --grey-500: #888; --grey-700: #555;
+  --serif: 'Bodoni Moda', 'Noto Serif TC', serif;
+  --sans: 'Jost', 'Noto Sans TC', sans-serif;
+}
+html { scroll-behavior: smooth; background: #fff; }
+body {
+  font-family: var(--sans); background: #fff; color: #1a1a1a;
+  -webkit-font-smoothing: antialiased; line-height: 1.7;
+}
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; display: block; }
+.lp-nav {
+  position: sticky; top: 0; z-index: 10; background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(8px); border-bottom: 1px solid var(--grey-300);
+  padding: 16px 24px; display: flex; justify-content: space-between; align-items: center;
+}
+.lp-nav-brand {
+  font-family: 'Times New Roman', serif; font-size: 1.4rem; font-weight: 700;
+  letter-spacing: 8px; color: var(--black);
+}
+.lp-nav-back {
+  font-size: 0.85rem; letter-spacing: 1px; color: var(--grey-700);
+  border: 1px solid var(--grey-300); padding: 8px 16px; transition: all 0.2s;
+}
+.lp-nav-back:hover { border-color: var(--gold); color: var(--gold); }
+.lp-hero {
+  text-align: center; padding: 80px 24px 40px; max-width: 720px; margin: 0 auto;
+}
+.lp-eyebrow {
+  font-family: var(--serif); font-size: 0.85rem; letter-spacing: 4px;
+  color: var(--gold); margin-bottom: 12px;
+}
+.lp-title {
+  font-family: var(--serif); font-size: clamp(1.6rem, 1.2rem + 1.8vw, 2.4rem);
+  font-weight: 400; letter-spacing: 4px; color: var(--black); margin-bottom: 16px;
+}
+.lp-subtitle {
+  font-size: 0.9rem; color: var(--grey-500); letter-spacing: 1px;
+}
+.lp-breadcrumb {
+  max-width: 720px; margin: 0 auto; padding: 16px 24px; font-size: 0.8rem;
+  color: var(--grey-500); border-bottom: 1px solid var(--grey-100);
+}
+.lp-breadcrumb a { color: var(--grey-700); }
+.lp-breadcrumb a:hover { color: var(--gold); }
+.lp-breadcrumb span { margin: 0 8px; color: var(--grey-300); }
+.lp-content {
+  max-width: 720px; margin: 0 auto; padding: 48px 24px;
+}
+.lp-content h2 {
+  font-family: var(--serif); font-size: 1.4rem; font-weight: 400;
+  letter-spacing: 3px; color: var(--black); margin: 40px 0 16px;
+}
+.lp-content h3 {
+  font-size: 1.05rem; font-weight: 500; letter-spacing: 2px;
+  color: var(--gold); margin: 28px 0 12px;
+}
+.lp-content p {
+  font-size: 0.95rem; line-height: 1.9; color: var(--grey-700); margin-bottom: 16px;
+}
+.lp-content ul, .lp-content ol {
+  padding-left: 1.5em; margin-bottom: 16px;
+}
+.lp-content li {
+  font-size: 0.95rem; line-height: 1.9; color: var(--grey-700); margin-bottom: 8px;
+}
+.lp-content strong { color: var(--black); font-weight: 500; }
+.lp-card {
+  border: 1px solid var(--grey-300); padding: 24px; margin-bottom: 16px;
+}
+.lp-card-label {
+  font-family: var(--serif); font-size: 1.05rem; letter-spacing: 3px;
+  color: var(--gold); margin-bottom: 8px;
+}
+.lp-price {
+  font-size: 1.6rem; font-weight: 300; color: var(--black);
+  letter-spacing: 1px; margin: 16px 0;
+}
+.lp-cta-wrap {
+  text-align: center; padding: 48px 24px; background: var(--grey-100);
+  margin-top: 60px;
+}
+.lp-cta-primary {
+  display: inline-block; background: var(--gold); color: var(--black);
+  padding: 16px 40px; font-size: 0.9rem; letter-spacing: 4px;
+  font-family: var(--serif); transition: background 0.2s;
+}
+.lp-cta-primary:hover { background: var(--gold-light); }
+.lp-cta-secondary {
+  display: inline-block; border: 1px solid var(--grey-700); color: var(--grey-700);
+  padding: 16px 40px; font-size: 0.9rem; letter-spacing: 4px;
+  margin-left: 12px; transition: all 0.2s;
+}
+.lp-cta-secondary:hover { border-color: var(--gold); color: var(--gold); }
+.lp-footer {
+  text-align: center; padding: 40px 24px; border-top: 1px solid var(--grey-100);
+  font-size: 0.8rem; color: var(--grey-500); letter-spacing: 1px;
+}
+.lp-footer a { color: var(--grey-700); }
+@media (max-width: 600px) {
+  .lp-hero { padding: 48px 20px 24px; }
+  .lp-content { padding: 32px 20px; }
+  .lp-cta-secondary { margin-left: 0; margin-top: 12px; display: block; }
+}

@@ -1515,21 +1515,21 @@ body.right-panel-open .booking-fab-mobile {
         <span class="nav-link" onclick="goTo('services')">服務項目</span>
         <div class="nav-dropdown-menu">
           <div class="nav-dropdown-nested">
-            <span class="nav-dropdown-item" onclick="goToSection('services','svc-facial')">皮膚管理</span>
+            <span class="nav-dropdown-item" onclick="goToServiceItem('svc-facial')">皮膚管理</span>
             <div class="nav-dropdown-submenu">
-              <span class="nav-dropdown-item" onclick="goToSection('services','svc-facial')">臉部撥筋</span>
-              <span class="nav-dropdown-item" onclick="goToSection('services','svc-algae')">肌泌藻針</span>
-              <span class="nav-dropdown-item" onclick="goToSection('services','svc-snow')">雪藻喚膚</span>
-              <span class="nav-dropdown-item" onclick="goToSection('services','svc-painless')">無痛藻針</span>
-              <span class="nav-dropdown-item" onclick="goToSection('services','svc-micro')">微雕蘊膚</span>
-              <span class="nav-dropdown-item" onclick="goToSection('services','svc-back')">背部護理</span>
+              <span class="nav-dropdown-item" onclick="goToServiceItem('svc-facial')">臉部撥筋</span>
+              <span class="nav-dropdown-item" onclick="goToServiceItem('svc-algae')">肌泌藻針</span>
+              <span class="nav-dropdown-item" onclick="goToServiceItem('svc-snow')">雪藻喚膚</span>
+              <span class="nav-dropdown-item" onclick="goToServiceItem('svc-painless')">無痛藻針</span>
+              <span class="nav-dropdown-item" onclick="goToServiceItem('svc-micro')">微雕蘊膚</span>
+              <span class="nav-dropdown-item" onclick="goToServiceItem('svc-back')">背部護理</span>
             </div>
           </div>
-          <span class="nav-dropdown-item" onclick="goToSection('services','svc-cupping')">五行罐撥</span>
-          <span class="nav-dropdown-item" onclick="goToSection('services','svc-hotwax')">熱蠟除毛</span>
-          <span class="nav-dropdown-item" onclick="goToSection('services','svc-icewax')">冰肌除毛</span>
-          <span class="nav-dropdown-item" onclick="goToSection('services','svc-nail')">美甲服務</span>
-          <span class="nav-dropdown-item" onclick="goToSection('services','svc-membership')">儲值入會</span>
+          <span class="nav-dropdown-item" onclick="goToServiceItem('svc-cupping')">五行罐撥</span>
+          <span class="nav-dropdown-item" onclick="goToServiceItem('svc-hotwax')">熱蠟除毛</span>
+          <span class="nav-dropdown-item" onclick="goToServiceItem('svc-icewax')">冰肌除毛</span>
+          <span class="nav-dropdown-item" onclick="goToServiceItem('svc-nail')">美甲服務</span>
+          <span class="nav-dropdown-item" onclick="goToServiceItem('svc-membership')">儲值入會</span>
         </div>
       </div>
       <div class="nav-dropdown">
@@ -1552,16 +1552,16 @@ body.right-panel-open .booking-fab-mobile {
           <div class="nav-dropdown-nested">
             <span class="nav-dropdown-item" onclick="goTo('knowledge')">知識專欄</span>
             <div class="nav-dropdown-submenu">
-              <span class="nav-dropdown-item" onclick="goToSection('knowledge','skin-types')">肌膚小知識</span>
-              <span class="nav-dropdown-item" onclick="goToSection('knowledge','cupping-benefits')">五行罐撥好處</span>
-              <span class="nav-dropdown-item" onclick="goToSection('knowledge','algae-intro')">藻針是什麼</span>
-              <span class="nav-dropdown-item" onclick="goToSection('knowledge','extraction-guide')">清粉刺指南</span>
-              <span class="nav-dropdown-item" onclick="goToSection('knowledge','seasonal-care')">換季保養</span>
-              <span class="nav-dropdown-item" onclick="goToSection('knowledge','sunscreen-myths')">防曬迷思</span>
-              <span class="nav-dropdown-item" onclick="goToSection('knowledge','closed-comedones')">閉鎖性粉刺</span>
-              <span class="nav-dropdown-item" onclick="goToSection('knowledge','pore-care')">毛孔粗大</span>
-              <span class="nav-dropdown-item" onclick="goToSection('knowledge','algae-aftercare')">藻針前後須知</span>
-              <span class="nav-dropdown-item" onclick="goToSection('knowledge','hair-removal-care')">除毛前後須知</span>
+              <span class="nav-dropdown-item" onclick="goToKnowledgeItem('skin-types')">肌膚小知識</span>
+              <span class="nav-dropdown-item" onclick="goToKnowledgeItem('cupping-benefits')">五行罐撥好處</span>
+              <span class="nav-dropdown-item" onclick="goToKnowledgeItem('algae-intro')">藻針是什麼</span>
+              <span class="nav-dropdown-item" onclick="goToKnowledgeItem('extraction-guide')">清粉刺指南</span>
+              <span class="nav-dropdown-item" onclick="goToKnowledgeItem('seasonal-care')">換季保養</span>
+              <span class="nav-dropdown-item" onclick="goToKnowledgeItem('sunscreen-myths')">防曬迷思</span>
+              <span class="nav-dropdown-item" onclick="goToKnowledgeItem('closed-comedones')">閉鎖性粉刺</span>
+              <span class="nav-dropdown-item" onclick="goToKnowledgeItem('pore-care')">毛孔粗大</span>
+              <span class="nav-dropdown-item" onclick="goToKnowledgeItem('algae-aftercare')">藻針前後須知</span>
+              <span class="nav-dropdown-item" onclick="goToKnowledgeItem('hair-removal-care')">除毛前後須知</span>
             </div>
           </div>
           <span class="nav-dropdown-item" onclick="goTo('faq')">常見問題</span>
@@ -1605,18 +1605,18 @@ body.right-panel-open .booking-fab-mobile {
     <div class="side-menu-sub">
       <span class="side-menu-sublink has-sub2" onclick="this.classList.toggle('open')">皮膚管理</span>
       <div class="side-menu-sub2">
-        <span class="side-menu-sub2link" onclick="goToSection('services','svc-facial');closeMenu()">臉部撥筋</span>
-        <span class="side-menu-sub2link" onclick="goToSection('services','svc-algae');closeMenu()">肌泌藻針</span>
-        <span class="side-menu-sub2link" onclick="goToSection('services','svc-snow');closeMenu()">雪藻喚膚</span>
-        <span class="side-menu-sub2link" onclick="goToSection('services','svc-painless');closeMenu()">無痛藻針</span>
-        <span class="side-menu-sub2link" onclick="goToSection('services','svc-micro');closeMenu()">微雕蘊膚</span>
-        <span class="side-menu-sub2link" onclick="goToSection('services','svc-back');closeMenu()">背部護理</span>
+        <span class="side-menu-sub2link" onclick="goToServiceItem('svc-facial');closeMenu()">臉部撥筋</span>
+        <span class="side-menu-sub2link" onclick="goToServiceItem('svc-algae');closeMenu()">肌泌藻針</span>
+        <span class="side-menu-sub2link" onclick="goToServiceItem('svc-snow');closeMenu()">雪藻喚膚</span>
+        <span class="side-menu-sub2link" onclick="goToServiceItem('svc-painless');closeMenu()">無痛藻針</span>
+        <span class="side-menu-sub2link" onclick="goToServiceItem('svc-micro');closeMenu()">微雕蘊膚</span>
+        <span class="side-menu-sub2link" onclick="goToServiceItem('svc-back');closeMenu()">背部護理</span>
       </div>
-      <span class="side-menu-sublink" onclick="goToSection('services','svc-cupping');closeMenu()">五行罐撥</span>
-      <span class="side-menu-sublink" onclick="goToSection('services','svc-hotwax');closeMenu()">熱蠟除毛</span>
-      <span class="side-menu-sublink" onclick="goToSection('services','svc-icewax');closeMenu()">冰肌除毛</span>
-      <span class="side-menu-sublink" onclick="goToSection('services','svc-nail');closeMenu()">美甲服務</span>
-      <span class="side-menu-sublink" onclick="goToSection('services','svc-membership');closeMenu()">儲值入會</span>
+      <span class="side-menu-sublink" onclick="goToServiceItem('svc-cupping');closeMenu()">五行罐撥</span>
+      <span class="side-menu-sublink" onclick="goToServiceItem('svc-hotwax');closeMenu()">熱蠟除毛</span>
+      <span class="side-menu-sublink" onclick="goToServiceItem('svc-icewax');closeMenu()">冰肌除毛</span>
+      <span class="side-menu-sublink" onclick="goToServiceItem('svc-nail');closeMenu()">美甲服務</span>
+      <span class="side-menu-sublink" onclick="goToServiceItem('svc-membership');closeMenu()">儲值入會</span>
     </div>
     <span class="side-menu-link" onclick="goTo('products');closeMenu()">產品專區</span>
     <span class="side-menu-link has-sub" onclick="this.classList.toggle('open')">探索</span>
@@ -1624,16 +1624,16 @@ body.right-panel-open .booking-fab-mobile {
       <span class="side-menu-sublink" onclick="goTo('about');closeMenu()">品牌故事</span>
       <span class="side-menu-sublink has-sub2" onclick="this.classList.toggle('open')">知識專欄</span>
       <div class="side-menu-sub2">
-        <span class="side-menu-sub2link" onclick="goToSection('knowledge','skin-types');closeMenu()">肌膚小知識</span>
-        <span class="side-menu-sub2link" onclick="goToSection('knowledge','cupping-benefits');closeMenu()">五行罐撥好處</span>
-        <span class="side-menu-sub2link" onclick="goToSection('knowledge','algae-intro');closeMenu()">藻針是什麼</span>
-        <span class="side-menu-sub2link" onclick="goToSection('knowledge','extraction-guide');closeMenu()">清粉刺指南</span>
-        <span class="side-menu-sub2link" onclick="goToSection('knowledge','seasonal-care');closeMenu()">換季保養</span>
-        <span class="side-menu-sub2link" onclick="goToSection('knowledge','sunscreen-myths');closeMenu()">防曬迷思</span>
-        <span class="side-menu-sub2link" onclick="goToSection('knowledge','closed-comedones');closeMenu()">閉鎖性粉刺</span>
-        <span class="side-menu-sub2link" onclick="goToSection('knowledge','pore-care');closeMenu()">毛孔粗大</span>
-        <span class="side-menu-sub2link" onclick="goToSection('knowledge','algae-aftercare');closeMenu()">藻針前後須知</span>
-        <span class="side-menu-sub2link" onclick="goToSection('knowledge','hair-removal-care');closeMenu()">除毛前後須知</span>
+        <span class="side-menu-sub2link" onclick="goToKnowledgeItem('skin-types');closeMenu()">肌膚小知識</span>
+        <span class="side-menu-sub2link" onclick="goToKnowledgeItem('cupping-benefits');closeMenu()">五行罐撥好處</span>
+        <span class="side-menu-sub2link" onclick="goToKnowledgeItem('algae-intro');closeMenu()">藻針是什麼</span>
+        <span class="side-menu-sub2link" onclick="goToKnowledgeItem('extraction-guide');closeMenu()">清粉刺指南</span>
+        <span class="side-menu-sub2link" onclick="goToKnowledgeItem('seasonal-care');closeMenu()">換季保養</span>
+        <span class="side-menu-sub2link" onclick="goToKnowledgeItem('sunscreen-myths');closeMenu()">防曬迷思</span>
+        <span class="side-menu-sub2link" onclick="goToKnowledgeItem('closed-comedones');closeMenu()">閉鎖性粉刺</span>
+        <span class="side-menu-sub2link" onclick="goToKnowledgeItem('pore-care');closeMenu()">毛孔粗大</span>
+        <span class="side-menu-sub2link" onclick="goToKnowledgeItem('algae-aftercare');closeMenu()">藻針前後須知</span>
+        <span class="side-menu-sub2link" onclick="goToKnowledgeItem('hair-removal-care');closeMenu()">除毛前後須知</span>
       </div>
       <span class="side-menu-sublink" onclick="goTo('faq');closeMenu()">常見問題</span>
       <span class="side-menu-sublink" onclick="goTo('tutorial');closeMenu()">預約教學</span>
@@ -1802,7 +1802,7 @@ body.right-panel-open .booking-fab-mobile {
               <li>含敷臉與術後護理</li>
             </ul>
             <div class="service-back-price">NT$ 1,200 起</div>
-            <div class="service-back-cta" onclick="event.stopPropagation(); goToSection('services','svc-facial')">了 解 更 多</div>
+            <div class="service-back-cta" onclick="event.stopPropagation(); goToServiceItem('svc-facial')">了 解 更 多</div>
           </div>
         </div>
       </div>
@@ -1832,7 +1832,7 @@ body.right-panel-open .booking-fab-mobile {
               <li>恢復期短，不影響日常</li>
             </ul>
             <div class="service-back-price">NT$ 2,880</div>
-            <div class="service-back-cta" onclick="event.stopPropagation(); goToSection('services','svc-facial')">了 解 更 多</div>
+            <div class="service-back-cta" onclick="event.stopPropagation(); goToServiceItem('svc-facial')">了 解 更 多</div>
           </div>
         </div>
       </div>
@@ -1862,7 +1862,7 @@ body.right-panel-open .booking-fab-mobile {
               <li>身心放鬆，舒暢輕盈</li>
             </ul>
             <div class="service-back-price">NT$ 1,500 起</div>
-            <div class="service-back-cta" onclick="event.stopPropagation(); goToSection('services','svc-cupping')">了 解 更 多</div>
+            <div class="service-back-cta" onclick="event.stopPropagation(); goToServiceItem('svc-cupping')">了 解 更 多</div>
           </div>
         </div>
       </div>
@@ -3828,7 +3828,7 @@ body.right-panel-open .booking-fab-mobile {
     <span class="footer-link" onclick="goTo('privacy')">隱私權政策</span>
   </div>
   <div class="footer-copy">&copy; 2026 淇肌淨膚 QIJI MIRACLE AESTHETIC &mdash; All Rights Reserved</div>
-  <div class="footer-version">v<span class="v-date">2026.04.27</span><span class="v-sep">&middot;</span><span class="v-sha">3a08d8e</span></div>
+  <div class="footer-version">v<span class="v-date">2026.04.27</span><span class="v-sep">&middot;</span><span class="v-sha">96db695</span></div>
 </footer>
  
 <div class="float-social">
@@ -4023,6 +4023,48 @@ function filterServices(cat, el) {
   if (casesEl) casesEl.closest('div').style.display = cat === 'all' ? '' : 'none';
   window.scrollTo({ top: document.getElementById('svcFilter').offsetTop - 80, behavior: 'smooth' });
 }
+function goToServiceItem(svcId) {
+  goTo('services');
+  setTimeout(function() {
+    var item = document.getElementById(svcId);
+    if (!item) return;
+    var cat = item.getAttribute('data-svc-cat');
+    var scope = document.getElementById('svcFilter');
+    if (scope && cat) {
+      var tabs = scope.querySelectorAll('.products-tab');
+      for (var i = 0; i < tabs.length; i++) {
+        var oc = tabs[i].getAttribute('onclick') || '';
+        if (oc.indexOf("filterServices('" + cat + "'") >= 0) { tabs[i].click(); break; }
+      }
+    }
+    setTimeout(function() {
+      var el = document.getElementById(svcId);
+      if (el) window.scrollTo({ top: el.offsetTop - 80, behavior: 'smooth' });
+    }, 50);
+  }, 120);
+}
+
+function goToKnowledgeItem(kbId) {
+  goTo('knowledge');
+  setTimeout(function() {
+    var item = document.getElementById(kbId);
+    if (!item) return;
+    var cat = item.getAttribute('data-kcat');
+    var scope = document.getElementById('page-knowledge');
+    if (scope && cat) {
+      var tabs = scope.querySelectorAll('.products-tab');
+      for (var i = 0; i < tabs.length; i++) {
+        var oc = tabs[i].getAttribute('onclick') || '';
+        if (oc.indexOf("filterKnowledge('" + cat + "'") >= 0) { tabs[i].click(); break; }
+      }
+    }
+    setTimeout(function() {
+      var el = document.getElementById(kbId);
+      if (el) window.scrollTo({ top: el.offsetTop - 80, behavior: 'smooth' });
+    }, 50);
+  }, 120);
+}
+
 function goToProductCategory(cat) {
   goTo('products');
   setTimeout(function() {

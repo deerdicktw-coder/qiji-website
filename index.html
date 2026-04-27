@@ -2043,7 +2043,7 @@ body.right-panel-open .booking-fab-mobile {
   </div>
 
   <div style="max-width:900px;margin:0 auto;padding:40px 40px 100px;">
-    <div class="svc-category-divider reveal" style="padding:20px 0 30px;text-align:center;">
+    <div class="svc-category-divider reveal" data-eyebrow-cat="skin" style="padding:20px 0 30px;text-align:center;">
       <div style="display:flex;align-items:center;justify-content:center;gap:20px;max-width:680px;margin:0 auto;">
         <div style="flex:1;height:1px;background:var(--gold);opacity:0.35;"></div>
         <div style="font-family:var(--serif);font-size:0.88rem;letter-spacing:5px;color:var(--gold);white-space:nowrap;">SKIN CARE&nbsp;&nbsp;·&nbsp;&nbsp;肌 膚 護 理</div>
@@ -2308,7 +2308,7 @@ body.right-panel-open .booking-fab-mobile {
         </div>
       </div>
     </div>
-    <div class="svc-category-divider reveal" style="padding:40px 0 30px;text-align:center;">
+    <div class="svc-category-divider reveal" data-eyebrow-cat="cupping" style="padding:40px 0 30px;text-align:center;">
       <div style="display:flex;align-items:center;justify-content:center;gap:20px;max-width:680px;margin:0 auto;">
         <div style="flex:1;height:1px;background:var(--gold);opacity:0.35;"></div>
         <div style="font-family:var(--serif);font-size:0.88rem;letter-spacing:5px;color:var(--gold);white-space:nowrap;">BODY THERAPY&nbsp;&nbsp;·&nbsp;&nbsp;身 體 療 程</div>
@@ -2346,7 +2346,7 @@ body.right-panel-open .booking-fab-mobile {
         </div>
       </div>
     </div>
-    <div class="svc-category-divider reveal" style="padding:40px 0 30px;text-align:center;">
+    <div class="svc-category-divider reveal" data-eyebrow-cat="hair" style="padding:40px 0 30px;text-align:center;">
       <div style="display:flex;align-items:center;justify-content:center;gap:20px;max-width:680px;margin:0 auto;">
         <div style="flex:1;height:1px;background:var(--gold);opacity:0.35;"></div>
         <div style="font-family:var(--serif);font-size:0.88rem;letter-spacing:5px;color:var(--gold);white-space:nowrap;">HAIR REMOVAL&nbsp;&nbsp;·&nbsp;&nbsp;除 毛</div>
@@ -2488,7 +2488,7 @@ body.right-panel-open .booking-fab-mobile {
         </div>
       </div>
     </div>
-    <div class="svc-category-divider reveal" style="padding:40px 0 30px;text-align:center;">
+    <div class="svc-category-divider reveal" data-eyebrow-cat="nail" style="padding:40px 0 30px;text-align:center;">
       <div style="display:flex;align-items:center;justify-content:center;gap:20px;max-width:680px;margin:0 auto;">
         <div style="flex:1;height:1px;background:var(--gold);opacity:0.35;"></div>
         <div style="font-family:var(--serif);font-size:0.88rem;letter-spacing:5px;color:var(--gold);white-space:nowrap;">NAIL&nbsp;&nbsp;·&nbsp;&nbsp;美 甲</div>
@@ -2524,7 +2524,7 @@ body.right-panel-open .booking-fab-mobile {
         </div>
       </div>
     </div>
-    <div class="svc-category-divider reveal" style="padding:40px 0 30px;text-align:center;">
+    <div class="svc-category-divider reveal" data-eyebrow-cat="membership" style="padding:40px 0 30px;text-align:center;">
       <div style="display:flex;align-items:center;justify-content:center;gap:20px;max-width:680px;margin:0 auto;">
         <div style="flex:1;height:1px;background:var(--gold);opacity:0.35;"></div>
         <div style="font-family:var(--serif);font-size:0.88rem;letter-spacing:5px;color:var(--gold);white-space:nowrap;">MEMBERSHIP&nbsp;&nbsp;·&nbsp;&nbsp;會 員 方 案</div>
@@ -3828,7 +3828,7 @@ body.right-panel-open .booking-fab-mobile {
     <span class="footer-link" onclick="goTo('privacy')">隱私權政策</span>
   </div>
   <div class="footer-copy">&copy; 2026 淇肌淨膚 QIJI MIRACLE AESTHETIC &mdash; All Rights Reserved</div>
-  <div class="footer-version">v<span class="v-date">2026.04.20</span><span class="v-sep">&middot;</span><span class="v-sha">b80c37b</span></div>
+  <div class="footer-version">v<span class="v-date">2026.04.27</span><span class="v-sep">&middot;</span><span class="v-sha">3a08d8e</span></div>
 </footer>
  
 <div class="float-social">
@@ -4012,6 +4012,11 @@ function filterServices(cat, el) {
     } else {
       item.style.display = 'none';
     }
+  });
+  /* 同步隱藏/顯示類別 eyebrow（避免單一類別時其他 eyebrow 還掛在上面） */
+  document.querySelectorAll('[data-eyebrow-cat]').forEach(eb => {
+    const ec = eb.getAttribute('data-eyebrow-cat');
+    eb.style.display = (cat === 'all' || cat === ec) ? '' : 'none';
   });
   /* Also show/hide the cases section & divider based on 'all' */
   const casesEl = document.getElementById('svc-cases');

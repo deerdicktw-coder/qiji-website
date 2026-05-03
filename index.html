@@ -1319,6 +1319,64 @@ body.right-panel-open .booking-fab-mobile {
 .tw::before { top: calc(50% - 20px); }
 .tw::after { top: calc(50% + 20px); }
 .tw-hint { text-align: center; font-size: 0.88rem; color: var(--grey-400); letter-spacing: 2px; margin-bottom: 8px; font-weight: 400; }
+
+/* ===== Splash Screen (B1) ===== */
+.qiji-splash {
+  position: fixed; inset: 0; z-index: 99999;
+  display: flex; align-items: center; justify-content: center;
+  background: #fff;
+  pointer-events: auto;
+  transition: opacity 0.8s ease;
+}
+.qiji-splash.gone { opacity: 0; pointer-events: none; }
+.qiji-splash-stack {
+  text-align: center;
+  position: relative;
+  padding: 42px 64px;
+}
+.qiji-splash-line-top, .qiji-splash-line-bottom {
+  position: absolute; left: 50%; top: 0;
+  width: 0; height: 1px; background: var(--gold);
+  transform: translateX(-50%);
+}
+.qiji-splash-line-bottom { top: auto; bottom: 0; }
+.qiji-splash.go .qiji-splash-line-top,
+.qiji-splash.go .qiji-splash-line-bottom {
+  animation: qijiSplashLine 0.9s 0.1s forwards cubic-bezier(.7,0,.3,1);
+}
+.qiji-splash-logo {
+  font-family: 'Inter', var(--sans);
+  font-weight: 700;
+  font-size: 54px;
+  letter-spacing: 12px;
+  color: #0a0a0a;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.8s ease 0.8s, transform 0.8s ease 0.8s;
+}
+.qiji-splash.go .qiji-splash-logo {
+  opacity: 1;
+  transform: translateY(0);
+}
+.qiji-splash-tag {
+  font-family: 'Bodoni Moda', 'Noto Serif TC', serif;
+  font-weight: 500;
+  font-size: 0.92rem;
+  letter-spacing: 8px;
+  color: var(--gold);
+  margin-top: 18px;
+  opacity: 0;
+  transition: opacity 0.8s ease 1.2s;
+}
+.qiji-splash.go .qiji-splash-tag { opacity: 1; }
+@keyframes qijiSplashLine { to { width: 280px; } }
+@media (max-width: 600px) {
+  .qiji-splash-logo { font-size: 42px; letter-spacing: 10px; }
+  .qiji-splash-tag { font-size: 0.85rem; letter-spacing: 6px; }
+  .qiji-splash-stack { padding: 32px 40px; }
+}
+body.qiji-splash-active { overflow: hidden; }
+
 </style>
 <script type="application/ld+json">
 {
@@ -1499,6 +1557,39 @@ body.right-panel-open .booking-fab-mobile {
 </script>
 </head>
 <body>
+<div class="qiji-splash" id="qijiSplash">
+  <div class="qiji-splash-stack">
+    <div class="qiji-splash-line-top"></div>
+    <div class="qiji-splash-logo">QIJI</div>
+    <div class="qiji-splash-tag">淇　肌　淨　膚</div>
+    <div class="qiji-splash-line-bottom"></div>
+  </div>
+</div>
+<script>
+(function() {
+  try {
+    var seen = sessionStorage.getItem('qiji_splash_seen');
+    var splash = document.getElementById('qijiSplash');
+    if (!splash) return;
+    if (seen === 'ok') {
+      splash.parentNode.removeChild(splash);
+      return;
+    }
+    sessionStorage.setItem('qiji_splash_seen', 'ok');
+    document.body.classList.add('qiji-splash-active');
+    setTimeout(function() { splash.classList.add('go'); }, 30);
+    setTimeout(function() { splash.classList.add('gone'); }, 2700);
+    setTimeout(function() {
+      if (splash.parentNode) splash.parentNode.removeChild(splash);
+      document.body.classList.remove('qiji-splash-active');
+    }, 3700);
+  } catch (e) {
+    var s = document.getElementById('qijiSplash');
+    if (s && s.parentNode) s.parentNode.removeChild(s);
+  }
+})();
+</script>
+
 <button class="nav-hamburger" id="menuToggle" aria-label="Menu"><span></span><span></span><span></span></button>
 <button class="nav-search-mobile" onclick="toggleSiteSearch()" aria-label="搜尋">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -3818,7 +3909,7 @@ body.right-panel-open .booking-fab-mobile {
     <span class="footer-link" onclick="goTo('privacy')">隱私權政策</span>
   </div>
   <div class="footer-copy">&copy; 2026 淇肌淨膚 QIJI MIRACLE AESTHETIC &mdash; All Rights Reserved</div>
-  <div class="footer-version">v<span class="v-date">2026.05.03</span><span class="v-sep">&middot;</span><span class="v-sha">f4e6fb2</span></div>
+  <div class="footer-version">v<span class="v-date">2026.05.03</span><span class="v-sep">&middot;</span><span class="v-sha">ab7ee55</span></div>
 </footer>
  
 <div class="float-social">

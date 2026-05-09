@@ -2683,7 +2683,7 @@ body.qiji-splash-active { overflow: hidden; }
       </div>
       <span class="service-detail-cta" onclick="goTo('contact')">了 解 更 多</span>
     </div>
-    <div class="svc-category-divider reveal" style="padding:40px 0 30px;text-align:center;">
+    <div class="svc-category-divider reveal" data-cases-divider="true" style="padding:40px 0 30px;text-align:center;">
       <div style="display:flex;align-items:center;justify-content:center;gap:20px;max-width:680px;margin:0 auto;">
         <div style="flex:1;height:1px;background:var(--gold);opacity:0.35;"></div>
         <div style="font-family:var(--serif);font-size:0.88rem;letter-spacing:5px;color:var(--gold);white-space:nowrap;">CLIENT STORIES&nbsp;&nbsp;·&nbsp;&nbsp;顧 客 心 得</div>
@@ -3909,7 +3909,7 @@ body.qiji-splash-active { overflow: hidden; }
     <span class="footer-link" onclick="goTo('privacy')">隱私權政策</span>
   </div>
   <div class="footer-copy">&copy; 2026 淇肌淨膚 QIJI MIRACLE AESTHETIC &mdash; All Rights Reserved</div>
-  <div class="footer-version">v<span class="v-date">2026.05.03</span><span class="v-sep">&middot;</span><span class="v-sha">ab7ee55</span></div>
+  <div class="footer-version">v<span class="v-date">2026.05.09</span><span class="v-sep">&middot;</span><span class="v-sha">12d70eb</span></div>
 </footer>
  
 <div class="float-social">
@@ -4102,6 +4102,9 @@ function filterServices(cat, el) {
   /* Also show/hide the cases section & divider based on 'all' */
   const casesEl = document.getElementById('svc-cases');
   if (casesEl) casesEl.closest('div').style.display = cat === 'all' ? '' : 'none';
+  /* 同步隱藏 CLIENT STORIES eyebrow（避免單一類別時留空 eyebrow）*/
+  const casesDivider = document.querySelector('[data-cases-divider]');
+  if (casesDivider) casesDivider.style.display = cat === 'all' ? '' : 'none';
   window.scrollTo({ top: document.getElementById('svcFilter').offsetTop - 80, behavior: 'smooth' });
 }
 function goToServiceItem(svcId) {

@@ -1,0 +1,64 @@
+name: Sync Google Reviews
+
+# 每週一台北時間 08:00 跑（= UTC 00:00 週一）
+# 並可手動觸發
+on:
+  schedule:
+    - cron: '0 0 * * 1'
+  workflow_dispatch:
+  push:
+    paths:
+      - 'sync_reviews.py'
+      - '.github/workflows/sync-reviews.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-reviews
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run sync_reviews.py
+        env:
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+          GOOGLE_PLACE_QUERY: ${{ secrets.GOOGLE_PLACE_QUERY }}
+        run: |
+          # 容許「無變化」退出碼 78（視為成功）
+          set +e
+          python sync_reviews.py
+          ec=$?
+          set -e
+          if [ $ec -eq 0 ] || [ $ec -eq 78 ]; then
+            echo "sync_reviews exit code = $ec (0=updated, 78=no-change)"
+            exit 0
+          else
+            echo "sync_reviews failed with exit code $ec" >&2
+            exit $ec
+          fi
+
+      - name: Commit & push if changed
+        run: |
+          git config user.name  "qiji-reviews-bot"
+          git config user.email "reviews-bot@users.noreply.github.com"
+
+          if [[ -n "$(git status --porcelain index.html)" ]]; then
+            git add index.html
+            git commit -m "chore(reviews): weekly sync from Google $(date -u +%Y-%m-%d) [skip ci]"
+            git push
+            echo "index.html updated and pushed."
+          else
+            echo "index.html unchanged; nothing to push."
+          fi

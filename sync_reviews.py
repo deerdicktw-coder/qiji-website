@@ -161,6 +161,13 @@ def update_html(html: str, reviews: list, review_count: int) -> str:
         new_html, count=1,
     )
 
+    # 5. 更新總覽卡 "N 則 Google 評價"
+    new_html = re.sub(
+        r'\d+\s*則\s*Google\s*評價',
+        f'{review_count} 則 Google 評價',
+        new_html, count=1,
+    )
+
     return new_html
 
 

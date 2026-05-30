@@ -299,6 +299,13 @@ a.side-menu-link { text-decoration: none; }
 .testimonial-count { font-size: 0.88rem; color: var(--grey-600); letter-spacing: 2px; }
 .testimonial-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; text-align: left; margin-bottom: 40px; }
 .testimonial-card { padding: 32px 28px; border: 1px solid var(--grey-200); background: var(--white); transition: border-color 0.3s; }
+.testimonial-summary-card { background: linear-gradient(135deg,#fdfbf6 0%,#f4eedd 100%); border: 1px solid var(--gold); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; text-decoration: none; color: var(--black); cursor: pointer; position: relative; transition: all 0.3s; }
+.testimonial-summary-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(201,169,110,0.25); }
+.testimonial-summary-card .summary-eyebrow { font-family: var(--serif); font-size: 0.78rem; letter-spacing: 4px; color: var(--gold); margin-bottom: 12px; }
+.testimonial-summary-card .summary-big-rating { font-family: var(--serif); font-size: 3.2rem; line-height: 1; color: var(--gold); margin-bottom: 6px; font-weight: 500; }
+.testimonial-summary-card .summary-stars-row { font-size: 1.05rem; color: var(--gold); letter-spacing: 4px; margin-bottom: 14px; }
+.testimonial-summary-card .summary-count { font-size: 0.88rem; color: var(--grey-700); margin-bottom: 18px; letter-spacing: 1px; }
+.testimonial-summary-card .summary-cta { font-family: var(--sans); font-weight: 600; font-size: 0.82rem; letter-spacing: 4px; color: var(--gold); padding-top: 12px; border-top: 1px solid rgba(201,169,110,0.4); width: 100%; }
 .testimonial-card:hover { border-color: var(--gold); }
 .testimonial-card-stars { color: #f4b400; font-size: 0.88rem; letter-spacing: 1px; margin-bottom: 16px; }
 .testimonial-card-text { font-size: 0.88rem; line-height: 2; color: var(--grey-600); font-weight: 400; margin-bottom: 20px; min-height: 88px; }
@@ -2079,6 +2086,13 @@ body.qiji-splash-active { overflow: hidden; }
         </div>
       </div>
     <!-- AUTO_REVIEW_GRID_END -->
+      <a class="testimonial-card testimonial-summary-card" href="https://www.google.com.tw/maps/place/%E5%8F%B0%E4%B8%AD%E5%87%B1%E8%8E%89%E7%BE%8E%E5%AD%B8/@24.1723527,120.6931105,17z/data=!4m6!3m5!1s0x34693d3b4066e6fb:0x6815fae7aee48d1e!8m2!3d24.1723527!4d120.6956854!16s%2Fg%2F11pr7pyyv9?hl=zh-TW" target="_blank" rel="noopener noreferrer">
+        <div class="summary-eyebrow">GOOGLE REVIEWS</div>
+        <div class="summary-big-rating">5.0</div>
+        <div class="summary-stars-row">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <div class="summary-count">37 則 Google 評價</div>
+        <div class="summary-cta">查 看 全 部 評 論 &rarr;</div>
+      </a>
     </div>
     <a href="https://www.google.com.tw/maps/place/%E5%8F%B0%E4%B8%AD%E5%87%B1%E8%8E%89%E7%BE%8E%E5%AD%B8/@24.1723527,120.6931105,17z/data=!4m6!3m5!1s0x34693d3b4066e6fb:0x6815fae7aee48d1e!8m2!3d24.1723527!4d120.6956854!16s%2Fg%2F11pr7pyyv9?hl=zh-TW" target="_blank" rel="noopener noreferrer" class="testimonial-link reveal">查看全部 37 則 Google 評論 &rarr;</a>
   </section>
@@ -3907,7 +3921,7 @@ body.qiji-splash-active { overflow: hidden; }
     <span class="footer-link" onclick="goTo('privacy')">隱私權政策</span>
   </div>
   <div class="footer-copy">&copy; 2026 淇肌淨膚 QIJI MIRACLE AESTHETIC &mdash; All Rights Reserved</div>
-  <div class="footer-version">v<span class="v-date">2026.05.30</span><span class="v-sep">&middot;</span><span class="v-sha">56bbcbb</span></div>
+  <div class="footer-version">v<span class="v-date">2026.05.30</span><span class="v-sep">&middot;</span><span class="v-sha">2c75592</span></div>
 </footer>
  
 <div class="float-social">

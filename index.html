@@ -708,7 +708,6 @@ a.side-menu-link { text-decoration: none; }
   /* CHANEL header: hide legacy bottom CTA bar, compact mobile actions */
   .nav-hamburger { top: 7px !important; left: 20px !important; padding: 12px 8px !important; width: 40px !important; height: 40px !important; box-sizing: border-box !important; }
   .mobile-cta-bar { display: none !important; }
-  .float-social { display: none !important; }
   .inquiry-fab { bottom: calc(20px + env(safe-area-inset-bottom, 0px)) !important; right: 20px !important; }
   /* 手機版預約 FAB：右下角常駐金色圓鈕 */
   .booking-fab-mobile { display: flex !important; }
@@ -846,7 +845,6 @@ body.menu-open .booking-tab {
   transition: transform 0.35s cubic-bezier(0.4,0,0.2,1) !important;
 }
 body.menu-open .scroll-top-btn,
-body.menu-open .float-social,
 body.menu-open .booking-fab-mobile {
   opacity: 0 !important;
   visibility: hidden !important;
@@ -1153,9 +1151,6 @@ body.right-panel-open .booking-fab-mobile {
 .delay-3 { transition-delay: 0.45s !important; }
 .delay-4 { transition-delay: 0.6s !important; }
 .delay-5 { transition-delay: 0.75s !important; }
-.float-social { position: fixed; right: 24px; bottom: 24px; display: flex; flex-direction: column; gap: 10px; z-index: 900; }
-.float-social a { width: 44px; height: 44px; background: var(--black); color: var(--white); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; transition: all 0.3s; }
-.float-social a:hover { background: var(--gold); }
 @media (max-width: 900px) { .nav-links-desktop { display: none; } .nav-inner { padding: 14px 20px; } .nav-hamburger { left: 20px; } .nav-right { right: 20px; } .nav-brand { gap: 8px; max-width: 220px; } .nav-logo-text { font-size: 1.4rem; letter-spacing: 0.28em; } .hero { min-height: 88vh; min-height: 88svh; padding: 120px 20px 88px; }  .hero-en { margin-bottom: 28px; } .hero-copy { font-size: 0.88rem; max-width: 320px; margin-bottom: 28px; } .hero-actions { flex-direction: column; align-items: center; } .hero-cta, .hero-secondary-cta { width: min(100%, 280px); } .hero-badges { gap: 10px; } .hero-badge { width: calc(50% - 5px); text-align: center; }  .service-grid { display: flex; flex-direction: column; gap: 16px; padding-bottom: 0; } .service-grid .service-card { flex: none; width: 100%; min-height: 280px; scroll-snap-align: none; } .service-card { min-height: 280px; } .service-card-shell { padding: 28px 24px; } .service-card-desc { font-size: 0.88rem; margin: 14px 0 20px; -webkit-line-clamp: 3; display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; } .services-hero h1, .contact-hero h1, .about-hero-content h1, .knowledge-hero h1 { font-size: clamp(1.6rem, 1rem + 2vw, 2.4rem); letter-spacing: clamp(4px, 2px + 1.5vw, 12px); } .knowledge-section { padding: 70px 20px; } .knowledge-card { padding: 28px 22px; } .service-detail { grid-template-columns: 1fr; } .service-detail:nth-child(even) { direction: ltr; } .service-detail-content { padding: 50px 30px; } .about-story { padding: 90px 24px; }
   .story-header { text-align: center; margin-bottom: 50px; }
   .story-header h2 { font-size: 1.3rem; letter-spacing: 5px; }
@@ -1165,7 +1160,7 @@ body.right-panel-open .booking-fab-mobile {
   .story-chapter-title { font-size: 1.1rem; }
   .story-chapter-text { font-size: 0.88rem; text-align: center; }
   .story-quote { text-align: center; padding: 30px 20px; margin: 30px 0; border-left: none; border-top: 1px solid var(--gold); border-bottom: 1px solid var(--gold); }
-  .story-quote p { font-size: 0.92rem; line-height: 2; } .about-values { grid-template-columns: 1fr; } .about-value { border-right: none; border-bottom: 1px solid var(--grey-200); } .about-value:last-child { border-bottom: none; } .about-environment { padding: 90px 20px; } .about-env-grid { grid-template-columns: 1fr; } .about-env-panel, .about-env-panel-primary { min-height: 240px; } .contact-content { grid-template-columns: 1fr; gap: 40px; padding: 70px 20px; } .contact-note-grid { grid-template-columns: 1fr; } .side-menu { width: 85vw; padding: 40px 30px; } .side-menu-logo { margin-bottom: 30px; } .home-services { padding: 80px 20px; } .float-social { right: 16px; bottom: 16px; } .membership-grid { grid-template-columns: 1fr !important; } .footer { padding: 50px 20px 80px; } .footer-links { gap: 14px 20px; } .footer-link { font-size: 0.88rem; padding: 8px 4px; min-height: 44px; display: inline-flex; align-items: center; } .tutorial-cta-bar { padding: 48px 20px; } .home-testimonial { padding: 80px 20px; } .testimonial-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 14px; padding-bottom: 8px; scrollbar-width: none; -webkit-overflow-scrolling: touch; } .testimonial-grid::-webkit-scrollbar { display: none; } .testimonial-grid .testimonial-card { flex: 0 0 85%; scroll-snap-align: start; } .testimonial-card-text { min-height: auto; } .cases-grid { grid-template-columns: 1fr !important; } }
+  .story-quote p { font-size: 0.92rem; line-height: 2; } .about-values { grid-template-columns: 1fr; } .about-value { border-right: none; border-bottom: 1px solid var(--grey-200); } .about-value:last-child { border-bottom: none; } .about-environment { padding: 90px 20px; } .about-env-grid { grid-template-columns: 1fr; } .about-env-panel, .about-env-panel-primary { min-height: 240px; } .contact-content { grid-template-columns: 1fr; gap: 40px; padding: 70px 20px; } .contact-note-grid { grid-template-columns: 1fr; } .side-menu { width: 85vw; padding: 40px 30px; } .side-menu-logo { margin-bottom: 30px; } .home-services { padding: 80px 20px; } .membership-grid { grid-template-columns: 1fr !important; } .footer { padding: 50px 20px 80px; } .footer-links { gap: 14px 20px; } .footer-link { font-size: 0.88rem; padding: 8px 4px; min-height: 44px; display: inline-flex; align-items: center; } .tutorial-cta-bar { padding: 48px 20px; } .home-testimonial { padding: 80px 20px; } .testimonial-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 14px; padding-bottom: 8px; scrollbar-width: none; -webkit-overflow-scrolling: touch; } .testimonial-grid::-webkit-scrollbar { display: none; } .testimonial-grid .testimonial-card { flex: 0 0 85%; scroll-snap-align: start; } .testimonial-card-text { min-height: auto; } .cases-grid { grid-template-columns: 1fr !important; } }
 @keyframes heroEntrance { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 .hero-content > * { animation: heroEntrance 1s cubic-bezier(0.31, 0, 0.13, 1) both; }
 .hero-content > *:nth-child(1) { animation-delay: 0.3s; }
@@ -3952,14 +3947,6 @@ body.qiji-splash-active { overflow: hidden; }
   <div class="footer-version">v<span class="v-date">2026.07.27</span><span class="v-sep">&middot;</span><span class="v-sha">local</span></div>
 </footer>
  
-<div class="float-social">
-  <a href="https://www.instagram.com/1988_carrie_skincare/" target="_blank" rel="noopener noreferrer" title="Instagram">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
-  </a>
-  <a href="https://page.line.me/026xbaov?openQrModal=true" target="_blank" rel="noopener noreferrer" title="LINE">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
-  </a>
-</div>
  
 <button class="scroll-top-btn" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="回到頂部"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3,9 7,5 11,9"/></svg></button>
 <script>

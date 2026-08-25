@@ -103,13 +103,13 @@
 <meta name="twitter:image" content="https://qiji-skin.com/og-image.jpg" />
 <!-- Canonical URL -->
 <link rel="canonical" href="https://qiji-skin.com/" />
-<link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+<link rel="icon" type="image/svg+xml" href="images/favicon-brand.svg">
 <!-- M5: PWA manifest -->
 <link rel="manifest" href="/manifest.json">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="QIJI">
-<link rel="apple-touch-icon" href="images/og-image.jpg">
+<link rel="apple-touch-icon" href="images/apple-touch-brand.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700&family=Noto+Serif+TC:wght@300;400;500;600;700&family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Jost:wght@200;300;400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -749,14 +749,6 @@ a.side-menu-link { text-decoration: none; }
   .hero-hours { display: none; }
   .hero-copy { max-width: 280px; font-size: 0.88rem; margin-bottom: 24px; }
 }
-.mobile-cta-bar { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: var(--black); border-top: 1px solid var(--gold); z-index: 996; padding: 0 env(safe-area-inset-right, 0px) 0 env(safe-area-inset-left, 0px); padding-bottom: max(env(safe-area-inset-bottom, 0px), 12px); justify-content: center; gap: 0; }
-.mobile-cta-bar > a, .mobile-cta-bar > span { flex: none; padding: 14px 12px; text-align: center; font-size: 0.88rem; letter-spacing: 0; color: var(--white); cursor: pointer; transition: background 0.2s; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 2px; }
-.mobile-cta-bar > a:last-child, .mobile-cta-bar > span:last-child { }
-.mobile-cta-bar > a:hover, .mobile-cta-bar > span:hover { background: rgba(201,169,110,0.15); }
-.mobile-cta-bar .cta-icon { font-size: 0.88rem; line-height: 1; padding: 0; }
-.mobile-cta-bar .cta-line { color: #06C755; }
-.mobile-cta-bar .cta-call { color: var(--gold); }
-.mobile-cta-bar .cta-book { color: var(--gold-light); }
 /* CHANEL 2+2 mobile: right-side icons (LINE + Calendar) */
 .nav-mobile-actions { display: none; align-items: center; gap: 4px; }
 .nav-mobile-actions a { display: inline-flex; align-items: center; justify-content: center; color: var(--black); text-decoration: none; padding: 9px; width: 40px; height: 40px; box-sizing: border-box; transition: color 0.3s ease; }
@@ -765,8 +757,7 @@ a.side-menu-link { text-decoration: none; }
 @media (max-width: 900px) {
   /* CHANEL header: hide legacy bottom CTA bar, compact mobile actions */
   .nav-hamburger { top: 7px !important; left: 20px !important; padding: 12px 8px !important; width: 40px !important; height: 40px !important; box-sizing: border-box !important; }
-  .mobile-cta-bar { display: none !important; }
-  .inquiry-fab { bottom: calc(20px + env(safe-area-inset-bottom, 0px)) !important; right: 20px !important; }
+    .inquiry-fab { bottom: calc(20px + env(safe-area-inset-bottom, 0px)) !important; right: 20px !important; }
   /* 手機版預約 FAB：右下角常駐金色圓鈕 */
   .booking-fab-mobile { display: flex !important; }
   /* 諮詢清單出現時往上堆疊，避免蓋住預約 FAB */
@@ -1108,11 +1099,6 @@ body.right-panel-open .booking-fab-mobile {
 .tutorial-btn-row a:active, .psf-tag:active, .faq-tab:active {
   transform: scale(0.96);
   transition: transform 120ms ease;
-}
-.mobile-cta-bar > a:active, .mobile-cta-bar > span:active {
-  transform: scale(0.95);
-  background: rgba(201,169,110,0.25);
-  transition: all 100ms ease;
 }
 
 
@@ -1480,7 +1466,7 @@ body.qiji-splash-active { overflow: hidden; }
   "aggregateRating": {
     "@type": "AggregateRating",
     "ratingValue": "5.0",
-    "reviewCount": "36"
+    "reviewCount": "39"
   },
   "priceRange": "$$",
   "sameAs": [
@@ -1514,7 +1500,7 @@ body.qiji-splash-active { overflow: hidden; }
   "name": "淇肌淨膚 QIJI MIRACLE AESTHETIC",
   "alternateName": "QIJI",
   "url": "https://qiji-skin.com/",
-  "logo": "https://qiji-skin.com/og-image.jpg",
+  "logo": "https://qiji-skin.com/images/logo-512.png",
   "image": "https://qiji-skin.com/og-image.jpg",
   "description": "淇肌淨膚位於台中北屯，提供皮膚管理、肌泌藻針、五行罐撥、專業除毛與美甲服務，採預約制，一對一私密空間照護。",
   "areaServed": { "@type": "City", "name": "台中市" },
@@ -1620,6 +1606,91 @@ body.qiji-splash-active { overflow: hidden; }
   ]
 }
 </script>
+<style>
+/* ── Logo 測試版樣式 ── */
+/* 主視覺英文改用 Logo 同款手寫體（Alex Brush 外框，取自 Logo 向量原檔） */
+.hero-script { width: clamp(230px, 46vw, 320px); height: auto; display: block;
+               margin: 0 auto 54px; opacity: .92; }
+/* 精品風首屏：元素減量、字距放大、留白加倍 */
+.hero-title.lux { font-weight: 100; letter-spacing: clamp(10px, 3px + 2.6vw, 24px); margin-bottom: 26px; }
+/* 視覺重心修正：原本 padding 上 120 下 88，內容被推到幾何中心「下方」（52%），
+   但人眼的光學中心在幾何中心「上方」。改用 margin-bottom 位移，
+   因為它隨視窗高度縮放，寫死 padding 無法同時滿足各種螢幕比例。 */
+.hero-content { margin-bottom: 10vh; }
+.hero-sub.lux { font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 400;
+                letter-spacing: clamp(6px, 2px + 1.6vw, 12px);
+                color: rgba(255,255,255,0.62); margin-bottom: 34px; }
+.hero-band { background: #F7F3EA; border-bottom: 1px solid rgba(0,0,0,0.06);
+             padding: 18px 24px; text-align: center; font-size: 0.8rem;
+             letter-spacing: 2px; color: #5A5044; }
+.hero-band i { display: inline-block; width: 1px; height: 11px; background: #C9A96E;
+               opacity: .5; margin: 0 14px; vertical-align: -1px; }
+.hero-band-hours { margin-left: 26px; color: #8A7F70; }
+.hero-band-hours b { font-weight: inherit; white-space: nowrap; display: inline-block; }
+.hero-band-hours b + b { margin-left: 18px; }
+.hero-band > span { white-space: nowrap; }
+/* 中文會在任意字元斷行，時段類文字需整組不可拆 */
+.nb { white-space: nowrap; display: inline-block; }
+.hero-band-cta { cursor: pointer; margin-left: 22px; color: #8A7357;
+                 border-bottom: 1px solid rgba(138,115,87,0.4); }
+@media (max-width: 900px) {
+  .hero-script { width: min(240px, 62vw); margin-bottom: 38px; }
+  .hero-title.lux { margin-bottom: 20px; }
+  .hero-sub.lux { margin-bottom: 26px; }
+  .hero-band { padding: 14px 16px; font-size: 0.74rem; line-height: 2.2; }
+  .hero-band i { margin: 0 8px; }
+  .hero-band-hours, .hero-band-cta { display: block; margin: 6px 0 0; }
+  .hero-band-hours b + b { margin-left: 12px; }
+}
+
+/* ══ 香奈兒式選單：抽屜自頁首下方展開，頁首與 QIJI 恆存 ══ */
+:root { --nav-h: 68px; }              /* 載入後由 JS 依實際高度覆寫 */
+.nav { z-index: 2102; }               /* 頁首必須疊在抽屜之上 */
+/* 漢堡與搜尋鈕在 <nav> 標籤之外、原本 z-index 2100，
+   會被提高後的 .nav 白色背景蓋住，必須一併拉高 */
+.nav-hamburger, .nav-search-mobile { z-index: 2110; }
+/* 捲動進度條原本 1002，同樣會被蓋住 */
+.scroll-progress { z-index: 2103; }
+.side-menu { top: var(--nav-h); }
+.side-menu-overlay { top: var(--nav-h); }
+body.menu-open .nav { transform: none !important; }   /* 選單開啟時頁首不隱藏 */
+
+@media (max-width: 900px) {
+  .side-menu {
+    top: var(--nav-h) !important;
+    bottom: 0 !important;
+    height: auto !important;
+    width: 86vw !important;
+    max-width: 86vw !important;
+    padding: 22px 26px 40px !important;
+    box-shadow: 2px 0 22px rgba(0,0,0,0.10) !important;
+  }
+  .side-menu-overlay { top: var(--nav-h); }
+  /* 頁首的漢堡本身就會轉成 ✕，抽屜內建的 ✕ 不再需要 */
+  body.menu-open .nav-hamburger {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+  }
+  .side-menu-x { display: none !important; }
+
+  /* 左下角原本音樂鈕與返回頂部鈕同為 bottom:20px、靠左，會疊在一起。
+     音樂鈕恆亮留在最下，返回頂部鈕（捲動 600px 後才出現）改疊在其上方。 */
+  .music-fab { bottom: calc(20px + env(safe-area-inset-bottom, 0px)) !important; left: 20px !important; }
+  .scroll-top-btn { bottom: calc(76px + env(safe-area-inset-bottom, 0px)) !important; left: 20px !important; right: auto !important; }
+
+  /* 浮動按鈕與首屏資訊帶重疊時暫時淡出（右下預約鈕 68px、左下音樂鈕 44px） */
+  body.fab-over-band .booking-fab-mobile,
+  body.fab-over-band .inquiry-fab,
+  body.fab-over-band .scroll-top-btn,
+  body.fab-over-band .music-fab {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transition: opacity 0.25s ease, visibility 0.25s ease !important;
+  }
+}
+</style>
 </head>
 <body>
 <a href="#mainNav" class="skip-link" style="position:absolute;top:-100%;left:50%;transform:translateX(-50%);background:#000;color:#fff;padding:8px 24px;z-index:99999;font-size:14px;border-radius:0 0 8px 8px;transition:top 0.2s;" onfocus="this.style.top='0'" onblur="this.style.top='-100%'">跳到主要內容</a>
@@ -1757,7 +1828,6 @@ body.qiji-splash-active { overflow: hidden; }
   <div class="side-menu-nav">
     <a class="side-menu-link side-menu-link-cta" href="https://myfreetime.io/shop/qijiskin" target="_blank" rel="noopener noreferrer" onclick="closeMenu()">立 即 預 約</a>
     <span class="side-menu-link side-menu-link-promo" onclick="goTo('promotions');closeMenu()">本 月 活 動</span>
-    <span class="side-menu-link" onclick="goTo('home');closeMenu()">首頁</span>
     <span class="side-menu-link has-sub" onclick="this.classList.toggle('open')">服務項目</span>
     <div class="side-menu-sub">
       <span class="side-menu-sublink has-sub2" onclick="this.classList.toggle('open')">皮膚管理</span>
@@ -1838,25 +1908,19 @@ body.qiji-splash-active { overflow: hidden; }
 <div class="page active" id="page-home">
   <section class="hero glow-section">
     <div class="hero-content">
-      <div class="hero-sub">SINCE 2021 &mdash; TAICHUNG</div>
-      <h1 class="hero-title">淇 肌 淨 膚</h1>
-      <div class="hero-en">Q I J I &nbsp; M I R A C L E &nbsp; A E S T H E T I C</div>
-      <p class="hero-copy">院線級系列產品搭配一對一私密照護，從膚況評估、課程設計到課後建議，陪伴肌膚慢慢回到穩定、乾淨與透亮。</p>
-        <div class="hero-typewriter" id="heroTypewriter"></div>
+      <div class="hero-sub lux">SINCE 2021　TAICHUNG</div>
+      <h1 class="hero-title lux">淇 肌 淨 膚</h1>
+      <img class="hero-script" src="images/logo-script-light.svg"
+           alt="QIJI MIRACLE AESTHETIC" width="320" height="38">
       <div class="hero-actions">
         <span class="hero-cta" onclick="goTo('services')">探 索 服 務</span>
-        <span class="hero-secondary-cta" onclick="goTo('contact')">聯絡詢問</span>
-      </div>
-      <div class="hero-badges">
-        <span class="hero-badge">一對一私密空間</span>
-        <span class="hero-badge">採預約制</span>
-        <span class="hero-badge">院線級產品</span>
-        <span class="hero-badge">台中北屯</span>
-      </div>
-      <div style="margin-top:20px;font-size:0.88rem;letter-spacing:2px;color:rgba(255,255,255,0.78);font-weight:400;" class="hero-hours">
-        週一至週五 10:00–20:00 ｜ 週六 10:00–18:00 ｜ 週日公休
       </div>
     </div>
+  </section>
+  <section class="hero-band">
+    <span>一對一私密空間</span><i></i><span>採預約制</span><i></i><span>院線級產品</span><i></i><span>台中北屯</span>
+    <span class="hero-band-hours"><b>週一至週五 10:00–20:00</b><b>週六 10:00–18:00</b><b>週日公休</b></span>
+    <span class="hero-band-cta" onclick="goTo('contact')">聯絡詢問 ›</span>
   </section>
   <!-- Promotion Banner (auto-synced from freetime) -->
   <section id="promoBanner" class="promo-banner" hidden>
@@ -2101,7 +2165,7 @@ body.qiji-splash-active { overflow: hidden; }
         <span class="testimonial-score">5.0</span>
         <span class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
       </div>
-      <div class="testimonial-count">36 則真實評價 &middot; 滿分五星</div>
+      <div class="testimonial-count">39 則真實評價 &middot; 滿分五星</div>
     </div>
     <div class="testimonial-grid stagger-children">
 <!-- AUTO_REVIEW_GRID_START -->
@@ -2109,16 +2173,16 @@ body.qiji-splash-active { overflow: hidden; }
         <div class="testimonial-card-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
         <p class="testimonial-card-text">我冰肌除毛的課程包了十堂老師還送一堂，差不多到2、3堂的時候能清楚感受到毛的生長速度變慢了，期待打完十堂的效果</p>
         <div class="testimonial-card-author">
-          <div class="testimonial-card-avatar">燕</div>
-          <div><div class="testimonial-card-name">燕鴨</div><div class="testimonial-card-date">3 週前 &middot; Google 評論</div></div>
+          <div class="testimonial-card-avatar">蔡</div>
+          <div><div class="testimonial-card-name">蔡佩佩</div><div class="testimonial-card-date">2026 年 6 月 &middot; Google 評論</div></div>
         </div>
       </div>
       <div class="testimonial-card">
         <div class="testimonial-card-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <p class="testimonial-card-text">自從來這裡做臉之後皮膚真的細緻很多，我記得第一次老師是幫我做肌泌藻針之類的基礎保養，回去之後老師也會詢問皮膚有沒有出現異樣，很放心將臉交給老…</p>
+        <p class="testimonial-card-text">老師很好聊，五行罐撥超爽 出了很多沙 體內濕氣很重🤣 頭皮按摩也很舒服，趴著差點睡著</p>
         <div class="testimonial-card-author">
-          <div class="testimonial-card-avatar">A</div>
-          <div><div class="testimonial-card-name">Az</div><div class="testimonial-card-date">1 個月前 &middot; Google 評論</div></div>
+          <div class="testimonial-card-avatar">林</div>
+          <div><div class="testimonial-card-name">林新允</div><div class="testimonial-card-date">2026 年 6 月 &middot; Google 評論</div></div>
         </div>
       </div>
       <div class="testimonial-card">
@@ -2126,7 +2190,15 @@ body.qiji-splash-active { overflow: hidden; }
         <p class="testimonial-card-text">課程前老師都會了解膚況和生活習慣，也給了我很多實用的建議，很快就把皮膚養好了，人也跟著自信起來✨</p>
         <div class="testimonial-card-author">
           <div class="testimonial-card-avatar">蔡</div>
-          <div><div class="testimonial-card-name">蔡雪倫</div><div class="testimonial-card-date">3 個月前 &middot; Google 評論</div></div>
+          <div><div class="testimonial-card-name">蔡雪倫</div><div class="testimonial-card-date">2026 年 5 月 &middot; Google 評論</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-card-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="testimonial-card-text">老師感覺很專業經驗很多，流程講解都很清楚，在裡面也毫無壓力，老師像朋友一樣暢聊XD</p>
+        <div class="testimonial-card-author">
+          <div class="testimonial-card-avatar">S</div>
+          <div><div class="testimonial-card-name">s ky</div><div class="testimonial-card-date">2026 年 5 月 &middot; Google 評論</div></div>
         </div>
       </div>
       <div class="testimonial-card">
@@ -2134,15 +2206,7 @@ body.qiji-splash-active { overflow: hidden; }
         <p class="testimonial-card-text">之前看皮膚科吃藥 但皮膚一直好不了，看到朋友做臉 皮膚很好就想來嘗試看看，沒想到清完粉刺痘痘皮膚就像會呼吸一樣 好了很多，後來老師說才發現…</p>
         <div class="testimonial-card-author">
           <div class="testimonial-card-avatar">W</div>
-          <div><div class="testimonial-card-name">where lin</div><div class="testimonial-card-date">3 個月前 &middot; Google 評論</div></div>
-        </div>
-      </div>
-      <div class="testimonial-card">
-        <div class="testimonial-card-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <p class="testimonial-card-text">CP值高！環境明亮舒適，有任何疑問老師都會仔細說明，到現在已經回訪做雪藻喚膚很多次了，皮膚也肉眼可見的變透亮，真的有效～</p>
-        <div class="testimonial-card-author">
-          <div class="testimonial-card-avatar">J</div>
-          <div><div class="testimonial-card-name">JH</div><div class="testimonial-card-date">3 個月前 &middot; Google 評論</div></div>
+          <div><div class="testimonial-card-name">where lin</div><div class="testimonial-card-date">2026 年 5 月 &middot; Google 評論</div></div>
         </div>
       </div>
     <!-- AUTO_REVIEW_GRID_END -->
@@ -2150,11 +2214,11 @@ body.qiji-splash-active { overflow: hidden; }
         <div class="summary-eyebrow">GOOGLE REVIEWS</div>
         <div class="summary-big-rating">5.0</div>
         <div class="summary-stars-row">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <div class="summary-count">36 則 Google 評價</div>
+        <div class="summary-count">39 則 Google 評價</div>
         <div class="summary-cta">查 看 全 部 評 論 &rarr;</div>
       </a>
     </div>
-    <a href="https://www.google.com.tw/maps/place/%E5%8F%B0%E4%B8%AD%E5%87%B1%E8%8E%89%E7%BE%8E%E5%AD%B8/@24.1723527,120.6931105,17z/data=!4m6!3m5!1s0x34693d3b4066e6fb:0x6815fae7aee48d1e!8m2!3d24.1723527!4d120.6956854!16s%2Fg%2F11pr7pyyv9?hl=zh-TW" target="_blank" rel="noopener noreferrer" class="testimonial-link reveal">查看全部 36 則 Google 評論 &rarr;</a>
+    <a href="https://www.google.com.tw/maps/place/%E5%8F%B0%E4%B8%AD%E5%87%B1%E8%8E%89%E7%BE%8E%E5%AD%B8/@24.1723527,120.6931105,17z/data=!4m6!3m5!1s0x34693d3b4066e6fb:0x6815fae7aee48d1e!8m2!3d24.1723527!4d120.6956854!16s%2Fg%2F11pr7pyyv9?hl=zh-TW" target="_blank" rel="noopener noreferrer" class="testimonial-link reveal">查看全部 39 則 Google 評論 &rarr;</a>
   </section>
 </div>
 <div class="page" id="page-services">
@@ -3085,7 +3149,7 @@ body.qiji-splash-active { overflow: hidden; }
       <h2>店 家 資 訊</h2>
       <div class="contact-item"><div class="contact-item-label">ADDRESS</div><div class="contact-item-value">406 臺中市北屯區瀋陽路三段 351-1 號<br><span style="font-size:0.88rem;color:var(--grey-400);">廣天宮財神廟停車場出入口對面，白色大門社區內 2 樓</span><br><a class="contact-inline-link" href="https://www.google.com.tw/maps/place/%E5%8F%B0%E4%B8%AD%E5%87%B1%E8%8E%89%E7%BE%8E%E5%AD%B8/@24.1723527,120.6931105,17z/data=!4m6!3m5!1s0x34693d3b4066e6fb:0x6815fae7aee48d1e!8m2!3d24.1723527!4d120.6956854!16s%2Fg%2F11pr7pyyv9?hl=zh-TW" target="_blank" rel="noopener noreferrer">Google Maps &rarr;</a></div></div>
       <div class="contact-item"><div class="contact-item-label">TRANSPORTATION</div><div class="contact-item-value" style="font-size:0.88rem;line-height:2;">🚗 河北停車場遼寧站，步行 5 分鐘（$60/hr，當日上限 $150）<br>🛵 機車路邊皆可停<br>🚇 四維國小捷運站，步行 5 分鐘<br>🚌 文心興安路口，步行 3 分鐘</div></div>
-      <div class="contact-item"><div class="contact-item-label">BUSINESS HOURS</div><div class="contact-item-value">採預約制<br><span style="font-size:0.88rem;color:var(--grey-400);">週一至週五 10:00–20:00 ｜ 週六 10:00–18:00 ｜ 週日公休</span><br><span style="font-size:0.88rem;color:var(--grey-500);">（請提前預約）</span><br><a href="https://myfreetime.io/shop/qijiskin" target="_blank" rel="noopener noreferrer" style="color:var(--gold);border-bottom-color:var(--gold);">線上查看可預約時段 &rarr;</a></div></div>
+      <div class="contact-item"><div class="contact-item-label">BUSINESS HOURS</div><div class="contact-item-value">採預約制<br><span style="font-size:0.88rem;color:var(--grey-400);"><span class="nb">週一至週五 10:00–20:00</span> ｜ <span class="nb">週六 10:00–18:00</span> ｜ <span class="nb">週日公休</span></span><br><span style="font-size:0.88rem;color:var(--grey-500);">（請提前預約）</span><br><a href="https://myfreetime.io/shop/qijiskin" target="_blank" rel="noopener noreferrer" style="color:var(--gold);border-bottom-color:var(--gold);">線上查看可預約時段 &rarr;</a></div></div>
       <div class="contact-item"><div class="contact-item-label">PHONE</div><div class="contact-item-value"><a href="tel:0436033588">04-3603-3588</a></div></div>
       <div class="contact-item"><div class="contact-item-label">EMAIL</div><div class="contact-item-value"><a href="mailto:info@qiji-skin.com">info@qiji-skin.com</a></div></div>
       <div class="contact-item"><div class="contact-item-label">INSTAGRAM</div><div class="contact-item-value"><a href="https://www.instagram.com/1988_carrie_skincare/" target="_blank" rel="noopener noreferrer">@1988_carrie_skincare</a></div></div>
@@ -3155,7 +3219,7 @@ body.qiji-splash-active { overflow: hidden; }
             <div class="tw-wheel" data-col="hour"><div class="tw-spacer"></div><div class="tw-spacer"></div></div>
             <div class="tw-wheel" data-col="minute"><div class="tw-spacer"></div><div class="tw-spacer"></div></div>
           </div>
-          <div class="cf-time-hint">營業時間：週一至週五 10:00–20:00 ｜ 週六 10:00–18:00 ｜ 週日公休<br>請留下您方便的日期/時段，我們會盡快回覆確認可預約時間。</div>
+          <div class="cf-time-hint">營業時間：<span class="nb">週一至週五 10:00–20:00</span> ｜ <span class="nb">週六 10:00–18:00</span> ｜ <span class="nb">週日公休</span><br>請留下您方便的日期/時段，我們會盡快回覆確認可預約時間。</div>
           <div class="cf-field">
             <input class="cf-input" type="text" name="preferred_time" id="cfTime" placeholder="例如：4/20 下午 2 點、週六上午、平日晚上 7 點..." required>
           </div>
@@ -4144,7 +4208,7 @@ body.qiji-splash-active { overflow: hidden; }
   <div class="footer-en">QIJI MIRACLE AESTHETIC</div>
   <div style="margin-bottom:24px;font-size:0.88rem;color:var(--grey-400);line-height:2;letter-spacing:1px;">
     <div style="font-family:var(--serif);font-size:0.88rem;letter-spacing:4px;color:var(--gold);margin-bottom:8px;text-transform:uppercase;">BUSINESS HOURS</div>
-    週一至週五 10:00 – 20:00 ｜ 週六 10:00 – 18:00 ｜ 週日公休<br>
+    <span class="nb">週一至週五 10:00 – 20:00</span> ｜ <span class="nb">週六 10:00 – 18:00</span> ｜ <span class="nb">週日公休</span><br>
     <span style="font-size:0.88rem;color:var(--grey-500);">（採預約制，請提前預約）</span>
   </div>
   <div style="margin-bottom:24px;font-size:0.88rem;color:var(--grey-400);line-height:1.8;letter-spacing:1px;">
@@ -4185,7 +4249,7 @@ body.qiji-splash-active { overflow: hidden; }
   </div>
   <div class="footer-copy">&copy; 2026 淇肌淨膚 QIJI MIRACLE AESTHETIC &mdash; All Rights Reserved</div>
   <div style="margin-top:10px;font-size:0.75rem;color:rgba(255,255,255,0.35);max-width:480px;margin-left:auto;margin-right:auto;line-height:1.6;">本工作室提供美容護膚服務，不具醫療效能，服務內容不能取代專業醫療諮詢與診斷。</div>
-  <div class="footer-version">v<span class="v-date">2026.07.27</span><span class="v-sep">&middot;</span><span class="v-sha">local</span></div>
+  <div class="footer-version">v<span class="v-date">2026.08.25</span><span class="v-sep">&middot;</span><span class="v-sha">local</span></div>
 </footer>
  
  
@@ -5673,11 +5737,40 @@ function filterProductsByTag(tag, btn) {
 <div class="cursor-glow" id="cursorGlow"></div>
 
 <!-- #4 Mobile Bottom CTA Bar (3 items) -->
-<div class="mobile-cta-bar">
-  <a href="https://page.line.me/026xbaov?openQrModal=true" target="_blank" rel="noopener" class="cta-line"><span class="cta-icon">💬</span>LINE</a>
-  <a href="tel:0436033588" class="cta-call"><span class="cta-icon">📞</span>致電</a>
-  <a class="cta-book" href="https://myfreetime.io/shop/qijiskin" target="_blank" rel="noopener noreferrer"><span class="cta-icon">✦</span>預約</a>
-</div>
+<script>
+/* 導覽列高度會隨系統字級、瀏覽器工具列變動，量測後寫進 --nav-h */
+(function () {
+  var nav = document.getElementById('mainNav');
+  if (!nav) return;
+  function setNavH() {
+    document.documentElement.style.setProperty('--nav-h', nav.offsetHeight + 'px');
+  }
+  setNavH();
+  window.addEventListener('resize', setNavH);
+  window.addEventListener('orientationchange', function () { setTimeout(setNavH, 250); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(setNavH);
+})();
+
+/* 浮動按鈕壓到首屏資訊帶時暫時淡出。
+   只在真正重疊的捲動位置隱藏，其餘時間照常顯示；
+   其他分頁沒有資訊帶（或已隱藏）時 offsetParent 為 null，不會誤判。 */
+(function () {
+  var FAB_BOTTOM = 20, FAB_H = 68, PAD = 8;
+  function update() {
+    var band = document.querySelector('.hero-band'), over = false;
+    if (band && band.offsetParent !== null) {
+      var r = band.getBoundingClientRect();
+      var fabTop = window.innerHeight - FAB_BOTTOM - FAB_H - PAD;
+      over = r.bottom > fabTop && r.top < window.innerHeight;
+    }
+    document.body.classList.toggle('fab-over-band', over);
+  }
+  update();
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  window.addEventListener('orientationchange', function () { setTimeout(update, 250); });
+})();
+</script>
 </body>
 </html>
                                                                                                                                                                                                                                                                                                                                                                                                                                  

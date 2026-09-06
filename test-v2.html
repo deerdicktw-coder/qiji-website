@@ -6048,6 +6048,86 @@ function filterProductsByTag(tag, btn) {
   }
 })();
 </script>
+<script>
+/* ══ SPA 上一頁／手勢返回支援 ═══════════════════════════════
+   原本換頁只用 replaceState（取代目前紀錄），歷史裡永遠只有一筆，
+   按上一頁會直接離站。改為 pushState 新增紀錄 + popstate 還原頁面與捲動位置。 */
+(function () {
+  if (!window.history || !history.pushState) return;
+  try { history.scrollRestoration = 'manual'; } catch (e) {}
+
+  var VALID = ['home','services','products','about','knowledge','faq',
+               'contact','promotions','tutorial','quiz','privacy'];
+  var booting = true;   /* 首次載入期間不製造多餘紀錄 */
+  var fromPop = false;  /* popstate 還原時不再 push */
+
+  function curPage() {
+    var el = document.querySelector('.page.active');
+    return el ? el.id.replace(/^page-/, '') : 'home';
+  }
+  function urlFor(p) {
+    return location.pathname + location.search + (p === 'home' ? '' : '#' + p);
+  }
+  function record(from, to) {
+    if (fromPop || booting || from === to || VALID.indexOf(to) === -1) return;
+    try {
+      /* 先把離開前的捲動位置寫回「目前這筆」，再為新頁 push 一筆 */
+      history.replaceState({ page: from, y: window.scrollY || 0 }, '', urlFor(from));
+      history.pushState({ page: to, y: 0 }, '', urlFor(to));
+    } catch (e) {}
+  }
+
+  /* 包裝所有會換頁的函式（原函式行為完全不變，只補記歷史） */
+  ['goTo', 'goToSection', 'goToServiceItem', 'goToKnowledgeItem', 'goToProductCategory']
+  .forEach(function (name) {
+    var orig = window[name];
+    if (typeof orig !== 'function') return;
+    window[name] = function () {
+      var from = curPage();
+      var to;
+      if (name === 'goTo' || name === 'goToSection') to = arguments[0];
+      else if (name === 'goToServiceItem') to = 'services';
+      else if (name === 'goToKnowledgeItem') to = 'knowledge';
+      else to = 'products';
+      var r = orig.apply(this, arguments);
+      record(from, to);
+      return r;
+    };
+  });
+
+  window.addEventListener('popstate', function (e) {
+    var st = e.state || {};
+    var page = st.page ||
+      (location.hash || '').replace(/^#/, '').split('?')[0].split('/')[0] || 'home';
+    if (VALID.indexOf(page) === -1) page = 'home';
+    var y = (typeof st.y === 'number') ? st.y : 0;
+
+    if (page === curPage()) { window.scrollTo(0, y); return; }
+
+    fromPop = true;
+    try {
+      var cur = document.querySelector('.page.active');
+      var target = document.getElementById('page-' + page);
+      if (cur && target) {
+        cur.classList.remove('active', 'fade-out');
+        target.classList.add('active');
+        if (typeof _updatePageMeta === 'function') _updatePageMeta(page);
+        if (page === 'home' && typeof restartHeroAnim === 'function') restartHeroAnim(target);
+        if (typeof initReveal === 'function') setTimeout(initReveal, 60);
+      }
+    } catch (err) {}
+    fromPop = false;
+    window.scrollTo(0, y);
+    setTimeout(function () { window.scrollTo(0, y); }, 60);  /* 等版面穩定再補一次 */
+  });
+
+  window.addEventListener('load', function () {
+    var p = curPage();
+    try { history.replaceState({ page: p, y: 0 }, '', urlFor(p)); } catch (e) {}
+    setTimeout(function () { booting = false; }, 150);
+  });
+})();
+</script>
 <div style="position:fixed;left:12px;bottom:12px;z-index:99998;background:rgba(31,27,24,.82);color:#F4F0E6;
   font:11px/1 system-ui,sans-serif;letter-spacing:2px;padding:7px 12px;border-radius:2px;pointer-events:none">測 試 版</div>
 </body>

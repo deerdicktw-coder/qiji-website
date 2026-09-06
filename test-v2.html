@@ -1901,6 +1901,34 @@ body.menu-open .nav { transform: none !important; }   /* 選單開啟時頁首�
   .quiz-hero .section-eyebrow { margin-bottom: 12px !important; }
   .about-hero { height: 46svh !important; }
 }
+
+/* ══ 主標題金色光影（左 → 右，只跑一次）══════════════════
+   用 background-clip:text，讓漸層只出現在筆畫上而非整塊背景。
+   漸層兩端都是黑色，所以動畫前後都是正常的黑字。 */
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .hero.hero-split .hero-title.lux .sheen {
+    display: inline-block;
+    background-image: linear-gradient(100deg,
+      #000 0%, #000 40%,
+      #C9A96E 46%, #F0DFB6 50%, #C9A96E 54%,
+      #000 60%, #000 100%);
+    background-size: 250% 100%;
+    background-repeat: no-repeat;
+    -webkit-background-clip: text;
+            background-clip: text;
+    -webkit-text-fill-color: transparent;
+            color: transparent;
+    animation: titleSheen 2.2s cubic-bezier(.42,0,.35,1) 1.9s 1 forwards;
+  }
+}
+@keyframes titleSheen {
+  from { background-position: 100% 0; }   /* 亮帶在左側畫面外 */
+  to   { background-position: 0% 0; }     /* 掃到右側畫面外 */
+}
+/* 尊重系統的減少動態設定：直接停在黑字 */
+@media (prefers-reduced-motion: reduce) {
+  .hero.hero-split .hero-title.lux .sheen { animation: none; background-position: 0 0; }
+}
 </style>
 </head>
 <body>
@@ -2126,7 +2154,7 @@ body.menu-open .nav { transform: none !important; }   /* 選單開啟時頁首�
     </div>
     <div class="hero-content">
       <div class="hero-sub lux">SINCE 2021　TAICHUNG</div>
-      <h1 class="hero-title lux">淇 肌 淨 膚</h1>
+      <h1 class="hero-title lux"><span class="sheen">淇 肌 淨 膚</span></h1>
       <img class="hero-script" src="images/logo-script-dark.svg"
            alt="QIJI MIRACLE AESTHETIC" width="320" height="38">
       <div class="hero-actions">

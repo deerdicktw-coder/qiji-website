@@ -1864,8 +1864,18 @@ body.menu-open .nav { transform: none !important; }   /* 選單開啟時頁首�
   .faq-hero, .products-hero, .quiz-hero {
     height: auto !important;
     min-height: 0 !important;
-    padding: calc(var(--nav-h, 68px) + 42px) 24px 42px !important;
+    padding: calc(var(--nav-h, 68px) + 34px) 24px 38px !important;
   }
+  /* 標題保有瀏覽器預設邊距（約 52px），一併歸零 */
+  .services-hero .section-eyebrow, .contact-hero .section-eyebrow,
+  .knowledge-hero .section-eyebrow, .tutorial-hero .section-eyebrow,
+  .faq-hero .section-eyebrow, .products-hero .section-eyebrow,
+  .quiz-hero .section-eyebrow { margin-bottom: 12px !important; }
+  .services-hero h1, .contact-hero h1, .knowledge-hero h1, .tutorial-hero h1,
+  .faq-hero h1, .products-hero h1, .quiz-hero h1,
+  .services-hero .as-h1, .contact-hero .as-h1, .knowledge-hero .as-h1,
+  .tutorial-hero .as-h1, .faq-hero .as-h1, .products-hero .as-h1,
+  .quiz-hero .as-h1 { margin: 0 !important; line-height: 1.35 !important; }
   .about-hero { height: 46svh !important; }   /* 有背景照片，保留視覺份量 */
 }
 </style>

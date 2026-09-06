@@ -1833,7 +1833,10 @@ body.menu-open .nav { transform: none !important; }   /* 選單開啟時頁首�
     grid-template-columns: 1fr !important;
     grid-template-rows: 1fr !important;
     place-items: stretch !important;
-    min-height: 74vh; min-height: 74svh;
+    /* 高度只依賴「寬度」而非視窗高度：手機網址列收合時視窗高會變，
+       用 vh/svh 會讓照片重新縮放裁切，看起來像有東西在滑動。 */
+    min-height: 0 !important;
+    aspect-ratio: 3 / 4.35;
     padding: 78px 20px 62px !important;
   }
   .hero-photo { grid-column: 1; grid-row: 1;

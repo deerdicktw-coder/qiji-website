@@ -1855,6 +1855,19 @@ body.menu-open .nav { transform: none !important; }   /* 選單開啟時頁首�
   .hero.hero-split .hero-script { margin-bottom: 34px; }
   .hero.hero-split .hero-sub.lux { color: #4A4238; }  /* 疊照片上的對比 5.2:1 */
 }
+
+/* ══ 子頁 hero：手機版高度改為隨內容 ═══════════════════════
+   原本固定 50svh（約 422px）裡面只有兩行字（約 110px），
+   四分之三是空白黑底。改為 padding 撐開，高度隨內容。 */
+@media (max-width: 900px) {
+  .services-hero, .contact-hero, .knowledge-hero, .tutorial-hero,
+  .faq-hero, .products-hero, .quiz-hero {
+    height: auto !important;
+    min-height: 0 !important;
+    padding: calc(var(--nav-h, 68px) + 42px) 24px 42px !important;
+  }
+  .about-hero { height: 46svh !important; }   /* 有背景照片，保留視覺份量 */
+}
 </style>
 </head>
 <body>
@@ -5375,7 +5388,7 @@ window.addEventListener('DOMContentLoaded', function() {
   } catch(e) {}
 });
 /* M5: 註冊 Service Worker（只在 https / localhost 下生效） */
-/* 測試頁：停用 Service Worker，避免快取汙染正式站 */
+/* 測試頁：停用 Service Worker */
 if (false && 'serviceWorker' in navigator) {
   window.addEventListener('load', function() {
     navigator.serviceWorker.register('/sw.js').then(function(reg) {

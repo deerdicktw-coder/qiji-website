@@ -1856,27 +1856,47 @@ body.menu-open .nav { transform: none !important; }   /* 選單開啟時頁首�
   .hero.hero-split .hero-sub.lux { color: #4A4238; }  /* 疊照片上的對比 5.2:1 */
 }
 
-/* ══ 子頁 hero：手機版高度改為隨內容 ═══════════════════════
-   原本固定 50svh（約 422px）裡面只有兩行字（約 110px），
-   四分之三是空白黑底。改為 padding 撐開，高度隨內容。 */
+/* ══ 子頁 hero：高度改為隨內容 ══════════════════════════════
+   原本固定 50svh／42vh／70svh，裡面只有小標＋標題（約 75px），
+   手機 406px、桌機 540px 的黑塊有七成五是空白。改為 padding 撐開。 */
+.services-hero, .contact-hero, .knowledge-hero, .tutorial-hero,
+.faq-hero, .products-hero, .quiz-hero {
+  height: auto !important;
+  min-height: 0 !important;
+}
+/* 標題仍帶瀏覽器預設邊距（約 50px），一併歸零 */
+.services-hero .section-eyebrow, .contact-hero .section-eyebrow,
+.knowledge-hero .section-eyebrow, .tutorial-hero .section-eyebrow,
+.faq-hero .section-eyebrow, .products-hero .section-eyebrow,
+.quiz-hero .section-eyebrow { margin-top: 0 !important; }
+.services-hero h1, .contact-hero h1, .knowledge-hero h1, .tutorial-hero h1,
+.faq-hero h1, .products-hero h1, .quiz-hero h1,
+.services-hero .as-h1, .contact-hero .as-h1, .knowledge-hero .as-h1,
+.tutorial-hero .as-h1, .faq-hero .as-h1, .products-hero .as-h1,
+.quiz-hero .as-h1 { margin: 0 !important; line-height: 1.35 !important; }
+
+@media (min-width: 901px) {
+  .services-hero, .contact-hero, .knowledge-hero, .tutorial-hero,
+  .faq-hero, .products-hero, .quiz-hero {
+    padding: calc(var(--nav-h, 68px) + 80px) 40px 84px !important;
+  }
+  .services-hero .section-eyebrow, .contact-hero .section-eyebrow,
+  .knowledge-hero .section-eyebrow, .tutorial-hero .section-eyebrow,
+  .faq-hero .section-eyebrow, .products-hero .section-eyebrow,
+  .quiz-hero .section-eyebrow { margin-bottom: 16px !important; }
+  .about-hero { height: 52svh !important; }   /* 有背景照片，保留視覺份量 */
+}
+
 @media (max-width: 900px) {
   .services-hero, .contact-hero, .knowledge-hero, .tutorial-hero,
   .faq-hero, .products-hero, .quiz-hero {
-    height: auto !important;
-    min-height: 0 !important;
     padding: calc(var(--nav-h, 68px) + 34px) 24px 38px !important;
   }
-  /* 標題保有瀏覽器預設邊距（約 52px），一併歸零 */
   .services-hero .section-eyebrow, .contact-hero .section-eyebrow,
   .knowledge-hero .section-eyebrow, .tutorial-hero .section-eyebrow,
   .faq-hero .section-eyebrow, .products-hero .section-eyebrow,
   .quiz-hero .section-eyebrow { margin-bottom: 12px !important; }
-  .services-hero h1, .contact-hero h1, .knowledge-hero h1, .tutorial-hero h1,
-  .faq-hero h1, .products-hero h1, .quiz-hero h1,
-  .services-hero .as-h1, .contact-hero .as-h1, .knowledge-hero .as-h1,
-  .tutorial-hero .as-h1, .faq-hero .as-h1, .products-hero .as-h1,
-  .quiz-hero .as-h1 { margin: 0 !important; line-height: 1.35 !important; }
-  .about-hero { height: 46svh !important; }   /* 有背景照片，保留視覺份量 */
+  .about-hero { height: 46svh !important; }
 }
 </style>
 </head>

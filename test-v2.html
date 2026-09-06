@@ -2491,10 +2491,10 @@ body.menu-open .nav { transform: none !important; }   /* 選單開啟時頁首�
       <span class="products-tab" onclick="filterServices('membership',this)">CARE CLUB</span>
     </div>
   </div>
-  <div id="svcTimeline" class="svc-timeline-section reveal-fade" style="margin-top:20px;margin-bottom:20px;">
+  <div id="svcTimeline" class="svc-timeline-section reveal-fade" style="margin-top:20px;margin-bottom:20px;display:none;">
     <div class="svc-timeline-title">
       <h3 id="svcTimelineTitle">標 準 療 程 流 程</h3>
-      <div class="timeline-en" id="svcTimelineEn">從諮詢到課後建議</div>
+      <div class="timeline-en" id="svcTimelineEn">YOUR TREATMENT JOURNEY</div>
     </div>
     <div class="svc-timeline" id="svcTimelineSteps">
       <div class="svc-timeline-step">
@@ -4724,11 +4724,12 @@ var svcTimelineData = {
 function updateSvcTimeline(cat) {
   var wrap = document.getElementById('svcTimeline');
   if (!wrap) return;
-  if (cat === 'membership') { wrap.style.display = 'none'; return; }
+  /* 全部服務／CARE CLUB 沒有單一流程可代表，隱藏流程區
+     （原本 all 會借用皮膚管理的流程，等於暗示除毛、美甲也是同一套） */
+  if (cat === 'all' || cat === 'membership') { wrap.style.display = 'none'; return; }
   wrap.style.display = '';
-  var key = (cat === 'all') ? 'skin' : cat;
-  var data = svcTimelineData[key];
-  if (!data) return;
+  var data = svcTimelineData[cat];
+  if (!data) { wrap.style.display = 'none'; return; }
   document.getElementById('svcTimelineTitle').textContent = data.title;
   document.getElementById('svcTimelineEn').textContent = data.en;
   var container = document.getElementById('svcTimelineSteps');

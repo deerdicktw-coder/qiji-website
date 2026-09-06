@@ -5075,6 +5075,24 @@ window.addEventListener('scroll', function() {
 
 /* Background Music Player - 7 track playlist */
 var bgmPlaylist = ["audio/alex-morgan-ambient-electronica-517098.mp3","audio/alex-morgan-calm-still-water-breathing-578483.mp3","audio/alex-morgan-lobby-music-hotel-ambient-583259.mp3","audio/andriih-relax-relax-music-576205.mp3","audio/andriih-relax-relaxing-music-580061.mp3","audio/atlasaudio-spa-583145.mp3","audio/atlasaudio-spa-relaxation-578927.mp3","audio/electroanimals-spa-time-591675.mp3","audio/leberch-spa-spa-music-583081.mp3","audio/low_atmos-low-atmos-muted-horizons-500929.mp3","audio/marlowemusic-silent-night-582888.mp3","audio/nastelbom-soft-ambient-310693.mp3","audio/prettyjohn1-spa-537659.mp3","audio/ruslansikunov-prairie-soul-511837.mp3","audio/the_mountain-inner-peace-587587.mp3","audio/the_mountain-spa-background-444141.mp3"];
+/* 背景音樂音量：0.35。滿音量對環境音來說太大，
+   客人剛點下去（尤其戴耳機）會被嚇到。 */
+var BGM_VOLUME = 0.35;
+var bgmFadeTimer = null;
+function bgmFade(audio, from, to, ms, done) {
+  if (bgmFadeTimer) { clearInterval(bgmFadeTimer); bgmFadeTimer = null; }
+  var steps = 24, i = 0;
+  var clamp = function (v) { return Math.max(0, Math.min(1, v)); };
+  audio.volume = clamp(from);
+  bgmFadeTimer = setInterval(function () {
+    i++;
+    audio.volume = clamp(from + (to - from) * (i / steps));
+    if (i >= steps) {
+      clearInterval(bgmFadeTimer); bgmFadeTimer = null;
+      if (done) done();
+    }
+  }, ms / steps);
+}
 /* Fisher-Yates shuffle 打散播放順序，每次重新整理隨機 */
 function bgmShuffle() {
   for (var i = bgmPlaylist.length - 1; i > 0; i--) {
@@ -5087,7 +5105,7 @@ var bgmCurrent = 0;
 function bgmLoad(idx) {
   var audio = document.getElementById('bgmAudio');
   audio.src = bgmPlaylist[idx];
-  audio.volume = 1.0;
+  audio.volume = BGM_VOLUME;
 }
 function bgmNext() {
   bgmCurrent = (bgmCurrent + 1) % bgmPlaylist.length;
@@ -5099,14 +5117,17 @@ function toggleBgm() {
   var fab = document.getElementById('musicFab');
   var iconOff = document.getElementById('musicIconOff');
   var iconOn = document.getElementById('musicIconOn');
-  if (audio.paused) {
+  /* 以按鈕狀態判斷，不用 audio.paused：
+     淡出的 600ms 內音樂尚未真正暫停，用 paused 會誤判成「還在播」而重複暫停。 */
+  if (!fab.classList.contains('playing')) {
     if (!audio.src) bgmLoad(bgmCurrent);
-    audio.volume = 1.0;
+    audio.volume = 0;
     /* Show loading spinner if buffering */
     if (audio.readyState < 3) { fab.classList.add('loading'); }
     var p = audio.play();
     if (p !== undefined) {
       p.then(() => {
+        bgmFade(audio, 0, BGM_VOLUME, 1500);
         fab.classList.remove('loading');
         fab.classList.add('playing');
         iconOff.style.display = 'none';
@@ -5118,7 +5139,7 @@ function toggleBgm() {
       });
     }
   } else {
-    audio.pause();
+    bgmFade(audio, audio.volume, 0, 600, function () { audio.pause(); });
     fab.classList.remove('playing');
     fab.classList.remove('loading');
     iconOff.style.display = 'block';

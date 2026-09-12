@@ -1,18 +1,43 @@
 {
-  "active": false,
-  "syncedAt": "2026-09-12T01:45:23+00:00",
+  "active": true,
+  "syncedAt": "2026-09-12T06:20:42+00:00",
   "source": "freetime",
-  "sourceUrl": "https://myfreetime.io/google-reserve/YiuTT?hl=zh-TW",
+  "sourceUrl": "https://myfreetime.io/shop/qijiskin",
   "topBanner": {
-    "show": false,
-    "title": "",
-    "body": "",
-    "photoUrl": ""
+    "show": true,
+    "title": "🎂 9月闆娘生日月！限定狂歡大放送 ✨",
+    "body": "9月是闆娘的生日月啦！為了感謝一直以來的支持與喜愛，這個月準備了滿滿的驚喜禮物要送給你們，趕快來陪我一起過生日吧 🎉\n\n✨ 【生日月專屬兩大好禮】 ✨\n\n🎁 好禮一｜同慶壽星禮\n 活動方式：凡 9 月份壽星到店消費，出示身分證件即 免費贈送「修護面膜」乙片！\n\n🎁 好禮二｜滿額豪華贈\n 活動方式：單筆消費滿 $3,000 元 以上，即可 二選一 免費帶走超值好禮（價值 $1,500）：\n ✈️ 精緻旅行組 乙組\n ✨ 質感睫毛管理 乙次\n\n⏰ 活動時間：2026/09/01 - 2026/09/30\n\n📍 預約方式：數量有限，送完為止！\n\n（備註：本店保有活動最終解釋與調整之權利）",
+    "photoUrl": "https://storage.googleapis.com/myfreetime.io/images/-P18de6M4Q6v8ssgrpxe"
   },
   "parsed": {
-    "startDate": null,
-    "endDate": null,
+    "startDate": "2026-09-01",
+    "endDate": "2026-09-30",
     "shortTitle": null
   },
-  "priceList": []
+  "priceList": [
+    {
+      "id": "44583",
+      "url": "https://storage.googleapis.com/myfreetime.io/sellers/15288/shops/14791/images/-OqWuepSdHdbfR2Neuuo",
+      "previewUrl": "https://storage.googleapis.com/myfreetime.io/sellers/15288/shops/14791/images/-OqWuepSdHdbfR2Neuuo_p.jpg",
+      "displayOrder": 1
+    },
+    {
+      "id": "44319",
+      "url": "https://storage.googleapis.com/myfreetime.io/sellers/15288/shops/14791/images/-Opx5iz5B3mRIaUNH1ho",
+      "previewUrl": "https://storage.googleapis.com/myfreetime.io/sellers/15288/shops/14791/images/-Opx5iz5B3mRIaUNH1ho_p.jpg",
+      "displayOrder": 2
+    },
+    {
+      "id": "33692",
+      "url": "https://storage.googleapis.com/myfreetime.io/sellers/15288/shops/14791/images/-OYGoY5rIpzWRpc2jvCH",
+      "previewUrl": "https://storage.googleapis.com/myfreetime.io/sellers/15288/shops/14791/images/-OYGoY5rIpzWRpc2jvCH_p.jpg",
+      "displayOrder": 3
+    },
+    {
+      "id": "33693",
+      "url": "https://storage.googleapis.com/myfreetime.io/sellers/15288/shops/14791/images/-OYGoY5vzs-pUvVIImbv",
+      "previewUrl": "https://storage.googleapis.com/myfreetime.io/sellers/15288/shops/14791/images/-OYGoY5vzs-pUvVIImbv_p.jpg",
+      "displayOrder": 4
+    }
+  ]
 }

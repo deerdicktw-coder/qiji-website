@@ -212,7 +212,8 @@ a.side-menu-link { text-decoration: none; }
 .side-menu-link-cta { color: var(--gold); font-weight: 600; border-bottom: 1px solid var(--gold); letter-spacing: 4px; }
 .side-menu-link-cta:hover { background: var(--gold); color: var(--white); padding-left: 12px; }
 .side-menu-link-promo { position: relative; }
-.side-menu-link-promo::after { content: "NEW"; display: inline-block; margin-left: 10px; padding: 2px 8px; font-size: 0.6rem; letter-spacing: 1.5px; color: var(--gold); border: 1px solid var(--gold); vertical-align: middle; font-weight: 500; }
+/* NEW 標籤只有在 promotion.json 回報有進行中的活動時才顯示（由 .has-promo 控制） */
+.has-promo .side-menu-link-promo::after { content: "NEW"; display: inline-block; margin-left: 10px; padding: 2px 8px; font-size: 0.6rem; letter-spacing: 1.5px; color: var(--gold); border: 1px solid var(--gold); vertical-align: middle; font-weight: 500; }
 .side-menu-sub { overflow: hidden; max-height: 0; transition: max-height 0.4s ease; }
 .side-menu-link.open + .side-menu-sub { max-height: 400px; }
 .side-menu-sublink { display: block; padding: 14px 0 14px 20px; font-size: 0.88rem; letter-spacing: 2px; font-weight: 400; color: var(--grey-800); cursor: pointer; transition: all 0.3s; }
@@ -5510,6 +5511,10 @@ window.addEventListener('load', function() {
     var m = t.match(/【([^】]+)】/);
     return m ? m[1] : t.replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, '').trim();
   }
+  function setPromoFlag(promo) {
+    var on = !!(promo && promo.active && !isExpired(promo.parsed));
+    document.documentElement.classList.toggle('has-promo', on);
+  }
   function renderBanner(promo) {
     var el = document.getElementById('promoBanner');
     if (!el) return;
@@ -5563,9 +5568,10 @@ window.addEventListener('load', function() {
     var url = 'promotion.json?t=' + Math.floor(Date.now() / 60000);
     fetch(url, { cache: 'no-cache' })
       .then(function(r) { if (!r.ok) throw new Error('http ' + r.status); return r.json(); })
-      .then(function(data) { renderBanner(data); renderPage(data); renderPriceList(data); })
+      .then(function(data) { setPromoFlag(data); renderBanner(data); renderPage(data); renderPriceList(data); })
       .catch(function(err) {
         /* promotion sync failed, banner hidden */
+        setPromoFlag(null);
         var el = document.getElementById('promoBanner');
         if (el) el.hidden = true;
       });

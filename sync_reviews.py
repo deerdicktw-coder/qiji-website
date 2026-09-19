@@ -1,10 +1,15 @@
 #!/usr/bin/env python3
 """
-sync_reviews.py — 從 Google Places API 同步最新 5 星評論到 index.html
+sync_reviews.py — 從 Google Places API (New) 同步最新 5 星評論到 index.html
+
+使用 Places API (New)：
+  Text Search   POST https://places.googleapis.com/v1/places:searchText
+  Place Details GET  https://places.googleapis.com/v1/places/{PLACE_ID}
+（舊版 Places API 已停止對新專案開放，2026/09 改用新版端點）
 
 流程：
   1. 用地址查 Place ID（避免硬編碼，店家搬遷時自動找新的）
-  2. 用 Place ID 抓 5 則最新評論（reviews_sort=newest）
+  2. 用 Place ID 抓評論，依發佈時間由新到舊排序，最多 5 則
   3. 過濾 rating == 5 的評論
   4. 用 HTML 標記之間替換 testimonial-grid
   5. 更新 Schema.org reviewCount + aggregateRating
@@ -26,6 +31,7 @@ import json
 import os
 import re
 import sys
+import urllib.error
 import urllib.parse
 import urllib.request
 
@@ -42,42 +48,82 @@ MAX_TEXT_LEN = 70
 MAX_REVIEWS = 5
 
 
-def find_place_id(api_key: str, query: str) -> dict:
-    """用 Find Place from Text 找 Place ID"""
-    params = {
-        "input": query,
-        "inputtype": "textquery",
-        "fields": "place_id,name,formatted_address,rating,user_ratings_total",
-        "language": "zh-TW",
-        "key": api_key,
+PLACES_HOST = "https://places.googleapis.com/v1"
+
+
+def _request(url: str, api_key: str, field_mask: str, payload: dict | None = None) -> dict:
+    """呼叫 Places API (New)。payload 為 None 時走 GET，否則 POST。"""
+    headers = {
+        "X-Goog-Api-Key": api_key,
+        "X-Goog-FieldMask": field_mask,
+        "Content-Type": "application/json",
     }
-    url = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?" + urllib.parse.urlencode(params)
-    with urllib.request.urlopen(url, timeout=20) as r:
-        data = json.loads(r.read())
-    if data.get("status") != "OK":
-        raise RuntimeError(f"Find Place API error: {data.get('status')} {data.get('error_message','')}")
-    cands = data.get("candidates", [])
-    if not cands:
+    data = json.dumps(payload).encode("utf-8") if payload is not None else None
+    req = urllib.request.Request(url, data=data, headers=headers,
+                                 method="POST" if payload is not None else "GET")
+    try:
+        with urllib.request.urlopen(req, timeout=20) as r:
+            return json.loads(r.read())
+    except urllib.error.HTTPError as e:
+        body = e.read().decode("utf-8", "replace")
+        try:
+            msg = json.loads(body).get("error", {}).get("message", body)
+        except Exception:
+            msg = body
+        raise RuntimeError(f"HTTP {e.code}: {msg[:300]}") from None
+
+
+def find_place_id(api_key: str, query: str) -> dict:
+    """Text Search (New) 找 Place ID。回傳格式沿用舊版鍵名，下游不用改。"""
+    mask = ("places.id,places.displayName,places.formattedAddress,"
+            "places.rating,places.userRatingCount")
+    data = _request(f"{PLACES_HOST}/places:searchText", api_key, mask,
+                    {"textQuery": query, "languageCode": "zh-TW",
+                     "regionCode": "TW", "maxResultCount": 1})
+    places = data.get("places") or []
+    if not places:
         raise RuntimeError("No place found for query: " + query)
-    return cands[0]
+    p = places[0]
+    return {
+        "place_id": p.get("id", ""),
+        "name": (p.get("displayName") or {}).get("text", ""),
+        "formatted_address": p.get("formattedAddress", ""),
+        "rating": p.get("rating", 5.0),
+        "user_ratings_total": p.get("userRatingCount", 0),
+    }
 
 
 def get_place_details(api_key: str, place_id: str) -> dict:
-    """用 Place Details 抓評論 + 評分總數"""
-    params = {
-        "place_id": place_id,
-        "fields": "name,rating,user_ratings_total,reviews,url",
-        "reviews_sort": "newest",
-        "reviews_no_translations": "true",
-        "language": "zh-TW",
-        "key": api_key,
+    """Place Details (New) 抓評論 + 評分總數。轉成舊版欄位名。"""
+    mask = "id,displayName,rating,userRatingCount,googleMapsUri,reviews"
+    url = (f"{PLACES_HOST}/places/{urllib.parse.quote(place_id)}"
+           "?languageCode=zh-TW&regionCode=TW")
+    data = _request(url, api_key, mask)
+
+    raw = data.get("reviews") or []
+    # 新版 API 沒有 reviews_sort 參數，自行依發佈時間由新到舊排序
+    raw.sort(key=lambda rv: rv.get("publishTime", ""), reverse=True)
+
+    reviews = []
+    for rv in raw:
+        author = (rv.get("authorAttribution") or {}).get("displayName", "")
+        # text 是翻譯後版本，originalText 是原文；優先用原文避免被翻成英文
+        body = ((rv.get("originalText") or {}).get("text")
+                or (rv.get("text") or {}).get("text") or "")
+        reviews.append({
+            "author_name": author,
+            "text": body,
+            "rating": rv.get("rating", 0),
+            "relative_time_description": rv.get("relativePublishTimeDescription", ""),
+        })
+
+    return {
+        "name": (data.get("displayName") or {}).get("text", ""),
+        "rating": data.get("rating", 5.0),
+        "user_ratings_total": data.get("userRatingCount", 0),
+        "url": data.get("googleMapsUri", ""),
+        "reviews": reviews,
     }
-    url = "https://maps.googleapis.com/maps/api/place/details/json?" + urllib.parse.urlencode(params)
-    with urllib.request.urlopen(url, timeout=20) as r:
-        data = json.loads(r.read())
-    if data.get("status") != "OK":
-        raise RuntimeError(f"Place Details API error: {data.get('status')} {data.get('error_message','')}")
-    return data.get("result", {})
 
 
 def filter_five_star(reviews: list) -> list:

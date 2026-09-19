@@ -23,6 +23,7 @@ sync_reviews.py — 從 Google Places API (New) 同步最新 5 星評論到 inde
   直接修改 index.html（in-place）；無變化時不寫檔
   退出碼 0=成功有變化, 78=無變化, 其他=錯誤
 """
+# rev: 2026-09-19 Places API (New)
 from __future__ import annotations
 
 import datetime as _dt

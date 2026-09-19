@@ -6,3 +6,12 @@ data/
 # 本機工作區：設計原始檔、備份、原型、封存
 # 這些不屬於網站部署內容，不進版控
 _workspace/
+
+# 本機測試頁，切勿部署
+_test-*.html
+
+# Python 快取
+__pycache__/
+
+# 本機部署腳本：內含 token 檔路徑，公開 repo 不收錄
+deploy.sh

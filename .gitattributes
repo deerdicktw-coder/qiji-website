@@ -1,0 +1,15 @@
+# 統一換行符：repo 內一律 LF，簽出時也用 LF
+# （沒有這個檔時 Windows 的 core.autocrlf 會把檔案轉成 CRLF，
+#   導致 git status 出現大量「有修改但內容相同」的假差異）
+* text=auto eol=lf
+
+# 明確標記二進位檔，避免被當成文字做換行轉換而損毀
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.webp binary
+*.ico  binary
+*.mp3  binary
+*.pdf  binary
+*.woff  binary
+*.woff2 binary

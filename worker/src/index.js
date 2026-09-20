@@ -105,7 +105,9 @@ async function handleChat(request, env, cors) {
   }
 
   const explicitHandoff = HANDOFF_KEYWORDS.some((kw) => message.toLowerCase().includes(kw.toLowerCase()));
-  const priorUnresolvedRounds = safeHistory.filter((h) => h.role === 'assistant' && h.source && h.source !== 'faq').length;
+  // 「連續答不出來」只算真正嘗試回答過、但沒解決的輪次；跟網站無關被婉拒的（off_topic）跟一般
+  // 轉真人（handoff）都不算，不然使用者問了兩個無關問題就會被誤判成需要轉真人。
+  const priorUnresolvedRounds = safeHistory.filter((h) => h.role === 'assistant' && h.source === 'llm').length;
 
   if (explicitHandoff) {
     if (await shouldSendHandoffEmail(env, sessionId)) {
@@ -115,13 +117,18 @@ async function handleChat(request, env, cors) {
   }
 
   const ragContext = buildRagContext(ranked);
-  const llmReply = await generateReply({ env, message, history: safeHistory, ragContext });
+  const llmResult = await generateReply({ env, message, history: safeHistory, ragContext });
 
-  if (!llmReply) {
+  if (!llmResult) {
     if (await shouldSendHandoffEmail(env, sessionId)) {
       await notifyHandoff(env, { sessionId, message, history: safeHistory, reason: 'llm_unavailable' });
     }
     return jsonResponse({ reply: handoffMessage('llm_unavailable'), source: 'handoff', handoffTriggered: true }, 200, cors);
+  }
+
+  // 跟 QIJI／網站內容無關的問題：只回婉拒訊息，不轉真人、不寄信、也不算進「連續答不出來」。
+  if (llmResult.offTopic) {
+    return jsonResponse({ reply: llmResult.text, source: 'off_topic', handoffTriggered: false }, 200, cors);
   }
 
   if (priorUnresolvedRounds >= 2) {
@@ -129,13 +136,13 @@ async function handleChat(request, env, cors) {
       await notifyHandoff(env, { sessionId, message, history: safeHistory, reason: 'repeated_unresolved' });
     }
     return jsonResponse(
-      { reply: `${llmReply}\n\n（這個問題我們已經幫您轉接給 Carrie 老師，會盡快補充回覆。）`, source: 'llm', handoffTriggered: true },
+      { reply: `${llmResult.text}\n\n（這個問題我們已經幫您轉接給 Carrie 老師，會盡快補充回覆。）`, source: 'llm', handoffTriggered: true },
       200,
       cors
     );
   }
 
-  return jsonResponse({ reply: llmReply, source: 'llm', confidence: Number(score.toFixed(2)), handoffTriggered: false }, 200, cors);
+  return jsonResponse({ reply: llmResult.text, source: 'llm', confidence: Number(score.toFixed(2)), handoffTriggered: false }, 200, cors);
 }
 
 export default {

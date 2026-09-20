@@ -13,6 +13,14 @@
   'use strict';
 
   const API_ENDPOINT = 'https://qiji-ai-customer-service.deerdick-tw.workers.dev/api/chat';
+  const LINE_OA_URL = 'https://page.line.me/026xbaov?openQrModal=true';
+  // 自家的連結在對話裡改成中文說明文字，客人看到的是「加 LINE 官方帳號」而不是一長串網址，
+  // 讀起來比較像真人在講話。滑鼠移上去（title）還是看得到完整網址，不會讓客人不知道會連去哪。
+  // 沒列在這裡的網址就維持顯示原網址，只是變成可以點。
+  const LINK_LABELS = [
+    { prefix: 'https://page.line.me/026xbaov', label: '👉 加 LINE 官方帳號' },
+    { prefix: 'https://myfreetime.io/shop/qijiskin', label: '👉 線上預約系統' },
+  ];
   const SESSION_KEY = 'qiji-chat-session-id';
   const HISTORY_LIMIT = 20;
 
@@ -48,7 +56,9 @@
       const match = url.match(trailingPunct);
       const cleanUrl = match ? url.slice(0, -match[0].length) : url;
       const suffix = match ? match[0] : '';
-      return '<a href="' + cleanUrl + '" target="_blank" rel="noopener noreferrer">' + cleanUrl + '</a>' + suffix;
+      const known = LINK_LABELS.filter(function (item) { return cleanUrl.indexOf(item.prefix) === 0; })[0];
+      const label = known ? known.label : cleanUrl;
+      return '<a href="' + cleanUrl + '" target="_blank" rel="noopener noreferrer" title="' + cleanUrl + '">' + label + '</a>' + suffix;
     });
   }
 
@@ -86,6 +96,10 @@
     .qc-msg-user { align-self: flex-end; background: #c9a96e; color: #fff; border-bottom-right-radius: 4px; }
     .qc-msg-bot { align-self: flex-start; background: #fff; color: #333; border: 1px solid #ebebeb; border-bottom-left-radius: 4px; }
     .qc-msg-handoff { align-self: flex-start; background: #fff8ea; color: #7a5c22; border: 1px solid #d4b87a; font-size: 0.8rem; }
+    .qc-msg a { color: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 2px; overflow-wrap: anywhere; }
+    .qc-msg-bot a { color: #b08d4f; }
+    .qc-msg-handoff a { color: #8a6417; }
+    .qc-msg a:hover { opacity: 0.72; }
     .qc-typing { align-self: flex-start; display: flex; gap: 4px; padding: 10px 14px; }
     .qc-typing span { width: 6px; height: 6px; border-radius: 50%; background: #999; animation: qc-blink 1.2s infinite ease-in-out; }
     .qc-typing span:nth-child(2) { animation-delay: 0.2s; }
@@ -103,6 +117,7 @@
     }
     .qc-send:disabled { background: #d4d4d4; cursor: not-allowed; }
     .qc-hint { padding: 8px 16px; font-size: 0.72rem; color: #999; background: #f7f7f7; text-align: center; }
+    .qc-hint a { color: #b08d4f; text-decoration: underline; text-underline-offset: 2px; }
     @media (max-width: 480px) {
       .qc-panel { right: 12px; left: 12px; width: auto; bottom: 84px; }
       .qc-fab { right: 14px; bottom: 14px; }
@@ -130,7 +145,7 @@
             <button class="qc-close" aria-label="關閉">&times;</button>
           </div>
           <div class="qc-messages"></div>
-          <div class="qc-hint">回覆由 AI 產生，重要事項仍建議以 LINE @qiji 與 Carrie 老師確認</div>
+          <div class="qc-hint">回覆由 AI 產生，重要事項仍建議以 <a href="https://page.line.me/026xbaov?openQrModal=true" target="_blank" rel="noopener noreferrer">LINE @qiji</a> 與 Carrie 老師確認</div>
           <form class="qc-inputbar">
             <input class="qc-input" type="text" maxlength="500" placeholder="想問價格、預約或課程都可以..." autocomplete="off" />
             <button class="qc-send" type="submit">送出</button>
@@ -217,14 +232,15 @@
         typingEl.remove();
 
         if (!res.ok || !data.reply) {
-          appendMessage('目前連線有點不穩定，建議直接透過 LINE 官方帳號 @qiji 詢問，謝謝您的耐心。', 'handoff');
+          appendMessage('目前連線有點不穩定，建議直接透過 LINE 官方帳號 @qiji 詢問：' + LINE_OA_URL + '，謝謝您的耐心。', 'handoff');
         } else {
-          appendMessage(data.reply, data.source === 'handoff' ? 'handoff' : 'bot');
+          // handoff / handoff_confirm:xxx / handoff_declined 都是轉真人相關的訊息，用同一種強調樣式
+          appendMessage(data.reply, String(data.source || '').indexOf('handoff') === 0 ? 'handoff' : 'bot');
           history.push({ role: 'assistant', content: data.reply, source: data.source });
         }
       } catch (err) {
         typingEl.remove();
-        appendMessage('目前連線有點不穩定，建議直接透過 LINE 官方帳號 @qiji 詢問，謝謝您的耐心。', 'handoff');
+        appendMessage('目前連線有點不穩定，建議直接透過 LINE 官方帳號 @qiji 詢問：' + LINE_OA_URL + '，謝謝您的耐心。', 'handoff');
       } finally {
         input.disabled = false;
         sendBtn.disabled = false;

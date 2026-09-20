@@ -19,6 +19,10 @@ const HANDOFF_KEYWORDS = ['真人', '客服人員', '找老師', '找凱莉', '�
 // 單純要約時段 → 直接引導去 FreeTime 線上預約系統自己選（不用等任何人回覆）。網址跟 LINE ID
 // 都是官網上本來就公開寫的資訊，這裡只是讓 AI 客服也主動講出來。
 const LINE_OA_ID = '@qiji';
+// 官網本來就用這個連結做 LINE 加好友按鈕：手機點開會直接跳轉到 LINE 加好友，電腦點開會顯示
+// QR Code 讓客人掃描，兩種情境都涵蓋，所以 AI 客服建議加 LINE 時也附上同一個連結，而不是只
+// 留一個文字帳號名稱讓客人自己去 LINE 裡搜尋。
+const LINE_OA_URL = 'https://page.line.me/026xbaov?openQrModal=true';
 const FREETIME_BOOKING_URL = 'https://myfreetime.io/shop/qijiskin';
 const BOOKING_INTENT_KEYWORDS = ['預約', '約診', '約時間', '約時段', '訂位', '改期', '改時間', '取消', '時段', '有名額', '有空檔', '有沒有空'];
 const RATE_LIMIT_WINDOW_SECONDS = 600; // 10 分鐘
@@ -56,7 +60,7 @@ function jsonResponse(body, status, cors) {
 
 function handoffMessage(reason, message = '') {
   const isBookingRelated = BOOKING_INTENT_KEYWORDS.some((kw) => message.includes(kw));
-  const lineHint = `這邊會通知 Carrie 老師，但信箱通知沒辦法馬上被看到，建議直接加 LINE 官方帳號 ${LINE_OA_ID} 私訊，會比等這裡回覆快很多`;
+  const lineHint = `這邊會通知 Carrie 老師，但信箱通知沒辦法馬上被看到，建議直接加 LINE 官方帳號 ${LINE_OA_ID} 私訊，會比等這裡回覆快很多：${LINE_OA_URL}（手機點開會直接跳轉加好友，電腦點開會顯示 QR Code）`;
   const bookingHint = isBookingRelated
     ? `；如果是要約時段，也可以直接到線上預約系統自己選時間，不用等人回覆：${FREETIME_BOOKING_URL}`
     : '';
@@ -103,7 +107,7 @@ async function handleChat(request, env, cors) {
   const { limited } = await checkRateLimit(env, clientIp);
   if (limited) {
     return jsonResponse(
-      { reply: `目前詢問的人有點多，請稍後再試，或直接透過 LINE 官方帳號 ${LINE_OA_ID} 詢問（比較快得到回覆）。`, source: 'handoff', handoffTriggered: false },
+      { reply: `目前詢問的人有點多，請稍後再試，或直接透過 LINE 官方帳號 ${LINE_OA_ID} 詢問（比較快得到回覆）：${LINE_OA_URL}`, source: 'handoff', handoffTriggered: false },
       429,
       cors
     );
@@ -149,8 +153,8 @@ async function handleChat(request, env, cors) {
     }
     const isBookingRelated = BOOKING_INTENT_KEYWORDS.some((kw) => message.includes(kw));
     const followUpHint = isBookingRelated
-      ? `（這個問題比較需要真人確認，建議直接加 LINE 官方帳號 ${LINE_OA_ID} 私訊 Carrie 老師，約時段也可以直接到線上預約系統自己選：${FREETIME_BOOKING_URL}）`
-      : `（這個問題比較需要真人確認，建議直接加 LINE 官方帳號 ${LINE_OA_ID} 私訊 Carrie 老師，會比等這裡回覆快很多）`;
+      ? `（這個問題比較需要真人確認，建議直接加 LINE 官方帳號 ${LINE_OA_ID} 私訊 Carrie 老師：${LINE_OA_URL}；約時段也可以直接到線上預約系統自己選：${FREETIME_BOOKING_URL}）`
+      : `（這個問題比較需要真人確認，建議直接加 LINE 官方帳號 ${LINE_OA_ID} 私訊 Carrie 老師，會比等這裡回覆快很多：${LINE_OA_URL}）`;
     return jsonResponse(
       { reply: `${llmResult.text}\n\n${followUpHint}`, source: 'llm', handoffTriggered: true },
       200,

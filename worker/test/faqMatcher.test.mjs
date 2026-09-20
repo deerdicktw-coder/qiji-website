@@ -59,3 +59,30 @@ test('buildRagContext 在有相關度時回傳可讀的 Q/A 文字', () => {
   assert.ok(context.includes('Q:'));
   assert.ok(context.includes('付款'));
 });
+
+test('打錯一個字（雪藻喚膚 -> 雪早喚膚）仍應命中對應課程', () => {
+  const { best } = matchFaq('雪早喚膚多少錢', faqData);
+  assert.ok(best, '打錯字也應該命中');
+  assert.equal(best.id, 'course-snow-algae');
+});
+
+test('簡體字混打（肌泌藻针 -> 钾泌藻针，简体+打错字）仍應命中對應課程，不應該被當成無關問題', () => {
+  const { best } = matchFaq('钾泌藻针多少錢', faqData);
+  assert.ok(best, '簡體字加打錯字也應該命中');
+  assert.equal(best.id, 'course-exosome-algae');
+});
+
+test('打錯字（五行罐撥 -> 五刑罐拨，简体撥字）仍應命中價格條目', () => {
+  const { best } = matchFaq('五刑罐拨一小時多少', faqData);
+  assert.ok(best, '打錯字也應該命中');
+  assert.equal(best.id, 'course-cupping-price');
+});
+
+test('短關鍵字的模糊比對要保守，避免「警業時間」誤配到改期取消那條', () => {
+  const { best } = matchFaq('警業時間', faqData);
+  // 這題打錯字打得比較多（營->警），退回門檻以下交給 LLM 用完整知識庫回答是合理的，
+  // 但絕對不能命中語意完全不同的 reschedule-cancel。
+  if (best) {
+    assert.notEqual(best.id, 'reschedule-cancel');
+  }
+});

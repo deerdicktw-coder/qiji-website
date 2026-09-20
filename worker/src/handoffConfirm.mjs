@@ -31,7 +31,9 @@ export function isAffirmativeReply(message) {
 
 export function handoffMessage(reason, message = '') {
   const isBookingRelated = BOOKING_INTENT_KEYWORDS.some((kw) => message.includes(kw));
-  const lineHint = `這邊會通知 Carrie 老師，但信箱通知沒辦法馬上被看到，建議直接加 LINE 官方帳號 ${LINE_OA_ID} 私訊，會比等這裡回覆快很多：${LINE_OA_URL}（手機點開會直接跳轉加好友，電腦點開會顯示 QR Code）`;
+  // 注意：前端 chat-widget.js 會把這個網址換成「👉 點這裡加好友」的可點連結，所以後面不用再
+  // 贅述「手機點開會跳轉加好友」，只保留電腦版會看到 QR Code 這個客人不一定預期得到的資訊。
+  const lineHint = `這邊會通知 Carrie 老師，但信箱通知沒辦法馬上被看到，建議直接加 LINE 官方帳號 ${LINE_OA_ID} 私訊，會比等這裡回覆快很多：${LINE_OA_URL}（用電腦的話會顯示 QR Code）`;
   const bookingHint = isBookingRelated
     ? `；如果是要約時段，也可以直接到線上預約系統自己選時間，不用等人回覆：${FREETIME_BOOKING_URL}`
     : '';

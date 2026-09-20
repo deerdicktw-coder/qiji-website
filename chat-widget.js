@@ -18,8 +18,8 @@
   // 讀起來比較像真人在講話。滑鼠移上去（title）還是看得到完整網址，不會讓客人不知道會連去哪。
   // 沒列在這裡的網址就維持顯示原網址，只是變成可以點。
   const LINK_LABELS = [
-    { prefix: 'https://page.line.me/026xbaov', label: '👉 加 LINE 官方帳號' },
-    { prefix: 'https://myfreetime.io/shop/qijiskin', label: '👉 線上預約系統' },
+    { prefix: 'https://page.line.me/026xbaov', label: '👉 點這裡加好友' },
+    { prefix: 'https://myfreetime.io/shop/qijiskin', label: '👉 點這裡預約' },
   ];
   const SESSION_KEY = 'qiji-chat-session-id';
   const HISTORY_LIMIT = 20;

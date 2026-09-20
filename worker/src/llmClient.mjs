@@ -4,7 +4,9 @@
  * 兩者都不可用時回傳 null，由呼叫端決定要不要轉真人。
  */
 
-const WORKERS_AI_MODEL = '@cf/meta/llama-3.1-8b-instruct';
+// 2026-05-30 起 @cf/meta/llama-3.1-8b-instruct 已棄用，改用同系列的量化版本（fp8），
+// 行為/成本相近，是最接近原本模型的替代選項。
+const WORKERS_AI_MODEL = '@cf/meta/llama-3.1-8b-instruct-fp8';
 const GEMINI_MODEL = 'gemini-2.0-flash';
 const GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
 

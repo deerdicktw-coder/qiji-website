@@ -7,10 +7,10 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
-import { matchFaq, rankFaq, buildRagContext } from '../functions/lib/faqMatcher.mjs';
+import { matchFaq, rankFaq, buildRagContext } from '../src/faqMatcher.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const faqData = JSON.parse(readFileSync(path.join(__dirname, '../functions/data/faq.json'), 'utf-8'));
+const faqData = JSON.parse(readFileSync(path.join(__dirname, '../src/faq.json'), 'utf-8'));
 
 test('faq.json 內容完整，每條都有必要欄位', () => {
   assert.ok(faqData.length >= 10, 'FAQ 條目數量應該至少 10 條');

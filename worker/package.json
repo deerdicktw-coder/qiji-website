@@ -1,0 +1,13 @@
+{
+  "name": "qiji-ai-worker",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev --port 8792",
+    "deploy": "wrangler deploy",
+    "test": "node --test test/faqMatcher.test.mjs"
+  },
+  "devDependencies": {
+    "wrangler": "^4.135.0"
+  }
+}

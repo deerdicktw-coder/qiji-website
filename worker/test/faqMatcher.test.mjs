@@ -98,3 +98,42 @@ test('拔罐印子多久消退，也應該命中 cupping-marks', () => {
   assert.ok(best);
   assert.equal(best.id, 'cupping-marks');
 });
+
+// ---- 2026-09-20 人性化研究：關鍵字主次順序調整後的回歸測試 ----
+// 背景：比對分數的分母固定是 3，前 2 個關鍵字權重 2（命中即 0.67 過門檻），其餘權重 1（0.33 不過）。
+// 所以「主要關鍵字」必須是這條專屬的複合詞，通用單詞放主要位置會劫走別條的問題。
+
+test('一般乾燥脫皮的保養問題，不該被配到「藻針術後恢復期」（客人還沒做過課程）', () => {
+  const { best } = matchFaq('臉很乾又會脫皮怎麼辦', faqData);
+  assert.notEqual(best && best.id, 'recovery-algae', '一般保養問題不該拿到術後說明');
+});
+
+test('做完藻針會脫皮嗎，仍要正確命中 recovery-algae', () => {
+  const { best } = matchFaq('做完藻針會脫皮嗎', faqData);
+  assert.equal(best && best.id, 'recovery-algae');
+});
+
+test('「可以取消預約嗎」要命中改期取消，而不是「怎麼預約」', () => {
+  const { best } = matchFaq('可以取消預約嗎', faqData);
+  assert.equal(best && best.id, 'reschedule-cancel');
+});
+
+test('問「肌泌藻針要多少」是問價格，要命中價格條目而不是三種課程比較', () => {
+  const { best } = matchFaq('肌泌藻針要多少', faqData);
+  assert.equal(best && best.id, 'course-exosome-algae');
+});
+
+test('問「藻針課程差在哪」要命中課程比較，不可被「在哪」劫走配到地址', () => {
+  const { best } = matchFaq('藻針課程差在哪', faqData);
+  assert.equal(best && best.id, 'algae-course-diff');
+});
+
+test('問「入會費跟月費差別」要命中會員方案，不可被「差別」劫走配到藻針比較', () => {
+  const { best } = matchFaq('入會費跟月費差別', faqData);
+  assert.equal(best && best.id, 'membership-vs-deposit');
+});
+
+test('口語的「禮拜天有開嗎」要命中營業時間（原本 0 分完全沒命中）', () => {
+  const { best } = matchFaq('禮拜天有開嗎', faqData);
+  assert.equal(best && best.id, 'business-hours');
+});

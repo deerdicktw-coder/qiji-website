@@ -10,9 +10,13 @@ import { LINE_OA_ID, LINE_OA_URL, FREETIME_BOOKING_URL, BOOKING_INTENT_KEYWORDS 
 // 如果客人沒有給出明確是非回答（可能是問了別的問題），就當作放棄這次確認，訊息照正常流程處理。
 export const CONFIRM_SOURCE_PREFIX = 'handoff_confirm:';
 
+// 注意：否定詞裡常常包含肯定詞（「不是」含「是」、「不好」含「好」、「不可以」含「可以」），
+// 所以呼叫端一定要先判斷否定、再判斷肯定，而且這張清單必須把這些「包含肯定詞的否定說法」
+// 都列進來。2026-09-20 實測就抓到客人回「不是」被當成「是」、結果誤判成要寄信的 bug。
 const NEGATIVE_REPLY_PATTERNS = [
   '不用', '不需要', '不要', '先不用', '不用了', '算了', '沒關係', '不寄', '不用寄',
-  '不用通知', '免了', 'no', 'NO', 'No',
+  '不用通知', '免了', '不是', '不對', '不好', '不可以', '不行', '沒有', '都不是',
+  'no', 'NO', 'No',
 ];
 const AFFIRMATIVE_REPLY_PATTERNS = [
   '要', '好', '是', '對', '可以', 'ok', 'OK', 'Ok', '麻煩', '幫我通知', '幫我發', '幫我寄', '寄',
@@ -51,6 +55,21 @@ export function handoffConfirmMessage(reason, message = '') {
     `（她一人作業，Email 不一定能馬上看到；如果想更快得到回覆，也可以直接加 LINE 官方帳號 ${LINE_OA_ID} 私訊：${LINE_OA_URL}）` +
     `${bookingHint}跟我回覆「要」或「不用」都可以喔。`
   );
+}
+
+// 2026-09-20：AI 每日免費額度用完時（llm_unavailable），原本直接兩手一攤問「要不要發 Email」，
+// 客人等於什麼答案都沒拿到。改成先看有沒有分數接近的 FAQ，有就先給出來並問「是你要問的嗎」，
+// 至少給得出東西。這是研究裡「人味來自有用，而不是來自有情緒」的直接應用。
+// 分數門檻比直接回答的 0.6 低，但要高到不會隨便亂猜（0.33 = 命中一個次要關鍵字）。
+export const FAQ_GUESS_MIN_SCORE = 0.33;
+export const FAQ_GUESS_SOURCE = 'faq_guess';
+
+export function faqGuessMessage(answer) {
+  return `我這邊查到的是：\n\n${answer}\n\n這是你想問的嗎？如果不是，我可以幫你問 Carrie 老師。`;
+}
+
+export function faqGuessConfirmedMessage() {
+  return '太好了，那就先這樣！還有想問的都可以再跟我說。';
 }
 
 export function handoffDeclineMessage() {

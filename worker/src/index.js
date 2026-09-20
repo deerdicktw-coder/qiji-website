@@ -5,11 +5,15 @@ import { notifyHandoff } from './notify.mjs';
 import { LINE_OA_ID, LINE_OA_URL, FREETIME_BOOKING_URL, BOOKING_INTENT_KEYWORDS } from './constants.mjs';
 import {
   CONFIRM_SOURCE_PREFIX,
+  FAQ_GUESS_MIN_SCORE,
+  FAQ_GUESS_SOURCE,
   isNegativeReply,
   isAffirmativeReply,
   handoffMessage,
   handoffConfirmMessage,
   handoffDeclineMessage,
+  faqGuessMessage,
+  faqGuessConfirmedMessage,
 } from './handoffConfirm.mjs';
 
 /**
@@ -130,6 +134,23 @@ async function handleChat(request, env, cors) {
       ? lastTurn.source.slice(CONFIRM_SOURCE_PREFIX.length)
       : null;
 
+  // 上一輪是「AI 暫時不可用，先猜一條 FAQ 給你」的情況，這一輪要先當成對那個猜測的回答處理。
+  // 注意這裡不能沿用轉真人的確認流程：客人回「是」是在說「這就是我要問的」，不是要寄信。
+  if (lastTurn && lastTurn.role === 'assistant' && lastTurn.source === FAQ_GUESS_SOURCE) {
+    if (isNegativeReply(message)) {
+      // 猜錯了，這時才問要不要請 Carrie 老師幫忙
+      return jsonResponse(
+        { reply: handoffConfirmMessage('llm_unavailable', message), source: `${CONFIRM_SOURCE_PREFIX}llm_unavailable`, handoffTriggered: false },
+        200,
+        cors
+      );
+    }
+    if (isAffirmativeReply(message)) {
+      return jsonResponse({ reply: faqGuessConfirmedMessage(), source: 'faq_guess_confirmed', handoffTriggered: false }, 200, cors);
+    }
+    // 沒有明確回答，當作問了新問題，照正常流程往下走
+  }
+
   if (pendingReason) {
     if (isNegativeReply(message)) {
       return jsonResponse({ reply: handoffDeclineMessage(), source: 'handoff_declined', handoffTriggered: false }, 200, cors);
@@ -177,6 +198,16 @@ async function handleChat(request, env, cors) {
   const llmResult = await generateReply({ env, message, history: safeHistory, ragContext });
 
   if (!llmResult) {
+    // AI 暫時不可用（多半是每日免費額度用完）。與其直接問「要不要發 Email」讓客人空手而回，
+    // 先看有沒有分數接近、只是沒到直接回答門檻的 FAQ，有就先給出來並確認是不是他要問的。
+    const guess = ranked && ranked.length > 0 ? ranked[0] : null;
+    if (guess && guess.score >= FAQ_GUESS_MIN_SCORE) {
+      return jsonResponse(
+        { reply: faqGuessMessage(guess.item.answer), source: FAQ_GUESS_SOURCE, confidence: Number(guess.score.toFixed(2)), handoffTriggered: false },
+        200,
+        cors
+      );
+    }
     return jsonResponse(
       { reply: handoffConfirmMessage('llm_unavailable', message), source: `${CONFIRM_SOURCE_PREFIX}llm_unavailable`, handoffTriggered: false },
       200,

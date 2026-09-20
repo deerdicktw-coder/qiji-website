@@ -44,3 +44,18 @@ test('婉拒訊息仍要保留 LINE 連結讓客人自己選擇聯絡方式', ()
 test('CONFIRM_SOURCE_PREFIX 常數格式正確，供 history.source 比對使用', () => {
   assert.equal(CONFIRM_SOURCE_PREFIX, 'handoff_confirm:');
 });
+
+// ---- 2026-09-20 實測抓到的 bug：否定詞裡包含肯定詞 ----
+// 客人回「不是」時，因為字串含「是」而被判成肯定，結果誤判成同意寄信給 Carrie。
+test('包含肯定詞的否定說法，必須判定為否定（不是/不好/不可以/不行）', () => {
+  for (const msg of ['不是', '不好', '不可以', '不行', '不對', '都不是']) {
+    assert.equal(isNegativeReply(msg), true, `應判定為否定: ${msg}`);
+  }
+});
+
+test('呼叫端順序契約：這些否定詞雖然也含肯定關鍵字，但因為否定先判斷所以不會誤判', () => {
+  // 這裡明確驗證「為什麼順序很重要」：這些字串在肯定判斷下確實會是 true
+  assert.equal(isAffirmativeReply('不是'), true, '「不是」含「是」，肯定判斷會誤中');
+  // 所以否定判斷必須先跑，且要涵蓋這個詞
+  assert.equal(isNegativeReply('不是'), true);
+});

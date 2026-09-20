@@ -1,0 +1,14 @@
+name = "qiji-ai-customer-service"
+main = "src/index.js"
+compatibility_date = "2026-09-01"
+
+# 部署後網址預設會是 https://qiji-ai-customer-service.<你的 workers.dev 子網域>.workers.dev
+# 不需要另外設定網域也能用，chat-widget.js 會直接打這個完整網址。
+
+[ai]
+binding = "AI"
+
+# 若要開 rate limit（見 src/index.js 的 checkRateLimit），之後可以加一個 KV namespace binding：
+# [[kv_namespaces]]
+# binding = "RATE_LIMIT_KV"
+# id = "<wrangler kv namespace create 產生的 id>"

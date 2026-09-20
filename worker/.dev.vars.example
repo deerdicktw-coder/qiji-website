@@ -1,0 +1,6 @@
+# 複製成 .dev.vars（會被 .gitignore 排除）本機測試用
+GEMINI_API_KEY=
+RESEND_API_KEY=
+NOTIFY_EMAIL_TO=
+NOTIFY_EMAIL_FROM=
+FAQ_MATCH_THRESHOLD=0.6

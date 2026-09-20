@@ -22,3 +22,4 @@ deploy.sh
 # wrangler 本機開發產生的暫存/日誌
 .wrangler/
 node_modules/
+AI 智能客服/

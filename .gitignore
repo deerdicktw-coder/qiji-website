@@ -15,3 +15,10 @@ __pycache__/
 
 # 本機部署腳本：內含 token 檔路徑，公開 repo 不收錄
 deploy.sh
+
+# 智能客服本機開發用的密鑰檔（真實 key，不進版控；範例見 .dev.vars.example）
+.dev.vars
+
+# wrangler 本機開發產生的暫存/日誌
+.wrangler/
+node_modules/

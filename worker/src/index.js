@@ -2,6 +2,15 @@ import faqData from './faq.json';
 import { matchFaq, buildRagContext } from './faqMatcher.mjs';
 import { generateReply } from './llmClient.mjs';
 import { notifyHandoff } from './notify.mjs';
+import { LINE_OA_ID, LINE_OA_URL, FREETIME_BOOKING_URL, BOOKING_INTENT_KEYWORDS } from './constants.mjs';
+import {
+  CONFIRM_SOURCE_PREFIX,
+  isNegativeReply,
+  isAffirmativeReply,
+  handoffMessage,
+  handoffConfirmMessage,
+  handoffDeclineMessage,
+} from './handoffConfirm.mjs';
 
 /**
  * 獨立的 Cloudflare Worker（不是 Pages Functions）。
@@ -27,17 +36,6 @@ const HANDOFF_KEYWORDS = [
   '太扯', '很爛', '很差', '白痴', '這什麼鬼', '不智能', '亂回答', '沒人理我', '沒人回',
   '都聽不懂', '完全聽不懂', '完全沒用', '沒有用', '很不滿', '爛透了',
 ];
-// 轉真人的通知是寄 Email，凱莉不會馬上看到，所以轉真人訊息裡要主動引導客人改用比較即時的管道，
-// 而不是讓客人誤以為「等一下這個對話視窗就會有人回」。真的需要即時互動 → LINE 官方帳號；
-// 單純要約時段 → 直接引導去 FreeTime 線上預約系統自己選（不用等任何人回覆）。網址跟 LINE ID
-// 都是官網上本來就公開寫的資訊，這裡只是讓 AI 客服也主動講出來。
-const LINE_OA_ID = '@qiji';
-// 官網本來就用這個連結做 LINE 加好友按鈕：手機點開會直接跳轉到 LINE 加好友，電腦點開會顯示
-// QR Code 讓客人掃描，兩種情境都涵蓋，所以 AI 客服建議加 LINE 時也附上同一個連結，而不是只
-// 留一個文字帳號名稱讓客人自己去 LINE 裡搜尋。
-const LINE_OA_URL = 'https://page.line.me/026xbaov?openQrModal=true';
-const FREETIME_BOOKING_URL = 'https://myfreetime.io/shop/qijiskin';
-const BOOKING_INTENT_KEYWORDS = ['預約', '約診', '約時間', '約時段', '訂位', '改期', '改時間', '取消', '時段', '有名額', '有空檔', '有沒有空'];
 const RATE_LIMIT_WINDOW_SECONDS = 600; // 10 分鐘
 const RATE_LIMIT_MAX_REQUESTS = 20;
 // 同一個 sessionId 在這段時間內，轉真人只寄一次 Email 通知，避免同一位客人一直觸發轉真人
@@ -71,15 +69,13 @@ function jsonResponse(body, status, cors) {
   });
 }
 
-function handoffMessage(reason, message = '') {
-  const isBookingRelated = BOOKING_INTENT_KEYWORDS.some((kw) => message.includes(kw));
-  const lineHint = `這邊會通知 Carrie 老師，但信箱通知沒辦法馬上被看到，建議直接加 LINE 官方帳號 ${LINE_OA_ID} 私訊，會比等這裡回覆快很多：${LINE_OA_URL}（手機點開會直接跳轉加好友，電腦點開會顯示 QR Code）`;
-  const bookingHint = isBookingRelated
-    ? `；如果是要約時段，也可以直接到線上預約系統自己選時間，不用等人回覆：${FREETIME_BOOKING_URL}`
-    : '';
-  const base = `${lineHint}${bookingHint}！`;
-  return reason === 'explicit_request' ? `好的，${base}` : base;
-}
+// 2026-09-20：發現 Email 通知量太大（每次轉真人都會寄信給 Carrie，等於每個誤判/口語抱怨/連續
+// 答不出來都會變成一封信），使用者要求「發信前先問過客人」，避免騷擾信件。
+// 做法：所有原本會 notifyHandoff 的地方，改成先回一則「要不要幫你發信通知？」的確認訊息
+// （source 用 `handoff_confirm:<原因>` 標記，不寄信、不算 handoffTriggered），
+// 下一輪如果客人明確說「要」才真的寄信；說「不用」就不寄，並保留 LINE／FreeTime 連結讓客人自己選；
+// 如果客人沒有給出明確是非回答（可能是問了別的問題），就當作放棄這次確認，訊息照正常流程處理。
+// 相關的純函式與常數抽在 ./handoffConfirm.mjs（方便單元測試，見上方 import）。
 
 async function checkRateLimit(env, clientIp) {
   if (!env.RATE_LIMIT_KV) return { limited: false };
@@ -126,6 +122,37 @@ async function handleChat(request, env, cors) {
     );
   }
 
+  // 先檢查：上一輪機器人是不是正在等客人回答「要不要發信通知」。如果是，這一輪訊息要優先當成
+  // 對那個確認的回答來處理，不要先跑 FAQ／LLM 判斷（不然「要」「不用」這種單字會被當成新問題）。
+  const lastTurn = safeHistory.length > 0 ? safeHistory[safeHistory.length - 1] : null;
+  const pendingReason =
+    lastTurn && lastTurn.role === 'assistant' && typeof lastTurn.source === 'string' && lastTurn.source.startsWith(CONFIRM_SOURCE_PREFIX)
+      ? lastTurn.source.slice(CONFIRM_SOURCE_PREFIX.length)
+      : null;
+
+  if (pendingReason) {
+    if (isNegativeReply(message)) {
+      return jsonResponse({ reply: handoffDeclineMessage(), source: 'handoff_declined', handoffTriggered: false }, 200, cors);
+    }
+    if (isAffirmativeReply(message)) {
+      // 找出當初觸發轉真人確認的那一則客人訊息（在確認提示之前的最後一則 user 訊息），
+      // 讓寄出的通知信內容還是原始問題，而不是這一輪的「要」/「好」。
+      let originalMessage = message;
+      for (let i = safeHistory.length - 2; i >= 0; i -= 1) {
+        if (safeHistory[i].role === 'user') {
+          originalMessage = safeHistory[i].content;
+          break;
+        }
+      }
+      if (await shouldSendHandoffEmail(env, sessionId)) {
+        await notifyHandoff(env, { sessionId, message: originalMessage, history: safeHistory, reason: pendingReason });
+      }
+      return jsonResponse({ reply: handoffMessage(pendingReason, originalMessage), source: 'handoff', handoffTriggered: true }, 200, cors);
+    }
+    // 沒有明確答「要」或「不用」，可能是客人不理會確認、直接問了別的問題，就放棄這次確認，
+    // 讓這則訊息照正常流程（FAQ／LLM／轉真人判斷）往下處理。
+  }
+
   const threshold = env.FAQ_MATCH_THRESHOLD ? parseFloat(env.FAQ_MATCH_THRESHOLD) : 0.6;
   const { best, score, ranked } = matchFaq(message, faqData, threshold);
 
@@ -139,20 +166,22 @@ async function handleChat(request, env, cors) {
   const priorUnresolvedRounds = safeHistory.filter((h) => h.role === 'assistant' && h.source === 'llm').length;
 
   if (explicitHandoff) {
-    if (await shouldSendHandoffEmail(env, sessionId)) {
-      await notifyHandoff(env, { sessionId, message, history: safeHistory, reason: 'explicit_request' });
-    }
-    return jsonResponse({ reply: handoffMessage('explicit_request', message), source: 'handoff', handoffTriggered: true }, 200, cors);
+    return jsonResponse(
+      { reply: handoffConfirmMessage('explicit_request', message), source: `${CONFIRM_SOURCE_PREFIX}explicit_request`, handoffTriggered: false },
+      200,
+      cors
+    );
   }
 
   const ragContext = buildRagContext(ranked);
   const llmResult = await generateReply({ env, message, history: safeHistory, ragContext });
 
   if (!llmResult) {
-    if (await shouldSendHandoffEmail(env, sessionId)) {
-      await notifyHandoff(env, { sessionId, message, history: safeHistory, reason: 'llm_unavailable' });
-    }
-    return jsonResponse({ reply: handoffMessage('llm_unavailable', message), source: 'handoff', handoffTriggered: true }, 200, cors);
+    return jsonResponse(
+      { reply: handoffConfirmMessage('llm_unavailable', message), source: `${CONFIRM_SOURCE_PREFIX}llm_unavailable`, handoffTriggered: false },
+      200,
+      cors
+    );
   }
 
   // 跟 QIJI／網站內容無關的問題：只回婉拒訊息，不轉真人、不寄信、也不算進「連續答不出來」。
@@ -161,15 +190,9 @@ async function handleChat(request, env, cors) {
   }
 
   if (priorUnresolvedRounds >= 2) {
-    if (await shouldSendHandoffEmail(env, sessionId)) {
-      await notifyHandoff(env, { sessionId, message, history: safeHistory, reason: 'repeated_unresolved' });
-    }
-    const isBookingRelated = BOOKING_INTENT_KEYWORDS.some((kw) => message.includes(kw));
-    const followUpHint = isBookingRelated
-      ? `（這個問題比較需要真人確認，建議直接加 LINE 官方帳號 ${LINE_OA_ID} 私訊 Carrie 老師：${LINE_OA_URL}；約時段也可以直接到線上預約系統自己選：${FREETIME_BOOKING_URL}）`
-      : `（這個問題比較需要真人確認，建議直接加 LINE 官方帳號 ${LINE_OA_ID} 私訊 Carrie 老師，會比等這裡回覆快很多：${LINE_OA_URL}）`;
+    const confirmHint = handoffConfirmMessage('repeated_unresolved', message);
     return jsonResponse(
-      { reply: `${llmResult.text}\n\n${followUpHint}`, source: 'llm', handoffTriggered: true },
+      { reply: `${llmResult.text}\n\n${confirmHint}`, source: `${CONFIRM_SOURCE_PREFIX}repeated_unresolved`, handoffTriggered: false },
       200,
       cors
     );

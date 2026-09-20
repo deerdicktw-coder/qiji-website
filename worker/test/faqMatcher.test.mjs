@@ -86,3 +86,15 @@ test('短關鍵字的模糊比對要保守，避免「警業時間」誤配到�
     assert.notEqual(best.id, 'reschedule-cancel');
   }
 });
+
+test('客人用常見的「拔罐」字眼問價錢，也應該命中 course-cupping-price（2026-09-20 客訴：拔罐價錢一直被轉真人）', () => {
+  const { best } = matchFaq('拔罐價錢多少', faqData);
+  assert.ok(best, '「拔罐」是比「罐撥」更常見的口語說法，應該要命中');
+  assert.equal(best.id, 'course-cupping-price');
+});
+
+test('拔罐印子多久消退，也應該命中 cupping-marks', () => {
+  const { best } = matchFaq('拔罐印子多久會消', faqData);
+  assert.ok(best);
+  assert.equal(best.id, 'cupping-marks');
+});

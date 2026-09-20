@@ -12,7 +12,7 @@
 (function () {
   'use strict';
 
-  const API_ENDPOINT = '/api/chat';
+  const API_ENDPOINT = 'https://qiji-ai-customer-service.deerdick-tw.workers.dev/api/chat';
   const SESSION_KEY = 'qiji-chat-session-id';
   const HISTORY_LIMIT = 20;
 

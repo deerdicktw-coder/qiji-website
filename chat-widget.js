@@ -36,6 +36,22 @@
     return div.innerHTML;
   }
 
+  // 把已經跑過 escapeHtml 的文字裡的網址轉成可以直接點的連結。escapeHtml 先跑過一次，
+  // 所以這裡看到的是 HTML 已轉義後的字串（例如 & 會變成 &amp;），比對網址時要用轉義後的
+  // 樣子（&amp;）避免漏轉，但不影響一般網址（多半沒有 & 或後面帶的參數不影響可讀性）。
+  function linkifyUrls(escapedHtml) {
+    // 網址字元集合只收 URL 合法的半形符號，遇到中文全形標點或中文字就會自然停止，
+    // 不會像原本的「非空白字元」判斷一樣把後面的中文句子也吃進連結裡（中文沒有空白斷詞）。
+    return escapedHtml.replace(/https?:\/\/[A-Za-z0-9\-._~:\/?#\[\]@!$&'()*+,;=%]+/g, (url) => {
+      // 保險起見再去掉可能殘留在結尾的半形標點（例如句子剛好用逗號接著網址）
+      const trailingPunct = /[.,;:!?)]+$/;
+      const match = url.match(trailingPunct);
+      const cleanUrl = match ? url.slice(0, -match[0].length) : url;
+      const suffix = match ? match[0] : '';
+      return '<a href="' + cleanUrl + '" target="_blank" rel="noopener noreferrer">' + cleanUrl + '</a>' + suffix;
+    });
+  }
+
   const STYLE = `
     :host, .qc-root { box-sizing: border-box; font-family: 'Jost', 'Noto Sans TC', sans-serif; }
     * { box-sizing: border-box; }
@@ -141,7 +157,7 @@
     function appendMessage(text, kind) {
       const el = document.createElement('div');
       el.className = 'qc-msg ' + (kind === 'user' ? 'qc-msg-user' : kind === 'handoff' ? 'qc-msg-handoff' : 'qc-msg-bot');
-      el.innerHTML = escapeHtml(text).replace(/\n/g, '<br>');
+      el.innerHTML = linkifyUrls(escapeHtml(text)).replace(/\n/g, '<br>');
       messagesEl.appendChild(el);
       scrollToBottom();
     }

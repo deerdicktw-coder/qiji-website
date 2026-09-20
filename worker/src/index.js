@@ -16,6 +16,10 @@ const MAX_MESSAGE_LENGTH = 2000;
 const HANDOFF_KEYWORDS = ['真人', '客服人員', '找老師', '找凱莉', '找carrie', '投訴', '客訴', '生氣', '不滿意', '退費', '打電話'];
 const RATE_LIMIT_WINDOW_SECONDS = 600; // 10 分鐘
 const RATE_LIMIT_MAX_REQUESTS = 20;
+// 同一個 sessionId 在這段時間內，轉真人只寄一次 Email 通知，避免同一位客人一直觸發轉真人
+// （例如連續問好幾個知識庫沒涵蓋到的問題）就一直灌信箱。使用者看到的回覆訊息不受影響，
+// 只有「有沒有真的寄信」會被節流。
+const HANDOFF_NOTIFY_COOLDOWN_SECONDS = 1800; // 30 分鐘
 
 // 只允許正式站與測試網域打這支 API，避免被其他網站盜用消耗免費額度。
 // 之後若正式網域改變或加測試網域，改這裡即可。
@@ -58,6 +62,17 @@ async function checkRateLimit(env, clientIp) {
   return { limited: false };
 }
 
+// 回傳 true 代表這次「可以真的寄信」；false 代表這個 session 冷卻中，跳過寄信（但使用者的
+// 轉真人回覆訊息照常顯示，不受影響）。沒有綁定 HANDOFF_DEDUP KV 時退回原本行為（每次都寄）。
+async function shouldSendHandoffEmail(env, sessionId) {
+  if (!env.HANDOFF_DEDUP) return true;
+  const key = `handoff-notified:${sessionId}`;
+  const alreadyNotified = await env.HANDOFF_DEDUP.get(key);
+  if (alreadyNotified) return false;
+  await env.HANDOFF_DEDUP.put(key, '1', { expirationTtl: HANDOFF_NOTIFY_COOLDOWN_SECONDS });
+  return true;
+}
+
 async function handleChat(request, env, cors) {
   let body;
   try {
@@ -93,7 +108,9 @@ async function handleChat(request, env, cors) {
   const priorUnresolvedRounds = safeHistory.filter((h) => h.role === 'assistant' && h.source && h.source !== 'faq').length;
 
   if (explicitHandoff) {
-    await notifyHandoff(env, { sessionId, message, history: safeHistory, reason: 'explicit_request' });
+    if (await shouldSendHandoffEmail(env, sessionId)) {
+      await notifyHandoff(env, { sessionId, message, history: safeHistory, reason: 'explicit_request' });
+    }
     return jsonResponse({ reply: handoffMessage('explicit_request'), source: 'handoff', handoffTriggered: true }, 200, cors);
   }
 
@@ -101,12 +118,16 @@ async function handleChat(request, env, cors) {
   const llmReply = await generateReply({ env, message, history: safeHistory, ragContext });
 
   if (!llmReply) {
-    await notifyHandoff(env, { sessionId, message, history: safeHistory, reason: 'llm_unavailable' });
+    if (await shouldSendHandoffEmail(env, sessionId)) {
+      await notifyHandoff(env, { sessionId, message, history: safeHistory, reason: 'llm_unavailable' });
+    }
     return jsonResponse({ reply: handoffMessage('llm_unavailable'), source: 'handoff', handoffTriggered: true }, 200, cors);
   }
 
   if (priorUnresolvedRounds >= 2) {
-    await notifyHandoff(env, { sessionId, message, history: safeHistory, reason: 'repeated_unresolved' });
+    if (await shouldSendHandoffEmail(env, sessionId)) {
+      await notifyHandoff(env, { sessionId, message, history: safeHistory, reason: 'repeated_unresolved' });
+    }
     return jsonResponse(
       { reply: `${llmReply}\n\n（這個問題我們已經幫您轉接給 Carrie 老師，會盡快補充回覆。）`, source: 'llm', handoffTriggered: true },
       200,

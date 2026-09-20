@@ -8,6 +8,11 @@ compatibility_date = "2026-09-01"
 [ai]
 binding = "AI"
 
+# 轉真人 Email 通知的節流用（同一個 sessionId 一段時間內只寄一次信，避免灌爆信箱）。
+[[kv_namespaces]]
+binding = "HANDOFF_DEDUP"
+id = "31979c8802fa43a7a005ae0dad9f1724"
+
 # 若要開 rate limit（見 src/index.js 的 checkRateLimit），之後可以加一個 KV namespace binding：
 # [[kv_namespaces]]
 # binding = "RATE_LIMIT_KV"

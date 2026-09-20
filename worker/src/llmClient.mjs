@@ -7,7 +7,8 @@
 // 2026-05-30 起 @cf/meta/llama-3.1-8b-instruct 已棄用，改用同系列的量化版本（fp8），
 // 行為/成本相近，是最接近原本模型的替代選項。
 const WORKERS_AI_MODEL = '@cf/meta/llama-3.1-8b-instruct-fp8';
-const GEMINI_MODEL = 'gemini-2.0-flash';
+// gemini-2.0-flash 已下架（改用 gemini-3.6-flash 提示），實測 2026-09-20 生效。
+const GEMINI_MODEL = 'gemini-3.6-flash';
 const GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
 
 const SYSTEM_PROMPT = `你是「淇肌淨膚 QIJI」的網站客服助理，QIJI 是台中北屯的手工清粉刺/皮膚管理工作室。
@@ -58,7 +59,8 @@ export async function generateReply({ env, message, history = [], ragContext = '
         body: JSON.stringify({
           systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
           contents,
-          generationConfig: { maxOutputTokens: 300 },
+          // gemini-3.6-flash 預設會思考（thoughtsTokenCount 很高、比較慢），客服回覆不需要，關掉省額度、加快回應。
+          generationConfig: { maxOutputTokens: 300, thinkingConfig: { thinkingBudget: 0 } },
         }),
       });
       if (!res.ok) throw new Error(`Gemini HTTP ${res.status}`);

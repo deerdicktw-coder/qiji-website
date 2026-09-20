@@ -49,8 +49,9 @@ npx wrangler deploy
 部署完成後 wrangler 會印出網址，理論上每次都會是同一個網址
 （`https://qiji-ai-customer-service.<子網域>.workers.dev`），不需要另外改前端。
 
-## 選用：設定 LLM 備援 / 轉真人通知的環境變數
+## LLM 備援 / 轉真人通知的環境變數
 
+目前已設定（2026-09-20），Gemini 備援跟轉真人 Email 通知都是啟用狀態。
 沒設定也能運作（FAQ 比對 + Cloudflare Workers AI 主模型都是免費額度內），
 但沒設定 Gemini 備援的話，如果 Workers AI 那天暫時出問題就會直接轉真人。
 
@@ -76,3 +77,10 @@ npx wrangler dev --port 8792
   改用 `@cf/meta/llama-3.1-8b-instruct-fp8`（同系列量化版本）。之後若又收到
   「已經幫您轉接給 Carrie 老師」出現頻率異常高的回報，第一步先用
   `npx wrangler tail` 看即時 log，確認是不是又有模型被棄用。
+- 2026-09-20：同一天發現 Gemini 備援的 `gemini-2.0-flash` 也已下架，改用
+  `gemini-3.6-flash`，並加上 `thinkingConfig: { thinkingBudget: 0 }`
+  關掉思考模式（不然回覆會變慢、且多耗費不必要的 token）。同時設定好
+  `GEMINI_API_KEY`、`RESEND_API_KEY`、`NOTIFY_EMAIL_TO`、`NOTIFY_EMAIL_FROM`
+  四個 Worker secrets，Gemini 備援跟轉真人 Email 通知都已經是可運作狀態。
+  之後若這兩個模型又被下架，用同樣方式去 Cloudflare / Google 官方文件查目前
+  可用的模型 id 即可，程式邏輯不用動。

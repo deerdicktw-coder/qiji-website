@@ -14,6 +14,13 @@ import { notifyHandoff } from './notify.mjs';
 
 const MAX_MESSAGE_LENGTH = 2000;
 const HANDOFF_KEYWORDS = ['真人', '客服人員', '找老師', '找凱莉', '找carrie', '投訴', '客訴', '生氣', '不滿意', '退費', '打電話'];
+// 轉真人的通知是寄 Email，凱莉不會馬上看到，所以轉真人訊息裡要主動引導客人改用比較即時的管道，
+// 而不是讓客人誤以為「等一下這個對話視窗就會有人回」。真的需要即時互動 → LINE 官方帳號；
+// 單純要約時段 → 直接引導去 FreeTime 線上預約系統自己選（不用等任何人回覆）。網址跟 LINE ID
+// 都是官網上本來就公開寫的資訊，這裡只是讓 AI 客服也主動講出來。
+const LINE_OA_ID = '@qiji';
+const FREETIME_BOOKING_URL = 'https://myfreetime.io/shop/qijiskin';
+const BOOKING_INTENT_KEYWORDS = ['預約', '約診', '約時間', '約時段', '訂位', '改期', '改時間', '取消', '時段', '有名額', '有空檔', '有沒有空'];
 const RATE_LIMIT_WINDOW_SECONDS = 600; // 10 分鐘
 const RATE_LIMIT_MAX_REQUESTS = 20;
 // 同一個 sessionId 在這段時間內，轉真人只寄一次 Email 通知，避免同一位客人一直觸發轉真人
@@ -47,8 +54,13 @@ function jsonResponse(body, status, cors) {
   });
 }
 
-function handoffMessage(reason) {
-  const base = '已經幫您轉接給 Carrie 老師，我們會盡快回覆您，感謝耐心等候！';
+function handoffMessage(reason, message = '') {
+  const isBookingRelated = BOOKING_INTENT_KEYWORDS.some((kw) => message.includes(kw));
+  const lineHint = `這邊會通知 Carrie 老師，但信箱通知沒辦法馬上被看到，建議直接加 LINE 官方帳號 ${LINE_OA_ID} 私訊，會比等這裡回覆快很多`;
+  const bookingHint = isBookingRelated
+    ? `；如果是要約時段，也可以直接到線上預約系統自己選時間，不用等人回覆：${FREETIME_BOOKING_URL}`
+    : '';
+  const base = `${lineHint}${bookingHint}！`;
   return reason === 'explicit_request' ? `好的，${base}` : base;
 }
 
@@ -91,7 +103,7 @@ async function handleChat(request, env, cors) {
   const { limited } = await checkRateLimit(env, clientIp);
   if (limited) {
     return jsonResponse(
-      { reply: '目前詢問的人有點多，請稍後再試，或直接透過 LINE 官方帳號 @qiji 詢問。', source: 'handoff', handoffTriggered: false },
+      { reply: `目前詢問的人有點多，請稍後再試，或直接透過 LINE 官方帳號 ${LINE_OA_ID} 詢問（比較快得到回覆）。`, source: 'handoff', handoffTriggered: false },
       429,
       cors
     );
@@ -113,7 +125,7 @@ async function handleChat(request, env, cors) {
     if (await shouldSendHandoffEmail(env, sessionId)) {
       await notifyHandoff(env, { sessionId, message, history: safeHistory, reason: 'explicit_request' });
     }
-    return jsonResponse({ reply: handoffMessage('explicit_request'), source: 'handoff', handoffTriggered: true }, 200, cors);
+    return jsonResponse({ reply: handoffMessage('explicit_request', message), source: 'handoff', handoffTriggered: true }, 200, cors);
   }
 
   const ragContext = buildRagContext(ranked);
@@ -123,7 +135,7 @@ async function handleChat(request, env, cors) {
     if (await shouldSendHandoffEmail(env, sessionId)) {
       await notifyHandoff(env, { sessionId, message, history: safeHistory, reason: 'llm_unavailable' });
     }
-    return jsonResponse({ reply: handoffMessage('llm_unavailable'), source: 'handoff', handoffTriggered: true }, 200, cors);
+    return jsonResponse({ reply: handoffMessage('llm_unavailable', message), source: 'handoff', handoffTriggered: true }, 200, cors);
   }
 
   // 跟 QIJI／網站內容無關的問題：只回婉拒訊息，不轉真人、不寄信、也不算進「連續答不出來」。
@@ -135,8 +147,12 @@ async function handleChat(request, env, cors) {
     if (await shouldSendHandoffEmail(env, sessionId)) {
       await notifyHandoff(env, { sessionId, message, history: safeHistory, reason: 'repeated_unresolved' });
     }
+    const isBookingRelated = BOOKING_INTENT_KEYWORDS.some((kw) => message.includes(kw));
+    const followUpHint = isBookingRelated
+      ? `（這個問題比較需要真人確認，建議直接加 LINE 官方帳號 ${LINE_OA_ID} 私訊 Carrie 老師，約時段也可以直接到線上預約系統自己選：${FREETIME_BOOKING_URL}）`
+      : `（這個問題比較需要真人確認，建議直接加 LINE 官方帳號 ${LINE_OA_ID} 私訊 Carrie 老師，會比等這裡回覆快很多）`;
     return jsonResponse(
-      { reply: `${llmResult.text}\n\n（這個問題我們已經幫您轉接給 Carrie 老師，會盡快補充回覆。）`, source: 'llm', handoffTriggered: true },
+      { reply: `${llmResult.text}\n\n${followUpHint}`, source: 'llm', handoffTriggered: true },
       200,
       cors
     );

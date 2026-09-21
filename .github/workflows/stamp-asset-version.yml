@@ -1,0 +1,49 @@
+name: Stamp asset version
+
+# chat-widget.js 一有變動，就把它的內容雜湊寫進載入它的 <script src> 後面當版本號。
+# 目的：GitHub Pages 的 cache-control 是 max-age=600 且不能自訂，LINE 內建瀏覽器又更黏，
+# 沒有版本號的話客人可能會一直開到舊版 widget（改了卻「顯示一樣」）。
+on:
+  push:
+    paths:
+      - 'chat-widget.js'
+      - 'stamp_asset_version.py'
+      - '.github/workflows/stamp-asset-version.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: stamp-asset-version
+  cancel-in-progress: false
+
+jobs:
+  stamp:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Stamp version into script tags
+        run: python stamp_asset_version.py
+
+      - name: Commit & push if changed
+        run: |
+          git config user.name  "qiji-asset-bot"
+          git config user.email "asset-bot@users.noreply.github.com"
+
+          if [[ -n "$(git status --porcelain '*.html')" ]]; then
+            git add ./*.html
+            git commit -m "chore(asset): stamp chat-widget version [skip ci]"
+            git push
+            echo "版本號已更新並推送。"
+          else
+            echo "版本號無變動，不需推送。"
+          fi

@@ -66,7 +66,7 @@
     :host, .qc-root { box-sizing: border-box; font-family: 'Jost', 'Noto Sans TC', sans-serif; }
     * { box-sizing: border-box; }
     .qc-fab {
-      position: fixed; right: 20px; bottom: 20px; z-index: 9999;
+      position: fixed; right: 20px; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); z-index: 996;
       width: 56px; height: 56px; border-radius: 50%;
       background: #c9a96e; border: none; cursor: pointer; padding: 0; overflow: hidden;
       display: flex; align-items: center; justify-content: center;
@@ -74,10 +74,14 @@
       transition: transform 0.25s ease;
     }
     .qc-fab:hover { transform: scale(1.06); }
+    /* 往下滾動時淡出收起，停下或往上滾再回來，減少手機上被浮動鈕吃掉的畫面 */
+    .qc-fab { transition: transform 0.25s ease, opacity 0.25s ease, visibility 0.25s; }
+    .qc-fab.qc-fab-hidden { opacity: 0; visibility: hidden; transform: scale(0.6) translateY(10px); pointer-events: none; }
     .qc-fab svg { width: 100%; height: 100%; display: block; }
     .qc-panel {
-      position: fixed; right: 20px; bottom: 88px; z-index: 9999;
+      position: fixed; right: 20px; bottom: calc(88px + env(safe-area-inset-bottom, 0px)); z-index: 999;
       width: min(360px, calc(100vw - 40px)); height: min(520px, calc(100vh - 140px));
+      height: min(520px, calc(100dvh - 140px));
       background: #fff; border-radius: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.28);
       display: flex; flex-direction: column; overflow: hidden;
       opacity: 0; visibility: hidden; transform: translateY(12px);
@@ -118,9 +122,18 @@
     .qc-send:disabled { background: #d4d4d4; cursor: not-allowed; }
     .qc-hint { padding: 8px 16px; font-size: 0.72rem; color: #999; background: #f7f7f7; text-align: center; }
     .qc-hint a { color: #b08d4f; text-decoration: underline; text-underline-offset: 2px; }
+    /* 網站在 ≤900px 會顯示自己的預約 FAB(68px, bottom 20)與諮詢 FAB(56px, bottom 100)，
+       客服鈕排在它們上方第三順位，避免互相遮蓋。 */
+    @media (max-width: 900px) {
+      .qc-fab { right: 20px; bottom: calc(168px + env(safe-area-inset-bottom, 0px)); }
+    }
     @media (max-width: 480px) {
-      .qc-panel { right: 12px; left: 12px; width: auto; bottom: 84px; }
-      .qc-fab { right: 14px; bottom: 14px; }
+      .qc-panel {
+        right: 12px; left: 12px; width: auto;
+        bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+        height: min(560px, calc(100vh - 120px));
+        height: min(560px, calc(100dvh - 120px));
+      }
     }
   `;
 
@@ -213,6 +226,29 @@
     fab.addEventListener('click', () => {
       panel.classList.contains('qc-open') ? closePanel() : openPanel();
     });
+
+    // 往下滾動時把客服鈕收起來，停下或往上滾再淡入。手機上浮動鈕本來就多，
+    // 這樣看內容時畫面不會一直被擋住。聊天視窗開著的時候不收。
+    let lastY = window.pageYOffset || 0;
+    let ticking = false;
+    let idleTimer = null;
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(() => {
+        const y = window.pageYOffset || 0;
+        if (!panel.classList.contains('qc-open')) {
+          // 只有往下滾、且已經離開頁首一段距離才收起，避免在頁面頂端閃爍
+          if (y > lastY + 6 && y > 240) fab.classList.add('qc-fab-hidden');
+          else if (y < lastY - 6 || y <= 240) fab.classList.remove('qc-fab-hidden');
+        }
+        lastY = y;
+        ticking = false;
+        clearTimeout(idleTimer);
+        idleTimer = setTimeout(() => fab.classList.remove('qc-fab-hidden'), 900);
+      });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
     closeBtn.addEventListener('click', closePanel);
 
     form.addEventListener('submit', async (e) => {

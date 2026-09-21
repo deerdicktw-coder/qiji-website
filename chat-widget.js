@@ -68,13 +68,13 @@
     .qc-fab {
       position: fixed; right: 20px; bottom: 20px; z-index: 9999;
       width: 56px; height: 56px; border-radius: 50%;
-      background: transparent; border: none; cursor: pointer; padding: 0; overflow: hidden;
+      background: #c9a96e; border: none; cursor: pointer; padding: 0; overflow: hidden;
       display: flex; align-items: center; justify-content: center;
       box-shadow: 0 4px 16px rgba(0,0,0,0.25);
       transition: transform 0.25s ease;
     }
     .qc-fab:hover { transform: scale(1.06); }
-    .qc-fab img { width: 100%; height: 100%; display: block; object-fit: cover; border-radius: 50%; }
+    .qc-fab svg { width: 100%; height: 100%; display: block; }
     .qc-panel {
       position: fixed; right: 20px; bottom: 88px; z-index: 9999;
       width: min(360px, calc(100vw - 40px)); height: min(520px, calc(100vh - 140px));
@@ -134,7 +134,17 @@
       <style>${STYLE}</style>
       <div class="qc-root">
         <button class="qc-fab" aria-label="開啟客服聊天">
-          <img src="/images/qiji-ai-icon.png" alt="" width="56" height="56" />
+          <svg viewBox="0 0 56 56" aria-hidden="true">
+            <g fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="14.6" y="16.8" width="26.9" height="22.4" rx="7.8"/>
+              <path d="M28 16.8V11.4"/>
+              <rect x="11.5" y="24.1" width="3.1" height="7.8" rx="1.2"/>
+              <rect x="41.4" y="24.1" width="3.1" height="7.8" rx="1.2"/>
+              <path d="M18.6 29.2Q22.4 24.4 26.2 29.2"/>
+              <path d="M29.8 29.2Q33.6 24.4 37.4 29.2"/>
+            </g>
+            <circle cx="28" cy="9" r="2.1" fill="#fff"/>
+          </svg>
         </button>
         <div class="qc-panel">
           <div class="qc-header">

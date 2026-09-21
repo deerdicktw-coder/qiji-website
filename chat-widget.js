@@ -286,9 +286,22 @@
         // 無感通過通常一兩秒就好，20 秒足夠；但一旦變成要客人手動勾選，
         // 20 秒根本不夠他反應，所以互動開始時會把時限延長到兩分鐘。
         let timer = setTimeout(() => reject(new Error('turnstile_timeout')), 20000);
-        const done = (fn) => (arg) => { clearTimeout(timer); showTurnstileChallenge(holder, false); fn(arg); };
+        // 2026-09-21：光把卡片樣式關掉不夠——Turnstile 元件解完之後會停在
+        // 「Success!」狀態賴著不走，手機上就卡在畫面中間擋住內容。
+        // token 拿到後這個元件已經沒用了（token 只能用一次，馬上就換成通行證），
+        // 所以直接把它整個移除。用 setTimeout 讓 Turnstile 先跑完自己的收尾再拆。
+        let widgetId = null;
+        const cleanup = () => {
+          showTurnstileChallenge(holder, false);
+          setTimeout(() => {
+            try { if (widgetId !== null && window.turnstile) window.turnstile.remove(widgetId); } catch (e) { }
+            target.innerHTML = '';
+          }, 0);
+        };
+        holder.__qijiCleanup = cleanup;
+        const done = (fn) => (arg) => { clearTimeout(timer); cleanup(); fn(arg); };
         try {
-          window.turnstile.render(target, {
+          widgetId = window.turnstile.render(target, {
             sitekey: TURNSTILE_SITE_KEY,
             // interaction-only：無感通過時完全不顯示，只有需要客人動手時才出現。
             appearance: 'interaction-only',
@@ -375,6 +388,11 @@
 
     function closePanel() {
       panel.classList.remove('qc-open');
+      // 對話框關掉時，還沒解完的驗證卡片也一起收掉，不要留在畫面上擋內容。
+      try {
+        const h = document.getElementById('qiji-turnstile-holder');
+        if (h && typeof h.__qijiCleanup === 'function') h.__qijiCleanup();
+      } catch (e) { }
     }
 
     fab.addEventListener('click', () => {

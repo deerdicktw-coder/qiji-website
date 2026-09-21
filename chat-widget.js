@@ -14,6 +14,10 @@
 
   const API_ENDPOINT = 'https://qiji-ai-customer-service.deerdick-tw.workers.dev/api/chat';
   const LINE_OA_URL = 'https://page.line.me/026xbaov?openQrModal=true';
+  // Turnstile 站點金鑰是公開資訊（本來就會出現在網頁原始碼裡）；機密的 Secret Key
+  // 只存在 Cloudflare 的 Worker secret，不在這支檔案、也不在任何版控裡。
+  const TURNSTILE_SITE_KEY = '0x4AAAAAAE-u1HyR-VV2rMxY';
+  const VERIFY_ENDPOINT = API_ENDPOINT.replace('/api/chat', '/api/verify');
   // 自家的連結在對話裡改成中文說明文字，客人看到的是「加 LINE 官方帳號」而不是一長串網址，
   // 讀起來比較像真人在講話。滑鼠移上去（title）還是看得到完整網址，不會讓客人不知道會連去哪。
   // 沒列在這裡的網址就維持顯示原網址，只是變成可以點。
@@ -194,6 +198,69 @@
     const history = [];
     let greeted = false;
 
+    // ── Turnstile：驗一次、換一張通行證 ──────────────────────────────
+    // Turnstile 的 token 只能用一次、5 分鐘就失效，所以不能每則訊息都帶同一個。
+    // 改成開啟聊天視窗時驗一次，換一張後端簽章的通行證，之後的訊息帶著它走。
+    let chatPass = null;
+    let passPending = null;
+
+    function loadTurnstileScript() {
+      if (window.turnstile) return Promise.resolve();
+      if (window.__qijiTurnstileLoading) return window.__qijiTurnstileLoading;
+      window.__qijiTurnstileLoading = new Promise((resolve, reject) => {
+        const el = document.createElement('script');
+        el.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+        el.async = true;
+        el.defer = true;
+        el.onload = resolve;
+        el.onerror = () => reject(new Error('turnstile_script_blocked'));
+        document.head.appendChild(el);
+      });
+      return window.__qijiTurnstileLoading;
+    }
+
+    function getTurnstileToken() {
+      return new Promise((resolve, reject) => {
+        // 容器放在 shadow DOM 外、畫面外：Turnstile 需要能存取真實 DOM，
+        // 而 Managed 模式偶爾要顯示互動挑戰，藏在 shadow DOM 裡會出不來。
+        let holder = document.getElementById('qiji-turnstile-holder');
+        if (!holder) {
+          holder = document.createElement('div');
+          holder.id = 'qiji-turnstile-holder';
+          holder.style.cssText = 'position:fixed;bottom:0;left:0;z-index:9998;';
+          document.body.appendChild(holder);
+        }
+        holder.innerHTML = '';
+        const timer = setTimeout(() => reject(new Error('turnstile_timeout')), 20000);
+        try {
+          window.turnstile.render(holder, {
+            sitekey: TURNSTILE_SITE_KEY,
+            callback: (t) => { clearTimeout(timer); resolve(t); },
+            'error-callback': () => { clearTimeout(timer); reject(new Error('turnstile_error')); },
+          });
+        } catch (e) { clearTimeout(timer); reject(e); }
+      });
+    }
+
+    // 取得通行證。任何一步失敗都只是回傳 null——後端目前採「沒通行證也放行」，
+    // 所以客人的網路擋掉 Cloudflare 時，客服仍然可用，不會整個壞掉。
+    function ensurePass() {
+      if (chatPass) return Promise.resolve(chatPass);
+      if (passPending) return passPending;
+      passPending = loadTurnstileScript()
+        .then(getTurnstileToken)
+        .then((token) => fetch(VERIFY_ENDPOINT, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ sessionId: getSessionId(), token }),
+        }))
+        .then((r) => r.json())
+        .then((d) => { chatPass = (d && d.ok && d.pass) ? d.pass : null; return chatPass; })
+        .catch(() => null)
+        .then((v) => { passPending = null; return v; });
+      return passPending;
+    }
+
     function scrollToBottom() {
       messagesEl.scrollTop = messagesEl.scrollHeight;
     }
@@ -218,6 +285,7 @@
 
     function openPanel() {
       panel.classList.add('qc-open');
+      ensurePass(); // 先背景取得，客人還在打字時就驗好了
       if (!greeted) {
         greeted = true;
         appendMessage('您好，我是 QIJI 智能客服 🌿 可以問我課程內容、價格、預約方式或營業時間，需要真人協助也可以直接跟我說。', 'bot');
@@ -311,6 +379,7 @@
       const typingEl = showTyping();
 
       try {
+        const pass = await ensurePass();
         const res = await fetch(API_ENDPOINT, {
           method: 'POST',
           headers: { 'content-type': 'application/json' },
@@ -318,6 +387,7 @@
             sessionId: getSessionId(),
             message: text,
             history: history.slice(-HISTORY_LIMIT),
+            pass: pass || undefined,
           }),
         });
         const data = await res.json();

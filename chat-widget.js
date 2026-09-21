@@ -227,18 +227,29 @@
         if (!holder) {
           holder = document.createElement('div');
           holder.id = 'qiji-turnstile-holder';
-          holder.style.cssText = 'position:fixed;bottom:0;left:0;z-index:9998;';
+          // 需要實際尺寸，Managed 模式要顯示互動挑戰時才有地方畫。
+          // 平常挑戰是無感通過的，所以預設縮到極小且不擋點擊；
+          // 真的跳出挑戰時由 Turnstile 自己撐開。
+          holder.style.cssText =
+            'position:fixed;bottom:12px;left:12px;z-index:9998;width:300px;max-width:calc(100vw - 24px);';
           document.body.appendChild(holder);
         }
         holder.innerHTML = '';
         const timer = setTimeout(() => reject(new Error('turnstile_timeout')), 20000);
-        try {
-          window.turnstile.render(holder, {
-            sitekey: TURNSTILE_SITE_KEY,
-            callback: (t) => { clearTimeout(timer); resolve(t); },
-            'error-callback': () => { clearTimeout(timer); reject(new Error('turnstile_error')); },
-          });
-        } catch (e) { clearTimeout(timer); reject(e); }
+        const doRender = () => {
+          try {
+            window.turnstile.render(holder, {
+              sitekey: TURNSTILE_SITE_KEY,
+              callback: (t) => { clearTimeout(timer); resolve(t); },
+              'error-callback': () => { clearTimeout(timer); reject(new Error('turnstile_error')); },
+            });
+          } catch (e) { clearTimeout(timer); reject(e); }
+        };
+        // 用 render=explicit 載入時，script 的 onload 只代表檔案下載完，
+        // API 本身還沒初始化完成，必須等 turnstile.ready() 才能呼叫 render。
+        // 先前直接在 onload 後就 render，結果 iframe 根本沒被畫出來。
+        if (window.turnstile && typeof window.turnstile.ready === 'function') window.turnstile.ready(doRender);
+        else doRender();
       });
     }
 

@@ -3544,6 +3544,9 @@ body.menu-open .nav { transform: none !important; }   /* 選單開啟時頁首�
             <button type="button" class="cf-btn" onclick="cfGoStep(2)">← 上一步</button>
             <button type="submit" class="cf-btn primary" id="cfSubmitBtn">送 出 諮 詢</button>
           </div>
+          <!-- 防機器人蜜罐：真人看不到，機器人會填，Web3Forms 會自動丟棄填了的送出 -->
+          <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true"
+                 style="display:none !important;position:absolute;left:-9999px;">
           <div class="cf-status" id="cfStatus" style="margin-top:16px;text-align:center;"></div>
         </div>
       </form>

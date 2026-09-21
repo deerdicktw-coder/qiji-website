@@ -235,11 +235,13 @@
         if (!holder) {
           holder = document.createElement('div');
           holder.id = 'qiji-turnstile-holder';
-          // 需要實際尺寸，Managed 模式要顯示互動挑戰時才有地方畫。
-          // 平常挑戰是無感通過的，所以預設縮到極小且不擋點擊；
-          // 真的跳出挑戰時由 Turnstile 自己撐開。
+          // 2026-09-21：改成平常完全看不見。搭配下面的 appearance: 'interaction-only'，
+          // 無感通過時 Turnstile 不會畫出任何東西（客人不會看到左下角那個小框）；
+          // 只有真的需要客人手動點一下時才會出現，所以容器仍要留在畫面上且有寬度可用。
+          // pointer-events 預設關掉，避免這塊透明區域擋到底下網頁的點擊；
+          // 真的要互動時再由 before-interactive-callback 打開。
           holder.style.cssText =
-            'position:fixed;bottom:12px;left:12px;z-index:9998;width:300px;max-width:calc(100vw - 24px);';
+            'position:fixed;bottom:12px;left:12px;z-index:9998;width:300px;max-width:calc(100vw - 24px);pointer-events:none;';
           document.body.appendChild(holder);
         }
         holder.innerHTML = '';
@@ -248,8 +250,13 @@
           try {
             window.turnstile.render(holder, {
               sitekey: TURNSTILE_SITE_KEY,
+              // interaction-only：無感通過時完全不顯示，只有需要客人動手時才出現。
+              appearance: 'interaction-only',
               callback: (t) => { clearTimeout(timer); resolve(t); },
               'error-callback': () => { clearTimeout(timer); reject(new Error('turnstile_error')); },
+              // 挑戰真的跳出來時才讓這塊能被點擊，結束後再關掉。
+              'before-interactive-callback': () => { holder.style.pointerEvents = 'auto'; },
+              'after-interactive-callback': () => { holder.style.pointerEvents = 'none'; },
             });
           } catch (e) { clearTimeout(timer); reject(e); }
         };

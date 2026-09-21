@@ -227,43 +227,84 @@
       return window.__qijiTurnstileLoading;
     }
 
+    // 2026-09-21：驗證框改成「貼著對話框出現、而且看得懂」。
+    // 原本浮在畫面左下角、跟對話框完全分離，客人看到一個沒頭沒尾的
+    // 「Verify you are human」只會覺得是中毒或壞掉。
+    // 做法：容器永遠留在 DOM 裡且有版面（不能用 display:none，否則 Turnstile
+    // 在 render 當下量不到尺寸、iframe 可能掛不上去），但平常是透明、不可點、
+    // 說明文字隱藏；搭配 appearance:'interaction-only'，無感通過時完全看不見。
+    // 只有 Turnstile 真的要客人動手時，才由 before-interactive-callback
+    // 把它變成一張貼在對話框上方的白卡片，並顯示中文說明。
+    function buildTurnstileHolder() {
+      let holder = document.getElementById('qiji-turnstile-holder');
+      if (holder) return holder;
+      holder = document.createElement('div');
+      holder.id = 'qiji-turnstile-holder';
+      holder.style.cssText =
+        'position:fixed;right:20px;bottom:150px;z-index:1000;' +
+        'width:min(320px,calc(100vw - 40px));pointer-events:none;' +
+        'border-radius:12px;padding:0;background:transparent;box-shadow:none;' +
+        'transition:background 0.2s ease,padding 0.2s ease;' +
+        'font-family:\'Jost\',\'Noto Sans TC\',sans-serif;';
+      const note = document.createElement('div');
+      note.id = 'qiji-turnstile-note';
+      note.textContent = '送出前請先勾選，確認你不是機器人：';
+      note.style.cssText = 'display:none;font-size:0.8rem;color:#333;margin-bottom:8px;line-height:1.5;';
+      const target = document.createElement('div');
+      target.id = 'qiji-turnstile-target';
+      holder.appendChild(note);
+      holder.appendChild(target);
+      document.body.appendChild(holder);
+      return holder;
+    }
+
+    function showTurnstileChallenge(holder, show) {
+      const note = holder.querySelector('#qiji-turnstile-note');
+      if (show) {
+        holder.style.pointerEvents = 'auto';
+        holder.style.background = '#fff';
+        holder.style.padding = '14px';
+        holder.style.boxShadow = '0 8px 32px rgba(0,0,0,0.28)';
+        if (note) note.style.display = 'block';
+      } else {
+        holder.style.pointerEvents = 'none';
+        holder.style.background = 'transparent';
+        holder.style.padding = '0';
+        holder.style.boxShadow = 'none';
+        if (note) note.style.display = 'none';
+      }
+    }
+
     function getTurnstileToken() {
       return new Promise((resolve, reject) => {
-        // 容器放在 shadow DOM 外、畫面外：Turnstile 需要能存取真實 DOM，
-        // 而 Managed 模式偶爾要顯示互動挑戰，藏在 shadow DOM 裡會出不來。
-        let holder = document.getElementById('qiji-turnstile-holder');
-        if (!holder) {
-          holder = document.createElement('div');
-          holder.id = 'qiji-turnstile-holder';
-          // 2026-09-21：改成平常完全看不見。搭配下面的 appearance: 'interaction-only'，
-          // 無感通過時 Turnstile 不會畫出任何東西（客人不會看到左下角那個小框）；
-          // 只有真的需要客人手動點一下時才會出現，所以容器仍要留在畫面上且有寬度可用。
-          // pointer-events 預設關掉，避免這塊透明區域擋到底下網頁的點擊；
-          // 真的要互動時再由 before-interactive-callback 打開。
-          holder.style.cssText =
-            'position:fixed;bottom:12px;left:12px;z-index:9998;width:300px;max-width:calc(100vw - 24px);pointer-events:none;';
-          document.body.appendChild(holder);
-        }
-        holder.innerHTML = '';
-        const timer = setTimeout(() => reject(new Error('turnstile_timeout')), 20000);
-        const doRender = () => {
-          try {
-            window.turnstile.render(holder, {
-              sitekey: TURNSTILE_SITE_KEY,
-              // interaction-only：無感通過時完全不顯示，只有需要客人動手時才出現。
-              appearance: 'interaction-only',
-              callback: (t) => { clearTimeout(timer); resolve(t); },
-              'error-callback': () => { clearTimeout(timer); reject(new Error('turnstile_error')); },
-              // 挑戰真的跳出來時才讓這塊能被點擊，結束後再關掉。
-              'before-interactive-callback': () => { holder.style.pointerEvents = 'auto'; },
-              'after-interactive-callback': () => { holder.style.pointerEvents = 'none'; },
-            });
-          } catch (e) { clearTimeout(timer); reject(e); }
-        };
+        // 容器放在 shadow DOM 外：Turnstile 需要能存取真實 DOM，
+        // 藏在 shadow DOM 裡互動挑戰出不來。
+        const holder = buildTurnstileHolder();
+        const target = holder.querySelector('#qiji-turnstile-target');
+        target.innerHTML = '';
+        showTurnstileChallenge(holder, false);
+        // 無感通過通常一兩秒就好，20 秒足夠；但一旦變成要客人手動勾選，
+        // 20 秒根本不夠他反應，所以互動開始時會把時限延長到兩分鐘。
+        let timer = setTimeout(() => reject(new Error('turnstile_timeout')), 20000);
+        const done = (fn) => (arg) => { clearTimeout(timer); showTurnstileChallenge(holder, false); fn(arg); };
+        try {
+          window.turnstile.render(target, {
+            sitekey: TURNSTILE_SITE_KEY,
+            // interaction-only：無感通過時完全不顯示，只有需要客人動手時才出現。
+            appearance: 'interaction-only',
+            callback: done(resolve),
+            'error-callback': done(() => reject(new Error('turnstile_error'))),
+            'before-interactive-callback': () => {
+              clearTimeout(timer);
+              timer = setTimeout(() => reject(new Error('turnstile_interactive_timeout')), 120000);
+              showTurnstileChallenge(holder, true);
+            },
+            'after-interactive-callback': () => { showTurnstileChallenge(holder, false); },
+          });
+        } catch (e) { clearTimeout(timer); reject(e); }
         // 不要在這裡呼叫 turnstile.ready()：api.js 是用 async/defer 載入的，
-        // 這種情況下呼叫 ready() 會被 Turnstile 擋下並丟例外（見上面 loadTurnstileScript 的註解）。
+        // 這種情況下呼叫 ready() 會被 Turnstile 擋下並丟例外（見 loadTurnstileScript 的註解）。
         // 走到這裡就代表 onload= 回呼已經觸發，API 已經初始化完成，可以直接 render。
-        doRender();
       });
     }
 
@@ -322,7 +363,9 @@
 
     function openPanel() {
       panel.classList.add('qc-open');
-      ensurePass(); // 先背景取得，客人還在打字時就驗好了
+      // 2026-09-21：這裡原本會立刻 ensurePass()，等於客人只是好奇點開看看
+      // 就可能被丟一個驗證框。改成等他真的按下「送出」時才驗證，
+      // 大幅減少驗證框出現的機會，出現時客人也正在互動、看得懂在幹嘛。
       if (!greeted) {
         greeted = true;
         appendMessage('您好，我是 QIJI 智能客服 🌿 可以問我課程內容、價格、預約方式或營業時間，需要真人協助也可以直接跟我說。', 'bot');

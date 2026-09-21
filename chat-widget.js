@@ -204,16 +204,24 @@
     let chatPass = null;
     let passPending = null;
 
+    // 2026-09-21：這裡原本用 async/defer 載入 api.js，再呼叫 turnstile.ready()，
+    // 結果 Turnstile 直接丟出 TurnstileError（官方規定：用了 async/defer 就不能呼叫 ready()），
+    // 例外被 ensurePass() 的 catch 吞掉，變成「永遠拿不到通行證，但畫面完全正常」的無聲失敗，
+    // 查了很久才靠後端計數器發現。改用官方支援 async/defer 的 onload= 參數：
+    // api.js 初始化完成後會主動呼叫這個全域函式，不需要也不可以再用 ready()。
+    const TURNSTILE_READY_CALLBACK = '__qijiTurnstileReady';
+
     function loadTurnstileScript() {
       if (window.turnstile) return Promise.resolve();
       if (window.__qijiTurnstileLoading) return window.__qijiTurnstileLoading;
       window.__qijiTurnstileLoading = new Promise((resolve, reject) => {
+        const timer = setTimeout(() => reject(new Error('turnstile_script_slow')), 15000);
+        window[TURNSTILE_READY_CALLBACK] = () => { clearTimeout(timer); resolve(); };
         const el = document.createElement('script');
-        el.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+        el.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=' + TURNSTILE_READY_CALLBACK;
         el.async = true;
         el.defer = true;
-        el.onload = resolve;
-        el.onerror = () => reject(new Error('turnstile_script_blocked'));
+        el.onerror = () => { clearTimeout(timer); reject(new Error('turnstile_script_blocked')); };
         document.head.appendChild(el);
       });
       return window.__qijiTurnstileLoading;
@@ -245,11 +253,10 @@
             });
           } catch (e) { clearTimeout(timer); reject(e); }
         };
-        // 用 render=explicit 載入時，script 的 onload 只代表檔案下載完，
-        // API 本身還沒初始化完成，必須等 turnstile.ready() 才能呼叫 render。
-        // 先前直接在 onload 後就 render，結果 iframe 根本沒被畫出來。
-        if (window.turnstile && typeof window.turnstile.ready === 'function') window.turnstile.ready(doRender);
-        else doRender();
+        // 不要在這裡呼叫 turnstile.ready()：api.js 是用 async/defer 載入的，
+        // 這種情況下呼叫 ready() 會被 Turnstile 擋下並丟例外（見上面 loadTurnstileScript 的註解）。
+        // 走到這裡就代表 onload= 回呼已經觸發，API 已經初始化完成，可以直接 render。
+        doRender();
       });
     }
 
@@ -267,7 +274,19 @@
         }))
         .then((r) => r.json())
         .then((d) => { chatPass = (d && d.ok && d.pass) ? d.pass : null; return chatPass; })
-        .catch(() => null)
+        .catch((e) => {
+          // 失敗照樣放行（後端是 fail-open），但要把原因回報給後端計數，
+          // 否則又會變成這次這種「什麼線索都沒有」的無聲失敗。
+          const reason = (e && e.message) ? String(e.message).slice(0, 40) : 'unknown';
+          try {
+            fetch(VERIFY_ENDPOINT, {
+              method: 'POST',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify({ sessionId: getSessionId(), reason }),
+            }).catch(() => {});
+          } catch (_) { }
+          return null;
+        })
         .then((v) => { passPending = null; return v; });
       return passPending;
     }

@@ -77,6 +77,9 @@
     /* 往下滾動時淡出收起，停下或往上滾再回來，減少手機上被浮動鈕吃掉的畫面 */
     .qc-fab { transition: transform 0.25s ease, opacity 0.25s ease, visibility 0.25s; }
     .qc-fab.qc-fab-hidden { opacity: 0; visibility: hidden; transform: scale(0.6) translateY(10px); pointer-events: none; }
+    /* 跟著網站自家 FAB 一起讓開：選單／各種面板開啟、或與首屏資訊帶重疊時 */
+    .qc-root.qc-suppressed .qc-fab,
+    .qc-root.qc-suppressed .qc-panel { opacity: 0; visibility: hidden; pointer-events: none; }
     .qc-fab svg { width: 100%; height: 100%; display: block; }
     .qc-panel {
       position: fixed; right: 20px; bottom: calc(88px + env(safe-area-inset-bottom, 0px)); z-index: 999;
@@ -125,7 +128,9 @@
     /* 網站在 ≤900px 會顯示自己的預約 FAB(68px, bottom 20)與諮詢 FAB(56px, bottom 100)，
        客服鈕排在它們上方第三順位，避免互相遮蓋。 */
     @media (max-width: 900px) {
-      .qc-fab { right: 20px; bottom: calc(168px + env(safe-area-inset-bottom, 0px)); }
+      .qc-fab { right: 20px; bottom: calc(100px + env(safe-area-inset-bottom, 0px)); }
+      /* 諮詢鈕(.inquiry-fab.show)出現時會佔住 bottom 100，客服鈕再往上讓一格 */
+      .qc-fab.qc-fab-raised { bottom: calc(168px + env(safe-area-inset-bottom, 0px)); }
     }
     @media (max-width: 480px) {
       .qc-panel {
@@ -249,6 +254,29 @@
       });
     }
     window.addEventListener('scroll', onScroll, { passive: true });
+
+    // 跟著網站自家 FAB 的顯示規則走。網站用 body 上的 class 控制，但外部 CSS 進不了
+    // shadow DOM，所以這裡自己監看同一組 class，狀態一致就不會出現「別人都讓開了、
+    // 只有客服鈕還擋在上面」的情況。
+    const root = shadow.querySelector('.qc-root');
+    const SUPPRESS_CLASSES = ['menu-open', 'right-panel-open', 'fab-over-band'];
+    function syncSuppressed() {
+      const hit = SUPPRESS_CLASSES.some((c) => document.body.classList.contains(c));
+      root.classList.toggle('qc-suppressed', hit);
+    }
+    // 諮詢鈕只有在諮詢清單有東西時才會以 .show 出現，並佔住客服鈕平常的位置，
+    // 這時把客服鈕往上讓一格。
+    function syncRaised() {
+      const iq = document.querySelector('.inquiry-fab');
+      fab.classList.toggle('qc-fab-raised', !!(iq && iq.classList.contains('show')));
+    }
+    syncSuppressed();
+    syncRaised();
+    try {
+      new MutationObserver(syncSuppressed).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+      const iq = document.querySelector('.inquiry-fab');
+      if (iq) new MutationObserver(syncRaised).observe(iq, { attributes: true, attributeFilter: ['class'] });
+    } catch (e) { /* 監看失敗不影響基本功能 */ }
     closeBtn.addEventListener('click', closePanel);
 
     form.addEventListener('submit', async (e) => {

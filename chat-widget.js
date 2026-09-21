@@ -84,7 +84,7 @@
     .qc-panel {
       position: fixed; right: 20px; bottom: calc(88px + env(safe-area-inset-bottom, 0px)); z-index: 999;
       width: min(360px, calc(100vw - 40px)); height: min(520px, calc(100vh - 140px));
-      height: min(520px, calc(100dvh - 140px));
+      height: min(520px, calc(100dvh - 140px - var(--qc-kb, 0px)));
       background: #fff; border-radius: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.28);
       display: flex; flex-direction: column; overflow: hidden;
       opacity: 0; visibility: hidden; transform: translateY(12px);
@@ -114,8 +114,9 @@
     @keyframes qc-blink { 0%, 80%, 100% { opacity: 0.25; } 40% { opacity: 1; } }
     .qc-inputbar { display: flex; gap: 8px; padding: 12px; border-top: 1px solid #ebebeb; background: #fff; }
     .qc-input {
-      flex: 1; border: 1px solid #d4d4d4; border-radius: 20px; padding: 9px 14px;
-      font-size: 0.86rem; font-family: inherit; outline: none;
+      flex: 1; min-width: 0; border: 1px solid #d4d4d4; border-radius: 20px; padding: 9px 14px;
+      /* 必須 >= 16px：否則 iOS 聚焦輸入框時會自動放大整頁，把版面推出畫面外 */
+      font-size: 16px; font-family: inherit; outline: none;
     }
     .qc-input:focus { border-color: #c9a96e; }
     .qc-send {
@@ -135,9 +136,9 @@
     @media (max-width: 480px) {
       .qc-panel {
         right: 12px; left: 12px; width: auto;
-        bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+        bottom: calc(12px + env(safe-area-inset-bottom, 0px) + var(--qc-kb, 0px));
         height: min(560px, calc(100vh - 120px));
-        height: min(560px, calc(100dvh - 120px));
+        height: min(560px, calc(100dvh - 120px - var(--qc-kb, 0px)));
       }
     }
   `;
@@ -254,6 +255,23 @@
       });
     }
     window.addEventListener('scroll', onScroll, { passive: true });
+
+    // 鍵盤彈出時，iOS 只會縮小 visual viewport，position:fixed 的面板仍貼在
+    // layout viewport 底部，等於被鍵盤蓋住。這裡把鍵盤高度寫進 CSS 變數，
+    // 讓面板往上抬、同時縮短高度，輸入框就不會被擋住。
+    const vv = window.visualViewport;
+    function syncKeyboard() {
+      if (!vv) return;
+      const kb = Math.max(0, Math.round(window.innerHeight - vv.height - vv.offsetTop));
+      // 小於 80px 多半是網址列收合造成的誤差，不是真的鍵盤
+      panel.style.setProperty('--qc-kb', (kb > 80 ? kb : 0) + 'px');
+    }
+    if (vv) {
+      vv.addEventListener('resize', syncKeyboard);
+      vv.addEventListener('scroll', syncKeyboard);
+    }
+    input.addEventListener('focus', () => setTimeout(syncKeyboard, 250));
+    input.addEventListener('blur', () => setTimeout(() => panel.style.setProperty('--qc-kb', '0px'), 250));
 
     // 跟著網站自家 FAB 的顯示規則走。網站用 body 上的 class 控制，但外部 CSS 進不了
     // shadow DOM，所以這裡自己監看同一組 class，狀態一致就不會出現「別人都讓開了、

@@ -978,43 +978,7 @@ body.right-panel-open .scroll-top-btn,body.right-panel-open .music-fab,body.righ
 .tw::before{top: calc(50% - 20px);}
 .tw::after{top: calc(50% + 20px);}
 .tw-hint{text-align: center; font-size: 0.88rem; color: var(--grey-400); letter-spacing: 2px; margin-bottom: 8px; font-weight: 400;}
-.qiji-splash{position: fixed; inset: 0; z-index: 99999;
-  display: flex; align-items: center; justify-content: center;
-  background: #fff;
-  pointer-events: auto;
-  transition: opacity 0.8s ease;}
-.qiji-splash.gone{opacity: 0; pointer-events: none;}
-.qiji-splash-stack{text-align: center;
-  position: relative;
-  padding: 42px 64px;}
-.qiji-splash-line-top,.qiji-splash-line-bottom{position: absolute; left: 50%; top: 0;
-  width: 0; height: 1px; background: var(--gold);
-  transform: translateX(-50%);}
-.qiji-splash-line-bottom{top: auto; bottom: 0;}
-.qiji-splash.go .qiji-splash-line-top,.qiji-splash.go .qiji-splash-line-bottom{animation: qijiSplashLine 0.9s 0.1s forwards cubic-bezier(.7,0,.3,1);}
-.qiji-splash-logo{font-family: var(--sans);
-  font-weight: 700;
-  font-size: 54px;
-  letter-spacing: 12px;
-  color: #0a0a0a;
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 0.8s ease 0.8s, transform 0.8s ease 0.8s;}
-.qiji-splash.go .qiji-splash-logo{opacity: 1;
-  transform: translateY(0);}
-.qiji-splash-tag{font-family: 'Bodoni Moda', 'Noto Serif TC', serif;
-  font-weight: 500;
-  font-size: 0.92rem;
-  letter-spacing: 8px;
-  color: var(--gold);
-  margin-top: 18px;
-  opacity: 0;
-  transition: opacity 0.8s ease 1.2s;}
-.qiji-splash.go .qiji-splash-tag{opacity: 1;}
 @keyframes qijiSplashLine{ to { width: 280px; } }
-@media (max-width: 600px){.qiji-splash-logo{font-size: 42px; letter-spacing: 10px;}
-.qiji-splash-tag{font-size: 0.85rem; letter-spacing: 6px;}
-.qiji-splash-stack{padding: 32px 40px;}}
 body.qiji-splash-active{overflow: hidden;}</style>
 <script type="application/ld+json">
 {
@@ -2314,14 +2278,6 @@ body[data-page]:not([data-page="home"]):not([data-page="about"]) .ig-gallery { d
 </head>
 <body>
 <a href="#mainNav" class="skip-link" style="position:absolute;top:-100%;left:50%;transform:translateX(-50%);background:#000;color:#fff;padding:8px 24px;z-index:99999;font-size:14px;border-radius:0 0 8px 8px;transition:top 0.2s;" onfocus="this.style.top='0'" onblur="this.style.top='-100%'">跳到主要內容</a>
-<div class="qiji-splash" id="qijiSplash">
-  <div class="qiji-splash-stack">
-    <div class="qiji-splash-line-top"></div>
-    <div class="qiji-splash-logo">淇肌淨膚</div>
-    <div class="qiji-splash-tag">QIJI MIRACLE AESTHETIC</div>
-    <div class="qiji-splash-line-bottom"></div>
-  </div>
-</div>
 <script>
 (function() {
   try {
@@ -7136,10 +7092,7 @@ function filterProductsByTag(tag, btn) {
 
 </script>
 
-<div id="previewBadge" style="position:fixed;top:0;left:0;z-index:2147483647;
- background:#c0392b;color:#fff;font:600 11px/1 system-ui,sans-serif;
- letter-spacing:1px;padding:5px 10px;border-bottom-right-radius:6px;
- pointer-events:none;opacity:.88">預覽版　非正式網站</div>
+<div id="previewBadge" style="position:fixed;top:0;left:0;z-index:2147483647;background:#c0392b;color:#fff;font:600 11px/1 system-ui,sans-serif;letter-spacing:1px;padding:5px 10px;border-bottom-right-radius:6px;pointer-events:none;opacity:.88">預覽版　非正式網站</div>
 </body>
 </html>
                                                                                                                                                                                                                                                                                                                                                                                                                                  

@@ -5,7 +5,7 @@
  * - 圖片用 StaleWhileRevalidate（先回 cache 再背景更新）
  * - JSON / 字體 / favicon 用 CacheFirst（變更頻率低）
  */
-const CACHE_VERSION = 'qiji-v1-2026-04-26';
+const CACHE_VERSION = 'qiji-v2-2026-09-26';
 const HTML_CACHE = 'qiji-html-' + CACHE_VERSION;
 const STATIC_CACHE = 'qiji-static-' + CACHE_VERSION;
 const IMG_CACHE = 'qiji-img-' + CACHE_VERSION;

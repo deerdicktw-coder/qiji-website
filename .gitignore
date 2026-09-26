@@ -26,3 +26,9 @@ AI 智能客服/
 
 # AI 客服 Worker 原始碼：含完整 system prompt 與知識庫，改放私有 repo，不隨公開網站發布
 worker/
+
+# 文案素材：含客人前後照、證照、稅務文件，切勿上傳
+淇肌淨膚(文案資料)/
+
+# 本機部署腳本：內含 token 檔路徑，公開 repo 不收錄
+deploy.py

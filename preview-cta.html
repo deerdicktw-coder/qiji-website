@@ -2292,6 +2292,13 @@ body[data-page]:not([data-page="home"]):not([data-page="about"]) .ig-gallery { d
 @media (max-width:640px) and (max-height:780px){
   .lk-hero-actions{ bottom:52px !important; }
 }
+
+/* ③ 價格表招牌列：原本 border-left:0 讓左緣直線斷掉、粉底往左凸出 2px，
+      改成保留框寬只換顏色 */
+#page-home .price-row.is-signature{
+  background: var(--rose-soft) !important;
+  border-left: 2px solid var(--rose-deep) !important;
+}
 </style>
 </head>
 <body>

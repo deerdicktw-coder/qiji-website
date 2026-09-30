@@ -2575,7 +2575,7 @@ body[data-page]:not([data-page="home"]):not([data-page="about"]) .ig-gallery { d
         <p class="testimonial-card-text">CP值高！環境明亮舒適，有任何疑問老師都會仔細說明，到現在已經回訪做雪藻喚膚很多次了，皮膚也肉眼可見的變透亮，真的有效～</p>
         <div class="testimonial-card-author">
           <div class="testimonial-card-avatar">J</div>
-          <div><div class="testimonial-card-name">JH</div><div class="testimonial-card-date">5 個月前 &middot; Google 評論</div></div>
+          <div><div class="testimonial-card-name">JH</div><div class="testimonial-card-date">4 個月前 &middot; Google 評論</div></div>
         </div>
       </div>
       <div class="testimonial-card">
@@ -2583,12 +2583,12 @@ body[data-page]:not([data-page="home"]):not([data-page="about"]) .ig-gallery { d
         <p class="testimonial-card-text">這裡項目很多種，蠻喜歡來做那種皮膚管理+美甲+除毛的一站式服務，不用跑來跑去很方便，老師也很專業 操作過程都很舒適，入會員還可以打折 超級划…</p>
         <div class="testimonial-card-author">
           <div class="testimonial-card-avatar">茜</div>
-          <div><div class="testimonial-card-name">茜茜魚</div><div class="testimonial-card-date">5 個月前 &middot; Google 評論</div></div>
+          <div><div class="testimonial-card-name">茜茜魚</div><div class="testimonial-card-date">4 個月前 &middot; Google 評論</div></div>
         </div>
       </div>
       <div class="testimonial-card">
         <div class="testimonial-card-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <p class="testimonial-card-text">清完粉刺都會幫皮膚舒緩 不會紅腫，療程手法溫和，結束之後還有衛教說明，後續也會在訊息上提醒很貼心～～</p>
+        <p class="testimonial-card-text">清完粉刺都會幫皮膚舒緩 不會紅腫，課程手法溫和，結束之後還有衛教說明，後續也會在訊息上提醒很貼心～～</p>
         <div class="testimonial-card-author">
           <div class="testimonial-card-avatar">紅</div>
           <div><div class="testimonial-card-name">紅晨星</div><div class="testimonial-card-date">5 個月前 &middot; Google 評論</div></div>
@@ -7038,9 +7038,15 @@ function filterProductsByTag(tag, btn) {
         g.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
       } else if (r && r.photo) {
         var id = 'lkvp' + Math.round(rand() * 1e9), pat = document.createElementNS(NS, 'pattern');
-        pat.setAttribute('id', id); pat.setAttribute('patternUnits', 'objectBoundingBox'); pat.setAttribute('width', 1); pat.setAttribute('height', 1);
+        pat.setAttribute('id', id);
         var img = document.createElementNS(NS, 'image'); img.setAttribute('href', r.photo); img.setAttribute('preserveAspectRatio', 'xMidYMid slice');
         var bb = poly.reduce(function (m, p) { return { x0: Math.min(m.x0, p.x), y0: Math.min(m.y0, p.y), x1: Math.max(m.x1, p.x), y1: Math.max(m.y1, p.y) }; }, { x0: 1e9, y0: 1e9, x1: -1e9, y1: -1e9 });
+        /* 用 userSpaceOnUse 並把磚塊對齊格子外框；圖片座標相對磚塊原點，所以 x/y 必須為 0，
+           否則會多偏移一次，只有靠近畫布左上角的格子看得到圖（2026-09-30 修） */
+        pat.setAttribute('patternUnits', 'userSpaceOnUse');
+        pat.setAttribute('x', bb.x0); pat.setAttribute('y', bb.y0);
+        pat.setAttribute('width', bb.x1 - bb.x0); pat.setAttribute('height', bb.y1 - bb.y0);
+        img.setAttribute('x', 0); img.setAttribute('y', 0);
         img.setAttribute('width', bb.x1 - bb.x0); img.setAttribute('height', bb.y1 - bb.y0);
         pat.appendChild(img); defs.appendChild(pat);
         path.setAttribute('fill', 'url(#' + id + ')'); g.setAttribute('class', 'lk-vor-photo');

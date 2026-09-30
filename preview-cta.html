@@ -2299,6 +2299,19 @@ body[data-page]:not([data-page="home"]):not([data-page="about"]) .ig-gallery { d
   background: var(--rose-soft) !important;
   border-left: 2px solid var(--rose-deep) !important;
 }
+
+/* ④ CARE CLUB 區塊：分頁說明與「了解更多」置中
+      （原有規則 #page-services .svc-item > :not(...) 用長串 :not() 優先權很高，
+        這裡用重複 ID 提升優先權來覆蓋；表格與編號清單仍維持靠左） */
+#page-services#page-services #svc-membership{ text-align:center !important; }
+#page-services#page-services #svc-membership .plan-panel{ text-align:center !important; }
+#page-services#page-services #svc-membership .service-detail-cta{ display:inline-flex !important; }
+#page-services#page-services #svc-membership .cc-notes,
+#page-services#page-services #svc-membership .cc-note,
+#page-services#page-services #svc-membership .cc-note p,
+#page-services#page-services #svc-membership .cc-table,
+#page-services#page-services #svc-membership .cc-table td,
+#page-services#page-services #svc-membership .cc-table th{ text-align:left !important; }
 </style>
 </head>
 <body>

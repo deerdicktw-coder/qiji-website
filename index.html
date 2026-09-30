@@ -2274,6 +2274,44 @@ body[data-page]:not([data-page="home"]):not([data-page="about"]) .ig-gallery { d
 }
 
 </style>
+
+<style id="cta-tweak">
+/* ── 2026-09-30 測試：浮動鈕與 hero 按鈕調整 ── */
+/* ① 拿掉右下角圓形「立即預約」 */
+.booking-fab-mobile{ display:none !important; }
+
+/* ② hero 的「立即預約 / LINE 諮詢」置中 */
+.lk-hero-actions{ left:0 !important; right:0 !important; justify-content:center !important; }
+
+/* 手機：原本右側保留 96px 給圓形鈕，鈕拿掉後改成左右等距 */
+@media (max-width:640px){
+  .lk-hero-actions{ inset:auto 20px 64px 20px !important; justify-content:center !important; }
+  .lk-hero-actions .lk-btn{ flex:0 1 auto !important; }
+}
+@media (max-width:640px) and (max-height:780px){
+  .lk-hero-actions{ bottom:52px !important; }
+}
+
+/* ③ 價格表招牌列：原本 border-left:0 讓左緣直線斷掉、粉底往左凸出 2px，
+      改成保留框寬只換顏色 */
+#page-home .price-row.is-signature{
+  background: var(--rose-soft) !important;
+  border-left: 2px solid var(--rose-deep) !important;
+}
+
+/* ④ CARE CLUB 區塊：分頁說明與「了解更多」置中
+      （原有規則 #page-services .svc-item > :not(...) 用長串 :not() 優先權很高，
+        這裡用重複 ID 提升優先權來覆蓋；表格與編號清單仍維持靠左） */
+#page-services#page-services #svc-membership{ text-align:center !important; }
+#page-services#page-services #svc-membership .plan-panel{ text-align:center !important; }
+#page-services#page-services #svc-membership .service-detail-cta{ display:inline-flex !important; }
+#page-services#page-services #svc-membership .cc-notes,
+#page-services#page-services #svc-membership .cc-note,
+#page-services#page-services #svc-membership .cc-note p,
+#page-services#page-services #svc-membership .cc-table,
+#page-services#page-services #svc-membership .cc-table td,
+#page-services#page-services #svc-membership .cc-table th{ text-align:left !important; }
+</style>
 </head>
 <body>
 <a href="#mainNav" class="skip-link" style="position:absolute;top:-100%;left:50%;transform:translateX(-50%);background:#000;color:#fff;padding:8px 24px;z-index:99999;font-size:14px;border-radius:0 0 8px 8px;transition:top 0.2s;" onfocus="this.style.top='0'" onblur="this.style.top='-100%'">跳到主要內容</a>
@@ -7096,6 +7134,109 @@ function filterProductsByTag(tag, btn) {
 })();
 
 </script>
-</body>
+
+<script>
+/* ── 2026-09-30 測試：AI 客服鈕改為 QIJI 標記，移到左下角 ── */
+(function () {
+  var MARK = '<svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true">'
+    + '<g transform="translate(-56.674,-32.184) scale(0.042296)">'
+    + '<circle cx="1899.476" cy="1391.972" r="277.797" fill="none" stroke="#C9A96E" stroke-width="46"/>'
+    + '<path d="M 2528.20,1455.43 L 2528.20,1920.75 L 2570.99,1920.75 L 2570.99,1336.00 L 2559.68,1336.00 '
+    + 'L 2292.42,1717.20 L 2248.50,1652.58 L 2248.50,1642.59 L 2241.71,1642.59 L 2033.30,1336.00 '
+    + 'L 2017.78,1336.00 L 2017.78,1642.59 L 1935.00,1642.59 L 1935.00,1680.75 L 2017.78,1680.75 '
+    + 'L 2017.78,1920.75 L 2060.57,1920.75 L 2060.57,1680.75 L 2215.91,1680.75 L 2291.88,1792.50 Z '
+    + 'M 2060.57,1452.23 L 2189.97,1642.59 L 2060.57,1642.59 Z" fill="#C9A96E"/></g></svg>';
+  var STYLE = [['left','16px'],['right','auto'],
+    ['bottom','calc(28px + env(safe-area-inset-bottom,0px))'],
+    ['width','48px'],['height','48px'],['background','#231F20'],
+    ['border','none'],['box-shadow','none']];
+  function apply() {
+    var host = document.getElementById('qiji-chat-widget-host');
+    if (!host || !host.shadowRoot) return;
+    var fab = host.shadowRoot.querySelector('.qc-fab');
+    if (!fab) return;
+    STYLE.forEach(function (kv) { fab.style.setProperty(kv[0], kv[1], 'important'); });
+    if (!fab.dataset.qijiMark) { fab.dataset.qijiMark = '1'; fab.innerHTML = MARK; }
+  }
+  var n = 0, t = setInterval(function () { apply(); if (++n > 40) clearInterval(t); }, 300);
+  document.addEventListener('DOMContentLoaded', apply);
+  window.addEventListener('load', apply);
+})();
+</script>
+
+
+<script>
+/* ── 2026-09-30 測試：產品諮詢改成可多選 ──
+   原本 addToInquiry() 加入後立刻跳到聯絡表單，客人要多選得在兩頁之間來回。
+   改成：只加入、不跳頁；底部滑出一條細列顯示已選數量，按「前往諮詢」才跳轉。
+   跳轉沿用原本的函式，填表邏輯完全不動。 */
+(function () {
+  function patch() {
+    if (window.__lkInqPatched) return;
+    if (typeof window.addToInquiry !== 'function' || !Array.isArray(window.inquiryList)) return;
+    window.__lkInqPatched = 1;
+
+    var orig = window.addToInquiry;
+    var PREFIX = '想詢問以下產品：';
+
+    function syncMsg() {
+      var msg = document.querySelector('#contactForm textarea[name="message"]');
+      if (!msg) return;
+      var cur = msg.value, head = PREFIX + '\n' + inquiryList.join('、');
+      if (cur.indexOf(PREFIX) === 0) {
+        var rest = cur.split('\n').slice(2).join('\n');
+        msg.value = head + (rest ? '\n' + rest : '\n');
+      } else {
+        msg.value = head + '\n' + cur;
+      }
+    }
+
+    function bar() {
+      var b = document.getElementById('lkInqBar');
+      if (!b) {
+        b = document.createElement('div');
+        b.id = 'lkInqBar';
+        b.style.cssText =
+          'position:fixed;left:0;right:0;bottom:0;z-index:2147483000;' +
+          'display:flex;align-items:center;justify-content:space-between;gap:14px;' +
+          'padding:12px 20px calc(12px + env(safe-area-inset-bottom,0px));' +
+          'background:#FDFCF9;border-top:1px solid rgba(38,34,38,.14);' +
+          'box-shadow:0 -4px 18px rgba(38,34,38,.07);' +
+          'transform:translateY(110%);transition:transform .32s cubic-bezier(.4,0,.2,1);' +
+          "font-family:'Noto Serif TC',serif;";
+        b.innerHTML =
+          '<span id="lkInqCount" style="font-size:13px;letter-spacing:1px;color:#4A4238"></span>' +
+          '<span id="lkInqGo" role="button" tabindex="0" style="cursor:pointer;background:#262226;' +
+          'color:#fff;padding:11px 26px;border-radius:99px;font-size:13px;letter-spacing:2px;' +
+          'white-space:nowrap">前往諮詢 →</span>';
+        document.body.appendChild(b);
+        var go = function () {
+          if (!inquiryList.length) return;
+          orig(inquiryList[inquiryList.length - 1], null);
+          b.style.transform = 'translateY(110%)';
+        };
+        b.querySelector('#lkInqGo').onclick = go;
+        b.querySelector('#lkInqGo').onkeydown = function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); }
+        };
+      }
+      var n = inquiryList.length;
+      b.querySelector('#lkInqCount').textContent = n ? ('已選 ' + n + ' 項產品') : '';
+      b.style.transform = n ? 'translateY(0)' : 'translateY(110%)';
+    }
+
+    window.addToInquiry = function (name, btn) {
+      if (inquiryList.indexOf(name) === -1) inquiryList.push(name);
+      if (btn) { btn.textContent = '已加入 ✓'; btn.classList.add('added'); }
+      syncMsg();
+      bar();
+    };
+    window.lkInquiryBar = bar;
+  }
+  var n = 0, t = setInterval(function () { patch(); if (window.__lkInqPatched || ++n > 60) clearInterval(t); }, 200);
+  document.addEventListener('DOMContentLoaded', patch);
+  window.addEventListener('load', patch);
+})();
+</script></body>
 </html>
                                                                                                                                                                                                                                                                                                                                                                                                                                  

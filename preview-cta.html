@@ -7165,6 +7165,80 @@ function filterProductsByTag(tag, btn) {
 })();
 </script>
 
+
+<script>
+/* ── 2026-09-30 測試：產品諮詢改成可多選 ──
+   原本 addToInquiry() 加入後立刻跳到聯絡表單，客人要多選得在兩頁之間來回。
+   改成：只加入、不跳頁；底部滑出一條細列顯示已選數量，按「前往諮詢」才跳轉。
+   跳轉沿用原本的函式，填表邏輯完全不動。 */
+(function () {
+  function patch() {
+    if (window.__lkInqPatched) return;
+    if (typeof window.addToInquiry !== 'function' || !Array.isArray(window.inquiryList)) return;
+    window.__lkInqPatched = 1;
+
+    var orig = window.addToInquiry;
+    var PREFIX = '想詢問以下產品：';
+
+    function syncMsg() {
+      var msg = document.querySelector('#contactForm textarea[name="message"]');
+      if (!msg) return;
+      var cur = msg.value, head = PREFIX + '\n' + inquiryList.join('、');
+      if (cur.indexOf(PREFIX) === 0) {
+        var rest = cur.split('\n').slice(2).join('\n');
+        msg.value = head + (rest ? '\n' + rest : '\n');
+      } else {
+        msg.value = head + '\n' + cur;
+      }
+    }
+
+    function bar() {
+      var b = document.getElementById('lkInqBar');
+      if (!b) {
+        b = document.createElement('div');
+        b.id = 'lkInqBar';
+        b.style.cssText =
+          'position:fixed;left:0;right:0;bottom:0;z-index:2147483000;' +
+          'display:flex;align-items:center;justify-content:space-between;gap:14px;' +
+          'padding:12px 20px calc(12px + env(safe-area-inset-bottom,0px));' +
+          'background:#FDFCF9;border-top:1px solid rgba(38,34,38,.14);' +
+          'box-shadow:0 -4px 18px rgba(38,34,38,.07);' +
+          'transform:translateY(110%);transition:transform .32s cubic-bezier(.4,0,.2,1);' +
+          "font-family:'Noto Serif TC',serif;";
+        b.innerHTML =
+          '<span id="lkInqCount" style="font-size:13px;letter-spacing:1px;color:#4A4238"></span>' +
+          '<span id="lkInqGo" role="button" tabindex="0" style="cursor:pointer;background:#262226;' +
+          'color:#fff;padding:11px 26px;border-radius:99px;font-size:13px;letter-spacing:2px;' +
+          'white-space:nowrap">前往諮詢 →</span>';
+        document.body.appendChild(b);
+        var go = function () {
+          if (!inquiryList.length) return;
+          orig(inquiryList[inquiryList.length - 1], null);
+          b.style.transform = 'translateY(110%)';
+        };
+        b.querySelector('#lkInqGo').onclick = go;
+        b.querySelector('#lkInqGo').onkeydown = function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); }
+        };
+      }
+      var n = inquiryList.length;
+      b.querySelector('#lkInqCount').textContent = n ? ('已選 ' + n + ' 項產品') : '';
+      b.style.transform = n ? 'translateY(0)' : 'translateY(110%)';
+    }
+
+    window.addToInquiry = function (name, btn) {
+      if (inquiryList.indexOf(name) === -1) inquiryList.push(name);
+      if (btn) { btn.textContent = '已加入 ✓'; btn.classList.add('added'); }
+      syncMsg();
+      bar();
+    };
+    window.lkInquiryBar = bar;
+  }
+  var n = 0, t = setInterval(function () { patch(); if (window.__lkInqPatched || ++n > 60) clearInterval(t); }, 200);
+  document.addEventListener('DOMContentLoaded', patch);
+  window.addEventListener('load', patch);
+})();
+</script>
 <div id="previewBadge" style="position:fixed;top:0;left:0;z-index:2147483647;background:#c0392b;color:#fff;font:600 11px/1 system-ui,sans-serif;letter-spacing:1px;padding:5px 10px;border-bottom-right-radius:6px;pointer-events:none;opacity:.88">測試版　非正式網站</div>
 </body>
 </html>

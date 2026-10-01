@@ -32,3 +32,6 @@ worker/
 
 # 本機部署腳本：內含 token 檔路徑，公開 repo 不收錄
 deploy.py
+
+# 現況檢查腳本：會讀取 data/tokkk.txt，不收錄到公開 repo
+status.py

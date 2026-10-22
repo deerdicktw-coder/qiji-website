@@ -38,7 +38,9 @@ import urllib.request
 
 
 # === 設定 ===
-DEFAULT_QUERY = "凱莉美學 台中市北屯區瀋陽路三段351-1"  # Google 商家上的店名 + 地址
+# 以地址為主、不綁店名：2026-10-22 商家由「台中凱莉美學」改名為「淇肌淨膚（原凱莉美學）」，
+# 寫死店名會在下次改名時再壞一次，所以用地址當主要識別。
+DEFAULT_QUERY = "台中市北屯區瀋陽路三段351-1號 淇肌淨膚"
 INDEX_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "index.html")
 GRID_START_MARK = "<!-- AUTO_REVIEW_GRID_START -->"
 GRID_END_MARK = "<!-- AUTO_REVIEW_GRID_END -->"

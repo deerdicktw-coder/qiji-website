@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>【即時預約空檔看板 - 手機版優化預覽】台中·淇肌淨膚</title>
+  <link rel="stylesheet" href="landing.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: #fbf3f2;
+      padding: 16px 12px 60px;
+    }
+    .demo-wrapper {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .demo-notice {
+      background: #eef7f2;
+      border: 1px solid #cce5d6;
+      border-radius: 14px;
+      padding: 12px 16px;
+      margin-bottom: 18px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #2b593f;
+    }
+
+    /* 預約看板容器 (手機端高質感卡片) */
+    .slots-card {
+      background: #fffdfb;
+      border: 1px solid rgba(38,34,38,0.1);
+      border-radius: 20px;
+      padding: 22px 18px;
+      box-shadow: 0 10px 30px rgba(38,34,38,0.05);
+      position: relative;
+    }
+    @media (max-width: 480px) {
+      .slots-card {
+        padding: 18px 14px;
+        border-radius: 18px;
+      }
+    }
+
+    .slots-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      border-bottom: 1px solid rgba(38,34,38,0.06);
+      padding-bottom: 14px;
+    }
+    .slots-title-group h2 {
+      font-family: var(--lk-serif);
+      font-size: 21px;
+      color: #262226;
+      font-weight: 600;
+      margin: 0 0 4px 0;
+      letter-spacing: 0.04em;
+    }
+    .slots-title-group h2::before { display: none; }
+    .slots-title-group p {
+      font-size: 12px;
+      color: #6f6668;
+      margin: 0;
+    }
+    .slots-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #f6e3e1;
+      color: #bd6875;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 4px 9px;
+      border-radius: 99px;
+      white-space: nowrap;
+    }
+    .slots-badge::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #34c759;
+      box-shadow: 0 0 0 2px rgba(52,199,89,0.25);
+    }
+
+    /* 日期水平滑動選擇列 (手機觸控特化) */
+    .date-scroll-wrap {
+      position: relative;
+      margin: 0 -4px 16px;
+    }
+    .date-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 4px 4px 10px;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x mandatory;
+    }
+    .date-scroll::-webkit-scrollbar {
+      display: none;
+    }
+    .date-btn {
+      flex: 0 0 68px;
+      scroll-snap-align: start;
+      background: #fbf3f2;
+      border: 1px solid rgba(38,34,38,0.12);
+      border-radius: 14px;
+      padding: 8px 2px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .date-btn:active {
+      transform: scale(0.96);
+    }
+    .date-btn.active {
+      background: #bd6875;
+      border-color: #bd6875;
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(189,104,117,0.32);
+    }
+    .date-btn .btn-week {
+      font-size: 11px;
+      color: #6f6668;
+      margin-bottom: 2px;
+    }
+    .date-btn.active .btn-week {
+      color: rgba(255,255,255,0.88);
+    }
+    .date-btn .btn-date {
+      font-size: 15px;
+      font-weight: 600;
+      font-family: var(--lk-serif);
+    }
+
+    /* 時段卡片區域 */
+    .time-grid-wrapper {
+      min-height: 140px;
+    }
+    .time-section-title {
+      font-size: 12px;
+      color: #6f6668;
+      letter-spacing: 0.06em;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .time-section-title::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: rgba(38,34,38,0.06);
+    }
+    .time-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+    @media (max-width: 420px) {
+      .time-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 7px;
+      }
+    }
+    .time-chip {
+      background: #ffffff;
+      border: 1px solid rgba(38,34,38,0.12);
+      border-radius: 11px;
+      padding: 10px 0;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 500;
+      color: #262226;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      min-height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .time-chip:active {
+      transform: scale(0.96);
+    }
+    .time-chip.active {
+      background: #262226;
+      border-color: #262226;
+      color: #fffdfb;
+      box-shadow: 0 4px 10px rgba(38,34,38,0.22);
+    }
+
+    /* 雙預約動作按鈕區 (LINE & FreeTime) */
+    .slots-actions-dual {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(38,34,38,0.06);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    @media (min-width: 520px) {
+      .slots-actions-dual {
+        flex-direction: row;
+      }
+    }
+    .btn-action-primary {
+      flex: 1.3;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 50px;
+      background: #06c755;
+      color: #ffffff !important;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      border-radius: 99px;
+      box-shadow: 0 4px 14px rgba(6,199,85,0.28);
+      text-decoration: none;
+      transition: all 0.2s ease;
+      -webkit-tap-highlight-color: transparent;
+      padding: 0 16px;
+    }
+    .btn-action-primary:active {
+      transform: scale(0.98);
+      background: #05b34c;
+    }
+
+    .btn-action-secondary {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 50px;
+      background: #ffffff;
+      color: #262226 !important;
+      border: 1px solid rgba(38,34,38,0.2);
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      border-radius: 99px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      -webkit-tap-highlight-color: transparent;
+      padding: 0 14px;
+    }
+    .btn-action-secondary:active {
+      background: #f3e7e6;
+      border-color: #bd6875;
+    }
+
+    .slots-hint-mobile {
+      font-size: 11px;
+      color: #6f6668;
+      text-align: center;
+      margin-top: 12px;
+      line-height: 1.5;
+    }
+    .empty-state {
+      text-align: center;
+      padding: 30px 0;
+      color: #6f6668;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="demo-wrapper">
+    <div class="demo-notice">
+      <div>
+        <strong>📱 手機端觸控優化預覽</strong>：
+        支援「加 LINE 預約」與「在 FreeTime 預約」雙選項按鈕。點選日期與時段會自動連動預約資訊！
+      </div>
+    </div>
+
+    <!-- 預約看板組件開始 -->
+    <div class="slots-card" id="qijiSlotsSection">
+      <div class="slots-header">
+        <div class="slots-title-group">
+          <h2>線上即時預約空檔</h2>
+          <p>免下載 App，直接查詢美容師最新可約時間</p>
+        </div>
+        <div class="slots-badge" id="syncStatus">
+          即時同步中
+        </div>
+      </div>
+
+      <!-- 日期滑動選擇條 -->
+      <div class="date-scroll-wrap">
+        <div class="date-scroll" id="dateScrollContainer">
+          <div class="empty-state">載入日期中...</div>
+        </div>
+      </div>
+
+      <!-- 時段清單 -->
+      <div class="time-grid-wrapper">
+        <div class="time-section-title" id="currentDateTitle">
+          請選擇預約時段
+        </div>
+        <div class="time-grid" id="timeGridContainer">
+          <!-- 時段按鈕透過 JS 動態注入 -->
+        </div>
+      </div>
+
+      <!-- 雙預約動作按鈕 -->
+      <div class="slots-actions-dual">
+        <!-- 主要按鈕：LINE 預約 -->
+        <a id="lineActionBtn" href="https://page.line.me/026xbaov?openQrModal=true" target="_blank" rel="noopener noreferrer" class="btn-action-primary">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.48 2 2 5.92 2 10.75c0 2.97 1.7 5.59 4.34 7.15-.19.67-.69 2.44-.79 2.82-.13.48.18.47.37.35.15-.1 2.06-1.4 2.88-1.96.39.06.79.09 1.2.09 5.52 0 10-3.92 10-8.75S17.52 2 12 2z"/>
+          </svg>
+          <span id="lineBtnText">加 LINE 預約此時段</span>
+        </a>
+
+        <!-- 次要按鈕：FreeTime 官網預約 -->
+        <a id="freetimeActionBtn" href="https://myfreetime.io/shop/qijiskin/booking" target="_blank" rel="noopener noreferrer" class="btn-action-secondary">
+          <span>至 FreeTime 預約</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <line x1="10" y1="14" x2="21" y2="3"></line>
+          </svg>
+        </a>
+      </div>
+
+      <div class="slots-hint-mobile">
+        💡 點選日期與時間後，可直接加 LINE 由專人確認，或前往 FreeTime 線上預約系統。
+      </div>
+    </div>
+    <!-- 預約看板組件結束 -->
+  </div>
+
+  <script id="embedded-slots-data" type="application/json">
+{
+  "active": true,
+  "syncedAt": "2026-11-14T20:36:22.970628+00:00",
+  "shopId": "14791",
+  "operatorName": "紫淇（凱莉）",
+  "totalAvailableDates": 20,
+  "dates": [
+    {
+      "date": "2026-11-16",
+      "displayDate": "11/16",
+      "dayOfWeek": "週一",
+      "weekday": 0,
+      "slots": [
+        "10:00",
+        "10:30",
+        "11:00",
+        "11:30",
+        "12:00",
+        "12:30",
+        "13:00",
+        "13:30",
+        "14:00",
+        "14:30",
+        "15:00",
+        "15:30",
+        "16:00",
+        "16:30",
+        "17:00",
+        "17:30",
+        "18:00"
+      ]
+    },
+    {
+      "date": "2026-11-17",
+      "displayDate": "11/17",
+      "dayOfWeek": "週二",
+      "weekday": 1,
+      "slots": [
+        "10:00",
+        "10:30",
+        "11:00",
+        "11:30",
+        "12:00",
+        "12:30",
+        "13:00",
+        "13:30",
+        "14:00",
+        "14:30",
+        "15:00",
+        "15:30"
+      ]
+    },
+    {
+      "date": "2026-11-18",
+      "displayDate": "11/18",
+      "dayOfWeek": "週三",
+      "weekday": 2,
+      "slots": [
+        "13:00",
+        "13:30",
+        "14:00",
+        "14:30",
+        "15:00",
+        "15:30",
+        "16:00",
+        "16:30",
+        "17:00",
+        "17:30",
+        "18:00"
+      ]
+    },
+    {
+      "date": "2026-11-19",
+      "displayDate": "11/19",
+      "dayOfWeek": "週四",
+      "weekday": 3,
+      "slots": [
+        "10:00",
+        "10:30",
+        "18:00"
+      ]
+    },
+    {
+      "date": "2026-11-20",
+      "displayDate": "11/20",
+      "dayOfWeek": "週五",
+      "weekday": 4,
+      "slots": [
+        "10:00",
+        "10:30",
+        "11:00",
+        "11:30",
+        "12:00",
+        "12:30",
+        "13:00",
+        "13:30",
+        "14:00",
+        "14:30",
+        "15:00",
+        "15:30",
+        "16:00",
+        "16:30",
+        "17:00",
+        "17:30",
+        "18:00"
+      ]
+    },
+    {
+      "date": "2026-11-21",
+      "displayDate": "11/21",
+      "dayOfWeek": "週六",
+      "weekday": 5,
+      "slots": [
+        "10:00",
+        "10:30",
+        "11:00",
+        "11:30",
+        "12:00",
+        "12:30",
+        "13:00",
+        "13:30",
+        "14:00",
+        "14:30",
+        "15:00",
+        "15:30",
+        "16:00"
+      ]
+    },
+    {
+      "date": "2026-11-22",
+      "displayDate": "11/22",
+      "dayOfWeek": "週日",
+      "weekday": 6,
+      "slots": [
+        "10:00",
+        "10:30",
+        "11:00",
+        "11:30",
+        "12:00",
+        "12:30",
+        "13:00",
+        "13:30",
+        "14:00",
+        "14:30",
+        "15:00",
+        "15:30",
+        "16:00"
+      ]
+    },
+    {
+      "date": "2026-11-23",
+      "displayDate": "11/23",
+      "dayOfWeek": "週一",
+      "weekday": 0,
+      "slots": [
+        "14:30",
+        "15:00",
+        "15:30",
+        "16:00",
+        "16:30",
+        "17:00",
+        "17:30",
+        "18:00"
+      ]
+    },
+    {
+      "date": "2026-11-24",
+      "displayDate": "11/24",
+      "dayOfWeek": "週二",
+      "weekday": 1,
+      "slots": [
+        "10:00",
+        "10:30",
+        "11:00",
+        "11:30",
+        "12:00",
+        "12:30",
+        "13:00",
+        "13:30",
+        "14:00",
+        "14:30",
+        "15:00",
+        "15:30",
+        "16:00",
+        "16:30",
+        "17:00",
+        "17:30",
+        "18:00"
+      ]
+    },
+    {
+      "date": "2026-11-25",
+      "displayDate": "11/25",
+      "dayOfWeek": "週三",
+      "weekday": 2,
+      "slots": [
+        "10:00",
+        "10:30",
+        "11:00",
+        "11:30",
+        "12:00",
+        "12:30",
+        "13:00",
+        "13:30",
+        "14:00",
+        "14:30",
+        "15:00",
+        "15:30",
+        "16:00",
+        "16:30",
+        "17:00",
+        "17:30",
+        "18:00"
+      ]
+    },
+    {
+      "date": "2026-11-26",
+      "displayDate": "11/26",
+      "dayOfWeek": "週四",
+      "weekday": 3,
+      "slots": [
+        "10:00",
+        "10:30",
+        "18:00"
+      ]
+    },
+    {
+      "date": "2026-11-27",
+      "displayDate": "11/27",
+      "dayOfWeek": "週五",
+      "weekday": 4,
+      "slots": [
+        "10:00",
+        "10:30",
+        "11:00",
+        "11:30",
+        "12:00",
+        "12:30",
+        "13:00",
+        "13:30",
+        "14:00",
+        "14:30",
+        "15:00",
+        "15:30",
+        "16:00",
+        "16:30",
+        "17:00",
+        "17:30",
+        "18:00"
+      ]
+    },
+    {
+      "date": "2026-11-28",
+      "displayDate": "11/28",
+      "dayOfWeek": "週六",
+      "weekday": 5,
+      "slots": [
+        "10:00",
+        "10:30",
+        "11:00",
+        "11:30",
+        "12:00",
+        "12:30",
+        "13:00",
+        "13:30",
+        "14:00",
+        "14:30",
+        "15:00",
+        "15:30",
+        "16:00"
+      ]
+    },
+    {
+      "date": "2026-11-29",
+      "displayDate": "11/29",
+      "dayOfWeek": "週日",
+      "weekday": 6,
+      "slots": [
+        "10:00",
+        "10:30",
+        "11:00",
+        "11:30",
+        "12:00",
+        "12:30",
+        "13:00",
+        "13:30",
+        "14:00",
+        "14:30",
+        "15:00",
+        "15:30",
+        "16:00"
+      ]
+    },
+    {
+      "date": "2026-11-30",
+      "displayDate": "11/30",
+      "dayOfWeek": "週一",
+      "weekday": 0,
+      "slots": [
+        "10:00",
+        "10:30",
+        "11:00",
+        "11:30",
+        "12:00",
+        "12:30",
+        "13:00",
+        "13:30",
+        "14:00",
+        "14:30",
+        "15:00",
+        "15:30",
+        "16:00",
+        "16:30",
+        "17:00",
+        "17:30",
+        "18:00"
+      ]
+    },
+    {
+      "date": "2026-12-01",
+      "displayDate": "12/1",
+      "dayOfWeek": "週二",
+      "weekday": 1,
+      "slots": [
+        "10:00",
+        "10:30",
+        "11:00",
+        "11:30",
+        "12:00",
+        "12:30",
+        "13:00",
+        "13:30",
+        "14:00",
+        "14:30",
+        "15:00",
+        "15:30",
+        "16:00",
+        "16:30",
+        "17:00",
+        "17:30",
+        "18:00"
+      ]
+    },
+    {
+      "date": "2026-12-02",
+      "displayDate": "12/2",
+      "dayOfWeek": "週三",
+      "weekday": 2,
+      "slots": [
+        "10:00",
+        "10:30",
+        "11:00",
+        "11:30",
+        "12:00",
+        "12:30",
+        "13:00",
+        "13:30",
+        "14:00",
+        "14:30",
+        "15:00",
+        "15:30",
+        "16:00",
+        "16:30",
+        "17:00",
+        "17:30",
+        "18:00"
+      ]
+    },
+    {
+      "date": "2026-12-03",
+      "displayDate": "12/3",
+      "dayOfWeek": "週四",
+      "weekday": 3,
+      "slots": [
+        "10:00",
+        "10:30",
+        "18:00"
+      ]
+    },
+    {
+      "date": "2026-12-04",
+      "displayDate": "12/4",
+      "dayOfWeek": "週五",
+      "weekday": 4,
+      "slots": [
+        "10:00",
+        "10:30",
+        "11:00",
+        "11:30",
+        "12:00",
+        "12:30",
+        "13:00",
+        "13:30",
+        "14:00",
+        "14:30",
+        "15:00",
+        "15:30",
+        "16:00",
+        "16:30",
+        "17:00",
+        "17:30",
+        "18:00"
+      ]
+    },
+    {
+      "date": "2026-12-05",
+      "displayDate": "12/5",
+      "dayOfWeek": "週六",
+      "weekday": 5,
+      "slots": [
+        "10:00",
+        "10:30",
+        "11:00",
+        "11:30",
+        "12:00",
+        "12:30",
+        "13:00",
+        "13:30",
+        "14:00",
+        "14:30",
+        "15:00",
+        "15:30",
+        "16:00"
+      ]
+    }
+  ]
+}
+  </script>
+
+  <script>
+    (async function initSlots() {
+      const dateScrollContainer = document.getElementById('dateScrollContainer');
+      const timeGridContainer = document.getElementById('timeGridContainer');
+      const currentDateTitle = document.getElementById('currentDateTitle');
+      const lineActionBtn = document.getElementById('lineActionBtn');
+      const lineBtnText = document.getElementById('lineBtnText');
+      const freetimeActionBtn = document.getElementById('freetimeActionBtn');
+
+      const LINE_BASE_URL = "https://page.line.me/026xbaov";
+      const FREETIME_BASE_URL = "https://myfreetime.io/shop/qijiskin/booking";
+
+      let slotsData = null;
+      try {
+        const rawJsonEl = document.getElementById('embedded-slots-data');
+        if (rawJsonEl && rawJsonEl.textContent.trim()) {
+          slotsData = JSON.parse(rawJsonEl.textContent.trim());
+        }
+      } catch (e) {}
+
+      // 若在 HTTP/HTTPS 環境，嘗試拉取最新 slots.json
+      if (window.location.protocol.startsWith('http')) {
+        try {
+          const resp = await fetch('slots.json?v=' + Date.now());
+          if (resp.ok) {
+            slotsData = await resp.json();
+          }
+        } catch (e) {}
+      }
+
+      if (!slotsData || !slotsData.dates || slotsData.dates.length === 0) {
+        dateScrollContainer.innerHTML = '<div class="empty-state">近期時段皆已滿約，歡迎直接加 LINE 詢問候補</div>';
+        return;
+      }
+
+      let selectedDate = null;
+      let selectedTime = null;
+
+      // 渲染日期清單
+      dateScrollContainer.innerHTML = '';
+      slotsData.dates.forEach((d, idx) => {
+        const btn = document.createElement('div');
+        btn.className = 'date-btn' + (idx === 0 ? ' active' : '');
+        btn.innerHTML = `
+          <div class="btn-week">${d.dayOfWeek}</div>
+          <div class="btn-date">${d.displayDate}</div>
+        `;
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.date-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          selectDate(d);
+        });
+        dateScrollContainer.appendChild(btn);
+      });
+
+      // 預設選擇第一天
+      selectDate(slotsData.dates[0]);
+
+      function selectDate(dateObj) {
+        selectedDate = dateObj;
+        selectedTime = null;
+        updateButtons();
+
+        currentDateTitle.textContent = `${dateObj.date}（${dateObj.dayOfWeek}）可約時段`;
+        timeGridContainer.innerHTML = '';
+
+        if (!dateObj.slots || dateObj.slots.length === 0) {
+          timeGridContainer.innerHTML = '<div class="empty-state">本日無可約時段</div>';
+          return;
+        }
+
+        dateObj.slots.forEach(time => {
+          const chip = document.createElement('div');
+          chip.className = 'time-chip';
+          chip.textContent = time;
+          chip.addEventListener('click', () => {
+            document.querySelectorAll('.time-chip').forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+            selectedTime = time;
+            updateButtons();
+          });
+          timeGridContainer.appendChild(chip);
+        });
+      }
+
+      function updateButtons() {
+        if (selectedDate && selectedTime) {
+          lineBtnText.textContent = `加 LINE 預約 ${selectedDate.displayDate} ${selectedTime}`;
+          lineActionBtn.href = `${LINE_BASE_URL}?openQrModal=true`;
+          freetimeActionBtn.href = `${FREETIME_BASE_URL}`;
+        } else if (selectedDate) {
+          lineBtnText.textContent = `加 LINE 預約 ${selectedDate.displayDate}（${selectedDate.dayOfWeek}）`;
+          lineActionBtn.href = `${LINE_BASE_URL}?openQrModal=true`;
+          freetimeActionBtn.href = `${FREETIME_BASE_URL}`;
+        } else {
+          lineBtnText.textContent = "加 LINE 預約";
+          lineActionBtn.href = `${LINE_BASE_URL}?openQrModal=true`;
+          freetimeActionBtn.href = `${FREETIME_BASE_URL}`;
+        }
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+name: Sync Booking Slots from freetime
+
+# Runs sync_slots.py on a schedule (and on demand),
+# commits slots.json only when available slots change.
+on:
+  schedule:
+    # Runs every 30 minutes (at :15 and :45)
+    - cron: '15,45 * * * *'
+  workflow_dispatch:       # 手動在 GitHub 後台點「Run workflow」
+  push:
+    paths:
+      - 'sync_slots.py'
+      - '.github/workflows/sync-slots.yml'
+
+permissions:
+  contents: write           # 允許 GitHub Action 自動 commit + push
+
+concurrency:
+  group: sync-slots
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run sync_slots.py
+        env:
+          FREETIME_AUTH_TOKEN: ${{ secrets.FREETIME_AUTH_TOKEN }}
+        run: |
+          python sync_slots.py || exit_code=$?
+          echo "Exit code: ${exit_code:-0}"
+
+      - name: Commit & push if changed
+        run: |
+          git config user.name  "qiji-slots-bot"
+          git config user.email "slots-bot@users.noreply.github.com"
+
+          if [[ -n "$(git status --porcelain slots.json)" ]]; then
+            git add slots.json
+            git commit -m "chore(slots): auto sync $(date -u +%Y-%m-%dT%H:%MZ) [skip ci]"
+            git push
+            echo "slots.json updated and pushed."
+          else
+            echo "slots.json unchanged; nothing to push."
+          fi

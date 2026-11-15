@@ -73,13 +73,32 @@ def _post(url: str, payload: dict, token: str | None = None) -> dict:
         raise RuntimeError(f"HTTP {e.code} from {url}: {body}") from e
 
 
+def _phone_variants(phone: str) -> list[str]:
+    """FreeTime's web app sends E.164 (+8869xxxxxxxx); accept 09xxxxxxxx too."""
+    p = phone.replace(" ", "").replace("-", "")
+    out = []
+    if p.startswith("09") and len(p) == 10:
+        out.append("+886" + p[1:])
+    elif p.startswith("8869"):
+        out.append("+" + p)
+    out.append(p)
+    return list(dict.fromkeys(out))
+
+
 def login(phone: str, password: str) -> str:
     """FreeTime phone + password login (same call as the web app's password login)."""
-    res = _post(LOGIN_URL, {"provider": "basic", "username": phone, "password": password})
-    token = res.get("token") or (res.get("data") or {}).get("token")
-    if not token:
-        raise AuthError(f"login response had no token (keys: {sorted(res)})")
-    return token
+    last = None
+    for username in _phone_variants(phone):
+        try:
+            res = _post(LOGIN_URL, {"provider": "basic", "username": username, "password": password})
+        except (AuthError, RuntimeError) as e:  # 404 E_ROW_NOT_FOUND = no such account/format
+            last = e
+            continue
+        token = res.get("token") or (res.get("data") or {}).get("token")
+        if token:
+            return token
+        last = AuthError(f"login response had no token (keys: {sorted(res)})")
+    raise AuthError(f"phone/password login failed: {last}")
 
 
 def fetch_start_times(token: str, start: _dt.datetime, end: _dt.datetime) -> list[dict]:
@@ -113,7 +132,12 @@ def get_slots(start: _dt.datetime, end: _dt.datetime) -> list[dict]:
 
     if phone and password:
         print("Logging in with phone/password (auto-renewing token)...")
-        return fetch_start_times(login(phone, password), start, end)
+        try:
+            return fetch_start_times(login(phone, password), start, end)
+        except AuthError as e:
+            if not token:
+                raise
+            print(f"[WARN] {e}\n       Falling back to FREETIME_AUTH_TOKEN.", file=sys.stderr)
     print("Using FREETIME_AUTH_TOKEN (will need manual renewal when it expires)...")
     return fetch_start_times(token, start, end)
 

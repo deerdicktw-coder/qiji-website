@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://*.googletagmanager.com https://*.google-analytics.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://www.google.com https://*.clarity.ms https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' https://res.cloudinary.com; connect-src 'self' https://qiji-ai-customer-service.deerdick-tw.workers.dev https://api.web3forms.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.doubleclick.net https://*.google.com https://*.google.com.tw https://www.googleadservices.com https://pagead2.googlesyndication.com https://*.clarity.ms https://c.bing.com https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com https://td.doubleclick.net https://www.googletagmanager.com; worker-src 'self'; manifest-src 'self'; form-action 'self' https://api.web3forms.com; object-src 'none'; base-uri 'self'; upgrade-insecure-requests">
 <!-- Google tag (gtag.js) -->
 <!-- Microsoft Clarity (heatmap + session recording) -->
 <script type="text/javascript">
@@ -7368,7 +7369,10 @@ function filterProductsByTag(tag, btn) {
         g.setAttribute('aria-label', r.item.name + (r.item.price ? '，' + r.item.price : ''));
         var t1 = document.createElementNS(NS, 'text'); t1.setAttribute('x', c.x); t1.setAttribute('y', c.y - (r.item.sub ? 4 : -6)); t1.setAttribute('class', 'lk-vor-name'); t1.textContent = r.item.name; g.appendChild(t1);
         if (r.item.sub) { var t2 = document.createElementNS(NS, 'text'); t2.setAttribute('x', c.x); t2.setAttribute('y', c.y + 18); t2.setAttribute('class', 'lk-vor-sub'); t2.textContent = r.item.sub; g.appendChild(t2); }
-        var go = function () { new Function(r.item.go)(); };
+        var go = (function (code) { /* 只允許 fn('arg') 形式的白名單函式，不用 new Function（配合 CSP 禁止 eval） */
+          var m = /^(goToServiceItem|goToKnowledgeItem|goToProductCategory|goTo)\('([\w-]*)'\)$/.exec(String(code || '').trim());
+          return function () { if (m && typeof window[m[1]] === 'function') window[m[1]](m[2]); };
+        })(r.item.go);
         g.addEventListener('click', go);
         g.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
       } else if (r && r.photo) {

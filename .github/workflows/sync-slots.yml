@@ -1,10 +1,11 @@
 name: Sync Booking Slots from freetime
 
-# Runs sync_slots.py on a schedule (and on demand),
-# commits slots.json only when available slots change.
+# Runs sync_slots.py every 30 minutes and commits slots.json when slots change
+# (plus a heartbeat every ~2h so the page knows the data is still fresh).
+# If FreeTime login fails, a GitHub issue is opened so the owner gets notified;
+# it is closed automatically once syncing works again.
 on:
   schedule:
-    # Runs every 30 minutes (at :15 and :45)
     - cron: '15,45 * * * *'
   workflow_dispatch:       # 手動在 GitHub 後台點「Run workflow」
   push:
@@ -13,7 +14,8 @@ on:
       - '.github/workflows/sync-slots.yml'
 
 permissions:
-  contents: write           # 允許 GitHub Action 自動 commit + push
+  contents: write           # commit + push slots.json
+  issues: write             # 憑證失效時開 issue 通知
 
 concurrency:
   group: sync-slots
@@ -33,22 +35,68 @@ jobs:
           python-version: '3.11'
 
       - name: Run sync_slots.py
+        id: sync
         env:
+          FREETIME_PHONE: ${{ secrets.FREETIME_PHONE }}
+          FREETIME_PASSWORD: ${{ secrets.FREETIME_PASSWORD }}
           FREETIME_AUTH_TOKEN: ${{ secrets.FREETIME_AUTH_TOKEN }}
         run: |
-          python sync_slots.py || exit_code=$?
-          echo "Exit code: ${exit_code:-0}"
+          set +e
+          python sync_slots.py
+          code=$?
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          # 0 = changed, 78 = no change → both OK; anything else fails the job
+          if [ "$code" -ne 0 ] && [ "$code" -ne 78 ]; then exit "$code"; fi
 
       - name: Commit & push if changed
         run: |
           git config user.name  "qiji-slots-bot"
           git config user.email "slots-bot@users.noreply.github.com"
-
           if [[ -n "$(git status --porcelain slots.json)" ]]; then
             git add slots.json
             git commit -m "chore(slots): auto sync $(date -u +%Y-%m-%dT%H:%MZ) [skip ci]"
-            git push
-            echo "slots.json updated and pushed."
+            git pull --rebase --autostash && git push
           else
             echo "slots.json unchanged; nothing to push."
+          fi
+
+      - name: Close alert issue when sync works again
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for n in $(gh issue list --label slots-sync-alert --state open --json number --jq '.[].number'); do
+            gh issue close "$n" --comment "✅ $(date -u +%Y-%m-%dT%H:%MZ) 同步已恢復正常，自動關閉。"
+          done
+
+      # 只有「登入失敗」才開 issue；一般連線錯誤 GitHub 本身會寄失敗通知，下次執行通常就恢復
+      - name: Open alert issue on failure
+        if: failure() && steps.sync.outputs.code == '2'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CODE: ${{ steps.sync.outputs.code }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          if [ "$CODE" = "2" ]; then
+            title="⚠️ FreeTime 登入憑證失效，網站預約時段已暫停顯示"
+            body="同步程式無法登入 FreeTime（密碼變更或 token 過期）。
+
+          **請更新 GitHub Secrets：** Settings → Secrets and variables → Actions
+          - 建議設定 \`FREETIME_PHONE\` + \`FREETIME_PASSWORD\`（會自動換新憑證，之後不必再手動更新）
+          - 或更新 \`FREETIME_AUTH_TOKEN\`
+
+          更新後到 Actions → Sync Booking Slots → Run workflow 手動跑一次即可。
+          網站在資料超過 6 小時未更新時會自動隱藏時段，改請客人透過 LINE / FreeTime 查詢。
+
+          執行紀錄：$RUN_URL"
+          else
+            title="⚠️ 預約時段同步失敗"
+            body="同步程式發生非登入類錯誤（exit $CODE），可能是 FreeTime API 改版或暫時連線問題。若持續發生請檢查執行紀錄：$RUN_URL"
+          fi
+          gh label create slots-sync-alert --color D93F0B --description "預約時段同步異常" 2>/dev/null || true
+          existing=$(gh issue list --label slots-sync-alert --state open --json number --jq '.[0].number')
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --body "仍然失敗（exit $CODE）：$RUN_URL"
+          else
+            gh issue create --title "$title" --label slots-sync-alert --body "$body"
           fi

@@ -50,6 +50,9 @@ self.addEventListener('fetch', (event) => {
   // 跳過跨網域：cloudinary, google, line, freetime
   if (url.origin !== self.location.origin) return;
 
+  // 即時預約時段：一律走網路，不進快取（避免顯示過期空檔）
+  if (url.pathname.endsWith('/slots.json')) return;
+
   if (isHTML(req)) {
     // NetworkFirst for HTML
     event.respondWith(

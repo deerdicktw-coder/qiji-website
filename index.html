@@ -1357,6 +1357,9 @@ body.menu-open .lk-nav-links, body.menu-open .lk-icon-btn { opacity: 0; pointer-
 .lk-menu-cta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; padding: 16px 22px; border-radius: 99px; background: var(--ink); color: var(--paper) !important; font-size: 13px; letter-spacing: .14em; text-decoration: none; }
 .lk-menu-cta b { font-weight: 400; color: #efb4b7; }
 .lk-menu-cta:hover { background: var(--rose-deep); }
+.lk-menu-cta-slots { margin-bottom: 10px; background: var(--paper); border: 1px solid var(--rose); color: var(--ink) !important; }
+.lk-menu-cta-slots b { color: #7fb08a; font-size: 10px; }
+.lk-menu-cta-slots:hover { background: var(--rose); }
 .lk-menu-link { display: flex; align-items: baseline; gap: 14px; width: 100%; padding: 14px 0; border: 0; border-bottom: 1px solid var(--hairline); background: none; color: var(--ink); font-family: var(--lk-serif); font-size: 23px; letter-spacing: .06em; text-align: left; text-decoration: none; cursor: pointer; transition: color .2s, padding-left .25s; }
 .lk-menu-link small { color: var(--muted); font: 9px var(--lk-sans); letter-spacing: .14em; }
 .lk-menu-link:hover { color: var(--rose-deep); padding-left: 8px; }
@@ -2342,9 +2345,9 @@ body[data-page]:not([data-page="home"]):not([data-page="about"]) .ig-gallery { d
 
 <nav class="nav lk-nav" id="mainNav" aria-label="主導覽">
   <div class="lk-nav-inner">
-    <a class="lk-book-pill" href="https://myfreetime.io/shop/qijiskin" target="_blank" rel="noopener noreferrer" data-cta-source="nav_pill">
+    <a class="lk-book-pill" href="#slots" onclick="goTo('slots');return false;" data-cta-source="nav_pill">
       <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="5.5" width="16" height="14" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4" stroke="currentColor" stroke-width="1.4"/></svg>
-      <span class="lk-book-long">線上預約時段</span><span class="lk-book-short">預約</span>
+      <span class="lk-book-long">查看可約時段</span><span class="lk-book-short">空檔</span>
     </a>
     <a class="lk-wordmark" href="#" onclick="goTo('home');return false;" aria-label="淇肌淨膚 QIJI 首頁">
       <span class="lk-wordmark-main">淇肌淨膚</span>
@@ -2394,6 +2397,7 @@ body[data-page]:not([data-page="home"]):not([data-page="about"]) .ig-gallery { d
     </div>
   </div>
   <nav class="lk-menu-nav" aria-label="主選單">
+    <a class="lk-menu-cta lk-menu-cta-slots" href="#slots" onclick="goTo('slots');closeMenu();return false;" data-cta-source="menu_slots">即時可約時段 <b aria-hidden="true">●</b></a>
     <a class="lk-menu-cta" href="https://myfreetime.io/shop/qijiskin" target="_blank" rel="noopener noreferrer" onclick="closeMenu()" data-cta-source="menu">線上預約時段 <b aria-hidden="true">↗</b></a>
     <a class="lk-menu-link side-menu-link-promo" href="#promotions" onclick="goTo('promotions');closeMenu();return false;"><small>01</small>本月活動</a>
     <button class="lk-menu-link lk-has-sub" type="button" aria-expanded="false" onclick="lkToggleSub(this)"><small>02</small>服務項目</button>
@@ -2781,13 +2785,6 @@ body[data-page]:not([data-page="home"]):not([data-page="about"]) .ig-gallery { d
       <a class="lk-product reveal" href="#products" onclick="goToProductCategory('cat3');return false;"><div class="lk-product-image"><img src="images/thumb/img_024.webp" alt="舒緩修護乳" width="600" height="600" loading="lazy"></div><h3>舒緩修護乳</h3><p>讓日常保養回到溫和、舒服的節奏。</p></a>
     </div>
     <div class="lk-view-all"><span>實際品項、使用方式與價格請以現場及官方 LINE 說明為準。</span><a href="#products" onclick="goTo('products');return false;">查看全部 32 項產品　↗</a></div>
-  </section>
-
-  <section class="lk-booking" id="lkVisit">
-    <div class="lk-booking-grid">
-      <div class="lk-booking-block"><h2>準備好為自己<br>留一段保養時間了嗎？</h2><a href="https://myfreetime.io/shop/qijiskin" target="_blank" rel="noopener noreferrer" aria-label="線上預約時段" data-cta-source="home_band"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19 19 5M7 5h12v12" stroke="currentColor" stroke-width="1.3"/></svg></a></div>
-      <div class="lk-booking-block"><h2>想先聊聊<br>自己的肌膚需求？</h2><a href="https://page.line.me/026xbaov?openQrModal=true" target="_blank" rel="noopener noreferrer" aria-label="LINE 諮詢"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 6h14v10H9l-4 3V6Z" stroke="currentColor" stroke-width="1.3"/><path d="M8 10h8M8 13h5" stroke="currentColor" stroke-width="1.2"/></svg></a></div>
-    </div>
   </section>
 </div>
 
@@ -4770,6 +4767,269 @@ body[data-page]:not([data-page="home"]):not([data-page="about"]) .ig-gallery { d
 
   </section>
 </div>
+<div class="page" id="page-slots">
+<style>
+/* === 即時可約時段（獨立頁）=== */
+#page-slots { background: var(--canvas); }
+.sl-wrap { max-width: 1180px; margin: 0 auto; padding: calc(92px + 56px) var(--lk-gutter) clamp(84px, 9vw, 130px); }
+.sl-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px 48px; flex-wrap: wrap; margin-bottom: clamp(30px, 4vw, 48px); }
+.sl-title { margin: 0; font-family: var(--lk-serif); font-weight: 400; font-size: clamp(40px, 6.4vw, 82px); line-height: 1.08; letter-spacing: .06em; color: var(--ink); }
+.sl-lead { margin: 18px 0 0; max-width: 440px; color: var(--muted); font-size: 13px; line-height: 2; letter-spacing: .04em; }
+.sl-sync { display: inline-flex; align-items: center; gap: 9px; padding: 9px 16px; border: 1px solid var(--hairline); border-radius: 99px; background: rgba(255,253,251,.6); color: var(--muted); font-size: 11px; letter-spacing: .12em; white-space: nowrap; }
+.sl-sync i { width: 7px; height: 7px; border-radius: 50%; background: #7fb08a; box-shadow: 0 0 0 4px rgba(127,176,138,.18); }
+.sl-sync.is-stale i { background: #d9a35b; box-shadow: 0 0 0 4px rgba(217,163,91,.2); }
+
+.sl-next { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 22px clamp(20px, 3vw, 32px); margin-bottom: 20px; border-radius: 24px; background: var(--ink); color: var(--paper); }
+.sl-next small { display: block; margin-bottom: 7px; color: #efb4b7; font-size: 10px; letter-spacing: .24em; }
+.sl-next strong { font-family: var(--lk-serif); font-weight: 400; font-size: clamp(21px, 2.6vw, 30px); letter-spacing: .06em; }
+.sl-next button { flex: 0 0 auto; min-height: 44px; padding: 0 22px; border: 1px solid rgba(255,253,251,.45); border-radius: 99px; background: transparent; color: var(--paper); font: inherit; font-size: 12px; letter-spacing: .14em; cursor: pointer; transition: background .25s, color .25s; }
+.sl-next button:hover, .sl-next button:focus-visible { background: var(--paper); color: var(--ink); }
+
+.sl-grid { display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+.sl-panel { background: var(--paper); border: 1px solid var(--hairline); border-radius: 26px; padding: clamp(20px, 3vw, 34px); }
+.sl-cal-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 20px; }
+.sl-month { font-family: var(--lk-serif); font-size: 22px; letter-spacing: .08em; }
+.sl-legend { display: flex; gap: 14px; color: var(--muted); font-size: 11px; letter-spacing: .06em; }
+.sl-legend span::before { content: ""; display: inline-block; width: 8px; height: 8px; margin-right: 6px; border-radius: 50%; background: var(--rose); vertical-align: 0; }
+.sl-legend .is-full::before { background: #ddd3d1; }
+.sl-week { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+.sl-wd { padding-bottom: 8px; text-align: center; color: var(--muted); font-size: 11px; letter-spacing: .12em; }
+.sl-day { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; min-height: 64px; padding: 6px 2px; border: 1px solid transparent; border-radius: 16px; background: var(--canvas); color: var(--ink); font: inherit; cursor: pointer; transition: transform .25s var(--lk-ease), border-color .25s, background .25s, color .25s; -webkit-tap-highlight-color: transparent; }
+.sl-day b { font-family: var(--lk-serif); font-weight: 400; font-size: clamp(16px, 1.9vw, 21px); line-height: 1; }
+.sl-day em { font-style: normal; font-size: 10px; letter-spacing: .04em; color: var(--rose-deep); white-space: nowrap; }
+.sl-day:not(.is-full):not(.is-past):hover { border-color: var(--rose); transform: translateY(-2px); }
+.sl-day.is-full, .sl-day.is-past { background: transparent; color: #bdb3b1; cursor: default; }
+.sl-day.is-full em { color: #bdb3b1; }
+.sl-day.is-past em, .sl-day.is-blank { visibility: hidden; }
+.sl-day.is-today b::after { content: ""; position: absolute; top: 7px; right: 9px; width: 5px; height: 5px; border-radius: 50%; background: var(--rose-deep); }
+.sl-day.is-active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.sl-day.is-active em { color: #efb4b7; }
+
+.sl-times-head h2 { margin: 0; font-family: var(--lk-serif); font-weight: 400; font-size: clamp(22px, 2.4vw, 28px); letter-spacing: .06em; color: var(--ink); }
+.sl-times-head h2::before { display: none !important; }
+.sl-times-head p { margin: 6px 0 0; color: var(--muted); font-size: 12px; letter-spacing: .08em; }
+.sl-group { margin-top: 22px; }
+.sl-group-title { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; color: var(--muted); font-size: 11px; letter-spacing: .2em; }
+.sl-group-title::after { content: ""; flex: 1; height: 1px; background: var(--hairline); }
+.sl-chips { display: grid; grid-template-columns: repeat(auto-fill, minmax(76px, 1fr)); gap: 8px; }
+.sl-chip { min-height: 44px; border: 1px solid var(--hairline); border-radius: 99px; background: transparent; color: var(--ink); font: inherit; font-size: 14px; letter-spacing: .06em; cursor: pointer; transition: border-color .2s, background .2s, color .2s, transform .2s; -webkit-tap-highlight-color: transparent; }
+.sl-chip:hover { border-color: var(--rose); }
+.sl-chip:active { transform: scale(.97); }
+.sl-chip.is-active { border-color: var(--rose-deep); background: var(--rose-deep); color: #fff; }
+.sl-empty { padding: 34px 8px; text-align: center; color: var(--muted); font-size: 13px; line-height: 2; }
+
+.sl-action { display: grid; gap: 10px; margin-top: 26px; padding-top: 20px; border-top: 1px solid var(--hairline); }
+.sl-picked { color: var(--muted); font-size: 12px; letter-spacing: .08em; }
+.sl-picked strong { color: var(--ink); font-weight: 500; }
+.sl-action .lk-btn { width: 100%; }
+.sl-note { margin: 22px 0 0; color: var(--muted); font-size: 12px; line-height: 1.9; letter-spacing: .04em; }
+
+.sl-notice { padding: clamp(28px, 4vw, 44px); text-align: center; }
+.sl-notice h2 { margin: 0 0 10px; font-family: var(--lk-serif); font-weight: 400; font-size: 24px; letter-spacing: .06em; }
+.sl-notice h2::before { display: none !important; }
+.sl-notice p { margin: 0 auto 24px; max-width: 420px; color: var(--muted); font-size: 13px; line-height: 2; }
+.sl-notice .sl-action { max-width: 360px; margin: 0 auto; padding-top: 0; border-top: 0; }
+
+.sl-skel { min-height: 320px; border-radius: 20px; background: linear-gradient(100deg, var(--canvas) 30%, var(--paper) 50%, var(--canvas) 70%); background-size: 300% 100%; animation: slShimmer 1.4s ease-in-out infinite; }
+@keyframes slShimmer { from { background-position: 100% 0; } to { background-position: 0 0; } }
+
+@media (max-width: 860px) {
+  .sl-wrap { padding-top: calc(76px + 34px); }
+  .sl-grid { grid-template-columns: 1fr; }
+  .sl-head { align-items: flex-start; }
+  .sl-times { scroll-margin-top: 90px; }
+  .sl-times .sl-action { position: sticky; bottom: 10px; z-index: 2; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; margin: 22px -10px -10px; padding: 10px; border: 1px solid var(--hairline); border-radius: 22px; background: rgba(255,253,251,.94); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(38,34,38,.1); }
+  .sl-times .sl-picked { display: none; }
+  .sl-times .sl-action .lk-btn { min-height: 48px; padding: 0 18px; letter-spacing: .08em; }
+  .sl-times .sl-action .lk-btn-line { width: auto; }
+  .sl-ft-long { display: none; }
+}
+@media (min-width: 861px) { .sl-ft-short { display: none; } }
+@media (max-width: 480px) {
+  .sl-next { flex-direction: column; align-items: flex-start; }
+  .sl-next button { width: 100%; }
+  .sl-week { gap: 4px; }
+  .sl-day { min-height: 54px; border-radius: 12px; }
+  .sl-day em { font-size: 11px; }
+  .sl-day .sl-u { display: none; }
+  .sl-legend { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .sl-day, .sl-chip, .sl-skel { transition: none; animation: none; } }
+</style>
+
+  <section class="sl-wrap" aria-labelledby="slTitle">
+    <div class="sl-head">
+      <div>
+        <span class="lk-kicker">AVAILABLE TIMES</span>
+        <h1 class="sl-title" id="slTitle">可預約時段</h1>
+        <p class="sl-lead">免下載 App、免登入，直接查看 Carrie 老師近三週的空檔。選好時間後，加 LINE 告訴我們，或前往 FreeTime 完成預約。</p>
+      </div>
+      <div class="sl-sync" id="slSync"><i></i><span>讀取中…</span></div>
+    </div>
+
+    <div id="slBody"><div class="sl-skel" aria-hidden="true"></div></div>
+
+    <p class="sl-note">※ 時段以 120 分鐘療程計算，每 30 分鐘自動同步一次；實際可約時間以美容師回覆或 FreeTime 為準。較短的療程可能還有其他時段，歡迎直接詢問。</p>
+  </section>
+
+<script>
+(function () {
+  var root = document.getElementById('page-slots');
+  if (!root) return;
+  var body = document.getElementById('slBody');
+  var syncEl = document.getElementById('slSync');
+  var LINE_ID = '@026xbaov';
+  var LINE_PAGE = 'https://page.line.me/026xbaov?openQrModal=true';
+  var FREETIME = 'https://myfreetime.io/shop/qijiskin/booking';
+  var DAYS = 21, STALE_MS = 6 * 3600 * 1000, REFETCH_MS = 5 * 60 * 1000;
+  var WD = ['日', '一', '二', '三', '四', '五', '六'];
+  var isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  var st = { data: null, map: {}, day: null, time: null, fetchedAt: 0, loading: false };
+
+  function el(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; }
+  function twNow() { var p = {}; new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Taipei', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).formatToParts(new Date()).forEach(function (x) { p[x.type] = x.value; }); return { date: p.year + '-' + p.month + '-' + p.day, time: p.hour + ':' + p.minute }; }
+  function addDays(ds, n) { var d = new Date(ds + 'T00:00:00Z'); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); }
+  function wdOf(ds) { return new Date(ds + 'T00:00:00Z').getUTCDay(); }
+  function md(ds) { return (+ds.slice(5, 7)) + '/' + (+ds.slice(8, 10)); }
+  function label(ds) { return md(ds) + '（' + WD[wdOf(ds)] + '）'; }
+  function hhmm(iso) { var p = {}; new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Taipei', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).formatToParts(new Date(iso)).forEach(function (x) { p[x.type] = x.value; }); return p.month + '/' + p.day + ' ' + p.hour + ':' + p.minute; }
+
+  function load(force) {
+    if (st.loading) return;
+    if (!force && st.fetchedAt && Date.now() - st.fetchedAt < REFETCH_MS) return;
+    st.loading = true;
+    fetch('slots.json', { cache: 'no-store' })
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function (d) { st.data = d; st.fetchedAt = Date.now(); render(); })
+      .catch(function () { if (!st.data) { st.data = null; render(); } })
+      .then(function () { st.loading = false; });
+  }
+
+  function setSync(text, stale) { syncEl.className = 'sl-sync' + (stale ? ' is-stale' : ''); syncEl.lastChild.textContent = text; }
+
+  function actionBox(dayStr, time) {
+    var box = el('div', 'sl-action');
+    var picked = el('div', 'sl-picked');
+    if (dayStr) { picked.append('已選擇 '); picked.appendChild(el('strong', null, label(dayStr) + (time ? ' ' + time : ''))); if (!time) picked.append('・可再點選時間'); }
+    else picked.textContent = '直接詢問最新空檔';
+    var msg = '您好，我想預約' + (dayStr ? ' ' + label(dayStr) + (time ? ' ' + time : '') : '') + '，請問還有位置嗎？';
+    var line = el('a', 'lk-btn lk-btn-dark');
+    line.href = isMobile ? 'https://line.me/R/oaMessage/' + encodeURIComponent(LINE_ID) + '/?' + encodeURIComponent(msg) : LINE_PAGE;
+    line.target = '_blank'; line.rel = 'noopener noreferrer'; line.setAttribute('data-cta-source', 'slots_page');
+    line.textContent = dayStr ? 'LINE 預約 ' + md(dayStr) + (time ? ' ' + time : '') : '加 LINE 詢問';
+    line.style.whiteSpace = 'nowrap';
+    var ft = el('a', 'lk-btn lk-btn-line');
+    ft.append(el('span', 'sl-ft-long', '前往 FreeTime 線上預約'), el('span', 'sl-ft-short', 'FreeTime'));
+    ft.href = FREETIME; ft.target = '_blank'; ft.rel = 'noopener noreferrer'; ft.setAttribute('data-cta-source', 'slots_page');
+    box.append(picked, line, ft);
+    return box;
+  }
+
+  function notice(title, text) {
+    body.innerHTML = '';
+    var p = el('div', 'sl-panel sl-notice');
+    p.append(el('h2', null, title), el('p', null, text), actionBox(null, null));
+    body.appendChild(p);
+  }
+
+  function render() {
+    var d = st.data, now = twNow();
+    if (!d || !Array.isArray(d.dates)) { setSync('暫時無法讀取', true); notice('暫時無法讀取時段', '請稍後再試，或直接透過 LINE、FreeTime 查詢最新空檔。'); return; }
+    var synced = Date.parse(d.syncedAt);
+    if (!d.active || !synced || Date.now() - synced > STALE_MS) { setSync('同步暫停中', true); notice('時段資料更新中', '為避免看到過期的空檔，暫時不顯示時段。請直接透過 LINE 或 FreeTime 查詢，我們會盡快回覆。'); return; }
+    setSync('更新於 ' + hhmm(d.syncedAt), false);
+
+    st.map = {};
+    d.dates.forEach(function (x) {
+      var s = (x.slots || []).filter(function (t) { return x.date > now.date || (x.date === now.date && t > now.time); });
+      if (s.length) st.map[x.date] = s;
+    });
+    var first = Object.keys(st.map).sort()[0];
+    if (!st.day || !st.map[st.day]) { st.day = first || null; st.time = null; }
+
+    body.innerHTML = '';
+    if (!first) { notice('近期時段皆已額滿', '近三週暫無空檔，歡迎加 LINE 登記候補，有人取消會優先通知您。'); return; }
+
+    var next = el('div', 'sl-next');
+    var nl = el('div'); nl.append(el('small', null, 'EARLIEST AVAILABLE ・ 最快可約'), el('strong', null, label(first) + ' ' + st.map[first][0]));
+    var nb = el('button', null, '選這個時段'); nb.type = 'button';
+    nb.onclick = function () { pick(first, st.map[first][0], true); };
+    next.append(nl, nb);
+
+    var grid = el('div', 'sl-grid');
+    var cal = el('div', 'sl-panel sl-cal');
+    var end = addDays(now.date, DAYS - 1);
+    var m1 = +now.date.slice(5, 7), m2 = +end.slice(5, 7);
+    var head = el('div', 'sl-cal-head');
+    var leg = el('div', 'sl-legend'); leg.append(el('span', null, '可預約'), el('span', 'is-full', '額滿／休'));
+    head.append(el('div', 'sl-month', m1 === m2 ? m1 + ' 月' : m1 + ' 月 — ' + m2 + ' 月'), leg);
+    var week = el('div', 'sl-week');
+    ['一', '二', '三', '四', '五', '六', '日'].forEach(function (w) { week.appendChild(el('div', 'sl-wd', w)); });
+    var start = addDays(now.date, -((wdOf(now.date) + 6) % 7));
+    var last = addDays(end, (7 - wdOf(end)) % 7);
+    for (var ds = start; ds <= last; ds = addDays(ds, 1)) week.appendChild(dayCell(ds, now.date, end));
+    cal.append(head, week);
+
+    var times = el('div', 'sl-panel sl-times'); times.id = 'slTimes';
+    grid.append(cal, times);
+    body.append(next, grid);
+    renderTimes();
+  }
+
+  function dayCell(ds, today, end) {
+    var b = el('button', 'sl-day'); b.type = 'button';
+    var n = +ds.slice(8, 10);
+    b.appendChild(el('b', null, n === 1 ? md(ds) : String(n)));
+    var cnt = st.map[ds] ? st.map[ds].length : 0;
+    if (ds < today) { b.classList.add('is-past'); b.disabled = true; b.appendChild(el('em', null, '-')); }
+    else if (ds > end) { b.classList.add('is-blank'); b.disabled = true; b.setAttribute('aria-hidden', 'true'); }
+    else if (!cnt) { b.classList.add('is-full'); b.disabled = true; b.appendChild(el('em', null, '額滿')); b.setAttribute('aria-label', label(ds) + ' 額滿'); }
+    else { var em = el('em', null, String(cnt)); em.appendChild(el('span', 'sl-u', ' 個空檔')); b.appendChild(em); b.setAttribute('aria-label', label(ds) + ' ' + cnt + ' 個空檔'); b.onclick = function () { pick(ds, null, true); }; }
+    if (ds === today) b.classList.add('is-today');
+    if (ds === st.day) { b.classList.add('is-active'); b.setAttribute('aria-pressed', 'true'); }
+    b.dataset.date = ds;
+    return b;
+  }
+
+  function pick(ds, time, scroll) {
+    st.day = ds; st.time = time;
+    root.querySelectorAll('.sl-day').forEach(function (b) { var on = b.dataset.date === ds; b.classList.toggle('is-active', on); if (on) b.setAttribute('aria-pressed', 'true'); else b.removeAttribute('aria-pressed'); });
+    renderTimes();
+    if (scroll && window.matchMedia('(max-width: 860px)').matches) { var t = document.getElementById('slTimes'); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  }
+
+  function renderTimes() {
+    var box = document.getElementById('slTimes'); if (!box) return;
+    box.innerHTML = '';
+    var list = st.map[st.day] || [];
+    var h = el('div', 'sl-times-head');
+    h.append(el('h2', null, (+st.day.slice(5, 7)) + ' 月 ' + (+st.day.slice(8, 10)) + ' 日　週' + WD[wdOf(st.day)]), el('p', null, '共 ' + list.length + ' 個可開始時段'));
+    box.appendChild(h);
+    [['上午', '00:00', '12:00'], ['下午', '12:00', '17:00'], ['晚上', '17:00', '24:00']].forEach(function (g) {
+      var items = list.filter(function (t) { return t >= g[1] && t < g[2]; });
+      if (!items.length) return;
+      var sec = el('div', 'sl-group');
+      sec.appendChild(el('div', 'sl-group-title', g[0]));
+      var chips = el('div', 'sl-chips');
+      items.forEach(function (t) {
+        var c = el('button', 'sl-chip' + (t === st.time ? ' is-active' : ''), t); c.type = 'button';
+        c.setAttribute('aria-pressed', t === st.time ? 'true' : 'false');
+        c.onclick = function () { st.time = t; renderTimes(); };
+        chips.appendChild(c);
+      });
+      sec.appendChild(chips); box.appendChild(sec);
+    });
+    box.appendChild(actionBox(st.day, st.time));
+  }
+
+  function onShow() { if (root.classList.contains('active')) load(false); }
+  new MutationObserver(onShow).observe(root, { attributes: true, attributeFilter: ['class'] });
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) onShow(); });
+  onShow();
+})();
+</script>
+</div>
+
 <div class="page" id="page-privacy">
   <section class="contact-hero" style="height:40vh;"><div class="section-eyebrow">PRIVACY POLICY</div><h1 class="as-h1">隱私權政策</h1><p class="lk-page-lead"><span>我們如何收集、使用與保護你的個人資料。</span></p></section>
   <div style="max-width:800px;margin:0 auto;padding:80px 40px 100px;">
@@ -4860,6 +5120,7 @@ var PAGE_TITLES = {
   promotions:  { title: '本月活動｜淇肌淨膚 QIJI｜台中北屯美容優惠', desc: '當期優惠活動、首購優惠、季節限定方案，依推廣同步即時更新。' },
   tutorial:    { title: '預約教學｜淇肌淨膚 QIJI｜FreeTime 線上預約', desc: 'FreeTime 線上預約系統使用教學，加 LINE、選時段、確認預約一目了然。' },
   quiz:        { title: '肌膚檢測｜淇肌淨膚 QIJI｜60 秒找出你的膚質', desc: '透過 5 題簡單問題，量身推薦最適合的專屬課程與加購建議。' },
+  slots:       { title: '可預約時段｜淇肌淨膚 QIJI｜台中北屯皮膚管理即時空檔', desc: '免下載 App、免登入，直接查看淇肌淨膚近三週可預約時段，每 30 分鐘自動同步 FreeTime 預約系統。' },
   privacy:     { title: '隱私權政策｜淇肌淨膚 QIJI', desc: '淇肌淨膚如何收集、使用與保護你的個人資料。' }
 };
 function _updatePageMeta(page) {
@@ -5788,7 +6049,7 @@ function toggleBgm() {
 window.addEventListener('DOMContentLoaded', function() {
   try {
     var hash = (location.hash || '').replace(/^#/, '').split('?')[0].split('/')[0];
-    var validPages = ['home','services','products','about','knowledge','faq','contact','promotions','tutorial','quiz'];
+    var validPages = ['home','services','products','about','knowledge','faq','contact','promotions','tutorial','quiz','slots'];
     if (hash && validPages.indexOf(hash) !== -1 && typeof goTo === 'function') {
       setTimeout(function() { goTo(hash); }, 50);
     } else if (typeof _updatePageMeta === 'function') {
@@ -6483,7 +6744,7 @@ function filterProductsByTag(tag, btn) {
   try { history.scrollRestoration = 'manual'; } catch (e) {}
 
   var VALID = ['home','services','products','about','knowledge','faq',
-               'contact','promotions','tutorial','quiz','privacy'];
+               'contact','promotions','tutorial','quiz','privacy','slots'];
   var booting = true;   /* 首次載入期間不製造多餘紀錄 */
   var fromPop = false;  /* popstate 還原時不再 push */
 

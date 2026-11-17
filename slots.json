@@ -1,20 +1,11 @@
 {
   "active": true,
-  "syncedAt": "2026-11-17T17:35:30+08:00",
+  "syncedAt": "2026-11-17T18:05:29+08:00",
   "shopId": "14791",
   "operatorName": "紫淇（凱莉）",
   "serviceMinutes": 120,
-  "totalAvailableDates": 21,
+  "totalAvailableDates": 20,
   "dates": [
-    {
-      "date": "2026-11-18",
-      "displayDate": "11/18",
-      "dayOfWeek": "週三",
-      "weekday": 2,
-      "slots": [
-        "18:00"
-      ]
-    },
     {
       "date": "2026-11-19",
       "displayDate": "11/19",
@@ -435,7 +426,8 @@
         "16:00",
         "16:30",
         "17:00",
-        "17:30"
+        "17:30",
+        "18:00"
       ]
     }
   ]
